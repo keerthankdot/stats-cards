@@ -1,0 +1,1493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calibr8 — Measured Better Sleep</title>
+<meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
+<style>
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --ink-1: #14161e;
+  --ink-2: #5a5f6a;
+  --ink-3: #8b909a;
+  --ink-4: #b8bcc4;
+  --line: rgba(20, 22, 30, 0.08);
+
+  --page-bg: #ffffff;
+
+  --card-radius: 22px;
+  --card-pad: 28px;
+
+  --glass-bg: linear-gradient(145deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.18) 100%);
+
+  --glass-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.35),
+    inset 1px 0 0 rgba(255,255,255,0.5),
+    inset -1px 0 0 rgba(255,255,255,0.3),
+    inset 0 20px 30px -18px rgba(255,255,255,0.8),
+    0 1px 2px rgba(20,22,30,0.05),
+    0 20px 44px -14px rgba(20,22,30,0.18),
+    0 40px 80px -20px rgba(20,22,30,0.12);
+  --glass-shadow-hover:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.5),
+    inset 1px 0 0 rgba(255,255,255,0.7),
+    inset -1px 0 0 rgba(255,255,255,0.4),
+    inset 0 24px 36px -18px rgba(255,255,255,0.95),
+    0 2px 4px rgba(20,22,30,0.08),
+    0 28px 56px -12px rgba(20,22,30,0.24),
+    0 50px 100px -20px rgba(20,22,30,0.16);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-card: 600ms;
+  --dur-seg: 160ms;
+
+  --spinal-1: #553C9A;
+  --muscle-1: #553C9A;
+  --circ-1:        #553C9A;
+  --circ-problem:  #C54B8C;
+  --circ-solution: #553C9A;
+
+  --deepsleep-1:  #553C9A;
+  --rem-1:        #553C9A;
+  --frag-1:       #553C9A;
+  --frag-problem: #9C4221;
+  --frag-solution:#276749;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink-1);
+  background: var(--page-bg);
+  height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.shell {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 20px 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+.grid__wide { grid-column: span 2; }
+
+
+@media (max-width: 1100px) {
+  .shell { padding: 14px 22px; }
+  .grid { gap: 16px; }
+}
+@media (max-width: 780px) {
+  html, body { height: auto; overflow: auto; }
+  body { height: auto; }
+  .shell { height: auto; display: block; padding: 24px 16px 32px; }
+  .grid { display: grid; flex: none; min-height: unset; grid-template-columns: 1fr; grid-template-rows: auto; gap: 16px; }
+  .grid__wide { grid-column: auto; }
+  .tile--empty { min-height: 180px; }
+  .stat-card { min-height: unset; --card-pad: 20px; }
+}
+
+.tile {
+  position: relative;
+  border-radius: var(--card-radius);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 280ms var(--ease-out), box-shadow 280ms ease;
+}
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.4) 30%,
+    rgba(255,255,255,0.1) 55%,
+    rgba(255,255,255,0.55) 80%,
+    rgba(255,255,255,0.95) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tile--empty {
+  min-height: 320px;
+}
+
+.stat-card {
+  padding: var(--card-pad);
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(18px);
+  transition:
+    transform var(--dur-card) var(--ease-out),
+    opacity var(--dur-card) var(--ease-out),
+    box-shadow 280ms ease;
+  transition-delay: var(--card-delay, 0ms);
+}
+.stat-card.is-revealed { opacity: 1; transform: translateY(0); }
+.stat-card:focus-within {
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.stat-card[data-scheme="spinal"]       { --scheme: var(--spinal-1);    --scheme-wash: rgba(85,60,154,0.12); }
+.stat-card[data-scheme="muscle"]       { --scheme: var(--muscle-1);    --scheme-wash: rgba(197,75,140,0.12); }
+.stat-card[data-scheme="circulation"]  { --scheme: var(--circ-1);      --scheme-wash: rgba(85,60,154,0.10); }
+.stat-card[data-scheme="deepsleep"]    { --scheme: var(--deepsleep-1); --scheme-wash: rgba(85,60,154,0.12); }
+.stat-card[data-scheme="rem"]          { --scheme: var(--rem-1);       --scheme-wash: rgba(85,60,154,0.10); }
+.stat-card[data-scheme="fragmentation"]{ --scheme: var(--frag-1);      --scheme-wash: rgba(85,60,154,0.10); }
+.stat-card[data-scheme="fragmentation"] .row--baseline  { --seg-color: var(--frag-problem); }
+.stat-card[data-scheme="fragmentation"] .row--optimized { --seg-color: var(--frag-solution); }
+
+.stat-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.stat-card__indicator {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--scheme);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--scheme) 18%, transparent);
+}
+.stat-card__category {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--scheme);
+}
+
+.comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex: 1;
+  justify-content: center;
+}
+.row__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.row__label {
+  font-size: 10px;
+  color: var(--ink-3);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.row__percent {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.bar {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+.bar__seg {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 36px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--seg-color, var(--scheme)) 14%, transparent);
+  transition: background var(--dur-seg) var(--ease-out);
+}
+.bar__seg.is-on { background: var(--seg-color, var(--scheme)); }
+
+.row--baseline { --seg-color: var(--scheme); }
+.row--optimized { --seg-color: var(--scheme); }
+.stat-card[data-scheme="circulation"] .row--baseline  { --seg-color: var(--circ-problem); }
+.stat-card[data-scheme="circulation"] .row--optimized { --seg-color: var(--circ-solution); }
+
+.stat-card[data-scheme="circulation"] .row--baseline .bar__seg.is-on {
+  background: #C54B8C;
+  box-shadow: none;
+}
+[data-scheme="spinal"] .graph__dot--std { stroke: #C54B8C; }
+[data-scheme="muscle"] .arc__dot--std { stroke: #C54B8C; }
+
+.stat-card[data-scheme="circulation"] .row--optimized .bar__seg.is-on {
+  box-shadow: 0 0 2px rgba(85,60,154,0.55);
+}
+
+.delta {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 4px;
+  margin: 14px 0 18px;
+  color: var(--scheme);
+  font-variant-numeric: tabular-nums;
+}
+.delta__arrow {
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 500;
+  transform: translateY(-2px);
+}
+.delta__sign {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.delta__value {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.delta__suffix {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-left: 1px;
+}
+
+.stat-card__footer {
+  padding-top: 14px;
+}
+.stat-card__outcome {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--scheme);
+  margin-bottom: 6px;
+}
+.stat-card__benefit {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.stat-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  margin: 0 0 12px;
+  line-height: 1.15;
+}
+
+.stat-card--graph {
+  display: flex;
+  flex-direction: column;
+}
+.stat-card--graph .delta,
+.stat-card--arc .delta,
+[data-kind="rings"] .delta {
+  justify-content: center;
+  margin: 10px 0 4px;
+}
+[data-kind="rings"] .delta {
+  margin-top: auto;
+}
+
+.stat-card--graph .stat-card__outcome,
+.stat-card--arc .stat-card__outcome,
+[data-kind="rings"] .stat-card__outcome { text-align: center; margin: 0; }
+
+.stat-card--graph .stat-card__benefit,
+.stat-card--arc .stat-card__benefit,
+[data-kind="rings"] .stat-card__benefit { text-align: center; }
+
+.stat-card--bottom .delta { justify-content: center; margin: 10px 0 4px; }
+.stat-card--bottom .stat-card__outcome { text-align: center; }
+.stat-card--bottom .stat-card__benefit { text-align: center; }
+
+.graph {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 4px 0 6px;
+  display: flex;
+  align-items: center;
+}
+.graph__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.graph__line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+.graph__line--faint {
+  stroke-opacity: 0.3;
+  stroke-width: 8;
+}
+.graph__line--glow {
+  stroke-width: 10;
+  filter:
+    drop-shadow(0 0 3px rgba(85,60,154,0.6))
+    drop-shadow(0 0 11px rgba(85,60,154,0.35));
+}
+
+.graph__dot {
+  fill: #fff;
+  stroke: var(--scheme);
+  stroke-width: 2.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.3);
+  transition: opacity 260ms ease, transform 320ms var(--ease-out);
+}
+.graph__dot.is-on { opacity: 1; transform: scale(1); }
+
+.graph__label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 280ms ease, transform 280ms var(--ease-out);
+  pointer-events: none;
+}
+.graph__label.is-on { opacity: 1; transform: translateY(0); }
+.graph__label--std {
+  left: 10%;
+  top: 66%;
+  text-align: left;
+  color: #C54B8C;
+}
+.graph__label--cal {
+  right: 2%;
+  top: 30%;
+  text-align: right;
+  color: #553C9A;
+}
+
+/* === Single-arc gauge (Cards 1 & 2) === */
+.stat-card--arc .delta { margin: 10px 0 4px; }
+.stat-card--arc .stat-card__outcome { margin: 0; }
+.stat-card--arc .stat-card__benefit { font-size: 12.5px; line-height: 1.4; }
+.stat-card--bottom { aspect-ratio: auto; }
+
+.rings {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 14px 0 8px;
+}
+.ring-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.ring__svg { width: 120px; height: 120px; display: block; }
+.ring__track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--scheme) 14%, transparent);
+  stroke-width: 12;
+}
+.ring__fill {
+  fill: none;
+  stroke: var(--scheme);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(-90deg);
+}
+.ring__pct {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  fill: var(--ink-1);
+}
+.ring__name {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: center;
+  line-height: 1.3;
+  margin: 0;
+}
+.rem-bars {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rem-bars__pair {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  gap: 12px;
+  min-height: 0;
+}
+.rem-track {
+  flex: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+.rem-track--std { background: rgba(197,75,140,0.14); }
+.rem-track--cal { background: rgba(85,60,154,0.12); }
+.rem-track--std .vbar__fill { background: #C54B8C; border-radius: 12px; display: flex; align-items: center; justify-content: center; width: 100%; }
+.rem-track--cal .vbar__fill { background: #553C9A; border-radius: 12px; display: flex; align-items: center; justify-content: center; width: 100%; }
+.rem-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: -0.01em;
+}
+.rem-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1.3;
+  margin: 0;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.sleep-lines {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sleep-lines__legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.sleep-lines__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.sleep-lines__badge--std { color: #C54B8C; }
+.sleep-lines__badge--cal { color: #553C9A; }
+
+/* Card 3 – Deep Sleep ring names */
+[data-kind="rings"] .ring-item:first-child .ring__name { color: #C54B8C; }
+[data-kind="rings"] .ring-item:last-child  .ring__name { color: #553C9A; }
+
+/* Card 4 – High Pressure Zones row labels */
+.row--baseline  .row__label { color: #C54B8C; }
+.row--optimized .row__label { color: #553C9A; }
+
+/* Card 6 – REM Sleep side labels */
+.rem-bars .rem-label:first-child { color: #C54B8C; }
+.rem-bars .rem-label:last-child  { color: #553C9A; }
+.sleep-lines__badge::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+.sleep-lines__badge--std::before { background: #C54B8C; }
+.sleep-lines__badge--cal::before { background: #553C9A; }
+.sleep-lines__svg {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: block;
+  overflow: visible;
+}
+.sleep-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+.sleep-line--std { stroke: #C54B8C; stroke-opacity: 0.12; }
+.sleep-line--cal { stroke: #553C9A; stroke-opacity: 0.12; }
+
+[data-kind="rings"] .ring-item:first-child .ring__track {
+  stroke: color-mix(in srgb, #C54B8C 14%, transparent);
+}
+[data-kind="rings"] .ring-item:first-child .ring__fill {
+  stroke: #C54B8C;
+}
+[data-kind="rings"] .ring-item:last-child .ring__fill {
+  filter: drop-shadow(0 0 2px rgba(85,60,154,0.55));
+}
+
+.vbars {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  flex: 1;
+  min-height: 0;
+  margin: 16px 0 8px;
+}
+.vbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 72px;
+}
+.vbar__pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-1);
+  letter-spacing: -0.01em;
+}
+.vbar__track {
+  flex: 1;
+  width: 100%;
+  background: color-mix(in srgb, var(--scheme) 14%, transparent);
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+.vbar__fill {
+  width: 100%;
+  background: var(--scheme);
+  border-radius: 10px;
+  height: 0%;
+  transition: height 1500ms linear;
+}
+.vbar__fill.is-on { height: calc(var(--pct) * 1%); }
+.vbar__name {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: center;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.arc-gauge {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+.arc-gauge__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.arc__seg {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 10;
+}
+.arc__seg--faint { stroke-opacity: 0.28; }
+.arc__seg--glow {
+  filter:
+    drop-shadow(0 0 3px rgba(85,60,154,0.6))
+    drop-shadow(0 0 12px rgba(85,60,154,0.38));
+}
+.arc__dot {
+  fill: #fff;
+  stroke: var(--scheme);
+  stroke-width: 2.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.3);
+  transition: opacity 260ms ease, transform 320ms var(--ease-out);
+}
+.arc__dot.is-on { opacity: 1; transform: scale(1); }
+.arc__label { opacity: 0; transition: opacity 300ms ease; }
+.arc__label.is-on { opacity: 1; }
+.arc__stem {
+  fill: none;
+  stroke: #BF40BF;
+  stroke-width: 1.5;
+  stroke-opacity: 0.45;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.arc__stem.is-on { opacity: 1; }
+
+
+
+.stat-card--gauge {
+  display: flex;
+  flex-direction: column;
+}
+.stat-card--gauge .delta {
+  justify-content: center;
+  margin: 6px 0 2px;
+}
+.stat-card--gauge .stat-card__outcome {
+  text-align: center;
+  margin: 0 0 10px;
+}
+.stat-card--gauge .stat-card__footer {
+  margin-top: auto;
+  padding-top: 10px;
+}
+.stat-card--gauge .stat-card__benefit { font-size: 12.5px; line-height: 1.4; }
+
+.gauge {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 11 / 6;
+  margin: 2px 0 4px;
+}
+.gauge__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.gauge__arc {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 10;
+}
+.gauge__arc--faint { stroke-opacity: 0.22; }
+.gauge__arc--glow {
+  filter:
+    drop-shadow(0 0 3px rgba(49,151,149,0.6))
+    drop-shadow(0 0 11px rgba(49,151,149,0.32));
+}
+.gauge__dot {
+  fill: #fff;
+  stroke: var(--scheme);
+  stroke-width: 2.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.3);
+  transition: opacity 260ms ease, transform 320ms var(--ease-out);
+}
+.gauge__dot.is-on { opacity: 1; transform: scale(1); }
+
+.gauge__label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--ink-3);
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 280ms ease, transform 280ms var(--ease-out);
+  pointer-events: none;
+}
+.gauge__label.is-on { opacity: 1; transform: translateY(0); }
+.gauge__label--std {
+  left: 42%;
+  top: 8%;
+  text-align: left;
+}
+.gauge__label--cal {
+  right: 1%;
+  top: 60%;
+  text-align: right;
+  color: var(--scheme);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-card,
+  .bar__seg,
+  .delta__value,
+  .row__percent { transition: none !important; }
+  .stat-card { transform: none; opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<main class="shell">
+  <section class="grid" aria-label="Calibr8 performance statistics">
+
+    <article id="alignment" class="tile stat-card stat-card--graph"
+             data-scheme="spinal" data-kind="graph" data-delay="0" data-delta="24"
+             tabindex="0" aria-labelledby="s1-title" aria-describedby="s1-sr">
+      <p id="s1-sr" class="sr-only">
+        Lumbar support: Calibr8 holds the spine 24 percent better than a standard mattress.
+      </p>
+      <h3 id="s1-title" class="stat-card__title">Lumbar Support</h3>
+
+      <div class="graph" aria-hidden="true">
+        <svg class="graph__svg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="spinal-stroke" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#C54B8C"/>
+              <stop offset="100%" stop-color="#553C9A"/>
+            </linearGradient>
+          </defs>
+          <!-- grid lines 0–100% mapped to y=0–150 -->
+          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
+          <line x1="0" y1="15"  x2="300" y2="15"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="45"  x2="300" y2="45"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="75"  x2="300" y2="75"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="105" x2="300" y2="105" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="120" x2="300" y2="120" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="135" x2="300" y2="135" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="150" x2="300" y2="150" stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
+          <path class="graph__line graph__line--faint graph__line--seg1"
+                d="M 0 92 C 25 87 50 96 82 75"
+                stroke="url(#spinal-stroke)"/>
+          <path class="graph__line graph__line--glow graph__line--seg2"
+                d="M 82 75 C 108 58 138 92 162 72 C 188 54 212 52 240 28"
+                stroke="url(#spinal-stroke)"/>
+          <path class="graph__line graph__line--faint graph__line--seg3"
+                d="M 240 28 C 260 32 280 22 300 18"
+                stroke="url(#spinal-stroke)"/>
+          <circle class="graph__dot graph__dot--std" cx="82" cy="75" r="6"/>
+          <circle class="graph__dot graph__dot--cal" cx="240" cy="28" r="6.5"/>
+        </svg>
+        <span class="graph__label graph__label--std">Standard<br>Mattress</span>
+        <span class="graph__label graph__label--cal">Calibrated<br>Mattress</span>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="24">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Better Alignment</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">Better spinal alignment with proper lumbar support through the night.</p>
+      </footer>
+    </article>
+
+    <article id="pressure" class="tile stat-card stat-card--arc"
+             data-scheme="muscle" data-kind="arc" data-delay="200" data-delta="37"
+             tabindex="0" aria-labelledby="s2-title" aria-describedby="s2-sr">
+      <p id="s2-sr" class="sr-only">
+        Muscle pressure distribution: Calibr8 spreads weight 37 percent more evenly than a standard mattress.
+      </p>
+      <h3 id="s2-title" class="stat-card__title">Muscle Pressure</h3>
+
+      <div class="arc-gauge" aria-hidden="true">
+        <!-- viewBox 300×225 matches container (square minus title minus footer ≈ 1.33:1) -->
+        <svg class="arc-gauge__svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="muscle-arc-stroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#D96BA5"/>
+              <stop offset="100%" stop-color="#553C9A"/>
+            </linearGradient>
+          </defs>
+          <!-- Arc center (150,205), r=130. std=54% → (166,76), cal=91% → (275,169) -->
+          <path class="arc__seg arc__seg--faint arc__seg--a"
+                d="M 20 205 A 130 130 0 0 1 166.3 76"
+                stroke="url(#muscle-arc-stroke)"/>
+          <path class="arc__seg arc__seg--glow arc__seg--b"
+                d="M 166.3 76 A 130 130 0 0 1 274.8 168.7"
+                stroke="url(#muscle-arc-stroke)"/>
+          <path class="arc__seg arc__seg--faint arc__seg--c"
+                d="M 274.8 168.7 A 130 130 0 0 1 280 205"
+                stroke="url(#muscle-arc-stroke)"/>
+          <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
+          <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
+          <g class="arc__label arc__label--std">
+            <text x="148" y="94" text-anchor="middle" font-size="7.5" font-weight="600"
+                  letter-spacing="0.6" fill="#C54B8C" font-family="inherit">STANDARD</text>
+            <text x="148" y="105" text-anchor="middle" font-size="7.5" font-weight="600"
+                  letter-spacing="0.6" fill="#C54B8C" font-family="inherit">MATTRESS</text>
+          </g>
+          <g class="arc__label arc__label--cal">
+            <line x1="274.8" y1="57" x2="274.8" y2="161"
+                  stroke="#553C9A" stroke-width="1.5" stroke-opacity="0.45"/>
+            <text x="274.8" y="44" text-anchor="middle" font-size="7.5" font-weight="600"
+                  letter-spacing="0.6" fill="#553C9A" font-family="inherit">CALIBRATED</text>
+            <text x="274.8" y="55" text-anchor="middle" font-size="7.5" font-weight="600"
+                  letter-spacing="0.6" fill="#553C9A" font-family="inherit">MATTRESS</text>
+          </g>
+        </svg>
+      </div>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="37">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Even Pressure</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">Improved muscle pressure distribution for deeper, more restorative sleep.</p>
+      </footer>
+    </article>
+
+    <article class="tile stat-card stat-card--bottom"
+             data-scheme="deepsleep" data-kind="rings" data-delay="400" data-delta="21"
+             tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
+      <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78% — an 18 to 25 percent increase from reduced pressure discomfort.</p>
+      <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
+
+      <div class="rings" aria-hidden="true">
+        <div class="ring-item">
+          <svg class="ring__svg" viewBox="0 0 110 110">
+            <circle class="ring__track" cx="55" cy="55" r="46"/>
+            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="57"/>
+            <text class="ring__pct" x="55" y="55" text-anchor="middle"
+                  dominant-baseline="central" font-family="inherit">57%</text>
+          </svg>
+          <p class="ring__name">Standard<br>Mattress</p>
+        </div>
+        <div class="ring-item">
+          <svg class="ring__svg" viewBox="0 0 110 110">
+            <circle class="ring__track" cx="55" cy="55" r="46"/>
+            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="78"/>
+            <text class="ring__pct" x="55" y="55" text-anchor="middle"
+                  dominant-baseline="central" font-family="inherit">78%</text>
+          </svg>
+          <p class="ring__name">Calibrated<br>Mattress</p>
+        </div>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="21">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">More Deep Sleep</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">18 to 25% increase in slow-wave sleep from reduced overnight pressure discomfort.</p>
+      </footer>
+    </article>
+
+    <article id="circulation" class="tile stat-card stat-card--bottom"
+             data-scheme="circulation" data-kind="reduce" data-delay="0"
+             data-baseline="82" data-optimized="46" data-delta="36"
+             tabindex="0" aria-labelledby="s4-cat" aria-describedby="s4-sr">
+      <p id="s4-sr" class="sr-only">
+        High-pressure zones reduced from 82 percent on a standard mattress to 46 percent with Calibr8 — a 36 percent reduction, meaning fewer wakeups.
+      </p>
+      <h3 id="s4-cat" class="stat-card__title">High Pressure Zones</h3>
+      <div class="comparison" aria-hidden="true">
+        <div class="row row--baseline">
+          <div class="row__meta">
+            <span class="row__label">Standard Mattress</span>
+            <span class="row__percent" data-target="82">0%</span>
+          </div>
+          <div class="bar" data-fill="16" data-total="20"></div>
+        </div>
+        <div class="row row--optimized">
+          <div class="row__meta">
+            <span class="row__label">Calibrated Mattress</span>
+            <span class="row__percent" data-target="46">0%</span>
+          </div>
+          <div class="bar" data-fill="9" data-total="20"></div>
+        </div>
+      </div>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">&minus;</span>
+        <span class="delta__value" data-target="36">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Fewer Wakeups</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">Reduced high-pressure zones mean better circulation and uninterrupted sleep.</p>
+      </footer>
+    </article>
+
+    <article class="tile stat-card stat-card--bottom"
+             data-scheme="fragmentation" data-kind="lines" data-delay="200"
+             data-baseline="100" data-optimized="75" data-delta="25"
+             tabindex="0" aria-labelledby="s5-title" aria-describedby="s5-sr">
+      <p id="s5-sr" class="sr-only">Sleep fragmentation reduced 15 to 30 percent with Calibr8, enabling longer uninterrupted sleep cycles.</p>
+      <h3 id="s5-title" class="stat-card__title">Sleep Interruption</h3>
+      <div class="sleep-lines" aria-hidden="true">
+        <div class="sleep-lines__legend">
+          <span class="sleep-lines__badge sleep-lines__badge--std">Standard Mattress</span>
+          <span class="sleep-lines__badge sleep-lines__badge--cal">Calibrated Mattress</span>
+        </div>
+        <svg class="sleep-lines__svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sleep-std-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#C54B8C" stop-opacity="0.50"/>
+              <stop offset="100%" stop-color="#C54B8C" stop-opacity="0.42"/>
+            </linearGradient>
+            <linearGradient id="sleep-cal-fill" x1="0" y1="72" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#553C9A" stop-opacity="0.72"/>
+              <stop offset="100%" stop-color="#553C9A" stop-opacity="0.65"/>
+            </linearGradient>
+            <clipPath id="sleep-reveal-clip">
+              <rect class="sleep-reveal-rect" x="0" y="-10" width="0" height="120"/>
+            </clipPath>
+          </defs>
+          <!-- grid lines at 0,10,20...100% -->
+          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+          <line x1="0" y1="10"  x2="300" y2="10"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="20"  x2="300" y2="20"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="40"  x2="300" y2="40"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="50"  x2="300" y2="50"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="70"  x2="300" y2="70"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="80"  x2="300" y2="80"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="100" x2="300" y2="100" stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+          <path class="sleep-fill sleep-fill--std" fill="url(#sleep-std-fill)" clip-path="url(#sleep-reveal-clip)"
+                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22 L 300,100 L 0,100 Z"/>
+          <path class="sleep-fill sleep-fill--cal" fill="url(#sleep-cal-fill)" clip-path="url(#sleep-reveal-clip)"
+                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71 L 300,100 L 0,100 Z"/>
+          <path class="sleep-line sleep-line--std"
+                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22"/>
+          <path class="sleep-line sleep-line--cal"
+                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71"/>
+        </svg>
+      </div>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">&minus;</span>
+        <span class="delta__value" data-target="25">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Fewer Wakeups</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">15 to 30% reduction in micro-awakenings leading to longer uninterrupted sleep cycles.</p>
+      </footer>
+    </article>
+
+    <article class="tile stat-card stat-card--bottom"
+             data-scheme="rem" data-kind="vbars" data-delay="400" data-delta="16"
+             tabindex="0" aria-labelledby="s6-title" aria-describedby="s6-sr">
+      <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79% — 12 to 20 percent improvement supporting cognitive recovery.</p>
+      <h3 id="s6-title" class="stat-card__title">REM Sleep</h3>
+
+      <div class="rem-bars" aria-hidden="true">
+        <p class="rem-label">Standard<br>Mattress</p>
+        <div class="rem-bars__pair">
+          <div class="rem-track rem-track--std">
+            <div class="vbar__fill rem-fill" data-pct="63" style="--pct:63">
+              <span class="rem-pct">63%</span>
+            </div>
+          </div>
+          <div class="rem-track rem-track--cal">
+            <div class="vbar__fill rem-fill" data-pct="79" style="--pct:79">
+              <span class="rem-pct">79%</span>
+            </div>
+          </div>
+        </div>
+        <p class="rem-label">Calibrated<br>Mattress</p>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="16">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Better REM Recovery</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">12 to 20% improvement in REM continuity supporting memory consolidation and cognitive recovery.</p>
+      </footer>
+    </article>
+
+  </section>
+</main>
+
+<script>
+(() => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.bar').forEach(bar => {
+    const total = Number(bar.dataset.total) || 20;
+    const fill  = Number(bar.dataset.fill)  || 0;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < total; i++) {
+      const seg = document.createElement('span');
+      seg.className = 'bar__seg';
+      if (i < fill) seg.dataset.on = '1';
+      frag.appendChild(seg);
+    }
+    bar.appendChild(frag);
+  });
+
+  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+  function countTo(el, target, duration, suffix = '') {
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const v = Math.round(target * easeOutCubic(t));
+      el.textContent = v + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function animateBars(card) {
+    const rows = card.querySelectorAll('.row');
+    const cardFadeOffset = 280;
+    const baselineDur = 1200;
+    const optimizedDur = 1500;
+    const gapBetweenRows = 200;
+    const rowDurs = [baselineDur, optimizedDur];
+    const rowStarts = [
+      cardFadeOffset,
+      cardFadeOffset + baselineDur + gapBetweenRows
+    ];
+
+    rows.forEach((row, idx) => {
+      const rowStart = rowStarts[idx];
+      const rowDur = rowDurs[idx];
+      const segs = [...row.querySelectorAll('.bar__seg[data-on="1"]')];
+      const perSeg = segs.length > 0 ? (rowDur / segs.length) : 0;
+
+      segs.forEach((seg, i) => {
+        setTimeout(() => seg.classList.add('is-on'), rowStart + i * perSeg);
+      });
+
+      const pct = row.querySelector('.row__percent');
+      setTimeout(() => countTo(pct, Number(pct.dataset.target), rowDur, '%'), rowStart);
+    });
+
+    const dv = card.querySelector('.delta__value');
+    setTimeout(() => countTo(dv, Number(dv.dataset.target), 1100), rowStarts[1]);
+  }
+
+  function countToLinear(el, target, duration) {
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const v = Math.round(target * t);
+      el.textContent = v;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function animateGraph(card) {
+    const segs = [
+      card.querySelector('.graph__line--seg1'),
+      card.querySelector('.graph__line--seg2'),
+      card.querySelector('.graph__line--seg3'),
+    ];
+    const dots = card.querySelectorAll('.graph__dot');
+    const labels = card.querySelectorAll('.graph__label');
+    const dv = card.querySelector('.delta__value');
+    const target = Number(dv.dataset.target);
+
+    const lens = segs.map(s => s.getTotalLength());
+    const totalLen = lens.reduce((a, b) => a + b, 0);
+
+    segs.forEach((s, i) => {
+      s.style.strokeDasharray = lens[i];
+      s.style.strokeDashoffset = lens[i];
+    });
+
+    const totalDur = 2800;
+    const offset = 320;
+    const segDurs = lens.map(L => totalDur * (L / totalLen));
+    const segStarts = [
+      offset,
+      offset + segDurs[0],
+      offset + segDurs[0] + segDurs[1],
+    ];
+
+    segs.forEach((s, i) => {
+      setTimeout(() => {
+        s.style.transition = `stroke-dashoffset ${segDurs[i]}ms linear`;
+        s.style.strokeDashoffset = 0;
+      }, segStarts[i]);
+    });
+
+    setTimeout(() => dots[0].classList.add('is-on'), segStarts[1] - 60);
+    setTimeout(() => labels[0].classList.add('is-on'), segStarts[1] + 40);
+    setTimeout(() => dots[1].classList.add('is-on'), segStarts[2] - 60);
+    setTimeout(() => labels[1].classList.add('is-on'), segStarts[2] + 40);
+
+    setTimeout(() => countToLinear(dv, target, totalDur), offset);
+  }
+
+  function snapGraph(card) {
+    card.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDashoffset = 0; });
+    card.querySelectorAll('.graph__dot').forEach(d => d.classList.add('is-on'));
+    card.querySelectorAll('.graph__label').forEach(l => l.classList.add('is-on'));
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateGauge(card) {
+    const outer = card.querySelector('.gauge__arc--outer-fill');
+    const inner = card.querySelector('.gauge__arc--inner-fill');
+    const dots = card.querySelectorAll('.gauge__dot');
+    const labels = card.querySelectorAll('.gauge__label');
+    const dv = card.querySelector('.delta__value');
+    const target = Number(dv.dataset.target);
+
+    const Li = inner.getTotalLength();
+    const Lo = outer.getTotalLength();
+    const LT = Li + Lo;
+
+    [inner, outer].forEach(p => {
+      const L = p.getTotalLength();
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L;
+    });
+
+    const totalDur = 2800;
+    const offset = 320;
+    const di = totalDur * (Li / LT);  // inner (standard) draws first — shorter
+    const doo = totalDur * (Lo / LT); // outer (calibrated) draws second — longer
+
+    // Standard (inner arc, baseline) draws first
+    setTimeout(() => {
+      inner.style.transition = `stroke-dashoffset ${di}ms linear`;
+      inner.style.strokeDashoffset = 0;
+    }, offset);
+
+    setTimeout(() => dots[0].classList.add('is-on'), offset + di - 60);
+    setTimeout(() => labels[0].classList.add('is-on'), offset + di + 40);
+
+    // Calibrated (outer arc, improvement) draws second
+    setTimeout(() => {
+      outer.style.transition = `stroke-dashoffset ${doo}ms linear`;
+      outer.style.strokeDashoffset = 0;
+    }, offset + di);
+
+    setTimeout(() => dots[1].classList.add('is-on'), offset + di + doo - 60);
+    setTimeout(() => labels[1].classList.add('is-on'), offset + di + doo + 40);
+
+    setTimeout(() => countToLinear(dv, target, totalDur), offset);
+  }
+
+  function snapGauge(card) {
+    card.querySelectorAll('.gauge__arc').forEach(p => { p.style.strokeDashoffset = 0; });
+    card.querySelectorAll('.gauge__dot').forEach(d => d.classList.add('is-on'));
+    card.querySelectorAll('.gauge__label').forEach(l => l.classList.add('is-on'));
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateVbars(card) {
+    const fills = card.querySelectorAll('.vbar__fill');
+    const dv = card.querySelector('.delta__value');
+    const target = Number(dv.dataset.target);
+    fills.forEach((fill, i) => {
+      setTimeout(() => fill.classList.add('is-on'), 350 + i * 300);
+    });
+    setTimeout(() => countToLinear(dv, target, 2000), 350);
+  }
+
+  function snapVbars(card) {
+    card.querySelectorAll('.vbar__fill').forEach(f => f.classList.add('is-on'));
+    const dv = card.querySelector('.delta__value');
+    if (dv) dv.textContent = dv.dataset.target;
+  }
+
+  function animateRings(card) {
+    const fills = card.querySelectorAll('.ring__fill');
+    const dv = card.querySelector('.delta__value');
+    const target = Number(dv.dataset.target);
+
+    fills.forEach(fill => {
+      const r = Number(fill.getAttribute('r'));
+      const circ = 2 * Math.PI * r;
+      fill.style.strokeDasharray = circ;
+      fill.style.strokeDashoffset = circ;
+    });
+
+    fills.forEach((fill, i) => {
+      const r = Number(fill.getAttribute('r'));
+      const circ = 2 * Math.PI * r;
+      const pct = Number(fill.dataset.pct) / 100;
+      setTimeout(() => {
+        fill.style.transition = `stroke-dashoffset 1500ms linear`;
+        fill.style.strokeDashoffset = circ * (1 - pct);
+      }, 350 + i * 280);
+    });
+
+    setTimeout(() => countToLinear(dv, target, 2000), 350);
+  }
+
+  function snapRings(card) {
+    card.querySelectorAll('.ring__fill').forEach(fill => {
+      const r = Number(fill.getAttribute('r'));
+      const circ = 2 * Math.PI * r;
+      fill.style.strokeDasharray = circ;
+      fill.style.strokeDashoffset = circ * (1 - Number(fill.dataset.pct) / 100);
+    });
+    const dv = card.querySelector('.delta__value');
+    if (dv) dv.textContent = dv.dataset.target;
+  }
+
+  function snapBars(card) {
+    card.querySelectorAll('.row').forEach(row => {
+      row.querySelectorAll('.bar__seg[data-on="1"]').forEach(s => s.classList.add('is-on'));
+      const pct = row.querySelector('.row__percent');
+      pct.textContent = pct.dataset.target + '%';
+    });
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateArc(card) {
+    const segs = [
+      card.querySelector('.arc__seg--a'),
+      card.querySelector('.arc__seg--b'),
+      card.querySelector('.arc__seg--c'),
+    ];
+    const dots = card.querySelectorAll('.arc__dot');
+    const labels = card.querySelectorAll('.arc__label');
+    const dv = card.querySelector('.delta__value');
+    const target = Number(dv.dataset.target);
+
+    const lens = segs.map(s => s.getTotalLength());
+    const totalLen = lens.reduce((a, b) => a + b, 0);
+
+    segs.forEach((s, i) => {
+      s.style.strokeDasharray = lens[i];
+      s.style.strokeDashoffset = lens[i];
+    });
+
+    const totalDur = 2800;
+    const offset = 320;
+    const segDurs = lens.map(L => totalDur * (L / totalLen));
+    const segStarts = [
+      offset,
+      offset + segDurs[0],
+      offset + segDurs[0] + segDurs[1],
+    ];
+
+    segs.forEach((s, i) => {
+      setTimeout(() => {
+        s.style.transition = `stroke-dashoffset ${segDurs[i]}ms linear`;
+        s.style.strokeDashoffset = 0;
+      }, segStarts[i]);
+    });
+
+    setTimeout(() => dots[0].classList.add('is-on'), segStarts[1] - 60);
+    setTimeout(() => labels[0].classList.add('is-on'), segStarts[1] + 40);
+    setTimeout(() => dots[1].classList.add('is-on'), segStarts[2] - 60);
+    setTimeout(() => {
+      labels[1].classList.add('is-on');
+      const stem = card.querySelector('.arc__stem--cal');
+      if (stem) stem.classList.add('is-on');
+    }, segStarts[2] + 40);
+
+    setTimeout(() => countToLinear(dv, target, totalDur), offset);
+  }
+
+  function snapArc(card) {
+    card.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDashoffset = 0; });
+    card.querySelectorAll('.arc__dot').forEach(d => d.classList.add('is-on'));
+    card.querySelectorAll('.arc__label').forEach(l => l.classList.add('is-on'));
+    card.querySelectorAll('.arc__stem').forEach(s => s.classList.add('is-on'));
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateLines(card) {
+    const stdLine = card.querySelector('.sleep-line--std');
+    const calLine = card.querySelector('.sleep-line--cal');
+    const clipRect = card.querySelector('.sleep-reveal-rect');
+    const dv = card.querySelector('.delta__value');
+    const dur = 2400;
+    const offset = 300;
+
+    [stdLine, calLine].forEach(p => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+    });
+
+    setTimeout(() => {
+      stdLine.style.transition = `stroke-dashoffset ${dur}ms linear`;
+      stdLine.style.strokeDashoffset = 0;
+      calLine.style.transition = `stroke-dashoffset ${dur}ms linear`;
+      calLine.style.strokeDashoffset = 0;
+
+      // clip rect grows left-to-right in sync with the draw
+      const t0 = performance.now();
+      (function tickClip(now) {
+        const t = Math.min(1, (now - t0) / dur);
+        clipRect.setAttribute('width', t * 300);
+        if (t < 1) requestAnimationFrame(tickClip);
+        else clipRect.setAttribute('width', 300);
+      })(performance.now());
+    }, offset);
+
+    setTimeout(() => countToLinear(dv, Number(dv.dataset.target), dur), offset);
+  }
+
+  function snapLines(card) {
+    const stdLine = card.querySelector('.sleep-line--std');
+    const calLine = card.querySelector('.sleep-line--cal');
+    const clipRect = card.querySelector('.sleep-reveal-rect');
+    [stdLine, calLine].forEach(p => { p.style.strokeDashoffset = 0; });
+    clipRect.setAttribute('width', 300);
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateBarsReduce(card) {
+    const rows = card.querySelectorAll('.row');
+    const total = 20;
+    const reduceDur = 800;
+
+    // Both rows start fully at 100%
+    [rows[0], rows[1]].forEach(row => {
+      row.querySelectorAll('.bar__seg').forEach(s => s.classList.add('is-on'));
+      row.querySelector('.row__percent').textContent = '100%';
+    });
+
+    function reduceRow(row, targetFill, targetPct, startDelay) {
+      const segs = [...row.querySelectorAll('.bar__seg')];
+      const removeCount = total - targetFill;
+      for (let i = total - 1; i >= targetFill; i--) {
+        setTimeout(() => segs[i].classList.remove('is-on'), startDelay + (total - 1 - i) * (reduceDur / removeCount));
+      }
+      const pct = row.querySelector('.row__percent');
+      setTimeout(() => {
+        const t0 = performance.now();
+        (function tick(now) {
+          const t = Math.min(1, (now - t0) / reduceDur);
+          const e = 1 - Math.pow(1 - t, 3);
+          pct.textContent = Math.round(100 - (100 - targetPct) * e) + '%';
+          if (t < 1) requestAnimationFrame(tick);
+          else pct.textContent = targetPct + '%';
+        })(performance.now());
+      }, startDelay);
+    }
+
+    const baseFill = Number(rows[0].querySelector('.bar').dataset.fill);
+    const optFill  = Number(rows[1].querySelector('.bar').dataset.fill);
+    const basePct  = Number(card.dataset.baseline);
+    const optPct   = Number(card.dataset.optimized);
+
+    const start = 500;
+    reduceRow(rows[0], baseFill, basePct, start);
+    reduceRow(rows[1], optFill, optPct, start);
+
+    const dv = card.querySelector('.delta__value');
+    setTimeout(() => countTo(dv, Number(dv.dataset.target), reduceDur), start);
+  }
+
+  function snapBarsReduce(card) {
+    const rows = card.querySelectorAll('.row');
+    const baseFill = Number(rows[0].querySelector('.bar').dataset.fill);
+    const optFill  = Number(rows[1].querySelector('.bar').dataset.fill);
+    [...rows[0].querySelectorAll('.bar__seg')].slice(0, baseFill).forEach(s => s.classList.add('is-on'));
+    rows[0].querySelector('.row__percent').textContent = card.dataset.baseline + '%';
+    [...rows[1].querySelectorAll('.bar__seg')].slice(0, optFill).forEach(s => s.classList.add('is-on'));
+    rows[1].querySelector('.row__percent').textContent = card.dataset.optimized + '%';
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function revealCard(card) {
+    if (card.dataset.revealed === '1') return;
+    card.dataset.revealed = '1';
+
+    const delay = Number(card.dataset.delay) || 0;
+    card.style.setProperty('--card-delay', delay + 'ms');
+    requestAnimationFrame(() => card.classList.add('is-revealed'));
+
+    const kind = card.dataset.kind || 'bars';
+
+    if (prefersReduced) {
+      if (kind === 'vbars') snapVbars(card);
+      else if (kind === 'rings') snapRings(card);
+      else if (kind === 'arc') snapArc(card);
+      else if (kind === 'graph') snapGraph(card);
+      else if (kind === 'gauge') snapGauge(card);
+      else if (kind === 'reduce') snapBarsReduce(card);
+      else if (kind === 'lines') snapLines(card);
+      else snapBars(card);
+      return;
+    }
+    if (kind === 'vbars') animateVbars(card);
+    else if (kind === 'rings') animateRings(card);
+    else if (kind === 'arc') animateArc(card);
+    else if (kind === 'graph') animateGraph(card);
+    else if (kind === 'gauge') animateGauge(card);
+    else if (kind === 'reduce') animateBarsReduce(card);
+    else if (kind === 'lines') animateLines(card);
+    else animateBars(card);
+  }
+
+  const cards = document.querySelectorAll('.stat-card');
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          revealCard(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(c => io.observe(c));
+  } else {
+    cards.forEach(revealCard);
+  }
+})();
+</script>
+</body>
+</html>
