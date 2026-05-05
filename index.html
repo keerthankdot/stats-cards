@@ -59,49 +59,173 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+html, body { margin: 0; padding: 0; }
 
 body {
   font-family: var(--font-sans);
   color: var(--ink-1);
   background: var(--page-bg);
-  height: 100dvh;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 80px 40px 60px;
+}
+
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to bottom, transparent, #ffffff);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__text, .hero__cta { position: relative; z-index: 2; }
+
+.hero__title {
+  font-size: clamp(52px, 9vw, 108px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: #111;
+  margin: 0 0 20px;
+  line-height: 1;
+}
+.hero__title em { font-style: italic; font-weight: 300; }
+
+.hero__sub {
+  font-size: clamp(15px, 1.8vw, 18px);
+  color: #444;
+  line-height: 1.55;
+  white-space: nowrap;
+  margin: 0 auto;
+  font-weight: 400;
+}
+
+.hero__cta {
+  display: inline-block;
+  padding: 17px 58px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  color: #111;
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 100%);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    inset 1px 0 0 rgba(255,255,255,0.6),
+    inset -1px 0 0 rgba(255,255,255,0.3),
+    inset 0 16px 24px -14px rgba(255,255,255,0.85),
+    0 2px 8px rgba(0,0,0,0.08),
+    0 12px 32px rgba(0,0,0,0.10);
+  transition: box-shadow 240ms ease, transform 200ms ease;
+}
+.hero__cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.4) 35%,
+    rgba(255,255,255,0.08) 55%,
+    rgba(255,255,255,0.5) 80%,
+    rgba(255,255,255,0.9) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.hero__cta:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.4),
+    inset 1px 0 0 rgba(255,255,255,0.7),
+    inset -1px 0 0 rgba(255,255,255,0.4),
+    inset 0 20px 30px -14px rgba(255,255,255,0.95),
+    0 4px 16px rgba(0,0,0,0.12),
+    0 20px 48px rgba(0,0,0,0.14);
+}
+
+@media (max-width: 780px) {
+  .hero { padding: 60px 24px 48px; }
+  .hero__title { font-size: clamp(42px, 12vw, 68px); }
+  .hero__cta { padding: 15px 44px; }
 }
 
 .shell {
   max-width: 1320px;
   margin: 0 auto;
   padding: 20px 32px;
-  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .grid {
+  /* card = smallest of: half available height, or a third of available width */
+  --card: min(
+    calc((100dvh - 60px) / 2),
+    calc((min(100vw, 1320px) - 104px) / 3)
+  );
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(3, var(--card));
+  grid-template-rows: repeat(2, var(--card));
   gap: 20px;
-  flex: 1;
-  min-height: 0;
 }
 .grid__wide { grid-column: span 2; }
 
-
 @media (max-width: 1100px) {
   .shell { padding: 14px 22px; }
-  .grid { gap: 16px; }
+  .grid {
+    --card: min(
+      calc((100dvh - 56px) / 2),
+      calc((min(100vw, 1320px) - 92px) / 3)
+    );
+    gap: 16px;
+  }
 }
 @media (max-width: 780px) {
-  html, body { height: auto; overflow: auto; }
-  body { height: auto; }
-  .shell { height: auto; display: block; padding: 24px 16px 32px; }
-  .grid { display: grid; flex: none; min-height: unset; grid-template-columns: 1fr; grid-template-rows: auto; gap: 16px; }
+  .shell { height: auto; overflow: visible; display: block; padding: 24px 16px 32px; }
+  .grid { display: grid; grid-template-columns: 1fr; grid-template-rows: auto; gap: 16px; }
   .grid__wide { grid-column: auto; }
   .tile--empty { min-height: 180px; }
-  .stat-card { min-height: unset; --card-pad: 20px; }
+  .stat-card { min-height: unset; aspect-ratio: auto; --card-pad: 20px; }
+  .stat-card--bottom { aspect-ratio: auto; }
 }
 
 .tile {
@@ -766,6 +890,17 @@ body {
 </style>
 </head>
 <body>
+
+<section class="hero" aria-label="Calibr8 hero">
+  <video class="hero__video" autoplay muted loop playsinline>
+    <source src="herovid.mp4" type="video/mp4">
+  </video>
+  <div class="hero__text">
+    <h1 class="hero__title"><em>Sleep</em> Perfected</h1>
+    <p class="hero__sub">A mattress that understands your body before you do</p>
+  </div>
+  <a class="hero__cta" href="#">BOOK NOW</a>
+</section>
 
 <main class="shell">
   <section class="grid" aria-label="Calibr8 performance statistics">
