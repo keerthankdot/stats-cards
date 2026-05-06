@@ -20,26 +20,26 @@
   --card-radius: 22px;
   --card-pad: 28px;
 
-  --glass-bg: linear-gradient(145deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.18) 100%);
+  --glass-bg: linear-gradient(145deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.52) 100%);
 
   --glass-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.9),
-    inset 0 -1px 0 rgba(255,255,255,0.35),
-    inset 1px 0 0 rgba(255,255,255,0.5),
-    inset -1px 0 0 rgba(255,255,255,0.3),
-    inset 0 20px 30px -18px rgba(255,255,255,0.8),
-    0 1px 2px rgba(20,22,30,0.05),
-    0 20px 44px -14px rgba(20,22,30,0.18),
-    0 40px 80px -20px rgba(20,22,30,0.12);
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(255,255,255,0.4),
+    inset 1px 0 0 rgba(255,255,255,0.6),
+    inset -1px 0 0 rgba(255,255,255,0.35),
+    inset 0 20px 40px -16px rgba(255,255,255,0.6),
+    0 2px 4px rgba(20,22,30,0.04),
+    0 16px 40px -10px rgba(20,22,30,0.10),
+    0 32px 64px -16px rgba(20,22,30,0.08);
   --glass-shadow-hover:
     inset 0 1px 0 rgba(255,255,255,1),
-    inset 0 -1px 0 rgba(255,255,255,0.5),
-    inset 1px 0 0 rgba(255,255,255,0.7),
-    inset -1px 0 0 rgba(255,255,255,0.4),
-    inset 0 24px 36px -18px rgba(255,255,255,0.95),
-    0 2px 4px rgba(20,22,30,0.08),
-    0 28px 56px -12px rgba(20,22,30,0.24),
-    0 50px 100px -20px rgba(20,22,30,0.16);
+    inset 0 -1px 0 rgba(255,255,255,0.55),
+    inset 1px 0 0 rgba(255,255,255,0.75),
+    inset -1px 0 0 rgba(255,255,255,0.45),
+    inset 0 24px 48px -16px rgba(255,255,255,0.75),
+    0 4px 8px rgba(20,22,30,0.06),
+    0 24px 52px -10px rgba(20,22,30,0.14),
+    0 44px 80px -18px rgba(20,22,30,0.10);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-card: 600ms;
@@ -232,8 +232,8 @@ body {
   position: relative;
   border-radius: var(--card-radius);
   background: var(--glass-bg);
-  backdrop-filter: blur(10px) saturate(1.15);
-  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(28px) saturate(1.6) brightness(1.04);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6) brightness(1.04);
   box-shadow: var(--glass-shadow);
   overflow: hidden;
   isolation: isolate;
@@ -887,6 +887,314 @@ body {
   .row__percent { transition: none !important; }
   .stat-card { transform: none; opacity: 1; }
 }
+
+/* ── Carousel ── */
+.carousel-section {
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--page-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.carousel-heading {
+  font-size: clamp(22px, 3vw, 42px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  margin: 0;
+  text-align: center;
+  align-self: center;
+  margin-bottom: -12px;
+  margin-top: -40px;
+}
+
+.carousel {
+  --card: min(
+    calc((100dvh - 80px) * 0.72),
+    calc((min(100vw, 1320px) - 64px) / 3)
+  );
+  position: relative;
+  width: 100%;
+  height: var(--card);
+}
+
+/* Each card absolutely centered in the carousel */
+.carousel-card {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--card);
+  height: var(--card);
+  margin-left: calc(var(--card) / -2);
+  transition:
+    transform 560ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 480ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+/* State classes — two-class specificity overrides .stat-card */
+.carousel-card.c-center {
+  transform: translateX(0) scale(1);
+  z-index: 3; opacity: 1;
+}
+.carousel-card.c-left {
+  transform: translateX(-105%) scale(0.80);
+  z-index: 2; opacity: 0.75;
+}
+.carousel-card.c-right {
+  transform: translateX(105%) scale(0.80);
+  z-index: 2; opacity: 0.75;
+}
+.carousel-card.c-exit {
+  transform: translateX(-215%) scale(0.60);
+  z-index: 1; opacity: 0; pointer-events: none;
+}
+.carousel-card.c-enter {
+  transform: translateX(215%) scale(0.60);
+  z-index: 1; opacity: 0; pointer-events: none;
+}
+.carousel-card.c-hidden {
+  transform: translateX(330%) scale(0.45);
+  z-index: 0; opacity: 0; pointer-events: none;
+  transition: none !important;
+}
+
+@media (max-width: 780px) {
+  .carousel-section { display: none; }
+}
+
+/* ── Coverflow ── */
+.coverflow-section {
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--page-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.coverflow-section .carousel-heading { margin-top: -40px; margin-bottom: -12px; }
+
+.coverflow {
+  --card: min(
+    calc((100dvh - 80px) * 0.72),
+    calc((min(100vw, 1320px) - 64px) / 3)
+  );
+  position: relative;
+  width: 100%;
+  height: var(--card);
+  perspective: 480px;
+  perspective-origin: 50% 50%;
+}
+
+.coverflow-card {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--card);
+  height: var(--card);
+  margin-left: calc(var(--card) / -2);
+  transition:
+    transform 560ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 480ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 480ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+.coverflow-card.cf-center {
+  transform: translateX(0) translateZ(0) rotateY(0deg);
+  z-index: 3; opacity: 1;
+  filter: none;
+}
+.coverflow-card.cf-left {
+  transform: translateX(-62%) translateZ(-140px) rotateY(56deg);
+  z-index: 2; opacity: 0.75;
+  filter: blur(3px);
+}
+.coverflow-card.cf-right {
+  transform: translateX(62%) translateZ(-140px) rotateY(-56deg);
+  z-index: 2; opacity: 0.75;
+  filter: blur(3px);
+}
+.coverflow-card.cf-exit {
+  transform: translateX(-110%) translateZ(-280px) rotateY(78deg);
+  z-index: 1; opacity: 0; pointer-events: none;
+  filter: blur(10px);
+}
+.coverflow-card.cf-enter {
+  transform: translateX(110%) translateZ(-280px) rotateY(-78deg);
+  z-index: 1; opacity: 0; pointer-events: none;
+  filter: blur(10px);
+}
+.coverflow-card.cf-hidden {
+  transform: translateX(160%) translateZ(-360px) rotateY(-88deg);
+  z-index: 0; opacity: 0; pointer-events: none;
+  transition: none !important;
+}
+
+@media (max-width: 780px) {
+  .coverflow-section { display: none; }
+}
+
+/* ── Calibr8 Slider ── */
+.calibr8-slider-section {
+  min-height: 100dvh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  gap: 28px;
+}
+
+.calibr8-slider-section .hero-text {
+  text-align: center;
+  max-width: 700px;
+}
+.calibr8-slider-section .hero-title {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  color: #0d0d0d;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  font-family: var(--font-sans);
+}
+.calibr8-slider-section .hero-sub {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+}
+
+.calibr8-slider-section .slider {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 1120px;
+  height: calc(min(100vw - 96px, 1072px) * 3 / 8);
+}
+
+.calibr8-slider-section .card {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 68px;
+  border-radius: 26px;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition: flex-grow 0.72s cubic-bezier(0.32, 1.28, 0.55, 1);
+}
+.calibr8-slider-section .card.active { flex-grow: 8; cursor: default; }
+.calibr8-slider-section .card:not(.active):hover { flex-grow: 1.4; }
+
+.calibr8-slider-section .card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.72s cubic-bezier(0.32, 1.28, 0.55, 1);
+}
+.calibr8-slider-section .card__video { width: 100%; height: 100%; object-fit: cover; }
+.calibr8-slider-section .card:not(.active):hover .card__bg { transform: scale(1.08); }
+
+.calibr8-slider-section .card:not(.active)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0,0,0,0.22);
+  transition: background 0.3s ease;
+  pointer-events: none;
+}
+.calibr8-slider-section .card:not(.active):hover::before { background: rgba(0,0,0,0.06); }
+
+.calibr8-slider-section .card__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(0deg, transparent 20%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.72) 100%);
+  opacity: 0;
+  transition: opacity 0.52s ease;
+  pointer-events: none;
+}
+.calibr8-slider-section .card.active .card__scrim { opacity: 1; }
+
+.calibr8-slider-section .card__content {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 3;
+  padding: 30px 32px 34px;
+  opacity: 0;
+  transform: translateY(-16px);
+  transition: opacity 0.38s ease 0.18s, transform 0.38s ease 0.18s;
+  pointer-events: none;
+}
+.calibr8-slider-section .card.active .card__content { opacity: 1; transform: translateY(0); }
+
+.calibr8-slider-section .card__title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -1.2px;
+  line-height: 1.02;
+  margin-bottom: 10px;
+  font-family: var(--font-sans);
+}
+.calibr8-slider-section .card__desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.62;
+  max-width: 360px;
+  font-family: var(--font-sans);
+}
+
+.calibr8-slider-section .card__icon {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 38% 28%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.04) 55%, transparent 72%),
+    rgba(255,255,255,0.07);
+  backdrop-filter: blur(20px) brightness(1.15) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) brightness(1.15) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.08), 0 6px 20px rgba(0,0,0,0.2);
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  font-family: var(--font-sans);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.calibr8-slider-section .card.active .card__icon {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.6);
+  pointer-events: none;
+}
+
+.calibr8-slider-section .hint {
+  font-size: 11px;
+  color: rgba(0,0,0,0.25);
+  letter-spacing: 0.5px;
+  font-family: var(--font-sans);
+}
 </style>
 </head>
 <body>
@@ -903,7 +1211,7 @@ body {
 </section>
 
 <main class="shell">
-  <section class="grid" aria-label="Calibr8 performance statistics">
+  <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
 
     <article id="alignment" class="tile stat-card stat-card--graph"
              data-scheme="spinal" data-kind="graph" data-delay="0" data-delta="24"
@@ -1184,6 +1492,22 @@ body {
   </section>
 </main>
 
+<section class="carousel-section" aria-label="Statistics overview">
+  <h2 class="carousel-heading">The Impact On Your Sleep</h2>
+  <div class="carousel">
+    <div class="carousel__track" id="carousel-track"></div>
+  </div>
+</section>
+
+<section class="calibr8-slider-section">
+  <div class="hero-text">
+    <h2 class="hero-title">No two calibrations are ever the same.</h2>
+    <p class="hero-sub">Your pressure distribution is as unique as your fingerprint. Calibr8 reads it. Then builds around it.</p>
+  </div>
+  <div class="slider" id="calibr8-slider"></div>
+  <p class="hint">click a strip &nbsp;·&nbsp; ← → to navigate</p>
+</section>
+
 <script>
 (() => {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1258,50 +1582,33 @@ body {
   }
 
   function animateGraph(card) {
-    const segs = [
-      card.querySelector('.graph__line--seg1'),
-      card.querySelector('.graph__line--seg2'),
-      card.querySelector('.graph__line--seg3'),
-    ];
-    const dots = card.querySelectorAll('.graph__dot');
+    const seg1 = card.querySelector('.graph__line--seg1');
+    const seg2 = card.querySelector('.graph__line--seg2');
+    const seg3 = card.querySelector('.graph__line--seg3');
+    const dots   = card.querySelectorAll('.graph__dot');
     const labels = card.querySelectorAll('.graph__label');
-    const dv = card.querySelector('.delta__value');
-    const target = Number(dv.dataset.target);
+    const dv     = card.querySelector('.delta__value');
 
-    const lens = segs.map(s => s.getTotalLength());
-    const totalLen = lens.reduce((a, b) => a + b, 0);
+    // Flanking lines and dots/labels appear instantly
+    seg1.style.strokeDashoffset = 0;
+    seg3.style.strokeDashoffset = 0;
+    dots.forEach(d => d.classList.add('is-on'));
+    labels.forEach(l => l.classList.add('is-on'));
 
-    segs.forEach((s, i) => {
-      s.style.strokeDasharray = lens[i];
-      s.style.strokeDashoffset = lens[i];
-    });
+    // Only the segment between the two plotted points draws in
+    const len = seg2.getTotalLength();
+    seg2.style.transition       = 'none';
+    seg2.style.strokeDasharray  = len;
+    seg2.style.strokeDashoffset = len;
+    seg2.getBoundingClientRect(); // force reflow — browser must paint hidden state first
+    seg2.style.transition       = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
+    seg2.style.strokeDashoffset = 0;
 
-    const totalDur = 2800;
-    const offset = 320;
-    const segDurs = lens.map(L => totalDur * (L / totalLen));
-    const segStarts = [
-      offset,
-      offset + segDurs[0],
-      offset + segDurs[0] + segDurs[1],
-    ];
-
-    segs.forEach((s, i) => {
-      setTimeout(() => {
-        s.style.transition = `stroke-dashoffset ${segDurs[i]}ms linear`;
-        s.style.strokeDashoffset = 0;
-      }, segStarts[i]);
-    });
-
-    setTimeout(() => dots[0].classList.add('is-on'), segStarts[1] - 60);
-    setTimeout(() => labels[0].classList.add('is-on'), segStarts[1] + 40);
-    setTimeout(() => dots[1].classList.add('is-on'), segStarts[2] - 60);
-    setTimeout(() => labels[1].classList.add('is-on'), segStarts[2] + 40);
-
-    setTimeout(() => countToLinear(dv, target, totalDur), offset);
+    countToLinear(dv, Number(dv.dataset.target), 700);
   }
 
   function snapGraph(card) {
-    card.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDashoffset = 0; });
+    card.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = 0; });
     card.querySelectorAll('.graph__dot').forEach(d => d.classList.add('is-on'));
     card.querySelectorAll('.graph__label').forEach(l => l.classList.add('is-on'));
     const dv = card.querySelector('.delta__value');
@@ -1393,7 +1700,7 @@ body {
       const circ = 2 * Math.PI * r;
       const pct = Number(fill.dataset.pct) / 100;
       setTimeout(() => {
-        fill.style.transition = `stroke-dashoffset 1500ms linear`;
+        fill.style.transition = `stroke-dashoffset 700ms cubic-bezier(0.16, 1, 0.3, 1)`;
         fill.style.strokeDashoffset = circ * (1 - pct);
       }, 350 + i * 280);
     });
@@ -1423,54 +1730,35 @@ body {
   }
 
   function animateArc(card) {
-    const segs = [
-      card.querySelector('.arc__seg--a'),
-      card.querySelector('.arc__seg--b'),
-      card.querySelector('.arc__seg--c'),
-    ];
-    const dots = card.querySelectorAll('.arc__dot');
+    const segA = card.querySelector('.arc__seg--a');
+    const segB = card.querySelector('.arc__seg--b');
+    const segC = card.querySelector('.arc__seg--c');
+    const dots   = card.querySelectorAll('.arc__dot');
     const labels = card.querySelectorAll('.arc__label');
-    const dv = card.querySelector('.delta__value');
-    const target = Number(dv.dataset.target);
+    const dv     = card.querySelector('.delta__value');
 
-    const lens = segs.map(s => s.getTotalLength());
-    const totalLen = lens.reduce((a, b) => a + b, 0);
+    // Flanking segments and dots/labels appear instantly
+    segA.style.strokeDashoffset = 0;
+    segC.style.strokeDashoffset = 0;
+    dots.forEach(d => d.classList.add('is-on'));
+    labels.forEach(l => l.classList.add('is-on'));
+    const stem = card.querySelector('.arc__stem--cal');
+    if (stem) stem.classList.add('is-on');
 
-    segs.forEach((s, i) => {
-      s.style.strokeDasharray = lens[i];
-      s.style.strokeDashoffset = lens[i];
-    });
+    // Only the glow segment between the two plotted points draws in
+    const len = segB.getTotalLength();
+    segB.style.transition       = 'none';
+    segB.style.strokeDasharray  = len;
+    segB.style.strokeDashoffset = len;
+    segB.getBoundingClientRect();
+    segB.style.transition       = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
+    segB.style.strokeDashoffset = 0;
 
-    const totalDur = 2800;
-    const offset = 320;
-    const segDurs = lens.map(L => totalDur * (L / totalLen));
-    const segStarts = [
-      offset,
-      offset + segDurs[0],
-      offset + segDurs[0] + segDurs[1],
-    ];
-
-    segs.forEach((s, i) => {
-      setTimeout(() => {
-        s.style.transition = `stroke-dashoffset ${segDurs[i]}ms linear`;
-        s.style.strokeDashoffset = 0;
-      }, segStarts[i]);
-    });
-
-    setTimeout(() => dots[0].classList.add('is-on'), segStarts[1] - 60);
-    setTimeout(() => labels[0].classList.add('is-on'), segStarts[1] + 40);
-    setTimeout(() => dots[1].classList.add('is-on'), segStarts[2] - 60);
-    setTimeout(() => {
-      labels[1].classList.add('is-on');
-      const stem = card.querySelector('.arc__stem--cal');
-      if (stem) stem.classList.add('is-on');
-    }, segStarts[2] + 40);
-
-    setTimeout(() => countToLinear(dv, target, totalDur), offset);
+    countToLinear(dv, Number(dv.dataset.target), 1000);
   }
 
   function snapArc(card) {
-    card.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDashoffset = 0; });
+    card.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = 0; });
     card.querySelectorAll('.arc__dot').forEach(d => d.classList.add('is-on'));
     card.querySelectorAll('.arc__label').forEach(l => l.classList.add('is-on'));
     card.querySelectorAll('.arc__stem').forEach(s => s.classList.add('is-on'));
@@ -1483,32 +1771,9 @@ body {
     const calLine = card.querySelector('.sleep-line--cal');
     const clipRect = card.querySelector('.sleep-reveal-rect');
     const dv = card.querySelector('.delta__value');
-    const dur = 2400;
-    const offset = 300;
-
-    [stdLine, calLine].forEach(p => {
-      const len = p.getTotalLength();
-      p.style.strokeDasharray = len;
-      p.style.strokeDashoffset = len;
-    });
-
-    setTimeout(() => {
-      stdLine.style.transition = `stroke-dashoffset ${dur}ms linear`;
-      stdLine.style.strokeDashoffset = 0;
-      calLine.style.transition = `stroke-dashoffset ${dur}ms linear`;
-      calLine.style.strokeDashoffset = 0;
-
-      // clip rect grows left-to-right in sync with the draw
-      const t0 = performance.now();
-      (function tickClip(now) {
-        const t = Math.min(1, (now - t0) / dur);
-        clipRect.setAttribute('width', t * 300);
-        if (t < 1) requestAnimationFrame(tickClip);
-        else clipRect.setAttribute('width', 300);
-      })(performance.now());
-    }, offset);
-
-    setTimeout(() => countToLinear(dv, Number(dv.dataset.target), dur), offset);
+    [stdLine, calLine].forEach(p => { p.style.strokeDashoffset = 0; });
+    clipRect.setAttribute('width', 300);
+    countToLinear(dv, Number(dv.dataset.target), 700);
   }
 
   function snapLines(card) {
@@ -1622,6 +1887,257 @@ body {
   } else {
     cards.forEach(revealCard);
   }
+
+  // ── Carousel ──
+  const carouselSection = document.querySelector('.carousel-section');
+  if (carouselSection) {
+    const track = carouselSection.querySelector('#carousel-track');
+    const STATES = ['c-center','c-left','c-right','c-exit','c-enter','c-hidden'];
+    const N = 6;
+
+    function resetClone(clone) {
+      clone.dataset.revealed = '';
+      clone.classList.remove('is-revealed');
+      clone.style.removeProperty('--card-delay');
+      clone.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
+      clone.querySelectorAll('.delta__value').forEach(el => el.textContent = '0');
+      clone.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
+      clone.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
+      clone.querySelectorAll('[style]').forEach(el => {
+        ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
+      });
+      clone.removeAttribute('id');
+      clone.removeAttribute('aria-labelledby');
+      clone.removeAttribute('aria-describedby');
+      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+    }
+
+    // Build carousel cards from source
+    const cCards = [];
+    document.querySelectorAll('#stats-grid .stat-card').forEach(src => {
+      const clone = src.cloneNode(true);
+      resetClone(clone);
+      clone.classList.add('carousel-card', 'c-hidden');
+      track.appendChild(clone);
+      cCards.push(clone);
+    });
+
+    function stateFor(idx, active) {
+      const d = ((idx - active) % N + N) % N;
+      if (d === 0)       return 'c-center';
+      if (d === 1)       return 'c-right';
+      if (d === N - 1)   return 'c-left';
+      if (d === 2)       return 'c-enter';
+      if (d === N - 2)   return 'c-exit';
+      return 'c-hidden';
+    }
+
+    function applyState(card, state, instant) {
+      if (instant) card.style.transition = 'none';
+      STATES.forEach(s => card.classList.remove(s));
+      card.classList.add(state);
+      if (instant) { card.getBoundingClientRect(); card.style.transition = ''; }
+    }
+
+    let active = 0;
+    let advancing = false;
+
+    function setAll(newActive) {
+      cCards.forEach((c, i) => applyState(c, stateFor(i, newActive)));
+    }
+
+    function advance() {
+      if (advancing) return;
+      advancing = true;
+      const next = (active + 1) % N;
+
+      // Snap invisible cards to new off-screen positions instantly
+      const snapToHidden = (active + N - 2) % N; // old exit → hidden (off right)
+      const snapToEnter  = (active + 3) % N;      // old hidden → enter (off right)
+      applyState(cCards[snapToHidden], 'c-hidden', true);
+      applyState(cCards[snapToEnter],  'c-enter',  true);
+
+      // Animate all to new states
+      active = next;
+      setAll(active);
+
+      // Reveal new center card's internal animations
+      revealCard(cCards[active]);
+
+      setTimeout(() => { advancing = false; }, 580);
+      setTimeout(advance, 3000);
+    }
+
+    // Start on intersection
+    let started = false;
+    const cio = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || started) return;
+      started = true;
+      cio.disconnect();
+
+      // Set initial positions instantly
+      cCards.forEach((c, i) => applyState(c, stateFor(i, active), true));
+
+      // Reveal center + flanking cards
+      revealCard(cCards[active]);                    // center animates in
+      cCards[(active + N - 1) % N].classList.add('is-revealed'); // left — snap to final
+      cCards[(active + 1) % N].classList.add('is-revealed');      // right — snap to final
+
+      setTimeout(advance, 3000);
+    }, { threshold: 0.3 });
+    cio.observe(carouselSection);
+  }
+
+  // ── Coverflow ──
+  const cfSection = document.querySelector('.coverflow-section');
+  if (cfSection) {
+    const cfTrack = document.getElementById('coverflow-track');
+    const CF_STATES = ['cf-center','cf-left','cf-right','cf-exit','cf-enter','cf-hidden'];
+
+    const cfCards = [];
+    document.querySelectorAll('#stats-grid .stat-card').forEach(src => {
+      const clone = src.cloneNode(true);
+      // reset clone
+      clone.dataset.revealed = '';
+      clone.classList.remove('is-revealed');
+      clone.style.removeProperty('--card-delay');
+      clone.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
+      clone.querySelectorAll('.delta__value').forEach(el => el.textContent = '0');
+      clone.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
+      clone.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
+      clone.querySelectorAll('[style]').forEach(el => {
+        ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
+      });
+      clone.removeAttribute('id');
+      clone.removeAttribute('aria-labelledby');
+      clone.removeAttribute('aria-describedby');
+      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+      clone.classList.add('coverflow-card', 'cf-hidden');
+      cfTrack.appendChild(clone);
+      cfCards.push(clone);
+    });
+
+    const CFN = cfCards.length;
+    let cfActive = 0;
+    let cfAdvancing = false;
+
+    function cfStateFor(idx, active) {
+      const d = ((idx - active) % CFN + CFN) % CFN;
+      if (d === 0)         return 'cf-center';
+      if (d === 1)         return 'cf-right';
+      if (d === CFN - 1)   return 'cf-left';
+      if (d === 2)         return 'cf-enter';
+      if (d === CFN - 2)   return 'cf-exit';
+      return 'cf-hidden';
+    }
+
+    function cfApply(card, state, instant) {
+      if (instant) card.style.transition = 'none';
+      CF_STATES.forEach(s => card.classList.remove(s));
+      card.classList.add(state);
+      if (instant) { card.getBoundingClientRect(); card.style.transition = ''; }
+    }
+
+    function cfSetAll(active) {
+      cfCards.forEach((c, i) => cfApply(c, cfStateFor(i, active)));
+    }
+
+    function cfAdvance() {
+      if (cfAdvancing) return;
+      cfAdvancing = true;
+      const next = (cfActive + 1) % CFN;
+      cfApply(cfCards[(cfActive + CFN - 2) % CFN], 'cf-hidden', true);
+      cfApply(cfCards[(cfActive + 3) % CFN],       'cf-enter',  true);
+      cfActive = next;
+      cfSetAll(cfActive);
+      revealCard(cfCards[cfActive]);
+      setTimeout(() => { cfAdvancing = false; }, 580);
+      setTimeout(cfAdvance, 3000);
+    }
+
+    let cfStarted = false;
+    const cfio = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || cfStarted) return;
+      cfStarted = true;
+      cfio.disconnect();
+      cfCards.forEach((c, i) => cfApply(c, cfStateFor(i, cfActive), true));
+      revealCard(cfCards[cfActive]);
+      cfCards[(cfActive + CFN - 1) % CFN].classList.add('is-revealed');
+      cfCards[(cfActive + 1) % CFN].classList.add('is-revealed');
+      setTimeout(cfAdvance, 3000);
+    }, { threshold: 0.3 });
+    cfio.observe(cfSection);
+  }
+})();
+</script>
+
+<script>
+/* ── Calibr8 Slider ── */
+(function() {
+  function scanIcon(c) {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>`;
+  }
+  function heatmapIcon(c) {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`;
+  }
+  function calibrationIcon(c) {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="6" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="4" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="8" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="4" x2="15" y2="4"/><line x1="17" y1="16" x2="23" y2="16"/></svg>`;
+  }
+  function reportIcon(c) {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>`;
+  }
+  function mattressIcon(c) {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><line x1="2" y1="18" x2="22" y2="18"/><path d="M6 10V8a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/><path d="M13 10V8a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/></svg>`;
+  }
+
+  const CARDS = [
+    { id: 0, title: 'Scan', desc: 'Scans & measures 8 zones of your body to identify exact pressure points. The pressure mapping sensor mat analyzes how your body weight is distributed across 8 zones, detecting areas where support needs adjustment.', img: 'card1.png', icon: scanIcon('#ffffff') },
+    { id: 1, title: 'Heat map', desc: 'In real time the system shows a pressure map from Blue → Red so you can see exactly where your body feels the pressure.', img: 'card2.png', icon: heatmapIcon('#ffffff') },
+    { id: 2, title: 'Calibration', desc: 'The system reconfigures the middle support layer while scanning, until every zone reaches optimal balance — ensuring optimal firmness and comfort across 8 adaptive zones, aligning your spine and reducing pressure points.', img: null, video: 'card3.mp4', icon: calibrationIcon('#ffffff') },
+    { id: 3, title: 'Report', desc: 'You receive a unique report based on your calibration, helping you proceed with ordering your personalised mattress.', img: 'card4.png', icon: reportIcon('#ffffff') },
+    { id: 4, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: 'card5.png', icon: mattressIcon('#ffffff') },
+  ];
+
+  let activeId = 0;
+
+  function buildSlider() {
+    const slider = document.getElementById('calibr8-slider');
+    if (!slider) return;
+    CARDS.forEach(card => {
+      const el = document.createElement('div');
+      el.className = 'card' + (card.id === activeId ? ' active' : '');
+      el.dataset.id = card.id;
+      el.innerHTML = `
+        ${card.video
+          ? `<video class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
+        }
+        <div class="card__scrim"></div>
+        <div class="card__content">
+          <div class="card__title">${card.title}</div>
+          <div class="card__desc">${card.desc}</div>
+        </div>
+        <div class="card__icon">${card.id + 1}</div>
+      `;
+      el.addEventListener('click', () => activate(parseInt(el.dataset.id)));
+      slider.appendChild(el);
+    });
+  }
+
+  function activate(id) {
+    if (id === activeId) return;
+    document.querySelectorAll('#calibr8-slider .card').forEach(c => {
+      c.classList.toggle('active', parseInt(c.dataset.id) === id);
+    });
+    activeId = id;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') activate((activeId + 1) % CARDS.length);
+    if (e.key === 'ArrowLeft')  activate((activeId - 1 + CARDS.length) % CARDS.length);
+  });
+
+  buildSlider();
 })();
 </script>
 </body>
