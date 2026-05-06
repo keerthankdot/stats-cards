@@ -1201,7 +1201,7 @@ body {
 
 <section class="hero" aria-label="Calibr8 hero">
   <video class="hero__video" autoplay muted loop playsinline>
-    <source src="herovid.mp4" type="video/mp4">
+    <source src="landing_landscape.mp4" type="video/mp4">
   </video>
   <div class="hero__text">
     <h1 class="hero__title"><em>Sleep</em> Perfected</h1>
@@ -1210,6 +1210,9 @@ body {
   <a class="hero__cta" href="#">BOOK NOW</a>
 </section>
 
+
+
+<div aria-hidden="true" style="display:none;position:absolute;pointer-events:none">
 <main class="shell">
   <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
 
@@ -1492,6 +1495,7 @@ body {
   </section>
 </main>
 
+</div>
 <section class="carousel-section" aria-label="Statistics overview">
   <h2 class="carousel-heading">The Impact On Your Sleep</h2>
   <div class="carousel">
@@ -1600,9 +1604,10 @@ body {
     seg2.style.transition       = 'none';
     seg2.style.strokeDasharray  = len;
     seg2.style.strokeDashoffset = len;
-    seg2.getBoundingClientRect(); // force reflow — browser must paint hidden state first
-    seg2.style.transition       = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
-    seg2.style.strokeDashoffset = 0;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      seg2.style.transition     = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
+      seg2.style.strokeDashoffset = 0;
+    }));
 
     countToLinear(dv, Number(dv.dataset.target), 700);
   }
@@ -1750,9 +1755,10 @@ body {
     segB.style.transition       = 'none';
     segB.style.strokeDasharray  = len;
     segB.style.strokeDashoffset = len;
-    segB.getBoundingClientRect();
-    segB.style.transition       = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
-    segB.style.strokeDashoffset = 0;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      segB.style.transition     = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
+      segB.style.strokeDashoffset = 0;
+    }));
 
     countToLinear(dv, Number(dv.dataset.target), 1000);
   }
@@ -1771,9 +1777,30 @@ body {
     const calLine = card.querySelector('.sleep-line--cal');
     const clipRect = card.querySelector('.sleep-reveal-rect');
     const dv = card.querySelector('.delta__value');
-    [stdLine, calLine].forEach(p => { p.style.strokeDashoffset = 0; });
-    clipRect.setAttribute('width', 300);
-    countToLinear(dv, Number(dv.dataset.target), 700);
+    const dur = 1400;
+
+    [stdLine, calLine].forEach(p => {
+      const l = p.getTotalLength();
+      p.style.strokeDasharray  = l;
+      p.style.strokeDashoffset = l;
+    });
+    clipRect.setAttribute('width', '0');
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      [stdLine, calLine].forEach(p => {
+        p.style.transition = `stroke-dashoffset ${dur}ms linear`;
+        p.style.strokeDashoffset = 0;
+      });
+      const t0 = performance.now();
+      (function tick(now) {
+        const t = Math.min(1, (now - t0) / dur);
+        clipRect.setAttribute('width', t * 300);
+        if (t < 1) requestAnimationFrame(tick);
+        else clipRect.setAttribute('width', 300);
+      })(performance.now());
+    }));
+
+    setTimeout(() => countToLinear(dv, Number(dv.dataset.target), dur), 200);
   }
 
   function snapLines(card) {
