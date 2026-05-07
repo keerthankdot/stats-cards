@@ -1195,6 +1195,119 @@ body {
   letter-spacing: 0.5px;
   font-family: var(--font-sans);
 }
+/* ── Zones section ── */
+.zones-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 80px 40px;
+  background: #fff;
+}
+.zones-section__text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+  text-align: center;
+}
+.zones-section__title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #1A1035;
+  line-height: 1.15;
+  margin: 0;
+}
+.zones-section__desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #5C5578;
+  margin: 0;
+}
+.zones-section__content {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1100px;
+}
+.zones-section__heatmap {
+  flex-shrink: 0;
+  width: 200px;
+  position: relative;
+}
+.zones-section__heatmap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+.zones-section__grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 12px;
+}
+.zone-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #F0EDF8;
+  box-shadow: 0 1px 4px rgba(91,63,168,0.06), 0 4px 16px rgba(91,63,168,0.05);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.zone-card__num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #C49FD8;
+}
+.zone-card__name {
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1A1035;
+  line-height: 1.2;
+}
+.zone-card__bar-track {
+  height: 6px;
+  background: #EDE8F7;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.zone-card__bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(to right, #A78BDA, #5B3FA8);
+}
+.zone-card__footer {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.zone-card__firmness {
+  font-size: 13px;
+  font-weight: 900;
+  color: #5B3FA8;
+}
+.zone-card__code {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #A78BDA;
+}
+@media (max-width: 900px) {
+  .zones-section__content { flex-direction: column; }
+  .zones-section__heatmap { width: 140px; align-self: center; }
+  .zones-section__grid { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 </head>
 <body>
@@ -1210,7 +1323,75 @@ body {
   <a class="hero__cta" href="#">BOOK NOW</a>
 </section>
 
+<section class="zones-section">
+  <div class="zones-section__text">
+    <h2 class="zones-section__title">8 Independently Engineered Zones</h2>
+    <p class="zones-section__desc">Calibr8 maps your body's unique pressure distribution across 8 independent spinal zones. Then our system configures each zone's firmness independently.</p>
+  </div>
+  <div class="zones-section__content">
+    <div class="zones-section__heatmap">
+      <img src="body-heatmap.png" alt="Body pressure heatmap">
+    </div>
+    <div class="zones-section__grid">
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 01</span>
+        <span class="zone-card__name">Head</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:30%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Soft</span><span class="zone-card__code">S2</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 02</span>
+        <span class="zone-card__name">Shoulder</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:52%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Medium</span><span class="zone-card__code">M3</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 03</span>
+        <span class="zone-card__name">Upper Back</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:62%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Medium</span><span class="zone-card__code">M4</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 04</span>
+        <span class="zone-card__name">Lumbar</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:72%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Firm</span><span class="zone-card__code">F5</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 05</span>
+        <span class="zone-card__name">Pelvic</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:58%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Firm</span><span class="zone-card__code">F4</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 06</span>
+        <span class="zone-card__name">Thigh</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:48%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Medium</span><span class="zone-card__code">M3</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 07</span>
+        <span class="zone-card__name">Leg</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:30%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Soft</span><span class="zone-card__code">S2</span></div>
+      </div>
+      <div class="zone-card">
+        <span class="zone-card__num">Zone 08</span>
+        <span class="zone-card__name">Foot</span>
+        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:18%"></div></div>
+        <div class="zone-card__footer"><span class="zone-card__firmness">Soft</span><span class="zone-card__code">S1</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<section class="calibr8-slider-section" id="process-section">
+  <div class="hero-text">
+    <h2 class="hero-title">Our Process to personalize<br>the solution for you</h2>
+  </div>
+  <div class="slider" id="process-slider"></div>
+  <p class="hint">click a strip &nbsp;·&nbsp; ← → to navigate</p>
+</section>
 
 <div aria-hidden="true" style="display:none;position:absolute;pointer-events:none">
 <main class="shell">
@@ -2165,6 +2346,41 @@ body {
   });
 
   buildSlider();
+
+  // ── Process slider (duplicate, separate active state) ──
+  let processActiveId = 0;
+
+  function buildProcessSlider() {
+    const slider = document.getElementById('process-slider');
+    if (!slider) return;
+    CARDS.forEach(card => {
+      const el = document.createElement('div');
+      el.className = 'card' + (card.id === processActiveId ? ' active' : '');
+      el.dataset.id = card.id;
+      el.innerHTML = `
+        ${card.video
+          ? `<video class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
+        }
+        <div class="card__scrim"></div>
+        <div class="card__content">
+          <div class="card__title">${card.title}</div>
+          <div class="card__desc">${card.desc}</div>
+        </div>
+        <div class="card__icon">${card.id + 1}</div>
+      `;
+      el.addEventListener('click', () => {
+        if (parseInt(el.dataset.id) === processActiveId) return;
+        document.querySelectorAll('#process-slider .card').forEach(c => {
+          c.classList.toggle('active', parseInt(c.dataset.id) === parseInt(el.dataset.id));
+        });
+        processActiveId = parseInt(el.dataset.id);
+      });
+      slider.appendChild(el);
+    });
+  }
+
+  buildProcessSlider();
 })();
 </script>
 </body>
