@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Calibr8 — Measured Better Sleep</title>
 <meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
 
   --ink-1: #14161e;
   --ink-2: #5a5f6a;
@@ -106,6 +110,7 @@ body {
 .hero__text, .hero__cta { position: relative; z-index: 2; }
 
 .hero__title {
+  font-family: var(--font-display);
   font-size: clamp(52px, 9vw, 108px);
   font-weight: 300;
   letter-spacing: -0.02em;
@@ -135,6 +140,7 @@ body {
   color: #111;
   position: relative;
   isolation: isolate;
+  margin-bottom: 64px;
   background: linear-gradient(145deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 100%);
   backdrop-filter: blur(18px) saturate(1.4);
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -290,6 +296,95 @@ body {
 .stat-card[data-scheme="fragmentation"] .row--baseline  { --seg-color: var(--frag-problem); }
 .stat-card[data-scheme="fragmentation"] .row--optimized { --seg-color: var(--frag-solution); }
 
+/* ── Purple glass card variant ── */
+.stat-card--purple {
+  --glass-bg: linear-gradient(135deg, rgba(72,44,140,0.82) 0%, rgba(108,72,190,0.68) 55%, rgba(140,100,210,0.58) 100%);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -1px 0 rgba(255,255,255,0.12),
+    inset 1px 0 0 rgba(255,255,255,0.22),
+    inset -1px 0 0 rgba(255,255,255,0.12),
+    inset 0 18px 28px -16px rgba(255,255,255,0.28),
+    0 20px 60px rgba(60,30,120,0.40),
+    0 4px 16px rgba(0,0,0,0.18) !important;
+  --ink-1: #ffffff;
+  --ink-2: rgba(255,255,255,0.75);
+  --scheme: rgba(255,255,255,0.9);
+  --scheme-wash: rgba(255,255,255,0.12);
+}
+.stat-card--purple .stat-card__title,
+.stat-card--purple .delta__value,
+.stat-card--purple .delta__sign,
+.stat-card--purple .delta__pct,
+.stat-card--purple .stat-card__outcome,
+.stat-card--purple .stat-card__benefit,
+.stat-card--purple .graph__label,
+.stat-card--purple .arc__label,
+.stat-card--purple .ring__name,
+.stat-card--purple .ring__pct,
+.stat-card--purple .row__label,
+.stat-card--purple .row__percent { color: rgba(255,255,255,0.95) !important; }
+
+.stat-card--purple svg path,
+.stat-card--purple svg line,
+.stat-card--purple .graph__line,
+.stat-card--purple .arc__seg { stroke: rgba(255,255,255,0.88) !important; }
+
+.stat-card--purple .graph__line--faint,
+.stat-card--purple .arc__seg--faint { stroke-opacity: 0.35 !important; }
+
+.stat-card--purple .graph__line--glow,
+.stat-card--purple .arc__seg--glow {
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 12px rgba(255,255,255,0.35)) !important;
+}
+
+/* Standard (magenta → white) */
+.stat-card--purple .graph__dot--std { stroke: rgba(255,255,255,0.92) !important; fill: rgba(255,255,255,0.12) !important; }
+.stat-card--purple .arc__dot--std   { stroke: rgba(255,255,255,0.92) !important; fill: rgba(255,255,255,0.12) !important; }
+.stat-card--purple .graph__label--std,
+.stat-card--purple .arc__label--std { color: rgba(255,255,255,0.88) !important; }
+.stat-card--purple .rem-track--std .vbar__fill { background: rgba(255,255,255,0.88) !important; }
+.stat-card--purple .sleep-lines__badge--std { color: rgba(255,255,255,0.88) !important; }
+.stat-card--purple .sleep-lines__badge--std::before { background: rgba(255,255,255,0.88) !important; }
+.stat-card--purple [data-kind="rings"] .ring-item:first-child .ring__name { color: rgba(255,255,255,0.88) !important; }
+.stat-card--purple [data-kind="rings"] .ring-item:first-child .ring__fill { stroke: rgba(255,255,255,0.88) !important; }
+.stat-card--purple .row--baseline .row__label { color: rgba(255,255,255,0.88) !important; }
+.stat-card--purple .rem-bars .rem-label:first-child { color: rgba(255,255,255,0.88) !important; }
+
+/* Calibrated (purple → dark navy-purple) */
+.stat-card--purple .graph__dot--cal { stroke: rgba(255,255,255,0.95) !important; fill: rgba(255,255,255,0.18) !important; }
+.stat-card--purple .arc__dot--cal   { stroke: rgba(255,255,255,0.95) !important; fill: rgba(255,255,255,0.18) !important; }
+.stat-card--purple .graph__label--cal,
+.stat-card--purple .arc__label--cal { color: rgba(255,255,255,0.95) !important; }
+.stat-card--purple .rem-track--cal .vbar__fill { background: rgba(255,255,255,0.95) !important; }
+.stat-card--purple .sleep-lines__badge--cal { color: rgba(255,255,255,0.95) !important; }
+.stat-card--purple .sleep-lines__badge--cal::before { background: rgba(255,255,255,0.95) !important; }
+.stat-card--purple [data-kind="rings"] .ring-item:last-child .ring__name { color: rgba(255,255,255,0.95) !important; }
+.stat-card--purple [data-kind="rings"] .ring-item:last-child .ring__fill { stroke: rgba(255,255,255,0.95) !important; }
+.stat-card--purple .row--optimized .row__label { color: rgba(255,255,255,0.95) !important; }
+.stat-card--purple .rem-bars .rem-label:last-child { color: rgba(255,255,255,0.95) !important; }
+
+/* Animated glow segment → dark purple glow */
+.stat-card--purple .graph__line--glow,
+.stat-card--purple .arc__seg--glow {
+  stroke: rgba(255,255,255,0.95) !important;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.8)) drop-shadow(0 0 12px rgba(255,255,255,0.45)) !important;
+}
+
+/* Grid lines, ring tracks */
+.stat-card--purple .graph__svg line,
+.stat-card--purple .arc-gauge__svg line { stroke: rgba(255,255,255,0.12) !important; }
+.stat-card--purple .ring__track { stroke: rgba(255,255,255,0.18) !important; }
+
+/* Bars / reduce card */
+.stat-card--purple .bar,
+.stat-card--purple .bar__fill,
+.stat-card--purple .sleep-reveal-rect { fill: rgba(255,255,255,0.85) !important; }
+.stat-card--purple .bar__fill[class*="baseline"],
+.stat-card--purple .row--baseline .bar__fill { fill: rgba(255,255,255,0.55) !important; }
+
+.stat-card--purple .tile::after { opacity: 0.5; }
+
 .stat-card__header {
   display: flex;
   align-items: center;
@@ -386,12 +481,14 @@ body {
   transform: translateY(-2px);
 }
 .delta__sign {
+  font-family: var(--font-display);
   font-size: 34px;
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 .delta__value {
+  font-family: var(--font-display);
   font-size: 48px;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -901,11 +998,11 @@ body {
 }
 
 .carousel-heading {
-  font-size: clamp(22px, 3vw, 42px);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-1);
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #5C5578;
   margin: 0;
   text-align: center;
   align-self: center;
@@ -1041,8 +1138,52 @@ body {
   transition: none !important;
 }
 
-@media (max-width: 780px) {
-  .coverflow-section { display: none; }
+/* ── Card Wheel ── */
+.wheel-section {
+  height: 100dvh;
+  overflow: hidden;
+  background: #f4f1ec;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.wheel-label {
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: #5C5578;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+.wheel-container {
+  --card: min(300px, 36vw);
+  --radius: calc(var(--card) * 1.05);
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+}
+.wheel-track {
+  width: var(--card);
+  height: var(--card);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: wheel-spin 10s linear infinite;
+}
+@keyframes wheel-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(-360deg); }
+}
+.wheel-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform: rotateY(var(--angle)) translateZ(var(--radius));
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.20),
+    0 4px 16px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
 /* ── Calibr8 Slider ── */
@@ -1053,13 +1194,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 24px;
+  padding: 48px 0;
   gap: 28px;
 }
 
 .calibr8-slider-section .hero-text {
   text-align: center;
-  max-width: 700px;
+  width: calc(100% - 80px);
 }
 .calibr8-slider-section .hero-title {
   font-size: clamp(22px, 3vw, 32px);
@@ -1071,18 +1212,21 @@ body {
   font-family: var(--font-sans);
 }
 .calibr8-slider-section .hero-sub {
-  font-size: 15px;
-  color: #444;
-  line-height: 1.6;
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 600;
+  color: #14161e;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   font-family: var(--font-sans);
+  max-width: none;
+  text-align: center;
 }
 
 .calibr8-slider-section .slider {
   display: flex;
   gap: 12px;
-  width: 100%;
-  max-width: 1120px;
-  height: calc(min(100vw - 96px, 1072px) * 3 / 8);
+  width: calc(100% - 80px);
+  height: calc((100vw - 80px) * 3 / 8);
 }
 
 .calibr8-slider-section .card {
@@ -1161,7 +1305,7 @@ body {
 
 .calibr8-slider-section .card__icon {
   position: absolute;
-  bottom: 18px;
+  top: 18px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
@@ -1186,6 +1330,7 @@ body {
 .calibr8-slider-section .card.active .card__icon {
   opacity: 0;
   transform: translateX(-50%) scale(0.6);
+
   pointer-events: none;
 }
 
@@ -1195,6 +1340,163 @@ body {
   letter-spacing: 0.5px;
   font-family: var(--font-sans);
 }
+/* ── Zone intro text ── */
+.zone-intro {
+  text-align: center;
+  padding: 48px 32px 32px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.zone-intro__title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #1A1035;
+  line-height: 1.15;
+  margin: 0 0 12px;
+}
+.zone-intro__desc {
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.5;
+  color: #5C5578;
+  margin: 0;
+}
+
+/* ── Zone map (image + dots) ── */
+.zone-map {
+  position: relative;
+  width: calc(100% - 80px);
+  margin: 16px auto 0;
+  line-height: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+}
+.zone-map__img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Zone tooltip card ── */
+.zone-tooltip {
+  position: absolute;
+  right: 18%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.96);
+  width: 340px;
+  padding: 28px 30px 24px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.32) 100%);
+  backdrop-filter: blur(40px) saturate(1.2) brightness(1.12);
+  -webkit-backdrop-filter: blur(40px) saturate(1.2) brightness(1.12);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(255,255,255,0.4),
+    inset 1px 0 0 rgba(255,255,255,0.6),
+    inset -1px 0 0 rgba(255,255,255,0.3),
+    inset 0 20px 30px -18px rgba(255,255,255,0.6),
+    0 8px 40px rgba(0,0,0,0.10),
+    0 2px 8px rgba(0,0,0,0.05);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease, transform 260ms cubic-bezier(0.16,1,0.3,1);
+}
+.zone-tooltip.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+.zone-tooltip__num {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7C5CBF;
+  margin-bottom: 10px;
+}
+.zone-tooltip__name {
+  font-size: clamp(22px, 2.6vw, 38px);
+  font-weight: 700;
+  color: #14161e;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.zone-tooltip__bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(124,92,191,0.15);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.zone-tooltip__bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(to right, #553C9A, #9B72D0);
+  transition: width 500ms cubic-bezier(0.16,1,0.3,1);
+}
+.zone-tooltip__footer {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.zone-tooltip__firmness {
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 700;
+  color: #553C9A;
+}
+.zone-tooltip__code {
+  font-size: clamp(13px, 1.4vw, 18px);
+  font-weight: 500;
+  color: #9B8ABF;
+}
+@keyframes zone-beat {
+  0%   { transform: translate(-50%,-50%) scale(1);   opacity: 0.85; }
+  65%  { transform: translate(-50%,-50%) scale(2.2); opacity: 0;    }
+  100% { transform: translate(-50%,-50%) scale(1);   opacity: 0;    }
+}
+
+.zone-dot {
+  position: absolute;
+  width: 43px;
+  height: 43px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zone-dot__ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.9);
+  transform: translate(-50%,-50%);
+  animation: zone-beat 2.2s ease-out infinite;
+  animation-delay: var(--beat-delay, 0s);
+}
+.zone-dot__center {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.35), 0 2px 8px rgba(0,0,0,0.35);
+}
+
 /* ── Zones section ── */
 .zones-section {
   display: flex;
@@ -1220,8 +1522,8 @@ body {
   margin: 0;
 }
 .zones-section__desc {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.5;
   color: #5C5578;
   margin: 0;
 }
@@ -1314,7 +1616,7 @@ body {
 
 <section class="hero" aria-label="Calibr8 hero">
   <video class="hero__video" autoplay muted loop playsinline>
-    <source src="landing_landscape.mp4" type="video/mp4">
+    <source src="herovid.mp4" type="video/mp4">
   </video>
   <div class="hero__text">
     <h1 class="hero__title"><em>Sleep</em> Perfected</h1>
@@ -1323,77 +1625,70 @@ body {
   <a class="hero__cta" href="#">BOOK NOW</a>
 </section>
 
-<section class="zones-section">
-  <div class="zones-section__text">
-    <h2 class="zones-section__title">8 Independently Engineered Zones</h2>
-    <p class="zones-section__desc">Calibr8 maps your body's unique pressure distribution across 8 independent spinal zones. Then our system configures each zone's firmness independently.</p>
-  </div>
-  <div class="zones-section__content">
-    <div class="zones-section__heatmap">
-      <img src="body-heatmap.png" alt="Body pressure heatmap">
-    </div>
-    <div class="zones-section__grid">
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 01</span>
-        <span class="zone-card__name">Head</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:30%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Soft</span><span class="zone-card__code">S2</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 02</span>
-        <span class="zone-card__name">Shoulder</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:52%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Medium</span><span class="zone-card__code">M3</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 03</span>
-        <span class="zone-card__name">Upper Back</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:62%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Medium</span><span class="zone-card__code">M4</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 04</span>
-        <span class="zone-card__name">Lumbar</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:72%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Firm</span><span class="zone-card__code">F5</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 05</span>
-        <span class="zone-card__name">Pelvic</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:58%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Firm</span><span class="zone-card__code">F4</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 06</span>
-        <span class="zone-card__name">Thigh</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:48%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Medium</span><span class="zone-card__code">M3</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 07</span>
-        <span class="zone-card__name">Leg</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:30%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Soft</span><span class="zone-card__code">S2</span></div>
-      </div>
-      <div class="zone-card">
-        <span class="zone-card__num">Zone 08</span>
-        <span class="zone-card__name">Foot</span>
-        <div class="zone-card__bar-track"><div class="zone-card__bar-fill" style="width:18%"></div></div>
-        <div class="zone-card__footer"><span class="zone-card__firmness">Soft</span><span class="zone-card__code">S1</span></div>
-      </div>
-    </div>
+<section class="carousel-section" aria-label="Statistics overview">
+  <h2 class="carousel-heading">The Impact On Your Sleep</h2>
+  <div class="carousel">
+    <div class="carousel__track" id="carousel-track"></div>
   </div>
 </section>
+
+<section class="carousel-section" aria-label="Statistics overview 2">
+  <h2 class="carousel-heading">The Impact On Your Sleep</h2>
+  <div class="carousel">
+    <div class="carousel__track" id="carousel-track-2"></div>
+  </div>
+</section>
+
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
-    <h2 class="hero-title">Our Process to personalize<br>the solution for you</h2>
+    <p class="zone-intro__desc">We personalize the solution for you through five steps.</p>
   </div>
   <div class="slider" id="process-slider"></div>
-  <p class="hint">click a strip &nbsp;·&nbsp; ← → to navigate</p>
 </section>
 
-<div aria-hidden="true" style="display:none;position:absolute;pointer-events:none">
+<div class="zone-intro">
+  <p class="zone-intro__desc">Calibr8 maps your body's unique pressure distribution across 8 independent spinal zones. Then our system configures each zone's firmness independently.</p>
+</div>
+
+<div class="zone-map">
+  <img class="zone-map__img" src="try3.png" alt="Calibr8 8-zone mattress">
+  <div class="zone-tooltip" id="zone-tooltip">
+    <div class="zone-tooltip__num"></div>
+    <div class="zone-tooltip__name"></div>
+    <div class="zone-tooltip__bar-track"><div class="zone-tooltip__bar-fill"></div></div>
+    <div class="zone-tooltip__footer">
+      <span class="zone-tooltip__firmness"></span>
+      <span class="zone-tooltip__code"></span>
+    </div>
+  </div>
+  <button class="zone-dot" style="left:calc(40% + 179px);top:calc(34.4% - 46px);--beat-delay:0s" aria-label="Head">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(41% + 178px);top:calc(34.4% + 9px);--beat-delay:0.28s" aria-label="Shoulder">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(42% + 182px);top:calc(34.4% + 64px);--beat-delay:0.56s" aria-label="Upper Back">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(43% + 186px);top:calc(34.4% + 119px);--beat-delay:0.84s" aria-label="Lumbar">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(44% + 189px);top:calc(34.4% + 174px);--beat-delay:1.12s" aria-label="Pelvic">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(45% + 193px);top:calc(34.4% + 229px);--beat-delay:1.4s" aria-label="Thigh">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(46% + 197px);top:calc(34.4% + 284px);--beat-delay:1.68s" aria-label="Leg">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(47.1% + 201px);top:calc(34.4% + 339px);--beat-delay:1.96s" aria-label="Foot">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+</div>
+
+<div aria-hidden="true" style="display:none">
 <main class="shell">
   <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
 
@@ -1677,20 +1972,11 @@ body {
 </main>
 
 </div>
-<section class="carousel-section" aria-label="Statistics overview">
-  <h2 class="carousel-heading">The Impact On Your Sleep</h2>
-  <div class="carousel">
-    <div class="carousel__track" id="carousel-track"></div>
-  </div>
-</section>
-
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <h2 class="hero-title">No two calibrations are ever the same.</h2>
-    <p class="hero-sub">Your pressure distribution is as unique as your fingerprint. Calibr8 reads it. Then builds around it.</p>
+    <p class="hero-sub">Calibr8 maps your body's unique pressure distribution.</p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
-  <p class="hint">click a strip &nbsp;·&nbsp; ← → to navigate</p>
 </section>
 
 <script>
@@ -2096,186 +2382,206 @@ body {
     cards.forEach(revealCard);
   }
 
-  // ── Carousel ──
-  const carouselSection = document.querySelector('.carousel-section');
-  if (carouselSection) {
-    const track = carouselSection.querySelector('#carousel-track');
+  // ── Shared utilities ──
+  function cloneCard(src, suffix) {
+    const clone = src.cloneNode(true);
+    // Remap all IDs to unique names so url(#...) gradient refs don't collide
+    const idMap = {};
+    clone.querySelectorAll('[id]').forEach(el => {
+      const newId = el.id + suffix;
+      idMap[el.id] = newId;
+      el.id = newId;
+    });
+    clone.querySelectorAll('*').forEach(el => {
+      ['stroke','fill','filter'].forEach(attr => {
+        const v = el.getAttribute(attr);
+        if (v && v.startsWith('url(#')) {
+          const old = v.slice(5, -1);
+          if (idMap[old]) el.setAttribute(attr, `url(#${idMap[old]})`);
+        }
+      });
+    });
+    clone.dataset.revealed = '';
+    clone.classList.remove('is-revealed');
+    clone.style.removeProperty('--card-delay');
+    clone.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
+    clone.querySelectorAll('.delta__value').forEach(el => el.textContent = '0');
+    clone.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
+    clone.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
+    clone.querySelectorAll('[style]').forEach(el => {
+      ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
+    });
+    clone.removeAttribute('aria-labelledby');
+    clone.removeAttribute('aria-describedby');
+    return clone;
+  }
+
+  // ── Carousel (initialise all instances) ──
+  function initCarousel(section, suffix, extraClass) {
+    const track = section.querySelector('.carousel__track');
     const STATES = ['c-center','c-left','c-right','c-exit','c-enter','c-hidden'];
     const N = 6;
-
-    function resetClone(clone) {
-      clone.dataset.revealed = '';
-      clone.classList.remove('is-revealed');
-      clone.style.removeProperty('--card-delay');
-      clone.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
-      clone.querySelectorAll('.delta__value').forEach(el => el.textContent = '0');
-      clone.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
-      clone.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
-      clone.querySelectorAll('[style]').forEach(el => {
-        ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
-      });
-      clone.removeAttribute('id');
-      clone.removeAttribute('aria-labelledby');
-      clone.removeAttribute('aria-describedby');
-      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-    }
-
-    // Build carousel cards from source
     const cCards = [];
-    document.querySelectorAll('#stats-grid .stat-card').forEach(src => {
-      const clone = src.cloneNode(true);
-      resetClone(clone);
+    document.querySelectorAll('#stats-grid .stat-card').forEach((src, i) => {
+      const clone = cloneCard(src, `${suffix}${i}`);
       clone.classList.add('carousel-card', 'c-hidden');
+      if (extraClass) clone.classList.add(extraClass);
       track.appendChild(clone);
       cCards.push(clone);
     });
-
     function stateFor(idx, active) {
       const d = ((idx - active) % N + N) % N;
-      if (d === 0)       return 'c-center';
-      if (d === 1)       return 'c-right';
-      if (d === N - 1)   return 'c-left';
-      if (d === 2)       return 'c-enter';
-      if (d === N - 2)   return 'c-exit';
+      if (d === 0) return 'c-center';
+      if (d === 1) return 'c-right';
+      if (d === N-1) return 'c-left';
+      if (d === 2) return 'c-enter';
+      if (d === N-2) return 'c-exit';
       return 'c-hidden';
     }
-
     function applyState(card, state, instant) {
       if (instant) card.style.transition = 'none';
       STATES.forEach(s => card.classList.remove(s));
       card.classList.add(state);
       if (instant) { card.getBoundingClientRect(); card.style.transition = ''; }
     }
-
-    let active = 0;
-    let advancing = false;
-
-    function setAll(newActive) {
-      cCards.forEach((c, i) => applyState(c, stateFor(i, newActive)));
-    }
-
+    let active = 0, advancing = false;
+    function setAll(a) { cCards.forEach((c,i) => applyState(c, stateFor(i,a))); }
     function advance() {
       if (advancing) return;
       advancing = true;
-      const next = (active + 1) % N;
-
-      // Snap invisible cards to new off-screen positions instantly
-      const snapToHidden = (active + N - 2) % N; // old exit → hidden (off right)
-      const snapToEnter  = (active + 3) % N;      // old hidden → enter (off right)
-      applyState(cCards[snapToHidden], 'c-hidden', true);
-      applyState(cCards[snapToEnter],  'c-enter',  true);
-
-      // Animate all to new states
-      active = next;
-      setAll(active);
-
-      // Reveal new center card's internal animations
+      const next = (active+1)%N;
+      applyState(cCards[(active+N-2)%N], 'c-hidden', true);
+      applyState(cCards[(active+3)%N], 'c-enter', true);
+      active = next; setAll(active);
       revealCard(cCards[active]);
-
       setTimeout(() => { advancing = false; }, 580);
       setTimeout(advance, 3000);
     }
-
-    // Start on intersection
     let started = false;
     const cio = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting || started) return;
-      started = true;
-      cio.disconnect();
-
-      // Set initial positions instantly
-      cCards.forEach((c, i) => applyState(c, stateFor(i, active), true));
-
-      // Reveal center + flanking cards
-      revealCard(cCards[active]);                    // center animates in
-      cCards[(active + N - 1) % N].classList.add('is-revealed'); // left — snap to final
-      cCards[(active + 1) % N].classList.add('is-revealed');      // right — snap to final
-
+      started = true; cio.disconnect();
+      cCards.forEach((c,i) => applyState(c, stateFor(i,active), true));
+      revealCard(cCards[active]);
+      cCards[(active+N-1)%N].classList.add('is-revealed');
+      cCards[(active+1)%N].classList.add('is-revealed');
       setTimeout(advance, 3000);
     }, { threshold: 0.3 });
-    cio.observe(carouselSection);
+    cio.observe(section);
   }
+  document.querySelectorAll('.carousel-section').forEach((sec, idx) =>
+    initCarousel(sec, `-c${idx}-`, idx === 1 ? 'stat-card--purple' : null)
+  );
 
-  // ── Coverflow ──
-  const cfSection = document.querySelector('.coverflow-section');
-  if (cfSection) {
-    const cfTrack = document.getElementById('coverflow-track');
-    const CF_STATES = ['cf-center','cf-left','cf-right','cf-exit','cf-enter','cf-hidden'];
+  // ── Card Wheel ──
+  const wheelSection = document.querySelector('.wheel-section');
+  if (wheelSection) {
+    const wheelTrack = document.getElementById('wheel-track');
+    const sources = document.querySelectorAll('#stats-grid .stat-card');
+    const N = sources.length;
 
-    const cfCards = [];
-    document.querySelectorAll('#stats-grid .stat-card').forEach(src => {
-      const clone = src.cloneNode(true);
-      // reset clone
-      clone.dataset.revealed = '';
-      clone.classList.remove('is-revealed');
-      clone.style.removeProperty('--card-delay');
-      clone.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
-      clone.querySelectorAll('.delta__value').forEach(el => el.textContent = '0');
-      clone.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
-      clone.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
-      clone.querySelectorAll('[style]').forEach(el => {
-        ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
-      });
-      clone.removeAttribute('id');
-      clone.removeAttribute('aria-labelledby');
-      clone.removeAttribute('aria-describedby');
-      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-      clone.classList.add('coverflow-card', 'cf-hidden');
-      cfTrack.appendChild(clone);
-      cfCards.push(clone);
+    // Read --radius from computed style
+    const container = wheelSection.querySelector('.wheel-container');
+
+    sources.forEach((src, i) => {
+      const clone = cloneCard(src, `-w${i}`);
+      clone.classList.add('wheel-card');
+
+      // Position each card at equal angle around the Y axis
+      const angle = i * (360 / N);
+      clone.style.setProperty('--angle', angle + 'deg');
+
+      // Snap internal animations to final state (cards spin too fast to read mid-animation)
+      clone.dataset.revealed = '1';
+      clone.classList.add('is-revealed');
+      clone.querySelectorAll('.graph__dot,.graph__label,.arc__dot,.arc__label').forEach(el => el.classList.add('is-on'));
+      clone.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = '0'; });
+      clone.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = '0'; });
+      clone.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = el.dataset.target; });
+
+      wheelTrack.appendChild(clone);
     });
 
-    const CFN = cfCards.length;
-    let cfActive = 0;
-    let cfAdvancing = false;
-
-    function cfStateFor(idx, active) {
-      const d = ((idx - active) % CFN + CFN) % CFN;
-      if (d === 0)         return 'cf-center';
-      if (d === 1)         return 'cf-right';
-      if (d === CFN - 1)   return 'cf-left';
-      if (d === 2)         return 'cf-enter';
-      if (d === CFN - 2)   return 'cf-exit';
-      return 'cf-hidden';
-    }
-
-    function cfApply(card, state, instant) {
-      if (instant) card.style.transition = 'none';
-      CF_STATES.forEach(s => card.classList.remove(s));
-      card.classList.add(state);
-      if (instant) { card.getBoundingClientRect(); card.style.transition = ''; }
-    }
-
-    function cfSetAll(active) {
-      cfCards.forEach((c, i) => cfApply(c, cfStateFor(i, active)));
-    }
-
-    function cfAdvance() {
-      if (cfAdvancing) return;
-      cfAdvancing = true;
-      const next = (cfActive + 1) % CFN;
-      cfApply(cfCards[(cfActive + CFN - 2) % CFN], 'cf-hidden', true);
-      cfApply(cfCards[(cfActive + 3) % CFN],       'cf-enter',  true);
-      cfActive = next;
-      cfSetAll(cfActive);
-      revealCard(cfCards[cfActive]);
-      setTimeout(() => { cfAdvancing = false; }, 580);
-      setTimeout(cfAdvance, 3000);
-    }
-
-    let cfStarted = false;
-    const cfio = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting || cfStarted) return;
-      cfStarted = true;
-      cfio.disconnect();
-      cfCards.forEach((c, i) => cfApply(c, cfStateFor(i, cfActive), true));
-      revealCard(cfCards[cfActive]);
-      cfCards[(cfActive + CFN - 1) % CFN].classList.add('is-revealed');
-      cfCards[(cfActive + 1) % CFN].classList.add('is-revealed');
-      setTimeout(cfAdvance, 3000);
-    }, { threshold: 0.3 });
-    cfio.observe(cfSection);
+    // Set --radius on the track from computed container style
+    const cardSize = parseFloat(getComputedStyle(container).getPropertyValue('--card')) || 300;
+    wheelTrack.style.setProperty('--radius', (cardSize * 1.05) + 'px');
+    wheelTrack.querySelectorAll('.wheel-card').forEach(c => {
+      c.style.setProperty('--radius', (cardSize * 1.05) + 'px');
+    });
   }
+})();
+</script>
+
+<script>
+/* ── Zone dot tooltip ── */
+(function () {
+  const ZONES = [
+    { num: 'Zone 01', name: 'Head',       fill: 30, firmness: 'Soft',   code: 'S2' },
+    { num: 'Zone 02', name: 'Shoulder',   fill: 52, firmness: 'Medium', code: 'M3' },
+    { num: 'Zone 03', name: 'Upper Back', fill: 62, firmness: 'Medium', code: 'M4' },
+    { num: 'Zone 04', name: 'Lumbar',     fill: 72, firmness: 'Firm',   code: 'F5' },
+    { num: 'Zone 05', name: 'Pelvic',     fill: 58, firmness: 'Firm',   code: 'F4' },
+    { num: 'Zone 06', name: 'Thigh',      fill: 48, firmness: 'Medium', code: 'M3' },
+    { num: 'Zone 07', name: 'Leg',        fill: 30, firmness: 'Soft',   code: 'S2' },
+    { num: 'Zone 08', name: 'Foot',       fill: 18, firmness: 'Soft',   code: 'S1' },
+  ];
+
+  const tooltip   = document.getElementById('zone-tooltip');
+  const tNum      = tooltip.querySelector('.zone-tooltip__num');
+  const tName     = tooltip.querySelector('.zone-tooltip__name');
+  const tFill     = tooltip.querySelector('.zone-tooltip__bar-fill');
+  const tFirmness = tooltip.querySelector('.zone-tooltip__firmness');
+  const tCode     = tooltip.querySelector('.zone-tooltip__code');
+
+  let locked = false;
+  let hideTimer = null;
+
+  function populate(zone) {
+    tNum.textContent      = zone.num;
+    tName.textContent     = zone.name;
+    tFill.style.width     = zone.fill + '%';
+    tFirmness.textContent = zone.firmness;
+    tCode.textContent     = zone.code;
+  }
+
+  function show(zone) {
+    clearTimeout(hideTimer);
+    populate(zone);
+    tooltip.classList.add('is-visible');
+  }
+
+  function hideIfUnlocked() {
+    if (locked) return;
+    hideTimer = setTimeout(() => tooltip.classList.remove('is-visible'), 120);
+  }
+
+  function dismiss() {
+    locked = false;
+    tooltip.classList.remove('is-visible');
+  }
+
+  document.querySelectorAll('.zone-dot').forEach((dot, i) => {
+    const zone = ZONES[i];
+
+    dot.addEventListener('mouseenter', () => {
+      if (!locked) show(zone);
+    });
+
+    dot.addEventListener('mouseleave', hideIfUnlocked);
+
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      locked = true;
+      show(zone);
+    });
+  });
+
+  // Click outside dismisses locked card
+  document.addEventListener('click', (e) => {
+    if (locked && !tooltip.contains(e.target)) {
+      dismiss();
+    }
+  });
 })();
 </script>
 
