@@ -5,13 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Calibr8 — Measured Better Sleep</title>
 <meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+</style>
 <style>
 :root {
-  --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans:    'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --ink-1: #14161e;
   --ink-2: #5a5f6a;
@@ -95,30 +99,20 @@ body {
   z-index: 0;
 }
 
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 35%;
-  background: linear-gradient(to bottom, transparent, #ffffff);
-  z-index: 1;
-  pointer-events: none;
-}
+.hero::after { display: none; }
 
 .hero__text, .hero__cta { position: relative; z-index: 2; }
 
 .hero__title {
   font-family: var(--font-display);
   font-size: clamp(52px, 9vw, 108px);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   color: #111;
   margin: 0 0 20px;
   line-height: 1;
 }
-.hero__title em { font-style: italic; font-weight: 300; }
+.hero__title em { font-style: italic; font-weight: 600; }
 
 .hero__sub {
   font-size: clamp(15px, 1.8vw, 18px);
@@ -268,6 +262,35 @@ body {
 .tile--empty {
   min-height: 320px;
 }
+
+/* ── Liquid glass variant (lumbar card) ── */
+.stat-card--liquid-glass {
+  background: linear-gradient(145deg,
+    rgba(255,255,255,0.14) 0%,
+    rgba(255,255,255,0.06) 50%,
+    rgba(255,255,255,0.10) 100%);
+  backdrop-filter: blur(48px) saturate(2.2) brightness(1.08);
+  -webkit-backdrop-filter: blur(48px) saturate(2.2) brightness(1.08);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.25),
+    inset 1px 0 0 rgba(255,255,255,0.55),
+    inset -1px 0 0 rgba(255,255,255,0.2),
+    inset 0 32px 64px -20px rgba(255,255,255,0.45),
+    0 4px 12px rgba(20,22,30,0.06),
+    0 20px 48px -10px rgba(20,22,30,0.08),
+    0 40px 80px -20px rgba(85,60,154,0.06);
+}
+.stat-card--liquid-glass::after {
+  background: linear-gradient(135deg,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.5) 25%,
+    rgba(200,180,255,0.08) 50%,
+    rgba(255,255,255,0.35) 78%,
+    rgba(255,255,255,0.9) 100%);
+}
+.stat-card--liquid-glass .stat-card__title { color: var(--ink-1); }
+.stat-card--liquid-glass .stat-card__benefit { color: #000000; }
 
 .stat-card {
   padding: var(--card-pad);
@@ -515,7 +538,7 @@ body {
 .stat-card__benefit {
   font-size: 13px;
   line-height: 1.45;
-  color: var(--ink-2);
+  color: #000000;
   margin: 0;
 }
 
@@ -535,9 +558,11 @@ body {
 }
 .stat-card--graph .delta,
 .stat-card--arc .delta,
-[data-kind="rings"] .delta {
+[data-kind="rings"] .delta,
+[data-kind="lines"] .delta,
+[data-kind="vbars"] .delta {
   justify-content: center;
-  margin: 10px 0 4px;
+  margin: 4px 0 2px;
 }
 [data-kind="rings"] .delta {
   margin-top: auto;
@@ -545,11 +570,15 @@ body {
 
 .stat-card--graph .stat-card__outcome,
 .stat-card--arc .stat-card__outcome,
-[data-kind="rings"] .stat-card__outcome { text-align: center; margin: 0; }
+[data-kind="rings"] .stat-card__outcome,
+[data-kind="lines"] .stat-card__outcome,
+[data-kind="vbars"] .stat-card__outcome { text-align: center; margin: 0; }
 
 .stat-card--graph .stat-card__benefit,
 .stat-card--arc .stat-card__benefit,
-[data-kind="rings"] .stat-card__benefit { text-align: center; }
+[data-kind="rings"] .stat-card__benefit,
+[data-kind="lines"] .stat-card__benefit,
+[data-kind="vbars"] .stat-card__benefit { text-align: center; }
 
 .stat-card--bottom .delta { justify-content: center; margin: 10px 0 4px; }
 .stat-card--bottom .stat-card__outcome { text-align: center; }
@@ -625,10 +654,32 @@ body {
   color: #553C9A;
 }
 
-/* === Single-arc gauge (Cards 1 & 2) === */
-.stat-card--arc .delta { margin: 10px 0 4px; }
-.stat-card--arc .stat-card__outcome { margin: 0; }
-.stat-card--arc .stat-card__benefit { font-size: 12.5px; line-height: 1.4; }
+/* === Shared tight spacing — arc, graph, lines, vbars === */
+.stat-card--arc .stat-card__title,
+.stat-card--graph .stat-card__title,
+[data-kind="lines"] .stat-card__title,
+[data-kind="vbars"] .stat-card__title { margin-bottom: 2px; }
+
+
+.stat-card--arc .delta,
+.stat-card--graph .delta,
+[data-kind="lines"] .delta,
+[data-kind="vbars"] .delta { margin: 0 0 1px; }
+
+.stat-card--arc .stat-card__outcome,
+.stat-card--graph .stat-card__outcome,
+[data-kind="lines"] .stat-card__outcome,
+[data-kind="vbars"] .stat-card__outcome { margin: 0; }
+
+.stat-card--arc .stat-card__footer,
+.stat-card--graph .stat-card__footer,
+[data-kind="lines"] .stat-card__footer,
+[data-kind="vbars"] .stat-card__footer { padding-top: 3px; }
+
+.stat-card--arc .stat-card__benefit,
+.stat-card--graph .stat-card__benefit,
+[data-kind="lines"] .stat-card__benefit,
+[data-kind="vbars"] .stat-card__benefit { font-size: 12px; line-height: 1.3; }
 .stat-card--bottom { aspect-ratio: auto; }
 
 .rings {
@@ -657,6 +708,8 @@ body {
   transform-box: fill-box;
   transform-origin: center;
   transform: rotate(-90deg);
+  stroke-dasharray: 289.03px;
+  stroke-dashoffset: 289.03px;
 }
 .ring__pct {
   font-size: 16px;
@@ -677,9 +730,12 @@ body {
 .rem-bars {
   flex: 1;
   min-height: 0;
+  max-height: 56%;
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 14px;
+  margin-bottom: 18px;
 }
 .rem-bars__pair {
   flex: 1;
@@ -720,15 +776,18 @@ body {
 .sleep-lines {
   flex: 1;
   min-height: 0;
+  max-height: 72%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
 }
 .sleep-lines__legend {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .sleep-lines__badge {
   display: inline-flex;
@@ -768,6 +827,7 @@ body {
   min-height: 0;
   display: block;
   overflow: visible;
+  margin-bottom: 12px;
 }
 .sleep-line {
   fill: none;
@@ -987,7 +1047,6 @@ body {
 
 /* ── Carousel ── */
 .carousel-section {
-  height: 100dvh;
   overflow: hidden;
   background: var(--page-bg);
   display: flex;
@@ -995,14 +1054,15 @@ body {
   align-items: center;
   justify-content: center;
   gap: 36px;
+  padding: 140px 0 56px;
 }
 
 .carousel-heading {
-  font-size: clamp(18px, 2.2vw, 26px);
-  font-weight: 400;
+  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-weight: 600;
   letter-spacing: normal;
   text-transform: none;
-  color: #5C5578;
+  color: #14161e;
   margin: 0;
   text-align: center;
   align-self: center;
@@ -1012,8 +1072,8 @@ body {
 
 .carousel {
   --card: min(
-    calc((100dvh - 80px) * 0.72),
-    calc((min(100vw, 1320px) - 64px) / 3)
+    calc((100dvh - 80px) * 0.56),
+    calc((min(100vw, 1440px) - 48px) / 5)
   );
   position: relative;
   width: 100%;
@@ -1041,23 +1101,23 @@ body {
   z-index: 3; opacity: 1;
 }
 .carousel-card.c-left {
-  transform: translateX(-105%) scale(0.80);
-  z-index: 2; opacity: 0.75;
+  transform: translateX(-108%) scale(0.84);
+  z-index: 2; opacity: 0.82;
 }
 .carousel-card.c-right {
-  transform: translateX(105%) scale(0.80);
-  z-index: 2; opacity: 0.75;
+  transform: translateX(108%) scale(0.84);
+  z-index: 2; opacity: 0.82;
 }
 .carousel-card.c-exit {
-  transform: translateX(-215%) scale(0.60);
-  z-index: 1; opacity: 0; pointer-events: none;
+  transform: translateX(-212%) scale(0.68);
+  z-index: 1; opacity: 0.55;
 }
 .carousel-card.c-enter {
-  transform: translateX(215%) scale(0.60);
-  z-index: 1; opacity: 0; pointer-events: none;
+  transform: translateX(212%) scale(0.68);
+  z-index: 1; opacity: 0.55;
 }
 .carousel-card.c-hidden {
-  transform: translateX(330%) scale(0.45);
+  transform: translateX(320%) scale(0.50);
   z-index: 0; opacity: 0; pointer-events: none;
   transition: none !important;
 }
@@ -1187,15 +1247,28 @@ body {
 }
 
 /* ── Calibr8 Slider ── */
+.slider-heading {
+  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-weight: 600;
+  color: #14161e;
+  margin: 0;
+  text-align: left;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  padding: 0 80px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .calibr8-slider-section {
   min-height: 100dvh;
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 48px 0;
-  gap: 28px;
+  padding: 64px 0 48px;
+  gap: 24px;
 }
 
 .calibr8-slider-section .hero-text {
@@ -1225,8 +1298,9 @@ body {
 .calibr8-slider-section .slider {
   display: flex;
   gap: 12px;
-  width: calc(100% - 80px);
-  height: calc((100vw - 80px) * 3 / 8);
+  width: calc(100% - 160px);
+  margin: 0 80px;
+  height: calc((100vw - 160px) * 3 / 8);
 }
 
 .calibr8-slider-section .card {
@@ -1344,7 +1418,6 @@ body {
 .zone-intro {
   text-align: center;
   padding: 48px 32px 32px;
-  max-width: 640px;
   margin: 0 auto;
 }
 .zone-intro__title {
@@ -1356,32 +1429,55 @@ body {
   margin: 0 0 12px;
 }
 .zone-intro__desc {
-  font-size: clamp(18px, 2.2vw, 26px);
-  line-height: 1.5;
-  color: #5C5578;
+  font-size: clamp(22px, 2.8vw, 36px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #14161e;
   margin: 0;
+  white-space: nowrap;
 }
 
 /* ── Zone map (image + dots) ── */
 .zone-map {
   position: relative;
-  width: calc(100% - 80px);
-  margin: 16px auto 0;
+  width: calc(100% - 160px);
+  margin: 16px 80px 0;
   line-height: 0;
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.10);
 }
+.zone-map--open {
+  overflow: visible !important;
+  perspective: 1200px;
+}
 .zone-map__img {
   width: 100%;
   height: auto;
   display: block;
+  margin-top: -100px;
+  margin-bottom: -10px;
+}
+
+.zone-map__caption {
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: clamp(14px, 1.4vw, 20px);
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+  pointer-events: none;
 }
 
 /* ── Zone tooltip card ── */
 .zone-tooltip {
   position: absolute;
-  right: 18%;
+  right: 5%;
   top: 50%;
   transform: translateY(-50%) scale(0.96);
   width: 340px;
@@ -1407,6 +1503,24 @@ body {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(-50%) scale(1);
+}
+.zone-map--open { overflow: visible !important; }
+
+.zone-tooltip--static {
+  opacity: 1;
+  pointer-events: none;
+  right: auto !important;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%) rotateY(-20deg) rotateX(-5deg) translateZ(60px);
+  backface-visibility: hidden;
+  transition: none;
+  background: linear-gradient(160deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.48) 100%);
+  box-shadow:
+    inset 1.5px 0 0 rgba(255,255,255,0.95),
+    inset 0 1.5px 0 rgba(255,255,255,0.95),
+    40px 20px 60px rgba(0,0,0,0.28),
+    0 8px 24px rgba(0,0,0,0.15);
 }
 .zone-tooltip__num {
   font-size: 12px;
@@ -1610,6 +1724,30 @@ body {
   .zones-section__heatmap { width: 140px; align-self: center; }
   .zones-section__grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── Card purple gradient bottom ── */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 54%;
+  background: linear-gradient(to top,
+    rgba(85,60,154,0.30) 0%,
+    rgba(100,72,170,0.14) 48%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 0 0 var(--card-radius) var(--card-radius);
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
 </style>
 </head>
 <body>
@@ -1626,33 +1764,28 @@ body {
 </section>
 
 <section class="carousel-section" aria-label="Statistics overview">
-  <h2 class="carousel-heading">The Impact On Your Sleep</h2>
+  <h2 class="carousel-heading reveal">The impact of a <span style="color:#553C9A">calibrated mattress</span> on your sleep</h2>
   <div class="carousel">
     <div class="carousel__track" id="carousel-track"></div>
   </div>
 </section>
 
-<section class="carousel-section" aria-label="Statistics overview 2">
-  <h2 class="carousel-heading">The Impact On Your Sleep</h2>
-  <div class="carousel">
-    <div class="carousel__track" id="carousel-track-2"></div>
-  </div>
-</section>
 
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
-    <p class="zone-intro__desc">We personalize the solution for you through five steps.</p>
+    <p class="slider-heading reveal">We personalize the solution for you<br>through <span style="color:#553C9A">five steps.</span></p>
   </div>
   <div class="slider" id="process-slider"></div>
 </section>
 
 <div class="zone-intro">
-  <p class="zone-intro__desc">Calibr8 maps your body's unique pressure distribution across 8 independent spinal zones. Then our system configures each zone's firmness independently.</p>
+  <p class="zone-intro__desc reveal"><span style="font-size:0.5em">Calibr8 maps your body's unique pressure distribution across</span><br><span style="color:#553C9A">8 independent spinal zones.</span></p>
 </div>
 
 <div class="zone-map">
   <img class="zone-map__img" src="try3.png" alt="Calibr8 8-zone mattress">
+  <p class="zone-map__caption">Our system then configures<br>each zone's firmness independently.</p>
   <div class="zone-tooltip" id="zone-tooltip">
     <div class="zone-tooltip__num"></div>
     <div class="zone-tooltip__name"></div>
@@ -1662,37 +1795,38 @@ body {
       <span class="zone-tooltip__code"></span>
     </div>
   </div>
-  <button class="zone-dot" style="left:calc(40% + 179px);top:calc(34.4% - 46px);--beat-delay:0s" aria-label="Head">
+  <button class="zone-dot" style="left:calc(40% + 151.5px);top:calc(34.4% - 111px);--beat-delay:0s" aria-label="Head">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(41% + 178px);top:calc(34.4% + 9px);--beat-delay:0.28s" aria-label="Shoulder">
+  <button class="zone-dot" style="left:calc(41% + 153px);top:calc(34.4% - 62px);--beat-delay:0.28s" aria-label="Shoulder">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(42% + 182px);top:calc(34.4% + 64px);--beat-delay:0.56s" aria-label="Upper Back">
+  <button class="zone-dot" style="left:calc(42% + 159.5px);top:calc(34.4% - 13px);--beat-delay:0.56s" aria-label="Upper Back">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(43% + 186px);top:calc(34.4% + 119px);--beat-delay:0.84s" aria-label="Lumbar">
+  <button class="zone-dot" style="left:calc(43% + 166px);top:calc(34.4% + 36px);--beat-delay:0.84s" aria-label="Lumbar">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(44% + 189px);top:calc(34.4% + 174px);--beat-delay:1.12s" aria-label="Pelvic">
+  <button class="zone-dot" style="left:calc(44% + 171.5px);top:calc(34.4% + 85px);--beat-delay:1.12s" aria-label="Pelvic">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(45% + 193px);top:calc(34.4% + 229px);--beat-delay:1.4s" aria-label="Thigh">
+  <button class="zone-dot" style="left:calc(45% + 178px);top:calc(34.4% + 134px);--beat-delay:1.4s" aria-label="Thigh">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(46% + 197px);top:calc(34.4% + 284px);--beat-delay:1.68s" aria-label="Leg">
+  <button class="zone-dot" style="left:calc(46% + 184.5px);top:calc(34.4% + 183px);--beat-delay:1.68s" aria-label="Leg">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(47.1% + 201px);top:calc(34.4% + 339px);--beat-delay:1.96s" aria-label="Foot">
+  <button class="zone-dot" style="left:calc(47.1% + 191px);top:calc(34.4% + 232px);--beat-delay:1.96s" aria-label="Foot">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
 </div>
+
 
 <div aria-hidden="true" style="display:none">
 <main class="shell">
   <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
 
-    <article id="alignment" class="tile stat-card stat-card--graph"
+    <article id="alignment" class="tile stat-card stat-card--graph stat-card--liquid-glass"
              data-scheme="spinal" data-kind="graph" data-delay="0" data-delta="24"
              tabindex="0" aria-labelledby="s1-title" aria-describedby="s1-sr">
       <p id="s1-sr" class="sr-only">
@@ -1757,7 +1891,7 @@ body {
 
       <div class="arc-gauge" aria-hidden="true">
         <!-- viewBox 300×225 matches container (square minus title minus footer ≈ 1.33:1) -->
-        <svg class="arc-gauge__svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid meet">
+        <svg class="arc-gauge__svg" viewBox="0 0 300 210" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="muscle-arc-stroke" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#D96BA5"/>
@@ -1777,17 +1911,17 @@ body {
           <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
           <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
           <g class="arc__label arc__label--std">
-            <text x="148" y="94" text-anchor="middle" font-size="7.5" font-weight="600"
+            <text x="166" y="100" text-anchor="middle" font-size="7.5" font-weight="600"
                   letter-spacing="0.6" fill="#C54B8C" font-family="inherit">STANDARD</text>
-            <text x="148" y="105" text-anchor="middle" font-size="7.5" font-weight="600"
+            <text x="166" y="111" text-anchor="middle" font-size="7.5" font-weight="600"
                   letter-spacing="0.6" fill="#C54B8C" font-family="inherit">MATTRESS</text>
           </g>
           <g class="arc__label arc__label--cal">
-            <line x1="274.8" y1="57" x2="274.8" y2="161"
+            <line x1="274.8" y1="30" x2="274.8" y2="161"
                   stroke="#553C9A" stroke-width="1.5" stroke-opacity="0.45"/>
-            <text x="274.8" y="44" text-anchor="middle" font-size="7.5" font-weight="600"
+            <text x="274.8" y="18" text-anchor="middle" font-size="7.5" font-weight="600"
                   letter-spacing="0.6" fill="#553C9A" font-family="inherit">CALIBRATED</text>
-            <text x="274.8" y="55" text-anchor="middle" font-size="7.5" font-weight="600"
+            <text x="274.8" y="29" text-anchor="middle" font-size="7.5" font-weight="600"
                   letter-spacing="0.6" fill="#553C9A" font-family="inherit">MATTRESS</text>
           </g>
         </svg>
@@ -1974,7 +2108,7 @@ body {
 </div>
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub">Calibr8 maps your body's unique pressure distribution.</p>
+    <p class="hero-sub reveal">Calibr8 maps your body's unique pressure distribution.</p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
 </section>
@@ -2172,12 +2306,12 @@ body {
       const circ = 2 * Math.PI * r;
       const pct = Number(fill.dataset.pct) / 100;
       setTimeout(() => {
-        fill.style.transition = `stroke-dashoffset 700ms cubic-bezier(0.16, 1, 0.3, 1)`;
+        fill.style.transition = `stroke-dashoffset 1600ms linear`;
         fill.style.strokeDashoffset = circ * (1 - pct);
-      }, 350 + i * 280);
+      }, 200 + i * 400);
     });
 
-    setTimeout(() => countToLinear(dv, target, 2000), 350);
+    setTimeout(() => countToLinear(dv, target, 2000), 200);
   }
 
   function snapRings(card) {
@@ -2382,6 +2516,20 @@ body {
     cards.forEach(revealCard);
   }
 
+  // ── Scroll reveal (bidirectional) ──
+  {
+    const revEls = Array.from(document.querySelectorAll('.reveal'));
+    function updateReveal() {
+      const vh = window.innerHeight;
+      revEls.forEach(el => {
+        const { top, bottom } = el.getBoundingClientRect();
+        el.classList.toggle('is-visible', top < vh * 0.85 && bottom > 50);
+      });
+    }
+    window.addEventListener('scroll', updateReveal, { passive: true });
+    requestAnimationFrame(() => requestAnimationFrame(updateReveal));
+  }
+
   // ── Shared utilities ──
   function cloneCard(src, suffix) {
     const clone = src.cloneNode(true);
@@ -2426,6 +2574,23 @@ body {
       const clone = cloneCard(src, `${suffix}${i}`);
       clone.classList.add('carousel-card', 'c-hidden');
       if (extraClass) clone.classList.add(extraClass);
+      // Scale content to fit the smaller card
+      const vh = window.innerHeight, vw = window.innerWidth;
+      const newCard  = Math.min((vh - 80) * 0.56, (Math.min(vw, 1440) - 48) / 5);
+      const origCard = Math.min((vh - 80) * 0.72, (Math.min(vw, 1320) - 64) / 3);
+      const scale    = newCard / origCard;
+      const inv      = 1 / scale;
+      const cardPad  = Math.min(22, Math.max(16, vw * 0.02));
+      const scaler   = document.createElement('div');
+      scaler.style.cssText = [
+        'position:absolute', 'top:0', 'left:0',
+        `width:${inv * 100}%`, `height:${inv * 100}%`,
+        `transform:scale(${scale})`, 'transform-origin:top left',
+        `padding:${cardPad}px`, 'box-sizing:border-box',
+        'display:flex', 'flex-direction:column'
+      ].join(';') + ';';
+      while (clone.firstChild) scaler.appendChild(clone.firstChild);
+      clone.appendChild(scaler);
       track.appendChild(clone);
       cCards.push(clone);
     });
@@ -2446,12 +2611,26 @@ body {
     }
     let active = 0, advancing = false;
     function setAll(a) { cCards.forEach((c,i) => applyState(c, stateFor(i,a))); }
+    function clearViz(card) {
+      card.dataset.revealed = '';
+      card.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
+      card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = '0'; });
+      card.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
+      card.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
+      card.querySelectorAll('[style]').forEach(el => {
+        ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
+      });
+      card.querySelectorAll('.arc__seg--glow, .graph__line--glow').forEach(el => {
+        el.style.strokeDasharray = '9999';
+        el.style.strokeDashoffset = '9999';
+      });
+    }
     function advance() {
       if (advancing) return;
       advancing = true;
       const next = (active+1)%N;
-      applyState(cCards[(active+N-2)%N], 'c-hidden', true);
-      applyState(cCards[(active+3)%N], 'c-enter', true);
+      const hiddenIdx = (active+N-2)%N;
+      applyState(cCards[hiddenIdx], 'c-hidden', true);
       active = next; setAll(active);
       revealCard(cCards[active]);
       setTimeout(() => { advancing = false; }, 580);
