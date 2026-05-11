@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Calibr8 — Measured Better Sleep</title>
 <meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 @font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
 @font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
@@ -1636,6 +1633,15 @@ body {
   transform: translate(-50%,-50%);
   background: #fff;
   box-shadow: 0 0 0 2px rgba(255,255,255,0.35), 0 2px 8px rgba(0,0,0,0.35);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.zone-dot.is-active .zone-dot__center {
+  background: #553C9A;
+  box-shadow: 0 0 0 3px rgba(85,60,154,0.3), 0 2px 10px rgba(85,60,154,0.5);
+}
+.zone-dot.is-active .zone-dot__ring {
+  border-color: #553C9A;
+  opacity: 0.7;
 }
 
 /* ── Zones section ── */
@@ -1857,7 +1863,7 @@ body {
   height: 100vh;
   overflow: hidden;
   background: #fff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 #arc-app { position: absolute; inset: 0; z-index: 1; }
@@ -1941,7 +1947,7 @@ body {
 .arc-dot-num {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: 44px; font-weight: 700;
   letter-spacing: -0.03em;
   color: #111; opacity: 0.82;
@@ -1955,10 +1961,12 @@ body {
 }
 .arc-tag-label {
   display: block; font-size: 11px; font-weight: 600;
+  font-family: var(--font-sans);
   color: #0d0d0d; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 8px;
 }
 .arc-tag-headline {
   display: block; font-size: 3.6vw; font-weight: 900;
+  font-family: var(--font-sans);
   color: #0d0d0d; letter-spacing: -0.02em; text-transform: uppercase;
   line-height: 1; white-space: nowrap;
 }
@@ -2582,6 +2590,10 @@ body {
 </section>
 
 <section class="arc-section">
+  <header id="arc-tagline">
+    <span class="arc-tag-label">Powered by</span>
+    <span class="arc-tag-headline">India's Largest <span style="color:#553C9A">Sleep Study</span></span>
+  </header>
   <div id="arc-app">
     <svg id="arc-layer"></svg>
     <div id="arc-stage"></div>
@@ -3193,9 +3205,11 @@ body {
   const tFill     = tooltip.querySelector('.zone-tooltip__bar-fill');
   const tFirmness = tooltip.querySelector('.zone-tooltip__firmness');
   const tCode     = tooltip.querySelector('.zone-tooltip__code');
+  const dots      = Array.from(document.querySelectorAll('.zone-dot'));
 
-  let locked = false;
-  let hideTimer = null;
+  let zoneActive = 0;
+  let zonePaused = false;
+  let zoneTimer  = null;
 
   function populate(zone) {
     tNum.textContent      = zone.num;
@@ -3205,44 +3219,53 @@ body {
     tCode.textContent     = zone.code;
   }
 
-  function show(zone) {
-    clearTimeout(hideTimer);
-    populate(zone);
+  function activateDot(idx) {
+    zoneActive = idx;
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+    populate(ZONES[idx]);
     tooltip.classList.add('is-visible');
   }
 
-  function hideIfUnlocked() {
-    if (locked) return;
-    hideTimer = setTimeout(() => tooltip.classList.remove('is-visible'), 120);
+  function startTimer() {
+    clearInterval(zoneTimer);
+    zoneTimer = setInterval(() => {
+      if (!zonePaused) activateDot((zoneActive + 1) % ZONES.length);
+    }, 3000);
   }
 
-  function dismiss() {
-    locked = false;
-    tooltip.classList.remove('is-visible');
-  }
-
-  document.querySelectorAll('.zone-dot').forEach((dot, i) => {
-    const zone = ZONES[i];
-
-    dot.addEventListener('mouseenter', () => {
-      if (!locked) show(zone);
-    });
-
-    dot.addEventListener('mouseleave', hideIfUnlocked);
-
-    dot.addEventListener('click', (e) => {
+  // Dot clicks: pause + jump to that zone
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', e => {
       e.stopPropagation();
-      locked = true;
-      show(zone);
+      zonePaused = true;
+      activateDot(i);
     });
   });
 
-  // Click outside dismisses locked card
-  document.addEventListener('click', (e) => {
-    if (locked && !tooltip.contains(e.target)) {
-      dismiss();
+  // Card click: pause (stay on current)
+  tooltip.addEventListener('click', e => {
+    e.stopPropagation();
+    zonePaused = true;
+  });
+
+  // Click anywhere else: resume
+  document.addEventListener('click', e => {
+    if (zonePaused && !e.target.closest('.zone-dot') && !e.target.closest('#zone-tooltip')) {
+      zonePaused = false;
     }
   });
+
+  // Start when section enters viewport
+  const zoneSection = document.querySelector('.zones-section');
+  const zoneObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      activateDot(0);
+      startTimer();
+    } else {
+      clearInterval(zoneTimer);
+    }
+  }, { threshold: 0.3 });
+  zoneObs.observe(zoneSection);
 })();
 </script>
 
