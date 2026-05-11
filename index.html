@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Calibr8 — Measured Better Sleep</title>
 <meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 @font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
 @font-face { font-family: 'Space Grotesk'; src: url('SpaceGrotesk-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
@@ -1265,15 +1268,17 @@ body {
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   padding: 64px 0 48px;
   gap: 24px;
 }
 
 .calibr8-slider-section .hero-text {
-  text-align: center;
-  width: calc(100% - 80px);
+  text-align: left;
+  align-self: stretch;
+  padding: 0 80px;
+  box-sizing: border-box;
 }
 .calibr8-slider-section .hero-title {
   font-size: clamp(22px, 3vw, 32px);
@@ -1285,21 +1290,34 @@ body {
   font-family: var(--font-sans);
 }
 .calibr8-slider-section .hero-sub {
-  font-size: clamp(22px, 3vw, 38px);
+  font-size: clamp(16.5px, 2.1vw, 27px);
   font-weight: 600;
   color: #14161e;
   line-height: 1.25;
   letter-spacing: -0.02em;
   font-family: var(--font-sans);
   max-width: none;
-  text-align: center;
+  text-align: left;
+  margin: 0;
+}
+
+.calibr8-slider-section .hero-sub-desc {
+  font-size: clamp(10.5px, 1.2vw, 18px);
+  font-weight: 600;
+  color: #14161e;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin: 4px 0 0;
+  font-family: var(--font-sans);
 }
 
 .calibr8-slider-section .slider {
   display: flex;
   gap: 12px;
-  width: calc(100% - 160px);
-  margin: 0 80px;
+  align-self: stretch;
+  padding: 0 80px;
+  box-sizing: border-box;
   height: calc((100vw - 160px) * 3 / 8);
 }
 
@@ -1360,6 +1378,15 @@ body {
 }
 .calibr8-slider-section .card.active .card__content { opacity: 1; transform: translateY(0); }
 
+.calibr8-slider-section .card__eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 10px;
+  font-family: var(--font-sans);
+}
 .calibr8-slider-section .card__title {
   font-size: 34px;
   font-weight: 800;
@@ -1421,20 +1448,20 @@ body {
   margin: 0 auto;
 }
 .zone-intro__title {
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 46px);
+  font-weight: 800;
   letter-spacing: -0.02em;
-  color: #1A1035;
+  color: #0a0a0a;
   line-height: 1.15;
   margin: 0 0 12px;
 }
 .zone-intro__desc {
-  font-size: clamp(22px, 2.8vw, 36px);
+  font-size: clamp(16.5px, 2.1vw, 27px);
   font-weight: 600;
   line-height: 1.4;
   color: #14161e;
   margin: 0;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 /* ── Zone map (image + dots) ── */
@@ -1725,6 +1752,397 @@ body {
   .zones-section__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* ── Reviews intro heading ── */
+.reviews-intro {
+  text-align: center;
+  padding: 64px 0 0;
+  width: calc(100% - 160px);
+  margin: 0 80px;
+}
+.reviews-intro__heading {
+  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-weight: 600;
+  color: #14161e;
+  line-height: 1.3;
+  margin: 0;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+}
+
+/* ── Reviews section ── */
+.reviews-section {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 48px 0 80px;
+}
+
+/* ── Book Your Calibration section ── */
+.book-section {
+  background: #fff;
+  padding: 0 80px 96px;
+}
+.book-heading {
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 3.2vw, 46px);
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin: 0 0 32px;
+}
+.book-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16/7;
+  background: #e8e4df;
+}
+.book-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: opacity 0.45s ease;
+}
+.book-img.hidden {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.book-toggle {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 16px rgba(0,0,0,0.12);
+  border-radius: 100px;
+  padding: 5px;
+  z-index: 10;
+  white-space: nowrap;
+}
+.book-btn {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  padding: 9px 0;
+  min-width: 160px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  line-height: 1;
+}
+.book-btn.active {
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.14);
+}
+
+/* ── Arc Slider Section ── */
+.arc-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#arc-app { position: absolute; inset: 0; z-index: 1; }
+#arc-layer { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+#arc-stage { position: absolute; inset: 0; z-index: 1; }
+.arc-item {
+  position: absolute;
+  top: 0; left: 0;
+  display: flex;
+  align-items: baseline;
+  will-change: transform, opacity;
+  user-select: none;
+}
+.arc-item-title {
+  display: block;
+  font-size: 92px;
+  font-weight: 800;
+  color: #0d0d0d;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.arc-item-sub {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  color: #0d0d0d;
+  letter-spacing: 0.06em;
+  margin-top: 10px;
+  white-space: normal;
+  max-width: 480px;
+  line-height: 1.65;
+}
+#arc-fade-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, #fff 0%, #fff 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+#arc-fade-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 10%;
+  background: linear-gradient(to top, #fff 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+#arc-dot {
+  position: absolute;
+  width: 92px; height: 92px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(175deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.04) 65%, rgba(210,210,225,0.14) 100%);
+  backdrop-filter: blur(14px) saturate(1.15) brightness(1.02);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15) brightness(1.02);
+  border-top: 1px solid rgba(255,255,255,0.88);
+  border-left: 1px solid rgba(255,255,255,0.55);
+  border-right: 1px solid rgba(255,255,255,0.30);
+  border-bottom: 1px solid rgba(200,200,220,0.22);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.07), inset 0 3px 6px rgba(255,255,255,0.75), inset 0 -4px 8px rgba(0,0,0,0.07), inset 3px 0 5px rgba(255,255,255,0.30), inset -3px 0 5px rgba(255,255,255,0.15);
+}
+#arc-dot-glint {
+  position: absolute; top: 5%; left: 18%; width: 62%; height: 20%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 50%; pointer-events: none; z-index: 3;
+}
+#arc-dot-rim {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 88%, rgba(255,255,255,0.35) 0%, transparent 55%);
+  pointer-events: none; z-index: 3;
+}
+#arc-dot-track {
+  position: absolute; left: 0; right: 0; top: 0;
+  display: flex; flex-direction: column; will-change: transform;
+}
+.arc-dot-num {
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 44px; font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #111; opacity: 0.82;
+}
+#arc-tagline {
+  position: absolute;
+  top: 32px; left: 0; right: 0;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+.arc-tag-label {
+  display: block; font-size: 11px; font-weight: 600;
+  color: #0d0d0d; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 8px;
+}
+.arc-tag-headline {
+  display: block; font-size: 3.6vw; font-weight: 900;
+  color: #0d0d0d; letter-spacing: -0.02em; text-transform: uppercase;
+  line-height: 1; white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .arc-tag-headline { font-size: 7vw; white-space: normal; padding: 0 20px; line-height: 1.1; }
+  .arc-tag-label { font-size: 10px; margin-bottom: 6px; }
+  #arc-tagline { top: 20px; }
+  .arc-item-title { font-size: 68px; letter-spacing: -0.025em; }
+  .arc-item-sub { font-size: 11px; max-width: 180px; }
+}
+
+.reviews-body {
+  width: calc(100% - 160px);
+  margin: 0 80px;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+.reviews-left-col {
+  flex: none;
+  width: 512px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.reviews-text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+.reviews-text.text-out { opacity: 0; transform: translateY(10px); }
+.reviews-thumbs {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.rc-thumb {
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+}
+.rc-thumb:hover { opacity: 0.78; }
+.rc-thumb:nth-child(1) { width: 48px;  height: 60px; }
+.rc-thumb:nth-child(2) { width: 96px;  height: 120px; }
+.rc-thumb:nth-child(3) { width: 144px; height: 180px; }
+.rc-thumb:nth-child(4) { width: 192px; height: 240px; }
+.rc-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.reviews-hero {
+  width: 304px;
+  height: 380px;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  will-change: transform;
+}
+.reviews-hero img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  display: block;
+}
+.rev-cal-group {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.rev-cal {
+  flex: 1;
+  height: 380px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 24px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.rev-cal__inner {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.rev-cal__body-img {
+  width: 100%;
+  height: calc(100% - 32px);
+  margin-top: 32px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 14px;
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.rev-cal__label {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #111;
+  white-space: nowrap;
+  line-height: 1;
+  font-family: var(--font-sans);
+  z-index: 2;
+}
+.rc-card {
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  cursor: pointer;
+  will-change: left, width, height, opacity;
+  transition:
+    left     0.65s cubic-bezier(0.34, 1.15, 0.64, 1),
+    width    0.65s cubic-bezier(0.34, 1.15, 0.64, 1),
+    height   0.65s cubic-bezier(0.34, 1.15, 0.64, 1),
+    opacity  0.5s ease,
+    z-index  0s;
+}
+.rc-card img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  display: block; pointer-events: none;
+}
+.reviews-name { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 3px; font-family: var(--font-sans); }
+.reviews-city { font-size: 12px; color: #aaa; font-family: var(--font-sans); }
+.reviews-quote {
+  font-size: clamp(12px, 1.05vw, 16px);
+  font-weight: 700; color: #111;
+  line-height: 1.35; letter-spacing: -0.02em;
+  margin: 0; padding: 0;
+  font-family: var(--font-sans);
+}
+.reviews-next-btn {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  align-self: flex-start;
+  position: relative; isolation: isolate;
+  background: linear-gradient(145deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.22) 100%);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    inset 1px 0 0 rgba(255,255,255,0.6),
+    inset -1px 0 0 rgba(255,255,255,0.3),
+    inset 0 12px 20px -10px rgba(255,255,255,0.8),
+    0 2px 8px rgba(0,0,0,0.08),
+    0 8px 24px rgba(0,0,0,0.10);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.reviews-next-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit; padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.4) 35%,
+    rgba(255,255,255,0.08) 55%,
+    rgba(255,255,255,0.5) 80%,
+    rgba(255,255,255,0.9) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+}
+.reviews-next-btn:hover { transform: scale(1.08) translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 16px rgba(0,0,0,0.13), 0 12px 32px rgba(0,0,0,0.10); }
+
 /* ── Card purple gradient bottom ── */
 .stat-card::before {
   content: '';
@@ -1754,7 +2172,7 @@ body {
 
 <section class="hero" aria-label="Calibr8 hero">
   <video class="hero__video" autoplay muted loop playsinline>
-    <source src="herovid.mp4" type="video/mp4">
+    <source src="Comp 1.mp4" type="video/mp4">
   </video>
   <div class="hero__text">
     <h1 class="hero__title"><em>Sleep</em> Perfected</h1>
@@ -1776,11 +2194,11 @@ body {
   <div class="hero-text">
     <p class="slider-heading reveal">We personalize the solution for you<br>through <span style="color:#553C9A">five steps.</span></p>
   </div>
-  <div class="slider" id="process-slider"></div>
+  <div class="slider" id="calibr8-slider"></div>
 </section>
 
 <div class="zone-intro">
-  <p class="zone-intro__desc reveal"><span style="font-size:0.5em">Calibr8 maps your body's unique pressure distribution across</span><br><span style="color:#553C9A">8 independent spinal zones.</span></p>
+  <p class="zone-intro__desc reveal">Calibr8 maps your body's unique pressure distribution across<br><span style="color:#553C9A">8 independent spinal zones.</span></p>
 </div>
 
 <div class="zone-map">
@@ -2108,9 +2526,73 @@ body {
 </div>
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub reveal">Calibr8 maps your body's unique pressure distribution.</p>
+    <p class="hero-sub reveal">No two calibrations are ever the same.</p>
+    <p class="hero-sub-desc reveal">Your pressure distribution is as unique as your fingerprint. <span style="color:#553C9A">Calibr8 reads it. Then builds around it.</span></p>
   </div>
-  <div class="slider" id="calibr8-slider"></div>
+  <div class="slider" id="process-slider"></div>
+</section>
+
+<div class="reviews-intro">
+  <p class="reviews-intro__heading reveal">Thousands of <span style="color:#553C9A">trusted reviews</span> from people like you.</p>
+</div>
+
+<!-- Reviews Section -->
+<section class="reviews-section" aria-label="Customer reviews">
+  <div class="reviews-body">
+    <div class="reviews-left-col">
+      <div class="reviews-text" id="reviews-right">
+        <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
+        <div>
+          <div class="reviews-name" id="reviews-name"></div>
+          <div class="reviews-city" id="reviews-city"></div>
+        </div>
+      </div>
+      <div class="reviews-thumbs" id="reviews-thumbs"></div>
+    </div>
+    <div class="reviews-hero" id="reviews-hero">
+      <img id="reviews-hero-img" src="" alt="" loading="eager">
+    </div>
+    <div class="rev-cal-group">
+    <div class="rev-cal">
+      <div class="rev-cal__inner">
+        <span class="rev-cal__label">Before Calibration</span>
+        <img class="rev-cal__body-img" id="rev-cal-bef-img" src="person1body1.png" alt="Before calibration">
+      </div>
+    </div>
+    <div class="rev-cal">
+      <div class="rev-cal__inner">
+        <span class="rev-cal__label">After Calibration</span>
+        <img class="rev-cal__body-img" id="rev-cal-aft-img" src="person1body2.png" alt="After calibration">
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="book-section" aria-label="Book your calibration">
+  <h2 class="book-heading">Get your <span style="color:#553C9A">calibr8'd</span> mattress now</h2>
+  <div class="book-card">
+    <img class="book-img" id="book-img-store" src="store.png" alt="Store Visit">
+    <img class="book-img hidden" id="book-img-home" src="home.webp" alt="Home Consultation">
+    <div class="book-toggle">
+      <button class="book-btn active" data-tab="store">Store Visit</button>
+      <button class="book-btn" data-tab="home">Home Consultation</button>
+    </div>
+  </div>
+</section>
+
+<section class="arc-section">
+  <div id="arc-app">
+    <svg id="arc-layer"></svg>
+    <div id="arc-stage"></div>
+    <div id="arc-fade-top"></div>
+    <div id="arc-fade-bottom"></div>
+    <div id="arc-dot">
+      <div id="arc-dot-track"></div>
+      <div id="arc-dot-glint"></div>
+      <div id="arc-dot-rim"></div>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -2832,13 +3314,20 @@ body {
 
   buildSlider();
 
-  // ── Process slider (duplicate, separate active state) ──
+  // ── Process slider (persona cards) ──
+  const PROCESS_CARDS = [
+    { id: 0, eyebrow: 'THE COUPLE',       title: 'Two people. Completely different needs.',           desc: 'Each side is calibrated independently, so both of you get the support your body needs.',                                                                          img: 'couple.webp' },
+    { id: 1, eyebrow: 'THE HIGH ACHIEVER', title: 'You push hard through the day. Your body shouldn\'t carry that into the night.', desc: 'Calibrated support helps your body fully switch off, so recovery actually begins when you lie down.',                           img: 'highachiever.webp' },
+    { id: 2, eyebrow: 'THE PAIN SUFFERER', title: 'Waking up sore isn\'t something you have to live with.',                         desc: 'Targeted support across pressure points helps reduce strain on your back, shoulders, and joints.',                                   img: 'pain sufferer.webp' },
+    { id: 3, eyebrow: 'THE OVERTHINKER',   title: 'Too many choices. Too much guesswork.',                                          desc: 'Instead of relying on materials or opinions, your mattress is built from how your body actually rests.',                             video: 'too many choices.mp4' },
+  ];
+
   let processActiveId = 0;
 
   function buildProcessSlider() {
     const slider = document.getElementById('process-slider');
     if (!slider) return;
-    CARDS.forEach(card => {
+    PROCESS_CARDS.forEach(card => {
       const el = document.createElement('div');
       el.className = 'card' + (card.id === processActiveId ? ' active' : '');
       el.dataset.id = card.id;
@@ -2849,6 +3338,7 @@ body {
         }
         <div class="card__scrim"></div>
         <div class="card__content">
+          <div class="card__eyebrow">${card.eyebrow}</div>
           <div class="card__title">${card.title}</div>
           <div class="card__desc">${card.desc}</div>
         </div>
@@ -2866,6 +3356,374 @@ body {
   }
 
   buildProcessSlider();
+
+  // ── Reviews ──
+  const REVIEWS = [
+    { name: 'Priya Sharma',  city: 'Bengaluru', quote: '"I was skeptical at first. After one week on the Calibr8 mattress, my morning back pain was completely gone."',          img: 'person1.jpg',  bodyBefore: 'person1body1.png', bodyAfter: 'person1body2.png' },
+    { name: 'Arjun Mehta',   city: 'Mumbai',    quote: '"The scan was eye-opening. Seeing exactly how my body distributes pressure made me understand why I woke up sore."',    img: 'person2.avif', bodyBefore: 'person2body1.png', bodyAfter: 'person2body2.png' },
+    { name: 'Kavya Nair',    city: 'Chennai',   quote: '"My husband and I both sleep on the same Calibr8. It feels perfect for both of us even though we have completely different builds."', img: 'person3.jpg', bodyBefore: 'person3body1.webp', bodyAfter: 'person3body2.webp' },
+    { name: 'Rahul Singh',   city: 'Delhi',     quote: '"After years of trying every mattress brand, this is the first one where the science actually matches the experience."', img: 'person4.jpg',  bodyBefore: 'person4image1.png', bodyAfter: 'person4image2_cropped.png' },
+    { name: 'Meera Iyer',    city: 'Hyderabad', quote: '"The pressure mapping report showed things I had no idea about. A mattress built specifically for my body makes all the difference."', img: 'person5.jpeg', bodyBefore: 'person5body1.png', bodyAfter: 'person5body2.png' },
+  ];
+
+  let rcActive = 0;
+  let rcLocked = false;
+  let rcPaused = false;
+  let rcTimer  = null;
+
+  function startTimer() {
+    clearInterval(rcTimer);
+    rcTimer = setInterval(() => {
+      if (rcLocked || rcPaused) return;
+      const next = (rcActive + 1) % REVIEWS.length;
+      activateReview(next, null, true);
+    }, 3000);
+  }
+
+  function pauseTimer() {
+    rcPaused = true;
+    clearInterval(rcTimer);
+  }
+
+  function resumeTimer() {
+    rcPaused = false;
+    startTimer();
+  }
+
+  function buildThumbs() {
+    const deck = document.getElementById('reviews-thumbs');
+    if (!deck) return;
+    deck.innerHTML = '';
+    REVIEWS.forEach((r, i) => {
+      if (i === rcActive) return;
+      const el = document.createElement('div');
+      el.className = 'rc-thumb';
+      el.dataset.idx = i;
+      el.innerHTML = `<img src="${r.img}" alt="${r.name}" loading="lazy">`;
+      el.addEventListener('click', () => {
+        pauseTimer();
+        activateReview(i, el, false);
+      });
+      deck.appendChild(el);
+    });
+  }
+
+  function updateText(idx) {
+    const r = REVIEWS[idx];
+    document.getElementById('reviews-name').textContent  = r.name;
+    document.getElementById('reviews-city').textContent  = r.city;
+    document.getElementById('reviews-quote').textContent = r.quote;
+  }
+
+  function flipEl(el, fromRect) {
+    const toRect = el.getBoundingClientRect();
+    const dx = fromRect.left - toRect.left;
+    const dy = fromRect.top  - toRect.top;
+    const sx = fromRect.width  / toRect.width;
+    const sy = fromRect.height / toRect.height;
+    if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < 0.01) return;
+    el.style.transition      = 'none';
+    el.style.transformOrigin = 'top left';
+    el.style.transform       = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.transition = 'transform 0.55s cubic-bezier(0.34,1.15,0.64,1), opacity 0.35s ease';
+      el.style.transform  = '';
+      setTimeout(() => { el.style.transition = ''; el.style.transformOrigin = ''; }, 650);
+    }));
+  }
+
+  function activateReview(newIdx, thumbEl, isAuto) {
+    if (rcLocked || newIdx === rcActive) return;
+    rcLocked = true;
+
+    const heroEl   = document.getElementById('reviews-hero');
+    const heroRect = heroEl.getBoundingClientRect();
+    const prevIdx  = rcActive;
+
+    // Snapshot all current thumb positions before rebuild
+    const oldRects = {};
+    document.querySelectorAll('.rc-thumb').forEach(el => {
+      oldRects[+el.dataset.idx] = el.getBoundingClientRect();
+    });
+    // Source rect for the incoming person (thumb → hero)
+    const srcRect = thumbEl ? thumbEl.getBoundingClientRect() : (oldRects[newIdx] || null);
+
+    rcActive = newIdx;
+    document.getElementById('reviews-hero-img').src = REVIEWS[newIdx].img;
+    const bImg = document.getElementById('rev-cal-bef-img');
+    const aImg = document.getElementById('rev-cal-aft-img');
+
+    // Body images: fade-scale out, swap, fade in
+    [bImg, aImg].forEach(img => { if (img) { img.style.opacity = '0'; img.style.transform = 'scale(0.97)'; } });
+    setTimeout(() => {
+      if (bImg) bImg.src = REVIEWS[newIdx].bodyBefore;
+      if (aImg) aImg.src = REVIEWS[newIdx].bodyAfter;
+      [bImg, aImg].forEach(img => { if (img) { img.style.opacity = '1'; img.style.transform = ''; } });
+    }, 300);
+
+    buildThumbs(); // DOM now reflects new state
+
+    // ── Hero animation ──
+    if (srcRect) {
+      // FLIP: hero springs from old thumb slot
+      const dx = srcRect.left - heroRect.left;
+      const dy = srcRect.top  - heroRect.top;
+      const sx = srcRect.width  / heroRect.width;
+      const sy = srcRect.height / heroRect.height;
+      heroEl.style.transition      = 'none';
+      heroEl.style.transformOrigin = 'top left';
+      heroEl.style.transform       = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+      heroEl.style.opacity         = '0.5';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        heroEl.style.transition = 'transform 0.6s cubic-bezier(0.34,1.15,0.64,1), opacity 0.4s ease';
+        heroEl.style.transform  = '';
+        heroEl.style.opacity    = '1';
+        setTimeout(() => { heroEl.style.transition = ''; heroEl.style.transformOrigin = ''; }, 700);
+      }));
+    } else {
+      heroEl.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      heroEl.style.transform  = 'scale(0.97)';
+      heroEl.style.opacity    = '0';
+      setTimeout(() => {
+        heroEl.style.transition = 'transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease';
+        heroEl.style.transform  = '';
+        heroEl.style.opacity    = '1';
+        setTimeout(() => { heroEl.style.transition = ''; }, 450);
+      }, 300);
+    }
+
+    // ── Previous hero → its new thumb slot ──
+    const prevThumbEl = document.querySelector(`.rc-thumb[data-idx="${prevIdx}"]`);
+    if (prevThumbEl) {
+      prevThumbEl.style.opacity = '0.5';
+      flipEl(prevThumbEl, heroRect);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        prevThumbEl.style.opacity = '';
+      }));
+    }
+
+    // ── Other thumbs that shifted slots ──
+    document.querySelectorAll('.rc-thumb').forEach(el => {
+      const idx = +el.dataset.idx;
+      if (idx === prevIdx) return; // already handled
+      const old = oldRects[idx];
+      if (!old) return;
+      flipEl(el, old);
+    });
+
+    // Text cross-fade
+    const txt = document.getElementById('reviews-right');
+    txt.classList.add('text-out');
+    setTimeout(() => { updateText(newIdx); txt.classList.remove('text-out'); }, 280);
+
+    setTimeout(() => { rcLocked = false; }, 750);
+  }
+
+  // Resume on click anywhere outside thumbs
+  document.addEventListener('click', e => {
+    if (rcPaused && !e.target.closest('.rc-thumb')) resumeTimer();
+  });
+
+  // Init
+  buildThumbs();
+  document.getElementById('reviews-hero-img').src = REVIEWS[rcActive].img;
+  const bImgInit = document.getElementById('rev-cal-bef-img');
+  const aImgInit = document.getElementById('rev-cal-aft-img');
+  if (bImgInit) bImgInit.src = REVIEWS[rcActive].bodyBefore;
+  if (aImgInit) aImgInit.src = REVIEWS[rcActive].bodyAfter;
+  updateText(rcActive);
+  startTimer();
+})();
+
+// Book toggle
+(() => {
+  const btns   = document.querySelectorAll('.book-btn');
+  const imgMap = { store: document.getElementById('book-img-store'), home: document.getElementById('book-img-home') };
+  let current  = 'store';
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      if (tab === current) return;
+      btns.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+      imgMap[current].classList.add('hidden');
+      imgMap[tab].classList.remove('hidden');
+      current = tab;
+    });
+  });
+})();
+
+// Arc Slider
+(() => {
+  const ARC_ITEMS = [
+    { n: '01', t: 'Engineered',  s: 'Built with orthopedists and biomedical engineers, not marketing teams. Every zone configuration is grounded in spinal biomechanics.' },
+    { n: '02', t: 'Data-Driven', s: 'Machine learning trained on real pressure-mapping data, not averages or assumptions. The system learns from each calibration.' },
+    { n: '03', t: 'Global Tech',  s: 'Spanish pressure-mapping technology, global innovation, engineered for Indian body types and sleep conditions.' },
+    { n: '04', t: 'Research',    s: '8+ years of sleep research across thousands of Indian body types, the most comprehensive sleep data set built in India.' },
+  ];
+  const ARC_DURATION = 720;
+  let AG = {};
+
+  function arcComputeGeo() {
+    const W = window.innerWidth, H = window.innerHeight;
+    const mob = W < 768;
+    const R = W * (mob ? 0.75 : 0.68);
+    const apexX = W * (mob ? 0.32 : 0.42);
+    const CX = apexX - R, CY = H * (mob ? 0.50 : 0.46);
+    return { W, H, R, CX, CY, apexX, mob,
+      step: mob ? 160 : 370, itemH: mob ? 34 : 46, itemOff: mob ? 46 : 74, btnSize: mob ? 68 : 92 };
+  }
+
+  function arcPoint(floatOffset) {
+    const { R, CX, CY } = AG;
+    const dy = floatOffset * AG.step;
+    const s  = Math.max(-0.9999, Math.min(0.9999, dy / R));
+    const t  = Math.asin(s);
+    return { x: CX + R * Math.cos(t), y: CY + R * Math.sin(t), angle: t };
+  }
+
+  const arcApp      = document.getElementById('arc-app');
+  const arcSVG      = document.getElementById('arc-layer');
+  const arcStage    = document.getElementById('arc-stage');
+  const arcDotEl    = document.getElementById('arc-dot');
+  const arcDotTrack = document.getElementById('arc-dot-track');
+  let arcItemEls = [];
+
+  function arcBuildItems() {
+    arcStage.innerHTML = '';
+    arcItemEls = [];
+    ARC_ITEMS.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'arc-item';
+      el.innerHTML = '<div class="arc-item-body">' +
+        '<span class="arc-item-title">' + item.t + '</span>' +
+        '<span class="arc-item-sub">'   + item.s + '</span>' +
+        '</div>';
+      arcStage.appendChild(el);
+      arcItemEls.push(el);
+    });
+  }
+
+  function arcBuildDot() {
+    arcDotTrack.innerHTML = '';
+    ARC_ITEMS.forEach(item => {
+      const span = document.createElement('span');
+      span.className = 'arc-dot-num';
+      span.textContent = item.n;
+      arcDotTrack.appendChild(span);
+    });
+  }
+
+  function arcUpdateDotStyle() {
+    const sz = AG.btnSize;
+    arcDotEl.style.width = arcDotEl.style.height = sz + 'px';
+    document.querySelectorAll('.arc-dot-num').forEach(el => {
+      el.style.height = sz + 'px';
+      el.style.fontSize = (AG.mob ? 30 : 44) + 'px';
+    });
+  }
+
+  function arcBuildArc() {
+    const { R, CX, CY, W, H } = AG;
+    arcSVG.setAttribute('width', W); arcSVG.setAttribute('height', H);
+    const cl = v => Math.max(-0.9999, Math.min(0.9999, v));
+    const t1 = Math.asin(cl((-50 - CY) / R));
+    const t2 = Math.asin(cl((H + 50 - CY) / R));
+    const gap = 4, Ro = R + gap, Ri = R - gap;
+    const pt = (r, t) => [(CX + r * Math.cos(t)).toFixed(2), (CY + r * Math.sin(t)).toFixed(2)];
+    const [x1o,y1o] = pt(Ro,t1), [x2o,y2o] = pt(Ro,t2);
+    const [x1i,y1i] = pt(Ri,t1), [x2i,y2i] = pt(Ri,t2);
+    const dO = `M${x1o} ${y1o} A${Ro} ${Ro} 0 0 1 ${x2o} ${y2o}`;
+    const dI = `M${x1i} ${y1i} A${Ri} ${Ri} 0 0 1 ${x2i} ${y2i}`;
+    arcSVG.innerHTML =
+      `<path d="${dO}" stroke="rgba(200,198,218,0.45)" stroke-width="1" fill="none" stroke-linecap="round"/>` +
+      `<path d="${dI}" stroke="rgba(200,198,218,0.45)" stroke-width="1" fill="none" stroke-linecap="round"/>` +
+      `<path d="${dO}" stroke="rgba(255,255,255,0.7)"  stroke-width="0.6" fill="none" stroke-linecap="round"/>`;
+  }
+
+  function arcPositionDot() {
+    const p = arcPoint(0);
+    arcDotEl.style.left = p.x + 'px';
+    arcDotEl.style.top  = p.y + 'px';
+  }
+
+  function arcRender(pos) {
+    arcItemEls.forEach((el, i) => {
+      const offset  = i - pos;
+      const p       = arcPoint(offset);
+      const dist    = Math.abs(offset);
+      const opacity = dist < 1 ? 1 - dist * 0.8 : Math.max(0, 0.2 - (dist - 1) * 0.4);
+      el.style.transformOrigin = (-AG.itemOff) + 'px ' + AG.itemH + 'px';
+      el.style.transform = `translate3d(${(p.x + AG.itemOff).toFixed(1)}px,${(p.y - AG.itemH).toFixed(1)}px,0) rotate(${(p.angle * 180 / Math.PI).toFixed(3)}deg)`;
+      el.style.opacity   = opacity.toFixed(4);
+    });
+    arcDotTrack.style.transform = `translateY(${(-pos * AG.btnSize).toFixed(2)}px)`;
+  }
+
+  let arcCurPos = 0, arcTarget = 0, arcRafId = null;
+  let arcAFrom = 0, arcATo = 0, arcAStart = 0, arcRunning = false;
+
+  function arcEaseOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function arcTick(now) {
+    const t = Math.min((now - arcAStart) / ARC_DURATION, 1);
+    arcCurPos = arcAFrom + (arcATo - arcAFrom) * arcEaseOut(t);
+    arcRender(arcCurPos);
+    if (t < 1) {
+      arcRafId = requestAnimationFrame(arcTick);
+    } else {
+      arcCurPos = arcATo; arcRunning = false; arcRender(arcCurPos);
+      if (arcTarget !== arcATo) arcStart(arcCurPos, arcTarget);
+    }
+  }
+
+  function arcStart(from, to) {
+    arcAFrom = from; arcATo = to; arcAStart = performance.now();
+    arcRunning = true;
+    if (arcRafId) cancelAnimationFrame(arcRafId);
+    arcRafId = requestAnimationFrame(arcTick);
+  }
+
+  function arcGoTo(idx) {
+    idx = Math.max(0, Math.min(ARC_ITEMS.length - 1, idx));
+    arcTarget = idx;
+    if (arcRunning) {
+      const t = Math.min((performance.now() - arcAStart) / ARC_DURATION, 1);
+      arcCurPos = arcAFrom + (arcATo - arcAFrom) * arcEaseOut(t);
+      cancelAnimationFrame(arcRafId); arcRunning = false;
+    }
+    if (Math.abs(arcCurPos - idx) < 0.001) return;
+    arcStart(arcCurPos, idx);
+  }
+
+  let arcAutoTimer = null;
+  function arcScheduleNext() {
+    clearTimeout(arcAutoTimer);
+    arcAutoTimer = setTimeout(() => {
+      arcGoTo((arcTarget + 1) % ARC_ITEMS.length);
+      arcScheduleNext();
+    }, 2000);
+  }
+
+  // Use IntersectionObserver so auto-advance only runs when section is visible
+  const arcSection = document.querySelector('.arc-section');
+  const arcObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) arcScheduleNext();
+    else clearTimeout(arcAutoTimer);
+  }, { threshold: 0.4 });
+  arcObserver.observe(arcSection);
+
+  let arcResizeTmr = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(arcResizeTmr);
+    arcResizeTmr = setTimeout(() => {
+      AG = arcComputeGeo();
+      arcUpdateDotStyle(); arcBuildArc(); arcPositionDot(); arcRender(arcCurPos);
+    }, 100);
+  });
+
+  AG = arcComputeGeo();
+  arcBuildItems(); arcBuildDot(); arcUpdateDotStyle(); arcBuildArc(); arcPositionDot(); arcRender(0);
 })();
 </script>
 </body>
