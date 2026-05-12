@@ -536,6 +536,7 @@ body {
   margin-bottom: 6px;
 }
 .stat-card__benefit {
+  display: none;
   font-size: 13px;
   line-height: 1.45;
   color: #000000;
@@ -1073,7 +1074,7 @@ body {
 .carousel {
   --card: min(
     calc((100dvh - 80px) * 0.56),
-    calc((min(100vw, 1440px) - 48px) / 5)
+    calc((min(100vw, 1440px) - 48px) / 3)
   );
   position: relative;
   width: 100%;
@@ -2743,7 +2744,6 @@ body {
         <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </div>
       <p class="sp-tweet-text">Three weeks on the Calibr8 and my morning stiffness is gone. The body mapping process is unlike anything I'd experienced before — felt like a proper medical assessment.</p>
-      <span class="sp-tweet-date">09:45 · Feb 12, 2025</span>
     </div>
     </div>
 
@@ -2761,7 +2761,6 @@ body {
           <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="sp-tweet-text">Pressure mapping before choosing a mattress is the future of sleep medicine. What Calibr8 is doing for Indian consumers is exactly what we've needed for years.</p>
-        <span class="sp-tweet-date">08:14 · Mar 4, 2025</span>
       </div>
       <div class="sp-card sp-card--photo" style="flex:1;min-height:200px;">
         <img src="couple review.webp" alt="Dinesh & Dipika">
@@ -2790,13 +2789,11 @@ body {
           <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="sp-tweet-text">Sleep optimization is underrated in India. Calibr8's pressure mapping approach is the kind of data-driven thinking I respect.</p>
-        <span class="sp-tweet-date">11:32 · Jan 18, 2025</span>
       </div>
       <div class="sp-card sp-card--testimonial" style="flex:1;display:flex;flex-direction:column;">
         <img class="sp-test-img" src="harsha bhogle.jpg" alt="Harsha Bhogle">
         <div class="sp-test-body">
           <p class="sp-test-text">I dedicate more attention to my recovery since getting my Calibr8 mattress. The pressure report was eye-opening — I had no idea my lower back was taking that much load every night.</p>
-          <span class="sp-test-author">Harsha Bhogle · Member since 2024</span>
         </div>
       </div>
     </div>
@@ -2827,7 +2824,6 @@ body {
         <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </div>
       <p class="sp-tweet-text">The pressure mapping report showed things I had no idea about. A mattress built specifically for my body — that's not a luxury, that's just correct.</p>
-      <span class="sp-tweet-date">14:20 · Mar 22, 2025</span>
     </div>
     </div>
 
@@ -3350,8 +3346,6 @@ body {
       if (d === 0) return 'c-center';
       if (d === 1) return 'c-right';
       if (d === N-1) return 'c-left';
-      if (d === 2) return 'c-enter';
-      if (d === N-2) return 'c-exit';
       return 'c-hidden';
     }
     function applyState(card, state, instant) {
