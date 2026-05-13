@@ -443,7 +443,7 @@ body {
   margin-bottom: 6px;
 }
 .row__label {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--ink-3);
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -568,9 +568,10 @@ body {
   margin-bottom: 4px;
 }
 
-/* For fixed-height viz, drive delta to bottom via viz margin instead */
+/* Center viz vertically between title and delta */
 [data-kind="lines"] .sleep-lines,
 [data-kind="vbars"] .rem-bars {
+  margin-top: auto;
   margin-bottom: auto;
 }
 [data-kind="lines"] .delta,
@@ -639,29 +640,36 @@ body {
 
 .graph__label {
   position: absolute;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
   line-height: 1.2;
   opacity: 0;
-  transform: translateY(3px);
   transition: opacity 280ms ease, transform 280ms var(--ease-out);
   pointer-events: none;
+  text-align: center;
 }
-.graph__label.is-on { opacity: 1; transform: translateY(0); }
 .graph__label--std {
-  left: 10%;
-  top: 66%;
-  text-align: left;
+  left: 27%;
+  top: 60%;
+  transform: translateX(-50%) translateY(3px);
   color: #C54B8C;
 }
+.graph__label--std.is-on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 .graph__label--cal {
-  right: 2%;
-  top: 30%;
-  text-align: right;
+  left: 80%;
+  top: calc(37% + 20px);
+  transform: translateX(-50%) translateY(3px);
   color: #553C9A;
+}
+.graph__label--cal.is-on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* === Shared tight spacing — arc, graph, lines, vbars === */
@@ -728,7 +736,7 @@ body {
   fill: var(--ink-1);
 }
 .ring__name {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -742,7 +750,7 @@ body {
   height: clamp(170px, 20vw, 280px);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 22px;
   margin-top: 14px;
   margin-bottom: 18px;
 }
@@ -771,7 +779,7 @@ body {
   letter-spacing: -0.01em;
 }
 .rem-label {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -801,7 +809,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -895,7 +903,7 @@ body {
 }
 .vbar__fill.is-on { height: calc(var(--pct) * 1%); }
 .vbar__name {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -912,13 +920,14 @@ body {
   min-height: 0;
   margin: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 .arc-gauge__svg {
   width: 100%;
   height: auto;
   display: block;
   overflow: visible;
+  margin-top: -18px;
 }
 .arc__seg {
   fill: none;
@@ -945,7 +954,7 @@ body {
 .arc__dot.is-on { opacity: 1; transform: scale(1); }
 .arc__label {
   position: absolute;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -958,13 +967,13 @@ body {
 .arc__label.is-on { opacity: 1; transform: translateY(0); }
 .arc__label--std {
   left: 44%;
-  top: 47%;
+  top: 36%;
   text-align: center;
   color: #C54B8C;
 }
 .arc__label--cal {
   right: 2%;
-  top: 2%;
+  top: 12%;
   text-align: center;
   color: #553C9A;
 }
@@ -1370,7 +1379,7 @@ body {
   background-position: center;
   transition: transform 0.72s cubic-bezier(0.32, 1.28, 0.55, 1);
 }
-.calibr8-slider-section .card__video { width: 100%; height: 100%; object-fit: cover; }
+.calibr8-slider-section .card__video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.18); }
 .calibr8-slider-section .card:not(.active):hover .card__bg { transform: scale(1.08); }
 
 .calibr8-slider-section .card:not(.active)::before {
@@ -1536,20 +1545,14 @@ body {
   right: 5%;
   top: 50%;
   transform: translateY(-50%) scale(0.96);
-  width: 340px;
-  padding: 28px 30px 24px;
-  border-radius: 22px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.32) 100%);
-  backdrop-filter: blur(40px) saturate(1.2) brightness(1.12);
-  -webkit-backdrop-filter: blur(40px) saturate(1.2) brightness(1.12);
-  box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.95),
-    inset 0 -1px 0 rgba(255,255,255,0.4),
-    inset 1px 0 0 rgba(255,255,255,0.6),
-    inset -1px 0 0 rgba(255,255,255,0.3),
-    inset 0 20px 30px -18px rgba(255,255,255,0.6),
-    0 8px 40px rgba(0,0,0,0.10),
-    0 2px 8px rgba(0,0,0,0.05);
+  width: 255px;
+  padding: 18px 20px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(24px) saturate(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 4px 20px rgba(0,0,0,0.06);
   z-index: 10;
   opacity: 0;
   pointer-events: none;
@@ -1587,7 +1590,7 @@ body {
   margin-bottom: 10px;
 }
 .zone-tooltip__name {
-  font-size: clamp(22px, 2.6vw, 38px);
+  font-size: clamp(16px, 1.9vw, 28px);
   font-weight: 700;
   color: #14161e;
   letter-spacing: -0.02em;
@@ -1616,7 +1619,7 @@ body {
   gap: 8px;
 }
 .zone-tooltip__firmness {
-  font-size: clamp(18px, 2vw, 28px);
+  font-size: clamp(14px, 1.5vw, 21px);
   font-weight: 700;
   color: #553C9A;
 }
@@ -1732,14 +1735,18 @@ body {
   gap: 12px;
 }
 .zone-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
   border-radius: 14px;
-  border: 1px solid #F0EDF8;
-  box-shadow: 0 1px 4px rgba(91,63,168,0.06), 0 4px 16px rgba(91,63,168,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 4px 24px rgba(0,0,0,0.06);
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transform: scale(0.75);
+  transform-origin: top right;
 }
 .zone-card__num {
   font-size: 9px;
@@ -2505,7 +2512,7 @@ body {
                 stroke="url(#muscle-arc-stroke)"/>
           <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
           <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
-          <line class="arc__stem arc__stem--cal" x1="274.8" y1="30" x2="274.8" y2="161"/>
+          <line class="arc__stem arc__stem--cal" x1="274.8" y1="65" x2="274.8" y2="161"/>
         </svg>
         <span class="arc__label arc__label--std">Standard<br>Mattress</span>
         <span class="arc__label arc__label--cal">Calibrated<br>Mattress</span>
@@ -3552,11 +3559,11 @@ body {
   }
 
   const CARDS = [
-    { id: 0, title: 'Scan', desc: 'Scans & measures 8 zones of your body to identify exact pressure points. The pressure mapping sensor mat analyzes how your body weight is distributed across 8 zones, detecting areas where support needs adjustment.', img: 'card1.png', icon: scanIcon('#ffffff') },
+    { id: 0, title: 'Scan', desc: 'Scans & measures 8 zones of your body to identify exact pressure points. The pressure mapping sensor mat analyzes how your body weight is distributed across 8 zones, detecting areas where support needs adjustment.', img: null, video: 'Scan Lines.mov', icon: scanIcon('#ffffff') },
     { id: 1, title: 'Heat map', desc: 'In real time the system shows a pressure map from Blue → Red so you can see exactly where your body feels the pressure.', img: 'card2.png', icon: heatmapIcon('#ffffff') },
-    { id: 2, title: 'Calibration', desc: 'The system reconfigures the middle support layer while scanning, until every zone reaches optimal balance — ensuring optimal firmness and comfort across 8 adaptive zones, aligning your spine and reducing pressure points.', img: null, video: 'card3.mp4', icon: calibrationIcon('#ffffff') },
+    { id: 2, title: 'Calibration', desc: 'The system reconfigures the middle support layer while scanning, until every zone reaches optimal balance — ensuring optimal firmness and comfort across 8 adaptive zones, aligning your spine and reducing pressure points.', img: null, video: 'Calibration.mov', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'You receive a unique report based on your calibration, helping you proceed with ordering your personalised mattress.', img: 'card4.png', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: 'card5.png', icon: mattressIcon('#ffffff') },
+    { id: 4, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: null, video: 'Final Mattress.mov', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
