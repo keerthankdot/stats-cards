@@ -443,7 +443,7 @@ body {
   margin-bottom: 6px;
 }
 .row__label {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--ink-3);
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -465,7 +465,7 @@ body {
 .bar__seg {
   flex: 1 1 0;
   min-width: 0;
-  height: 36px;
+  height: clamp(28px, 3.5vw, 48px);
   border-radius: 8px;
   background: color-mix(in srgb, var(--seg-color, var(--scheme)) 14%, transparent);
   transition: background var(--dur-seg) var(--ease-out);
@@ -498,42 +498,42 @@ body {
   font-variant-numeric: tabular-nums;
 }
 .delta__arrow {
-  font-size: 22px;
+  font-size: 28px;
   line-height: 1;
   font-weight: 500;
   transform: translateY(-2px);
 }
 .delta__sign {
   font-family: var(--font-display);
-  font-size: 34px;
+  font-size: 42px;
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 .delta__value {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: 60px;
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 .delta__suffix {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-left: 1px;
 }
 
 .stat-card__footer {
-  padding-top: 14px;
+  padding-top: 0;
 }
 .stat-card__outcome {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--scheme);
-  margin-bottom: 6px;
+  margin-bottom: 0;
 }
 .stat-card__benefit {
   display: none;
@@ -544,13 +544,14 @@ body {
 }
 
 .stat-card__title {
-  font-size: 20px;
+  font-size: clamp(18px, 1.8vw, 28px);
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--ink-1);
   margin: 0 0 12px;
   line-height: 1.15;
+  text-align: center;
 }
 
 .stat-card--graph {
@@ -563,10 +564,18 @@ body {
 [data-kind="lines"] .delta,
 [data-kind="vbars"] .delta {
   justify-content: center;
-  margin: 4px 0 2px;
-}
-[data-kind="rings"] .delta {
   margin-top: auto;
+  margin-bottom: 4px;
+}
+
+/* For fixed-height viz, drive delta to bottom via viz margin instead */
+[data-kind="lines"] .sleep-lines,
+[data-kind="vbars"] .rem-bars {
+  margin-bottom: auto;
+}
+[data-kind="lines"] .delta,
+[data-kind="vbars"] .delta {
+  margin-top: 0;
 }
 
 .stat-card--graph .stat-card__outcome,
@@ -581,7 +590,7 @@ body {
 [data-kind="lines"] .stat-card__benefit,
 [data-kind="vbars"] .stat-card__benefit { text-align: center; }
 
-.stat-card--bottom .delta { justify-content: center; margin: 10px 0 4px; }
+.stat-card--bottom .delta { justify-content: center; margin-top: auto; margin-bottom: 4px; }
 .stat-card--bottom .stat-card__outcome { text-align: center; }
 .stat-card--bottom .stat-card__benefit { text-align: center; }
 
@@ -630,7 +639,7 @@ body {
 
 .graph__label {
   position: absolute;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -669,13 +678,9 @@ body {
 
 .stat-card--arc .stat-card__outcome,
 .stat-card--graph .stat-card__outcome,
+[data-kind="rings"] .stat-card__outcome,
 [data-kind="lines"] .stat-card__outcome,
-[data-kind="vbars"] .stat-card__outcome { margin: 0; }
-
-.stat-card--arc .stat-card__footer,
-.stat-card--graph .stat-card__footer,
-[data-kind="lines"] .stat-card__footer,
-[data-kind="vbars"] .stat-card__footer { padding-top: 3px; }
+[data-kind="vbars"] .stat-card__outcome { margin-bottom: 6px; }
 
 .stat-card--arc .stat-card__benefit,
 .stat-card--graph .stat-card__benefit,
@@ -686,16 +691,20 @@ body {
 .rings {
   display: flex;
   justify-content: center;
-  gap: 28px;
-  margin: 14px 0 8px;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+  flex: 1 1 auto;
+  width: 100%;
+  margin: 8px 0;
 }
 .ring-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  flex: 0 0 auto;
 }
-.ring__svg { width: 120px; height: 120px; display: block; }
+.ring__svg { width: clamp(90px, 11vw, 160px); height: auto; display: block; }
 .ring__track {
   fill: none;
   stroke: color-mix(in srgb, var(--scheme) 14%, transparent);
@@ -719,9 +728,9 @@ body {
   fill: var(--ink-1);
 }
 .ring__name {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
   text-align: center;
@@ -729,9 +738,8 @@ body {
   margin: 0;
 }
 .rem-bars {
-  flex: 1;
-  min-height: 0;
-  max-height: 56%;
+  flex: 0 0 auto;
+  height: clamp(170px, 20vw, 280px);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -763,9 +771,9 @@ body {
   letter-spacing: -0.01em;
 }
 .rem-label {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
   line-height: 1.3;
@@ -775,9 +783,8 @@ body {
 }
 
 .sleep-lines {
-  flex: 1;
-  min-height: 0;
-  max-height: 72%;
+  flex: 0 0 auto;
+  height: clamp(180px, 22vw, 310px);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -794,9 +801,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .sleep-lines__badge--std { color: #C54B8C; }
@@ -863,7 +870,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  width: 72px;
+  width: clamp(72px, 10vw, 130px);
 }
 .vbar__pct {
   font-size: 13px;
@@ -888,9 +895,9 @@ body {
 }
 .vbar__fill.is-on { height: calc(var(--pct) * 1%); }
 .vbar__name {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
   text-align: center;
@@ -936,16 +943,40 @@ body {
   transition: opacity 260ms ease, transform 320ms var(--ease-out);
 }
 .arc__dot.is-on { opacity: 1; transform: scale(1); }
-.arc__label { opacity: 0; transition: opacity 300ms ease; }
-.arc__label.is-on { opacity: 1; }
+.arc__label {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 280ms ease, transform 280ms var(--ease-out);
+  pointer-events: none;
+}
+.arc__label.is-on { opacity: 1; transform: translateY(0); }
+.arc__label--std {
+  left: 44%;
+  top: 47%;
+  text-align: center;
+  color: #C54B8C;
+}
+.arc__label--cal {
+  right: 2%;
+  top: 2%;
+  text-align: center;
+  color: #553C9A;
+}
 .arc__stem {
   fill: none;
-  stroke: #BF40BF;
+  stroke: #553C9A;
   stroke-width: 1.5;
   stroke-opacity: 0.45;
   opacity: 0;
   transition: opacity 300ms ease;
 }
+.arc__stem.is-on { opacity: 1; }
 .arc__stem.is-on { opacity: 1; }
 
 
@@ -1059,7 +1090,7 @@ body {
 }
 
 .carousel-heading {
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 3vw, 42px);
   font-weight: 600;
   letter-spacing: normal;
   text-transform: none;
@@ -2474,21 +2505,10 @@ body {
                 stroke="url(#muscle-arc-stroke)"/>
           <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
           <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
-          <g class="arc__label arc__label--std">
-            <text x="166" y="100" text-anchor="middle" font-size="7.5" font-weight="600"
-                  letter-spacing="0.6" fill="#C54B8C" font-family="inherit">STANDARD</text>
-            <text x="166" y="111" text-anchor="middle" font-size="7.5" font-weight="600"
-                  letter-spacing="0.6" fill="#C54B8C" font-family="inherit">MATTRESS</text>
-          </g>
-          <g class="arc__label arc__label--cal">
-            <line x1="274.8" y1="30" x2="274.8" y2="161"
-                  stroke="#553C9A" stroke-width="1.5" stroke-opacity="0.45"/>
-            <text x="274.8" y="18" text-anchor="middle" font-size="7.5" font-weight="600"
-                  letter-spacing="0.6" fill="#553C9A" font-family="inherit">CALIBRATED</text>
-            <text x="274.8" y="29" text-anchor="middle" font-size="7.5" font-weight="600"
-                  letter-spacing="0.6" fill="#553C9A" font-family="inherit">MATTRESS</text>
-          </g>
+          <line class="arc__stem arc__stem--cal" x1="274.8" y1="30" x2="274.8" y2="161"/>
         </svg>
+        <span class="arc__label arc__label--std">Standard<br>Mattress</span>
+        <span class="arc__label arc__label--cal">Calibrated<br>Mattress</span>
       </div>
       <div class="delta" aria-hidden="true">
         <span class="delta__sign">+</span>
