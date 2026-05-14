@@ -1542,17 +1542,20 @@ body {
 /* ── Zone tooltip card ── */
 .zone-tooltip {
   position: absolute;
-  right: 5%;
+  right: calc(5% + 50px);
   top: 50%;
   transform: translateY(-50%) scale(0.96);
   width: 255px;
   padding: 18px 20px 16px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(24px) saturate(1.1);
-  -webkit-backdrop-filter: blur(24px) saturate(1.1);
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 4px 20px rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.2),
+    0 2px 12px rgba(0,0,0,0.08);
   z-index: 10;
   opacity: 0;
   pointer-events: none;
@@ -1586,13 +1589,13 @@ body {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7C5CBF;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 .zone-tooltip__name {
   font-size: clamp(16px, 1.9vw, 28px);
   font-weight: 700;
-  color: #14161e;
+  color: #ffffff;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
   line-height: 1;
@@ -1626,7 +1629,7 @@ body {
 .zone-tooltip__code {
   font-size: clamp(13px, 1.4vw, 18px);
   font-weight: 500;
-  color: #9B8ABF;
+  color: #ffffff;
 }
 @keyframes zone-beat {
   0%   { transform: translate(-50%,-50%) scale(1);   opacity: 0.85; }
@@ -2386,7 +2389,7 @@ body {
 </div>
 
 <div class="zone-map">
-  <img class="zone-map__img" src="try3.png" alt="Calibr8 8-zone mattress">
+  <img class="zone-map__img" src="8zones new.png" alt="Calibr8 8-zone mattress">
   <p class="zone-map__caption">Our system then configures<br>each zone's firmness independently.</p>
   <div class="zone-tooltip" id="zone-tooltip">
     <div class="zone-tooltip__num"></div>
@@ -2397,25 +2400,25 @@ body {
       <span class="zone-tooltip__code"></span>
     </div>
   </div>
-  <button class="zone-dot" style="left:calc(40% + 151.5px);top:calc(34.4% - 111px);--beat-delay:0s" aria-label="Head">
+  <button class="zone-dot" style="left:calc(40% + 151.5px);top:calc(34.4% - 81px);--beat-delay:0s" aria-label="Head">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(41% + 153px);top:calc(34.4% - 62px);--beat-delay:0.28s" aria-label="Shoulder">
+  <button class="zone-dot" style="left:calc(41% + 153px);top:calc(34.4% - 36px);--beat-delay:0.28s" aria-label="Shoulder">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(42% + 159.5px);top:calc(34.4% - 13px);--beat-delay:0.56s" aria-label="Upper Back">
+  <button class="zone-dot" style="left:calc(42% + 159.5px);top:calc(34.4% + 9px);--beat-delay:0.56s" aria-label="Upper Back">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(43% + 166px);top:calc(34.4% + 36px);--beat-delay:0.84s" aria-label="Lumbar">
+  <button class="zone-dot" style="left:calc(43% + 166px);top:calc(34.4% + 54px);--beat-delay:0.84s" aria-label="Lumbar">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(44% + 171.5px);top:calc(34.4% + 85px);--beat-delay:1.12s" aria-label="Pelvic">
+  <button class="zone-dot" style="left:calc(44% + 171.5px);top:calc(34.4% + 99px);--beat-delay:1.12s" aria-label="Pelvic">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(45% + 178px);top:calc(34.4% + 134px);--beat-delay:1.4s" aria-label="Thigh">
+  <button class="zone-dot" style="left:calc(45% + 178px);top:calc(34.4% + 144px);--beat-delay:1.4s" aria-label="Thigh">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(46% + 184.5px);top:calc(34.4% + 183px);--beat-delay:1.68s" aria-label="Leg">
+  <button class="zone-dot" style="left:calc(46% + 184.5px);top:calc(34.4% + 189px);--beat-delay:1.68s" aria-label="Leg">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
   <button class="zone-dot" style="left:calc(47.1% + 191px);top:calc(34.4% + 232px);--beat-delay:1.96s" aria-label="Foot">
@@ -3560,7 +3563,7 @@ body {
 
   const CARDS = [
     { id: 0, title: 'Scan', desc: 'Scans & measures 8 zones of your body to identify exact pressure points. The pressure mapping sensor mat analyzes how your body weight is distributed across 8 zones, detecting areas where support needs adjustment.', img: null, video: 'Scan Lines.mov', icon: scanIcon('#ffffff') },
-    { id: 1, title: 'Heat map', desc: 'In real time the system shows a pressure map from Blue → Red so you can see exactly where your body feels the pressure.', img: 'card2.png', icon: heatmapIcon('#ffffff') },
+    { id: 1, title: 'Heat map', desc: 'In real time the system shows a pressure map from Blue → Red so you can see exactly where your body feels the pressure.', img: 'heatmap.webp', icon: heatmapIcon('#ffffff') },
     { id: 2, title: 'Calibration', desc: 'The system reconfigures the middle support layer while scanning, until every zone reaches optimal balance — ensuring optimal firmness and comfort across 8 adaptive zones, aligning your spine and reducing pressure points.', img: null, video: 'Calibration.mov', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'You receive a unique report based on your calibration, helping you proceed with ordering your personalised mattress.', img: 'card4.png', icon: reportIcon('#ffffff') },
     { id: 4, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: null, video: 'Final Mattress.mov', icon: mattressIcon('#ffffff') },
