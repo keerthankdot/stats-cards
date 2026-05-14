@@ -505,20 +505,20 @@ body {
 }
 .delta__sign {
   font-family: var(--font-display);
-  font-size: 42px;
+  font-size: 54px;
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 .delta__value {
   font-family: var(--font-display);
-  font-size: 60px;
+  font-size: 80px;
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 .delta__suffix {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-left: 1px;
@@ -528,9 +528,9 @@ body {
   padding-top: 0;
 }
 .stat-card__outcome {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--scheme);
   margin-bottom: 0;
@@ -544,7 +544,7 @@ body {
 }
 
 .stat-card__title {
-  font-size: clamp(18px, 1.8vw, 28px);
+  font-size: clamp(22px, 2.4vw, 36px);
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -663,7 +663,7 @@ body {
 }
 .graph__label--cal {
   left: 80%;
-  top: calc(37% + 20px);
+  top: calc(37% + 23px);
   transform: translateX(-50%) translateY(3px);
   color: #553C9A;
 }
@@ -677,6 +677,51 @@ body {
 .stat-card--graph .stat-card__title,
 [data-kind="lines"] .stat-card__title,
 [data-kind="vbars"] .stat-card__title { margin-bottom: 2px; }
+
+/* ── Lumbar card overrides ── */
+[data-kind="graph"] .graph { width: 78%; margin: 0 auto; }
+
+/* ── Muscle pressure card overrides (flipped layout) ── */
+[data-kind="arc"] .stat-card__title { margin-top: 4px; margin-bottom: 0; }
+[data-kind="arc"] .delta { margin-top: 0; margin-bottom: 2px; }
+[data-kind="arc"].stat-card::before {
+  bottom: auto; top: 0;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  background: linear-gradient(to bottom,
+    rgba(85,60,154,0.30) 0%,
+    rgba(100,72,170,0.14) 48%,
+    transparent 100%);
+}
+
+.rings-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  gap: 2px;
+}
+.rings-center .delta { margin: 0; }
+.rings-center .delta__sign  { font-size: 65px; }
+.rings-center .delta__value { font-size: 96px; }
+.rings-center .delta__suffix { font-size: 43px; }
+.rings-center .stat-card__outcome { font-size: 19px; }
+[data-kind="rings"] .stat-card__title { margin-bottom: 0; }
+[data-kind="rings"] .rings { flex: 0 0 auto; margin: 0; }
+
+/* ── Deep sleep: sandwich gradient around the number ── */
+[data-kind="rings"].stat-card::before {
+  top: 0; bottom: 0; height: 100%;
+  border-radius: var(--card-radius);
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    transparent 12%,
+    rgba(85,60,154,0.22) 28%,
+    rgba(85,60,154,0.32) 42%,
+    rgba(85,60,154,0.22) 56%,
+    transparent 72%,
+    transparent 100%);
+}
 
 
 .stat-card--arc .delta,
@@ -2492,7 +2537,12 @@ body {
       <p id="s2-sr" class="sr-only">
         Muscle pressure distribution: Calibr8 spreads weight 37 percent more evenly than a standard mattress.
       </p>
-      <h3 id="s2-title" class="stat-card__title">Muscle Pressure</h3>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="37">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Even Pressure</div>
 
       <div class="arc-gauge" aria-hidden="true">
         <!-- viewBox 300×225 matches container (square minus title minus footer ≈ 1.33:1) -->
@@ -2520,12 +2570,7 @@ body {
         <span class="arc__label arc__label--std">Standard<br>Mattress</span>
         <span class="arc__label arc__label--cal">Calibrated<br>Mattress</span>
       </div>
-      <div class="delta" aria-hidden="true">
-        <span class="delta__sign">+</span>
-        <span class="delta__value" data-target="37">0</span>
-        <span class="delta__suffix">%</span>
-      </div>
-      <div class="stat-card__outcome">Even Pressure</div>
+      <h3 id="s2-title" class="stat-card__title">Muscle Pressure</h3>
       <footer class="stat-card__footer">
         <p class="stat-card__benefit">Improved muscle pressure distribution for deeper, more restorative sleep.</p>
       </footer>
@@ -2536,6 +2581,15 @@ body {
              tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
       <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78% — an 18 to 25 percent increase from reduced pressure discomfort.</p>
       <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
+
+      <div class="rings-center" aria-hidden="true">
+        <div class="delta">
+          <span class="delta__sign">+</span>
+          <span class="delta__value" data-target="21">0</span>
+          <span class="delta__suffix">%</span>
+        </div>
+        <div class="stat-card__outcome">More Deep Sleep</div>
+      </div>
 
       <div class="rings" aria-hidden="true">
         <div class="ring-item">
@@ -2557,13 +2611,6 @@ body {
           <p class="ring__name">Calibrated<br>Mattress</p>
         </div>
       </div>
-
-      <div class="delta" aria-hidden="true">
-        <span class="delta__sign">+</span>
-        <span class="delta__value" data-target="21">0</span>
-        <span class="delta__suffix">%</span>
-      </div>
-      <div class="stat-card__outcome">More Deep Sleep</div>
       <footer class="stat-card__footer">
         <p class="stat-card__benefit">18 to 25% increase in slow-wave sleep from reduced overnight pressure discomfort.</p>
       </footer>
