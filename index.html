@@ -684,22 +684,6 @@ body {
 [data-kind="graph"] .delta__sign       { font-size: 62px; }
 [data-kind="graph"] .delta__value      { font-size: 92px; }
 [data-kind="graph"] .delta__suffix     { font-size: 41px; }
-.lumbar-stat {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 12px;
-  margin-top: auto;
-}
-.lumbar-stat .delta { margin: 0; justify-content: flex-start; align-items: flex-start; }
-.lumbar-stat .stat-card__outcome {
-  font-size: 40px;
-  text-align: left;
-  line-height: 1.15;
-  letter-spacing: 0.06em;
-  margin: 0;
-}
 
 /* ── Muscle pressure card ── */
 [data-kind="arc"] .delta { justify-content: center; }
@@ -2187,49 +2171,51 @@ body {
   margin: 0 80px;
   display: flex;
   align-items: stretch;
-  gap: 8px;
+  gap: 16px;
+  height: 420px;
 }
-.reviews-left-col {
-  flex: none;
-  width: 512px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.reviews-text {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: opacity 0.28s ease, transform 0.28s ease;
-}
-.reviews-text.text-out { opacity: 0; transform: translateY(10px); }
-.reviews-thumbs {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  justify-content: flex-start;
-}
-.rc-thumb {
+.reviews-col {
+  position: relative;
   overflow: hidden;
-  border-radius: 10px;
-  cursor: pointer;
-  flex-shrink: 0;
-  opacity: 0.45;
-  transition: opacity 0.3s ease;
 }
-.rc-thumb:hover { opacity: 0.78; }
-.rc-thumb:nth-child(1) { width: 48px;  height: 60px; }
-.rc-thumb:nth-child(2) { width: 96px;  height: 120px; }
-.rc-thumb:nth-child(3) { width: 144px; height: 180px; }
-.rc-thumb:nth-child(4) { width: 192px; height: 240px; }
-.rc-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.rev-col-left {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rev-col-center {
+  flex: 0 0 300px;
+}
+.rev-col-right {
+  flex: 1;
+}
+.rev-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.rev-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rev-panel.is-exit {
+  transform: translateY(-110%);
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.6, 1);
+}
+.rev-panel.is-enter {
+  transform: translateY(110%);
+  transition: none;
+}
+.reviews-meta { margin-top: 20px; }
 .reviews-hero {
-  width: 304px;
-  height: 380px;
+  width: 100%; height: 100%;
   border-radius: 20px;
   overflow: hidden;
-  flex-shrink: 0;
-  will-change: transform;
 }
 .reviews-hero img {
   width: 100%; height: 100%;
@@ -2237,15 +2223,13 @@ body {
   display: block;
 }
 .rev-cal-group {
-  flex: 1;
   display: flex;
   gap: 8px;
-  align-items: flex-end;
-  justify-content: flex-start;
+  height: 100%;
 }
 .rev-cal {
   flex: 1;
-  height: 380px;
+  height: 100%;
   border-radius: 20px;
   background: rgba(255,255,255,0.18);
   backdrop-filter: blur(24px) saturate(1.4);
@@ -2261,8 +2245,7 @@ body {
 .rev-cal__inner {
   background: #fff;
   border-radius: 14px;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -2270,90 +2253,29 @@ body {
   width: 100%;
   height: calc(100% - 32px);
   margin-top: 32px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center top;
   display: block;
   border-radius: 14px;
-  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
 }
 .rev-cal__label {
   position: absolute;
-  top: 14px;
-  left: 0;
-  right: 0;
+  top: 10px; left: 0; right: 0;
   text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: #111;
-  white-space: nowrap;
-  line-height: 1;
+  font-size: 11px; font-weight: 600; color: #111;
+  white-space: nowrap; line-height: 1;
   font-family: var(--font-sans);
   z-index: 2;
-}
-.rc-card {
-  position: absolute;
-  bottom: 0;
-  overflow: hidden;
-  border-radius: 14px;
-  cursor: pointer;
-  will-change: left, width, height, opacity;
-  transition:
-    left     0.65s cubic-bezier(0.34, 1.15, 0.64, 1),
-    width    0.65s cubic-bezier(0.34, 1.15, 0.64, 1),
-    height   0.65s cubic-bezier(0.34, 1.15, 0.64, 1),
-    opacity  0.5s ease,
-    z-index  0s;
-}
-.rc-card img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: top center;
-  display: block; pointer-events: none;
 }
 .reviews-name { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 3px; font-family: var(--font-sans); }
 .reviews-city { font-size: 12px; color: #aaa; font-family: var(--font-sans); }
 .reviews-quote {
-  font-size: clamp(12px, 1.05vw, 16px);
+  font-size: clamp(13px, 1.1vw, 17px);
   font-weight: 700; color: #111;
-  line-height: 1.35; letter-spacing: -0.02em;
+  line-height: 1.4; letter-spacing: -0.02em;
   margin: 0; padding: 0;
   font-family: var(--font-sans);
 }
-.reviews-next-btn {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  align-self: flex-start;
-  position: relative; isolation: isolate;
-  background: linear-gradient(145deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.22) 100%);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.95),
-    inset 0 -1px 0 rgba(255,255,255,0.3),
-    inset 1px 0 0 rgba(255,255,255,0.6),
-    inset -1px 0 0 rgba(255,255,255,0.3),
-    inset 0 12px 20px -10px rgba(255,255,255,0.8),
-    0 2px 8px rgba(0,0,0,0.08),
-    0 8px 24px rgba(0,0,0,0.10);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.reviews-next-btn::after {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: inherit; padding: 1px;
-  background: linear-gradient(135deg,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,0.4) 35%,
-    rgba(255,255,255,0.08) 55%,
-    rgba(255,255,255,0.5) 80%,
-    rgba(255,255,255,0.9) 100%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  pointer-events: none;
-}
-.reviews-next-btn:hover { transform: scale(1.08) translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 16px rgba(0,0,0,0.13), 0 12px 32px rgba(0,0,0,0.10); }
 
 /* ── Card purple gradient bottom ── */
 .stat-card::before {
@@ -2462,7 +2384,7 @@ body {
       <p id="s1-sr" class="sr-only">
         Lumbar support: Calibr8 holds the spine 24 percent better than a standard mattress.
       </p>
-      <h3 id="s1-title" class="stat-card__title">Lumbar<br>Support</h3>
+      <h3 id="s1-title" class="stat-card__title">Lumbar Support</h3>
 
       <div class="graph" aria-hidden="true">
         <svg class="graph__svg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet">
@@ -2500,14 +2422,12 @@ body {
         <span class="graph__label graph__label--cal">Calibrated<br>Mattress</span>
       </div>
 
-      <div class="lumbar-stat" aria-hidden="true">
-        <div class="delta">
-          <span class="delta__sign">+</span>
-          <span class="delta__value" data-target="24">0</span>
-          <span class="delta__suffix">%</span>
-        </div>
-        <div class="stat-card__outcome">Better<br>Alignment</div>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="24">0</span>
+        <span class="delta__suffix">%</span>
       </div>
+      <div class="stat-card__outcome">Better Alignment</div>
       <footer class="stat-card__footer">
         <p class="stat-card__benefit">Better spinal alignment with proper lumbar support through the night.</p>
       </footer>
@@ -2741,33 +2661,53 @@ body {
 <!-- Reviews Section -->
 <section class="reviews-section" aria-label="Customer reviews">
   <div class="reviews-body">
-    <div class="reviews-left-col">
-      <div class="reviews-text" id="reviews-right">
-        <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
-        <div>
-          <div class="reviews-name" id="reviews-name"></div>
-          <div class="reviews-city" id="reviews-city"></div>
+
+    <!-- Left: quote + name -->
+    <div class="reviews-col rev-col-left">
+      <div class="rev-track">
+        <div class="rev-panel" id="rev-panel-text">
+          <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
+          <div class="reviews-meta">
+            <div class="reviews-name" id="reviews-name"></div>
+            <div class="reviews-city" id="reviews-city"></div>
+          </div>
         </div>
       </div>
-      <div class="reviews-thumbs" id="reviews-thumbs"></div>
     </div>
-    <div class="reviews-hero" id="reviews-hero">
-      <img id="reviews-hero-img" src="" alt="" loading="eager">
-    </div>
-    <div class="rev-cal-group">
-    <div class="rev-cal">
-      <div class="rev-cal__inner">
-        <span class="rev-cal__label">Before Calibration</span>
-        <img class="rev-cal__body-img" id="rev-cal-bef-img" src="images/person1body1.png" alt="Before calibration">
+
+    <!-- Center: person photo -->
+    <div class="reviews-col rev-col-center">
+      <div class="rev-track">
+        <div class="rev-panel" id="rev-panel-hero">
+          <div class="reviews-hero">
+            <img id="reviews-hero-img" src="" alt="" loading="eager">
+          </div>
+        </div>
       </div>
     </div>
-    <div class="rev-cal">
-      <div class="rev-cal__inner">
-        <span class="rev-cal__label">After Calibration</span>
-        <img class="rev-cal__body-img" id="rev-cal-aft-img" src="images/person1body2.png" alt="After calibration">
+
+    <!-- Right: before / after -->
+    <div class="reviews-col rev-col-right">
+      <div class="rev-track">
+        <div class="rev-panel" id="rev-panel-cal">
+          <div class="rev-cal-group">
+            <div class="rev-cal">
+              <div class="rev-cal__inner">
+                <span class="rev-cal__label">Before Calibration</span>
+                <img class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
+              </div>
+            </div>
+            <div class="rev-cal">
+              <div class="rev-cal__inner">
+                <span class="rev-cal__label">After Calibration</span>
+                <img class="rev-cal__body-img" id="rev-cal-aft-img" src="" alt="After calibration">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    </div>
+
   </div>
 </section>
 
@@ -3690,170 +3630,61 @@ body {
 
   let rcActive = 0;
   let rcLocked = false;
-  let rcPaused = false;
   let rcTimer  = null;
+
+  const panels = () => [
+    document.getElementById('rev-panel-text'),
+    document.getElementById('rev-panel-hero'),
+    document.getElementById('rev-panel-cal'),
+  ].filter(Boolean);
+
+  function loadContent(idx) {
+    const r = REVIEWS[idx];
+    document.getElementById('reviews-quote').textContent = r.quote;
+    document.getElementById('reviews-name').textContent  = r.name;
+    document.getElementById('reviews-city').textContent  = r.city;
+    document.getElementById('reviews-hero-img').src      = r.img;
+    document.getElementById('rev-cal-bef-img').src       = r.bodyBefore;
+    document.getElementById('rev-cal-aft-img').src       = r.bodyAfter;
+  }
+
+  function activateReview(newIdx) {
+    if (rcLocked || newIdx === rcActive) return;
+    rcLocked = true;
+
+    const ps = panels();
+
+    // 1. Exit — slide up
+    ps.forEach(p => p.classList.add('is-exit'));
+
+    setTimeout(() => {
+      // 2. Snap to bottom (no transition)
+      ps.forEach(p => {
+        p.classList.remove('is-exit');
+        p.classList.add('is-enter');
+      });
+
+      // 3. Swap content while off-screen
+      rcActive = newIdx;
+      loadContent(newIdx);
+
+      // 4. Enter — slide up into place
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        ps.forEach(p => p.classList.remove('is-enter'));
+        setTimeout(() => { rcLocked = false; }, 700);
+      }));
+    }, 580);
+  }
 
   function startTimer() {
     clearInterval(rcTimer);
     rcTimer = setInterval(() => {
-      if (rcLocked || rcPaused) return;
-      const next = (rcActive + 1) % REVIEWS.length;
-      activateReview(next, null, true);
-    }, 3000);
+      if (!rcLocked) activateReview((rcActive + 1) % REVIEWS.length);
+    }, 4000);
   }
-
-  function pauseTimer() {
-    rcPaused = true;
-    clearInterval(rcTimer);
-  }
-
-  function resumeTimer() {
-    rcPaused = false;
-    startTimer();
-  }
-
-  function buildThumbs() {
-    const deck = document.getElementById('reviews-thumbs');
-    if (!deck) return;
-    deck.innerHTML = '';
-    REVIEWS.forEach((r, i) => {
-      if (i === rcActive) return;
-      const el = document.createElement('div');
-      el.className = 'rc-thumb';
-      el.dataset.idx = i;
-      el.innerHTML = `<img src="${r.img}" alt="${r.name}" loading="lazy">`;
-      el.addEventListener('click', () => {
-        pauseTimer();
-        activateReview(i, el, false);
-      });
-      deck.appendChild(el);
-    });
-  }
-
-  function updateText(idx) {
-    const r = REVIEWS[idx];
-    document.getElementById('reviews-name').textContent  = r.name;
-    document.getElementById('reviews-city').textContent  = r.city;
-    document.getElementById('reviews-quote').textContent = r.quote;
-  }
-
-  function flipEl(el, fromRect) {
-    const toRect = el.getBoundingClientRect();
-    const dx = fromRect.left - toRect.left;
-    const dy = fromRect.top  - toRect.top;
-    const sx = fromRect.width  / toRect.width;
-    const sy = fromRect.height / toRect.height;
-    if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < 0.01) return;
-    el.style.transition      = 'none';
-    el.style.transformOrigin = 'top left';
-    el.style.transform       = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      el.style.transition = 'transform 0.55s cubic-bezier(0.34,1.15,0.64,1), opacity 0.35s ease';
-      el.style.transform  = '';
-      setTimeout(() => { el.style.transition = ''; el.style.transformOrigin = ''; }, 650);
-    }));
-  }
-
-  function activateReview(newIdx, thumbEl, isAuto) {
-    if (rcLocked || newIdx === rcActive) return;
-    rcLocked = true;
-
-    const heroEl   = document.getElementById('reviews-hero');
-    const heroRect = heroEl.getBoundingClientRect();
-    const prevIdx  = rcActive;
-
-    // Snapshot all current thumb positions before rebuild
-    const oldRects = {};
-    document.querySelectorAll('.rc-thumb').forEach(el => {
-      oldRects[+el.dataset.idx] = el.getBoundingClientRect();
-    });
-    // Source rect for the incoming person (thumb → hero)
-    const srcRect = thumbEl ? thumbEl.getBoundingClientRect() : (oldRects[newIdx] || null);
-
-    rcActive = newIdx;
-    document.getElementById('reviews-hero-img').src = REVIEWS[newIdx].img;
-    const bImg = document.getElementById('rev-cal-bef-img');
-    const aImg = document.getElementById('rev-cal-aft-img');
-
-    // Body images: fade-scale out, swap, fade in
-    [bImg, aImg].forEach(img => { if (img) { img.style.opacity = '0'; img.style.transform = 'scale(0.97)'; } });
-    setTimeout(() => {
-      if (bImg) bImg.src = REVIEWS[newIdx].bodyBefore;
-      if (aImg) aImg.src = REVIEWS[newIdx].bodyAfter;
-      [bImg, aImg].forEach(img => { if (img) { img.style.opacity = '1'; img.style.transform = ''; } });
-    }, 300);
-
-    buildThumbs(); // DOM now reflects new state
-
-    // ── Hero animation ──
-    if (srcRect) {
-      // FLIP: hero springs from old thumb slot
-      const dx = srcRect.left - heroRect.left;
-      const dy = srcRect.top  - heroRect.top;
-      const sx = srcRect.width  / heroRect.width;
-      const sy = srcRect.height / heroRect.height;
-      heroEl.style.transition      = 'none';
-      heroEl.style.transformOrigin = 'top left';
-      heroEl.style.transform       = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
-      heroEl.style.opacity         = '0.5';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        heroEl.style.transition = 'transform 0.6s cubic-bezier(0.34,1.15,0.64,1), opacity 0.4s ease';
-        heroEl.style.transform  = '';
-        heroEl.style.opacity    = '1';
-        setTimeout(() => { heroEl.style.transition = ''; heroEl.style.transformOrigin = ''; }, 700);
-      }));
-    } else {
-      heroEl.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-      heroEl.style.transform  = 'scale(0.97)';
-      heroEl.style.opacity    = '0';
-      setTimeout(() => {
-        heroEl.style.transition = 'transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease';
-        heroEl.style.transform  = '';
-        heroEl.style.opacity    = '1';
-        setTimeout(() => { heroEl.style.transition = ''; }, 450);
-      }, 300);
-    }
-
-    // ── Previous hero → its new thumb slot ──
-    const prevThumbEl = document.querySelector(`.rc-thumb[data-idx="${prevIdx}"]`);
-    if (prevThumbEl) {
-      prevThumbEl.style.opacity = '0.5';
-      flipEl(prevThumbEl, heroRect);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        prevThumbEl.style.opacity = '';
-      }));
-    }
-
-    // ── Other thumbs that shifted slots ──
-    document.querySelectorAll('.rc-thumb').forEach(el => {
-      const idx = +el.dataset.idx;
-      if (idx === prevIdx) return; // already handled
-      const old = oldRects[idx];
-      if (!old) return;
-      flipEl(el, old);
-    });
-
-    // Text cross-fade
-    const txt = document.getElementById('reviews-right');
-    txt.classList.add('text-out');
-    setTimeout(() => { updateText(newIdx); txt.classList.remove('text-out'); }, 280);
-
-    setTimeout(() => { rcLocked = false; }, 750);
-  }
-
-  // Resume on click anywhere outside thumbs
-  document.addEventListener('click', e => {
-    if (rcPaused && !e.target.closest('.rc-thumb')) resumeTimer();
-  });
 
   // Init
-  buildThumbs();
-  document.getElementById('reviews-hero-img').src = REVIEWS[rcActive].img;
-  const bImgInit = document.getElementById('rev-cal-bef-img');
-  const aImgInit = document.getElementById('rev-cal-aft-img');
-  if (bImgInit) bImgInit.src = REVIEWS[rcActive].bodyBefore;
-  if (aImgInit) aImgInit.src = REVIEWS[rcActive].bodyAfter;
-  updateText(rcActive);
+  loadContent(rcActive);
   startTimer();
 })();
 
