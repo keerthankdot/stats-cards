@@ -2166,6 +2166,10 @@ body {
   .arc-item-sub { font-size: 11px; max-width: 180px; }
 }
 
+.reviews-viewport {
+  overflow: hidden;
+  position: relative;
+}
 .reviews-body {
   width: calc(100% - 160px);
   margin: 0 80px;
@@ -2176,7 +2180,6 @@ body {
 }
 .reviews-col {
   position: relative;
-  overflow: hidden;
 }
 .rev-col-left {
   flex: 0 0 300px;
@@ -2203,14 +2206,7 @@ body {
   justify-content: center;
   transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.rev-panel.is-exit {
-  transform: translateY(-110%);
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.6, 1);
-}
-.rev-panel.is-enter {
-  transform: translateY(110%);
-  transition: none;
-}
+
 .reviews-meta { margin-top: 20px; }
 .reviews-hero {
   width: 100%; height: 100%;
@@ -2660,7 +2656,8 @@ body {
 
 <!-- Reviews Section -->
 <section class="reviews-section" aria-label="Customer reviews">
-  <div class="reviews-body">
+  <div class="reviews-viewport">
+  <div class="reviews-body" id="reviews-body">
 
     <!-- Left: quote + name -->
     <div class="reviews-col rev-col-left">
@@ -2709,6 +2706,7 @@ body {
     </div>
 
   </div>
+  </div><!-- /.reviews-viewport -->
 </section>
 
 <section class="sp-section" aria-label="Social proof">
@@ -3632,12 +3630,6 @@ body {
   let rcLocked = false;
   let rcTimer  = null;
 
-  const panels = () => [
-    document.getElementById('rev-panel-text'),
-    document.getElementById('rev-panel-hero'),
-    document.getElementById('rev-panel-cal'),
-  ].filter(Boolean);
-
   function loadContent(idx) {
     const r = REVIEWS[idx];
     document.getElementById('reviews-quote').textContent = r.quote;
@@ -3652,28 +3644,61 @@ body {
     if (rcLocked || newIdx === rcActive) return;
     rcLocked = true;
 
-    const ps = panels();
+    const body   = document.getElementById('reviews-body');
+    const cals   = body.querySelectorAll('.rev-cal');
+    const els    = [
+      body.querySelector('.rev-col-left'),
+      body.querySelector('.rev-col-center'),
+      cals[0],
+      cals[1],
+    ];
 
-    // 1. Exit — slide up
-    ps.forEach(p => p.classList.add('is-exit'));
+    const STAGGER      = 65;
+    const EXIT_DUR     = 320;
+    const ENTER_DUR    = 580;
+    const exitEase     = 'cubic-bezier(0.4,0,1,1)';
+    const enterEase    = 'cubic-bezier(0.16,1,0.3,1)';
+
+    // ── EXIT: slide right + fade, staggered ──
+    els.forEach((el, i) => {
+      setTimeout(() => {
+        el.style.transition = `opacity ${EXIT_DUR}ms ${exitEase}, transform ${EXIT_DUR}ms ${exitEase}`;
+        el.style.opacity    = '0';
+        el.style.transform  = 'translateX(72px)';
+      }, i * STAGGER);
+    });
+
+    const exitDone = EXIT_DUR + (els.length - 1) * STAGGER + 30;
 
     setTimeout(() => {
-      // 2. Snap to bottom (no transition)
-      ps.forEach(p => {
-        p.classList.remove('is-exit');
-        p.classList.add('is-enter');
-      });
-
-      // 3. Swap content while off-screen
+      // Swap content while everything is invisible
       rcActive = newIdx;
       loadContent(newIdx);
 
-      // 4. Enter — slide up into place
+      // Snap all to enter-start (left, invisible, no transition)
+      els.forEach(el => {
+        el.style.transition = 'none';
+        el.style.opacity    = '0';
+        el.style.transform  = 'translateX(-56px)';
+      });
+
+      // ── ENTER: slide to position + fade, staggered ──
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        ps.forEach(p => p.classList.remove('is-enter'));
-        setTimeout(() => { rcLocked = false; }, 700);
+        els.forEach((el, i) => {
+          setTimeout(() => {
+            el.style.transition = `opacity ${ENTER_DUR}ms ${enterEase}, transform ${ENTER_DUR}ms ${enterEase}`;
+            el.style.opacity    = '1';
+            el.style.transform  = 'translateX(0)';
+          }, i * STAGGER);
+        });
+
+        const enterDone = ENTER_DUR + (els.length - 1) * STAGGER + 30;
+        setTimeout(() => {
+          els.forEach(el => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; });
+          rcLocked = false;
+        }, enterDone);
       }));
-    }, 580);
+    }, exitDone);
   }
 
   function startTimer() {
