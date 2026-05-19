@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(~/.claude/skills/ui-ux-design/**)",
+      "Bash(open \"/Users/kdot/coding/stats page calibr8/index.html\")",
+      "Bash(lsof -ti:8080)",
+      "Bash(python3 -m http.server 8080 --directory \"/Users/kdot/coding/stats page calibr8\")",
+      "Bash(python3 -m http.server 8080)",
+      "Bash(pkill -f \"python3 -m http.server 8080\")"
+    ]
+  }
+}
