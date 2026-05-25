@@ -1406,7 +1406,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(0deg, transparent 20%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.72) 100%);
+  background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.72) 100%);
   opacity: 0;
   transition: opacity 0.52s ease;
   pointer-events: none;
@@ -1415,31 +1415,33 @@ body {
 
 .calibr8-slider-section .card__content {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  bottom: 0; left: 0; right: 0;
   z-index: 3;
   padding: 30px 32px 34px;
   opacity: 0;
-  transform: translateY(-16px);
+  transform: translateY(16px);
   transition: opacity 0.38s ease 0.18s, transform 0.38s ease 0.18s;
   pointer-events: none;
 }
 .calibr8-slider-section .card.active .card__content { opacity: 1; transform: translateY(0); }
 
 .calibr8-slider-section .card__eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 3px;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.02;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
+  color: #fff;
   margin-bottom: 10px;
   font-family: var(--font-sans);
 }
 .calibr8-slider-section .card__title {
-  font-size: 34px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -1.2px;
-  line-height: 1.02;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1.62;
   margin-bottom: 10px;
   font-family: var(--font-sans);
 }
@@ -3529,7 +3531,7 @@ body {
     { id: 0, title: 'Scan', desc: 'Scans & measures 8 zones of your body to identify exact pressure points. The pressure mapping sensor mat analyzes how your body weight is distributed across 8 zones, detecting areas where support needs adjustment.', img: null, video: 'videos/new scan flow.mp4', icon: scanIcon('#ffffff') },
     { id: 1, title: 'Heat map', desc: 'In real time the system shows a pressure map from Blue → Red so you can see exactly where your body feels the pressure.', img: 'images/heatmap.webp', icon: heatmapIcon('#ffffff') },
     { id: 2, title: 'Calibration', desc: 'The system reconfigures the middle support layer while scanning, until every zone reaches optimal balance — ensuring optimal firmness and comfort across 8 adaptive zones, aligning your spine and reducing pressure points.', img: null, video: 'videos/Calibration.mov', icon: calibrationIcon('#ffffff') },
-    { id: 3, title: 'Report', desc: 'You receive a unique report based on your calibration, helping you proceed with ordering your personalised mattress.', img: 'images/card4.png', icon: reportIcon('#ffffff') },
+    { id: 3, title: 'Report', desc: 'You receive a unique report based on your calibration, helping you proceed with ordering your personalised mattress.', img: null, video: 'videos/scroll.mp4', icon: reportIcon('#ffffff') },
     { id: 4, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
   ];
 
@@ -3576,11 +3578,11 @@ body {
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS = [
-    { id: 0, eyebrow: 'THE COUPLE',       title: 'Two people. Completely different needs.',           desc: 'Each side is calibrated independently, so both of you get the support your body needs.',                                                                          img: 'images/couple.webp' },
-    { id: 1, eyebrow: 'THE HIGH ACHIEVER', title: 'You push hard through the day. Your body shouldn\'t carry that into the night.', desc: 'Calibrated support helps your body fully switch off, so recovery actually begins when you lie down.',                           img: 'images/highachiever.webp' },
-    { id: 2, eyebrow: 'THE HIGH ACHIEVER', title: 'You push hard through the day. Your body shouldn\'t carry that into the night.', desc: 'Calibrated support helps your body fully switch off, so recovery actually begins when you lie down.',                           img: 'images/highachiever.webp' },
-    { id: 3, eyebrow: 'THE PAIN SUFFERER', title: 'Waking up sore isn\'t something you have to live with.',                         desc: 'Targeted support across pressure points helps reduce strain on your back, shoulders, and joints.',                                   img: 'images/pain sufferer.webp' },
-    { id: 4, eyebrow: 'THE OVERTHINKER',   title: 'Too many choices. Too much guesswork.',                                          desc: 'Instead of relying on materials or opinions, your mattress is built from how your body actually rests.',                             video: 'videos/too many choices.mp4' },
+    { id: 0, eyebrow: 'THE COUPLE',       title: 'Two people. Completely different needs.',           desc: 'Each side is calibrated independently, so both of you get the support your body needs.',                                                                          video: 'videos/couple.MOV' },
+    { id: 1, eyebrow: 'THE HIGH ACHIEVER', title: 'You push hard through the day. Your body shouldn\'t carry that into the night.', desc: 'Calibrated support helps your body fully switch off, so recovery actually begins when you lie down.',                           video: 'videos/high achiever.mp4' },
+    { id: 2, eyebrow: 'THE HIGH ACHIEVER', title: 'You push hard through the day. Your body shouldn\'t carry that into the night.', desc: 'Calibrated support helps your body fully switch off, so recovery actually begins when you lie down.',                           video: 'videos/work.mp4' },
+    { id: 3, eyebrow: 'THE PAIN SUFFERER', title: 'Waking up sore isn\'t something you have to live with.',                         desc: 'Targeted support across pressure points helps reduce strain on your back, shoulders, and joints.',                                   video: 'videos/pain.MOV' },
+    { id: 4, eyebrow: 'THE OVERTHINKER',   title: 'Too many choices. Too much guesswork.',                                          desc: 'Instead of relying on materials or opinions, your mattress is built from how your body actually rests.',                             video: 'videos/choices.mp4' },
   ];
 
   let processActiveId = 0;
@@ -3924,6 +3926,9 @@ body {
     else clearTimeout(arcAutoTimer);
   }, { threshold: 0.4 });
   arcObserver.observe(arcSection);
+
+  arcSection.addEventListener('mouseenter', () => clearTimeout(arcAutoTimer));
+  arcSection.addEventListener('mouseleave', () => arcScheduleNext());
 
   let arcResizeTmr = null;
   window.addEventListener('resize', () => {
