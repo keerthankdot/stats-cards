@@ -1846,11 +1846,14 @@ body {
 }
 
 /* ── Reviews intro heading ── */
+.reviews-bg-wrap {
+  background: url('images/og bg.png') center bottom / cover no-repeat;
+}
 .reviews-intro {
   text-align: center;
   padding: 64px 0 0;
-  width: calc(100% - 160px);
-  margin: 0 80px;
+  width: 100%;
+  margin: 0;
 }
 .reviews-intro__heading {
   font-size: clamp(16.5px, 2.1vw, 27px);
@@ -1864,7 +1867,7 @@ body {
 
 /* ── Reviews section ── */
 .reviews-section {
-  background: #fff;
+  background: none;
   display: flex;
   align-items: center;
   padding: 48px 0 80px;
@@ -2230,7 +2233,7 @@ body {
   flex: 0 0 300px;
 }
 .rev-col-right {
-  flex: 1;
+  flex: 0 0 616px;
 }
 .rev-track {
   width: 100%;
@@ -2265,42 +2268,43 @@ body {
 .rev-cal {
   flex: 1;
   height: 100%;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 24px rgba(0,0,0,0.08);
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  outline: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 16px;
+  justify-content: flex-start;
+  padding: 14px 16px 16px;
   box-sizing: border-box;
+  position: relative;
 }
 .rev-cal__inner {
-  background: #fff;
-  border-radius: 14px;
+  background: transparent;
+  border-radius: 0;
   width: 100%; height: 100%;
   position: relative;
   overflow: hidden;
 }
 .rev-cal__body-img {
   width: 100%;
-  height: calc(100% - 32px);
-  margin-top: 32px;
+  flex: 1;
+  min-height: 0;
   object-fit: contain;
-  object-position: center top;
+  object-position: center center;
   display: block;
-  border-radius: 14px;
+  mix-blend-mode: multiply;
 }
 .rev-cal__label {
-  position: absolute;
-  top: 10px; left: 0; right: 0;
-  text-align: center;
-  font-size: 11px; font-weight: 600; color: #111;
+  font-size: 14px; font-weight: 600; color: #111;
   white-space: nowrap; line-height: 1;
   font-family: var(--font-sans);
-  z-index: 2;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 .reviews-name { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 3px; font-family: var(--font-sans); }
 .reviews-city { font-size: 12px; color: #aaa; font-family: var(--font-sans); }
@@ -2449,7 +2453,7 @@ body {
   .zones-section__heatmap { width: 110px; }
   .zones-section__grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .zone-card { transform: none; transform-origin: unset; }
-  .reviews-intro { width: auto; margin: 0 20px; padding: 40px 0 0; }
+  .reviews-intro { width: 100%; margin: 0; padding: 40px 20px 0; }
 
   /* ── Reviews section ── */
   .reviews-section { padding: 32px 0 48px; }
@@ -2867,6 +2871,7 @@ body {
   <div class="slider" id="process-slider"></div>
 </section>
 
+<div class="reviews-bg-wrap">
 <div class="reviews-intro">
   <p class="reviews-intro__heading reveal">Thousands of <span style="color:#553C9A">trusted reviews</span> from people like you.</p>
 </div>
@@ -2906,16 +2911,12 @@ body {
         <div class="rev-panel" id="rev-panel-cal">
           <div class="rev-cal-group">
             <div class="rev-cal">
-              <div class="rev-cal__inner">
-                <span class="rev-cal__label">Before Calibration</span>
-                <img class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
-              </div>
+              <span class="rev-cal__label">Before Calibration</span>
+              <img class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
             </div>
             <div class="rev-cal">
-              <div class="rev-cal__inner">
-                <span class="rev-cal__label">After Calibration</span>
-                <img class="rev-cal__body-img" id="rev-cal-aft-img" src="" alt="After calibration">
-              </div>
+              <span class="rev-cal__label">After Calibration</span>
+              <img class="rev-cal__body-img" id="rev-cal-aft-img" src="" alt="After calibration">
             </div>
           </div>
         </div>
@@ -2925,6 +2926,7 @@ body {
   </div>
   </div><!-- /.reviews-viewport -->
 </section>
+</div><!-- /.reviews-bg-wrap -->
 
 <section class="sp-section" aria-label="Social proof">
   <div class="sp-grid">
@@ -4306,56 +4308,59 @@ body {
   const sub   = hero.querySelector('.hero__sub');
   if (!video || !title || !sub) return;
 
-  const EASE           = 'cubic-bezier(0.16, 1, 0.3, 1)';
-  const FADE_IN_DELAY  = 3000; // ms after loop start before text appears
-  const FADE_OUT_EARLY = 1.5;  // seconds before loop end to start fade-out
+  const EASE            = 'cubic-bezier(0.4, 0, 0.2, 1)';
+  const COLOR_IN_DELAY  = 3000; // ms after loop start to morph to dark
+  const COLOR_OUT_EARLY = 1.0;  // seconds before loop end to morph back to white
 
-  // Start hidden, JS owns opacity from here
-  title.style.opacity   = '0';
-  title.style.transform = 'translateY(8px)';
-  title.style.transition = `opacity 700ms ${EASE}, transform 700ms ${EASE}`;
-  sub.style.opacity   = '0';
-  sub.style.transform = 'translateY(8px)';
-  sub.style.transition = `opacity 700ms ${EASE} 150ms, transform 700ms ${EASE} 150ms`;
+  const DARK_TITLE = '#111';
+  const DARK_SUB   = '#111';
+  const WHITE       = '#ffffff';
 
-  let visible = false;
-  let fadedNearEnd = false;
+  // Start white, always visible
+  title.style.color      = WHITE;
+  title.style.transition = `color 700ms ${EASE}`;
+  sub.style.color        = WHITE;
+  sub.style.transition   = `color 700ms ${EASE} 150ms`;
+
+  let isDark = false;
+  let morphedNearEnd = false;
   let prevTime = 0;
-  let fadeInTimer = null;
+  let morphTimer = null;
 
-  function show() {
-    title.style.opacity = '1'; title.style.transform = 'translateY(0)';
-    sub.style.opacity   = '1'; sub.style.transform   = 'translateY(0)';
-    visible = true; fadedNearEnd = false;
+  function toDark() {
+    title.style.color = DARK_TITLE;
+    sub.style.color   = DARK_SUB;
+    isDark = true; morphedNearEnd = false;
   }
 
-  function hide() {
-    title.style.opacity = '0';
-    sub.style.opacity   = '0';
-    visible = false;
+  function toWhite() {
+    title.style.color = WHITE;
+    sub.style.color   = WHITE;
+    isDark = false;
   }
 
-  function scheduleShow() {
-    clearTimeout(fadeInTimer);
-    fadeInTimer = setTimeout(show, FADE_IN_DELAY);
+  function scheduleDark() {
+    clearTimeout(morphTimer);
+    morphTimer = setTimeout(toDark, COLOR_IN_DELAY);
   }
 
-  scheduleShow(); // initial page load
+  scheduleDark(); // initial load
 
   video.addEventListener('timeupdate', function () {
     const cur = video.currentTime;
     const dur = video.duration;
 
-    // Loop detected (time jumped back)
+    // Loop detected — reset to white, schedule dark again
     if (cur < prevTime - 0.5) {
-      fadedNearEnd = false;
-      scheduleShow();
+      toWhite();
+      morphedNearEnd = false;
+      scheduleDark();
     }
 
-    // Fade out near end of loop
-    if (dur && visible && !fadedNearEnd && cur > dur - FADE_OUT_EARLY) {
-      hide();
-      fadedNearEnd = true;
+    // Morph back to white near end of loop
+    if (dur && isDark && !morphedNearEnd && cur > dur - COLOR_OUT_EARLY) {
+      toWhite();
+      morphedNearEnd = true;
     }
 
     prevTime = cur;
