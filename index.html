@@ -109,24 +109,29 @@ body {
 .hero__text, .hero__cta, .hero__bottom { position: relative; z-index: 2; }
 .hero__bottom { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .hero__title {
   font-family: var(--font-display);
   font-size: clamp(52px, 9vw, 108px);
   font-weight: 600;
   letter-spacing: -0.03em;
   color: #111;
-  margin: 0 0 20px;
+  margin: 0 0 12px;
   line-height: 1;
 }
-.hero__title em { font-style: italic; font-weight: 600; }
+.hero__title em { font-style: normal; font-weight: 600; }
 
 .hero__sub {
   font-size: clamp(15px, 1.8vw, 18px);
-  color: #444;
+  color: #111;
   line-height: 1.55;
   white-space: nowrap;
   margin: 0 auto;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .hero__cta {
@@ -1454,6 +1459,16 @@ body {
   margin-bottom: 10px;
   font-family: var(--font-sans);
 }
+.calibr8-slider-section .card__top-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -1.2px;
+  line-height: 1.02;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  margin-bottom: 10px;
+}
 .calibr8-slider-section .card__title {
   font-size: 10px;
   font-weight: 700;
@@ -2506,9 +2521,9 @@ body {
   </div>
   <div class="hero__text">
     <h1 class="hero__title"><em>Sleep</em> Perfected</h1>
+    <p class="hero__sub">A mattress that understands your body before you do</p>
   </div>
   <div class="hero__bottom">
-    <p class="hero__sub">A mattress that understands your body before you do</p>
     <a class="hero__cta" href="#">BOOK NOW</a>
   </div>
 </section>
@@ -2524,7 +2539,7 @@ body {
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
-    <p class="slider-heading reveal">We personalize the solution for you<br>through <span style="color:#553C9A">five steps.</span></p>
+    <p class="slider-heading reveal">We personalize the solution for you<br>through <span style="color:#553C9A">six steps.</span></p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
 </section>
@@ -3788,7 +3803,8 @@ body {
     { id: 1, title: 'Heat map', desc: 'In real time the system shows a pressure map from Blue → Red so you can see exactly where your body feels the pressure.', img: null, video: 'videos/heatmap.mov', icon: heatmapIcon('#ffffff') },
     { id: 2, title: 'Calibration', desc: 'The system reconfigures the middle support layer while scanning, until every zone reaches optimal balance — ensuring optimal firmness and comfort across 8 adaptive zones, aligning your spine and reducing pressure points.', img: null, video: 'videos/Calibration.mov', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'You receive a unique report based on your calibration, helping you proceed with ordering your personalised mattress.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
+    { id: 4, title: 'Mattress layer', desc: 'Your calibration data is used to configure each layer of your mattress, creating a unique build tailored precisely to your body\'s pressure map.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Final mattress', desc: 'A one of a kind personalised mattress designed just for you, built from scratch and delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
@@ -3807,7 +3823,7 @@ body {
         }
         <div class="card__scrim"></div>
         <div class="card__content">
-          <div class="card__title">${card.title}</div>
+          <div class="card__top-title">${card.title}</div>
           <div class="card__desc">${card.desc}</div>
         </div>
         <div class="card__icon">${card.id + 1}</div>
@@ -4278,6 +4294,72 @@ body {
 
   AG = arcComputeGeo();
   arcBuildItems(); arcBuildDot(); arcUpdateDotStyle(); arcBuildArc(); arcPositionDot(); arcRender(0);
+})();
+</script>
+
+<script>
+(function () {
+  const hero  = document.querySelector('.hero');
+  if (!hero) return;
+  const video = hero.querySelector('video');
+  const title = hero.querySelector('.hero__title');
+  const sub   = hero.querySelector('.hero__sub');
+  if (!video || !title || !sub) return;
+
+  const EASE           = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const FADE_IN_DELAY  = 3000; // ms after loop start before text appears
+  const FADE_OUT_EARLY = 1.5;  // seconds before loop end to start fade-out
+
+  // Start hidden, JS owns opacity from here
+  title.style.opacity   = '0';
+  title.style.transform = 'translateY(8px)';
+  title.style.transition = `opacity 700ms ${EASE}, transform 700ms ${EASE}`;
+  sub.style.opacity   = '0';
+  sub.style.transform = 'translateY(8px)';
+  sub.style.transition = `opacity 700ms ${EASE} 150ms, transform 700ms ${EASE} 150ms`;
+
+  let visible = false;
+  let fadedNearEnd = false;
+  let prevTime = 0;
+  let fadeInTimer = null;
+
+  function show() {
+    title.style.opacity = '1'; title.style.transform = 'translateY(0)';
+    sub.style.opacity   = '1'; sub.style.transform   = 'translateY(0)';
+    visible = true; fadedNearEnd = false;
+  }
+
+  function hide() {
+    title.style.opacity = '0';
+    sub.style.opacity   = '0';
+    visible = false;
+  }
+
+  function scheduleShow() {
+    clearTimeout(fadeInTimer);
+    fadeInTimer = setTimeout(show, FADE_IN_DELAY);
+  }
+
+  scheduleShow(); // initial page load
+
+  video.addEventListener('timeupdate', function () {
+    const cur = video.currentTime;
+    const dur = video.duration;
+
+    // Loop detected (time jumped back)
+    if (cur < prevTime - 0.5) {
+      fadedNearEnd = false;
+      scheduleShow();
+    }
+
+    // Fade out near end of loop
+    if (dur && visible && !fadedNearEnd && cur > dur - FADE_OUT_EARLY) {
+      hide();
+      fadedNearEnd = true;
+    }
+
+    prevTime = cur;
+  });
 })();
 </script>
 </body>
