@@ -1200,7 +1200,7 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
-.lst-pct { color: #553C9A; }
+.lst-pct { color: #553C9A; font-family: var(--font-sans); }
 #lst-count {
   display: inline-block;
   min-width: 2ch;
@@ -1536,10 +1536,13 @@ body {
   font-weight: 800;
   letter-spacing: -1.2px;
   line-height: 1.02;
-  text-transform: uppercase;
   color: #fff;
   margin-bottom: 10px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.calibr8-slider-section .card[data-id="2"] .card__eyebrow,
+.calibr8-slider-section .card[data-id="3"] .card__eyebrow {
+  font-family: var(--font-sans);
 }
 .calibr8-slider-section .card__top-title {
   font-size: 34px;
@@ -1552,9 +1555,9 @@ body {
   margin-bottom: 10px;
 }
 .calibr8-slider-section .card__title {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  color: rgba(255,255,255,0.55);
+  color: #fff;
   letter-spacing: 3px;
   text-transform: uppercase;
   line-height: 1.62;
@@ -1562,8 +1565,8 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .calibr8-slider-section .card__desc {
-  font-size: 13px;
-  color: rgba(255,255,255,0.62);
+  font-size: 15px;
+  color: #fff;
   line-height: 1.62;
   max-width: 360px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -1718,13 +1721,14 @@ body {
   text-transform: uppercase;
   color: #ffffff;
   margin-bottom: 10px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .zone-tooltip__name {
   font-size: clamp(16px, 1.9vw, 28px);
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.02em;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1757,6 +1761,7 @@ body {
   font-size: clamp(13px, 1.4vw, 18px);
   font-weight: 500;
   color: #ffffff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 @keyframes zone-beat {
   0%   { transform: translate(-50%,-50%) scale(1);   opacity: 0.85; }
@@ -1936,8 +1941,19 @@ body {
   box-shadow: 0 8px 40px rgba(0,0,0,0.10);
 }
 .reviews-bg-wrap {
-  background: url('images/og bg.png') center bottom / cover no-repeat;
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
 }
+.reviews-bg-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  display: block;
+}
+.reviews-bg-wrap > *:not(.reviews-bg-img) { position: relative; z-index: 1; }
 .reviews-intro {
   text-align: center;
   padding: 64px 0 40px;
@@ -1969,6 +1985,171 @@ body {
   display: flex;
   align-items: center;
   padding: 0 0 80px;
+}
+
+/* ── Calibr8 Score Live Section ── */
+.cls-section {
+  position: relative;
+  height: 100vh;
+  background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#cls-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.cls-score-num {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  font-size: clamp(88px, 11vw, 152px);
+  font-weight: 800;
+  color: #14101e;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  min-width: 1ch;
+  opacity: 0;
+}
+#cls-tagline {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.94);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.16,1,0.3,1);
+}
+#cls-tagline.cls-tag-vis {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.cls-tag-eyebrow {
+  font-size: clamp(10px, 1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #14101e;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-bottom: 10px;
+}
+.cls-tag-headline {
+  font-size: clamp(26px, 3.2vw, 48px);
+  font-weight: 800;
+  color: #14101e;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.cls-tag-purple {
+  color: #553C9A;
+}
+/* Credential cards */
+.cls-card {
+  position: absolute;
+  width: 520px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px) saturate(1.2);
+  -webkit-backdrop-filter: blur(6px) saturate(1.2);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-top: 1.5px solid rgba(255,255,255,0.95);
+  border-radius: 22px;
+  padding: 28px 32px;
+  box-shadow: 0 8px 48px rgba(85,60,154,0.10),
+              inset 0 1.5px 0 rgba(255,255,255,0.9),
+              inset 0 -1px 0 rgba(255,255,255,0.2),
+              inset 1px 0 0 rgba(255,255,255,0.15),
+              inset -1px 0 0 rgba(255,255,255,0.15);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 900ms cubic-bezier(0.4,0,0.2,1),
+              transform 1100ms cubic-bezier(0.4,0,0.2,1);
+}
+.cls-card__title {
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 700;
+  color: rgba(20,16,40,0.85);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-bottom: 12px;
+}
+.cls-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.cls-card__range {
+  font-size: 10px;
+  color: rgba(20,16,40,0.35);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.cls-card__impact {
+  font-size: 16px;
+  font-weight: 700;
+  color: #8B72D4;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.cls-card__bar-track {
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.cls-card__bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #553C9A, #8B72D4);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1000ms cubic-bezier(0.16,1,0.3,1);
+}
+/* Credential card body text */
+.cls-card__body {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(20,16,40,0.55);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+/* Credential card positions — 520px wide */
+.cls-cred--tl { top: calc(50% - 320px); left: calc(50% - 540px); transform: translate(-28px,-28px); }
+.cls-cred--tr { top: calc(50% - 320px); left: calc(50% + 20px);  transform: translate(28px,-28px); }
+.cls-cred--bl { top: calc(50% + 120px); left: calc(50% - 540px); transform: translate(-28px,28px); }
+.cls-cred--br { top: calc(50% + 120px); left: calc(50% + 20px);  transform: translate(28px,28px); }
+/* Visible at rest */
+.cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
+.cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
+.cls-cred--bl.cls-vis { opacity: 1; transform: translate(0,0); }
+.cls-cred--br.cls-vis { opacity: 1; transform: translate(0,0); }
+/* Absorbed: fly to section center, shrink, vanish */
+.cls-cred--tl.cls-absorbed { opacity: 0; transform: translate(280px, 220px) scale(0.05); }
+.cls-cred--tr.cls-absorbed { opacity: 0; transform: translate(-280px, 220px) scale(0.05); }
+.cls-cred--bl.cls-absorbed { opacity: 0; transform: translate(280px, -220px) scale(0.05); }
+.cls-cred--br.cls-absorbed { opacity: 0; transform: translate(-280px, -220px) scale(0.05); }
+@media (max-width: 767px) {
+  .cls-card { width: 44vw; padding: 14px 16px; border-radius: 14px; }
+  .cls-card__body { font-size: 10px; }
+  .cls-cred--tl { top: calc(50% - 170px); left: 2vw; }
+  .cls-cred--tr { top: calc(50% - 170px); right: 2vw; left: auto; }
+  .cls-cred--bl { top: calc(50% + 60px);  left: 2vw; }
+  .cls-cred--br { top: calc(50% + 60px);  right: 2vw; left: auto; }
+  .cls-cred--tl.cls-absorbed { transform: translate(40vw, 130px) scale(0.05); }
+  .cls-cred--tr.cls-absorbed { transform: translate(-40vw, 130px) scale(0.05); }
+  .cls-cred--bl.cls-absorbed { transform: translate(40vw, -110px) scale(0.05); }
+  .cls-cred--br.cls-absorbed { transform: translate(-40vw, -110px) scale(0.05); }
 }
 
 /* ── Book Your Calibration section ── */
@@ -2360,26 +2541,25 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px 16px 16px;
+  padding: 20px 16px;
   box-sizing: border-box;
   position: relative;
 }
 .rev-cal__body-img {
-  width: 100%;
-  flex: 1;
-  min-height: 0;
-  object-fit: contain;
-  object-position: center center;
+  width: auto;
+  max-width: 100%;
   display: block;
+  flex-shrink: 0;
 }
 .rev-cal__label {
-  font-size: 18px; font-weight: 400; color: #111;
+  font-size: 18px; font-weight: 700; color: #111;
   white-space: normal; line-height: 1.1;
   text-transform: uppercase; text-align: center;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   flex-shrink: 0;
 }
+.rev-cal__label--before { font-family: var(--font-sans); }
 .reviews-name { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 3px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 .reviews-city { display: none; }
 .reviews-quote {
@@ -2499,7 +2679,7 @@ body {
   }
   .calibr8-slider-section .card__content { padding: 16px 18px 20px; }
   .calibr8-slider-section .card__eyebrow { font-size: 18px; }
-  .calibr8-slider-section .card__desc { font-size: 11px; max-width: 100%; }
+  .calibr8-slider-section .card__desc { font-size: 13px; max-width: 100%; }
   /* Show number on inactive squares, hide content text */
   .calibr8-slider-section .card:not(.active) .card__content { display: none; }
   .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
@@ -2974,6 +3154,7 @@ body {
 
 <div class="reviews-box">
 <div class="reviews-bg-wrap">
+<img class="reviews-bg-img" src="images/reviewsbg1.png" alt="">
 <!-- Quote centered below title -->
 <div class="reviews-quote-wrap" id="reviews-quote-wrap">
   <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
@@ -2990,7 +3171,7 @@ body {
 
     <!-- Before Calibration -->
     <div class="rev-cal" id="rev-cal-before">
-      <span class="rev-cal__label">Before<br>Calibration</span>
+      <span class="rev-cal__label rev-cal__label--before">Before<br>Calibration</span>
       <img class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
     </div>
 
@@ -3155,6 +3336,31 @@ body {
       <div id="arc-dot-glint"></div>
       <div id="arc-dot-rim"></div>
     </div>
+  </div>
+</section>
+
+<section class="cls-section" aria-label="Calibr8 sleep score">
+  <canvas id="cls-canvas"></canvas>
+  <div class="cls-score-num" id="cls-score-num"></div>
+  <div id="cls-tagline">
+    <div class="cls-tag-eyebrow">Powered by</div>
+    <div class="cls-tag-headline">India's largest <span class="cls-tag-purple">sleep study</span></div>
+  </div>
+  <div class="cls-card cls-cred--tl" id="cls-c0">
+    <div class="cls-card__title">Engineered</div>
+    <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics to support your body more accurately.</div>
+  </div>
+  <div class="cls-card cls-cred--tr" id="cls-c1">
+    <div class="cls-card__title">Data-Driven</div>
+    <div class="cls-card__body">Machine learning trained on real pressure-mapping data, with the system learning from each calibration.</div>
+  </div>
+  <div class="cls-card cls-cred--bl" id="cls-c2">
+    <div class="cls-card__title">Global Tech</div>
+    <div class="cls-card__body">Advanced Spanish pressure-mapping technology engineered for Indian body types &amp; sleep conditions.</div>
+  </div>
+  <div class="cls-card cls-cred--br" id="cls-c3">
+    <div class="cls-card__title">Research</div>
+    <div class="cls-card__body">8+ years of sleep research across 8,000+ Indian body types, creating the most comprehensive sleep data set built in India.</div>
   </div>
 </section>
 
@@ -3988,10 +4194,10 @@ body {
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS = [
-    { id: 0, eyebrow: 'THE COUPLE',        title: 'Two people. Completely different needs.',        desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',                                                         video: 'videos/couple.MOV' },
-    { id: 1, eyebrow: 'THE HIGH ACHIEVER', title: 'You train hard. Hustle hard. Push your body every day.', desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',                                             img: null, video: 'videos/high achiever.mp4' },
-    { id: 2, eyebrow: 'THE DAILY GRINDER', title: 'Your desk job puts pressure on your spine every day.', desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',                                             video: 'videos/work.mp4' },
-    { id: 3, eyebrow: 'THE PAIN SUFFERER', title: 'Waking up with body pain shouldn\'t be your normal.', desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',                                               video: 'videos/pain.MOV' },
+    { id: 0, eyebrow: 'THE PAIN SUFFERER', title: 'Waking up with body pain shouldn\'t be your normal.', desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',                                               video: 'videos/pain.MOV' },
+    { id: 1, eyebrow: 'The Daily Grinder', title: 'Your desk job puts pressure on your spine every day.', desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',                                             video: 'videos/work.mp4' },
+    { id: 2, eyebrow: 'THE COUPLE',        title: 'Two people. Completely different needs.',        desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',                                                         video: 'videos/couple.MOV' },
+    { id: 3, eyebrow: 'The High Achiever', title: 'You train hard. Hustle hard. Push your body every day.', desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',                                             img: null, video: 'videos/high achiever.mp4' },
     { id: 4, eyebrow: 'THE OVERTHINKER',   title: 'Too many choices. Too much guesswork.',            desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',                                                   video: 'videos/choices.mp4' },
   ];
 
@@ -4508,6 +4714,198 @@ body {
   });
 })();
 
+// ── Calibr8 Score Live Section ──
+(function () {
+  const section   = document.querySelector('.cls-section');
+  if (!section) return;
+
+  const canvas    = document.getElementById('cls-canvas');
+  const ctx       = canvas.getContext('2d');
+  const numEl     = document.getElementById('cls-score-num');
+  const taglineEl = document.getElementById('cls-tagline');
+  const prefRed   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize() { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── Layered concentric ring system ──
+  // 6 layers, each evenly spaced, alternating CW / CCW
+  const NUM_LAYERS   = 6;
+  const DOTS_PER_LAYER = 100;
+  // Radial offset per layer as fraction of minD (inner → outer)
+  const L_OFFSET  = [-0.040, -0.024, -0.008, 0.008, 0.024, 0.040];
+  // Angular speed per layer (rad/frame), alternating direction
+  const L_SPEED   = [ 0.0007, -0.0005,  0.0006, -0.0005,  0.0006, -0.0007];
+  // Opacity weight — brightest at the two center layers, fades at edges
+  const L_OP_W    = [  0.38,    0.38,    0.38,   0.38,    0.38,    0.38];
+  // Size range per layer (inner layers smaller, outer bigger for depth)
+  const L_SIZE    = [  2.0,     2.0,     2.0,    2.0,     2.0,     2.0];
+
+  // Per-layer rotating phase (random start so layers aren't aligned)
+  const layerAngle = L_OFFSET.map(() => Math.random() * Math.PI * 2);
+
+  // Build particles: each layer has DOTS_PER_LAYER evenly spaced
+  const pts = [];
+  for (let l = 0; l < NUM_LAYERS; l++) {
+    for (let j = 0; j < DOTS_PER_LAYER; j++) {
+      pts.push({
+        layer:     l,
+        baseAngle: (j / DOTS_PER_LAYER) * Math.PI * 2,
+        size:      L_SIZE[l],
+        opBase:    L_OP_W[l],
+        op:        0,
+      });
+    }
+  }
+
+  // ── Ring state ──
+  let ringFrac  = 0;
+  let ringTgt   = 0.19;
+  let orbitMult = 1;
+  let orbitTgt  = 1.4;
+  const CLR = [85, 60, 154];
+
+  // ── Cards ──
+  const cards = [0,1,2,3].map(i => document.getElementById('cls-c' + i));
+
+  function absorb(i) {
+    cards[i].classList.remove('cls-vis');
+    cards[i].classList.add('cls-absorbed');
+  }
+  function restore(i) {
+    cards[i].classList.remove('cls-absorbed');
+    cards[i].classList.add('cls-vis');
+  }
+  function resetCards() {
+    cards.forEach(c => { c.classList.remove('cls-vis', 'cls-absorbed'); });
+  }
+
+  function showNum(n) {
+    const next = String(n);
+    const isFirst = numEl.style.opacity === '0' || numEl.textContent === '';
+    if (isFirst) {
+      // First number: enter from below
+      numEl.textContent = next;
+      numEl.style.transition = 'none';
+      numEl.style.transform = 'translate(-50%, calc(-50% + 70px))';
+      numEl.style.opacity = '0';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        numEl.style.transition = 'opacity 380ms ease, transform 420ms cubic-bezier(0.16,1,0.3,1)';
+        numEl.style.transform = 'translate(-50%, -50%)';
+        numEl.style.opacity = '1';
+      }));
+    } else {
+      // Slide current up + out, then bring next from below
+      numEl.style.transition = 'opacity 220ms ease, transform 260ms cubic-bezier(0.4,0,1,1)';
+      numEl.style.transform = 'translate(-50%, calc(-50% - 70px))';
+      numEl.style.opacity = '0';
+      setTimeout(() => {
+        numEl.textContent = next;
+        numEl.style.transition = 'none';
+        numEl.style.transform = 'translate(-50%, calc(-50% + 70px))';
+        numEl.style.opacity = '0';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          numEl.style.transition = 'opacity 380ms ease, transform 420ms cubic-bezier(0.16,1,0.3,1)';
+          numEl.style.transform = 'translate(-50%, -50%)';
+          numEl.style.opacity = '1';
+        }));
+      }, 250);
+    }
+  }
+  function hideNum() {
+    numEl.style.transition = 'opacity 280ms ease, transform 320ms cubic-bezier(0.4,0,1,1)';
+    numEl.style.transform = 'translate(-50%, calc(-50% - 70px))';
+    numEl.style.opacity = '0';
+  }
+
+  // ── Loop ──
+  const D = prefRed ? 0 : 1;
+
+  function runLoop() {
+    // Cards already visible — go straight into sequence
+    hideNum();
+    taglineEl.classList.remove('cls-tag-vis');
+    ringTgt = 0.19; orbitTgt = 1.4;
+
+    // 1 appears → ENGINEERED flies in
+    setTimeout(() => { showNum(1); ringTgt = 0.212; },                                  600 * D);
+    setTimeout(() => { absorb(0);  ringTgt = 0.232; orbitTgt = 1.8; },                 1300 * D);
+    // 2 appears → DATA-DRIVEN flies in
+    setTimeout(() => { showNum(2); ringTgt = 0.245; },                                 2400 * D);
+    setTimeout(() => { absorb(1);  ringTgt = 0.256; orbitTgt = 2.1; },                 3100 * D);
+    // 3 appears → GLOBAL TECH flies in
+    setTimeout(() => { showNum(3); ringTgt = 0.265; },                                 4200 * D);
+    setTimeout(() => { absorb(2);  ringTgt = 0.272; orbitTgt = 2.5; },                 4900 * D);
+    // 4 appears → RESEARCH flies in
+    setTimeout(() => { showNum(4); ringTgt = 0.276; },                                 6000 * D);
+    setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                 6700 * D);
+
+    // Number fades → tagline forms
+    setTimeout(() => { hideNum(); },                                                    8000 * D);
+    setTimeout(() => { taglineEl.classList.add('cls-tag-vis'); },                       8400 * D);
+
+    // Tagline fades → all 4 cards come out together
+    setTimeout(() => { taglineEl.classList.remove('cls-tag-vis'); },                   10400 * D);
+    setTimeout(() => {
+      restore(0); restore(1); restore(2); restore(3);
+      ringTgt = 0.19; orbitTgt = 1.4;
+    }, 11200 * D);
+
+    setTimeout(runLoop, prefRed ? 500 : 13200);
+  }
+
+  // ── Render loop ──
+  function render() {
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2;
+    const minD = Math.min(W, H);
+
+    ringFrac  += (ringTgt  - ringFrac)  * 0.022;
+    orbitMult += (orbitTgt - orbitMult) * 0.022;
+
+    // Advance each layer's rotation
+    for (let l = 0; l < NUM_LAYERS; l++) {
+      layerAngle[l] += L_SPEED[l] * orbitMult;
+    }
+
+    ctx.clearRect(0, 0, W, H);
+
+    const ringPx = ringFrac * minD;
+
+    pts.forEach(p => {
+      // Fade in opacity toward target
+      p.op += (p.opBase - p.op) * 0.05;
+      if (p.op < 0.005) return;
+
+      const radius = ringPx + L_OFFSET[p.layer] * minD;
+      if (radius <= 0) return;
+
+      const angle = p.baseAngle + layerAngle[p.layer];
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      ctx.fillStyle = `rgba(${CLR[0]},${CLR[1]},${CLR[2]},${p.op})`;
+      ctx.fillRect(x - p.size / 2, y - p.size / 2, p.size, p.size);
+    });
+
+    requestAnimationFrame(render);
+  }
+
+  // ── Start on viewport entry ──
+  let started = false;
+  const obs = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !started) {
+      started = true;
+      requestAnimationFrame(render);
+      // One-time intro: show all 4 cards staggered, then start loop
+      cards.forEach((c, i) => setTimeout(() => c.classList.add('cls-vis'), 300 + i * 160));
+      setTimeout(runLoop, 300 + 4 * 160 + 400);
+      obs.disconnect();
+    }
+  }, { threshold: 0.25 });
+  obs.observe(section);
+})();
+
 // Match hero title width to subtitle width
 (function () {
   const title = document.querySelector('.hero__title');
@@ -4535,6 +4933,45 @@ body {
   }
   window.addEventListener('resize', matchWidth);
 })();
+</script>
+<script>
+function equalizeRevCalGaps() {
+  document.querySelectorAll('.rev-cal').forEach(card => {
+    const label = card.querySelector('.rev-cal__label');
+    const img   = card.querySelector('.rev-cal__body-img');
+    if (!label || !img || !img.naturalWidth) return;
+
+    const hPad    = 16;
+    const cardH   = card.clientHeight;
+    const availW  = card.clientWidth - hPad * 2;
+    const labelH  = label.offsetHeight;
+
+    // Rendered image height when width-constrained
+    const imgH = Math.round(availW * (img.naturalHeight / img.naturalWidth));
+
+    // P = equal gap: top-of-card→text, text→head, foot→bottom-of-card
+    const P = Math.max(8, Math.round((cardH - labelH - imgH) / 3));
+
+    card.style.paddingTop    = P + 'px';
+    card.style.paddingBottom = P + 'px';
+    label.style.marginBottom = P + 'px';
+    img.style.width  = availW + 'px';
+    img.style.height = imgH   + 'px';
+  });
+}
+
+function initRevCal() {
+  const imgs = document.querySelectorAll('.rev-cal .rev-cal__body-img');
+  let loaded = 0;
+  imgs.forEach(img => {
+    if (img.complete && img.naturalWidth) { loaded++; }
+    else img.addEventListener('load', () => { loaded++; if (loaded === imgs.length) equalizeRevCalGaps(); });
+  });
+  if (loaded === imgs.length) equalizeRevCalGaps();
+}
+
+document.addEventListener('DOMContentLoaded', initRevCal);
+window.addEventListener('resize', equalizeRevCalGaps);
 </script>
 </body>
 </html>
