@@ -1147,20 +1147,65 @@ body {
   padding: clamp(24px, 3vw, 40px) 0 56px;
 }
 
-.problem-statement {
-  text-align: center;
-  padding: clamp(64px, 8vw, 112px) 24px clamp(24px, 3vw, 40px);
+.life-stat-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #fff;
+  padding: 0 24px;
 }
-.problem-statement__text {
-  font-size: clamp(16.5px, 2.1vw, 27px);
-  font-weight: 600;
+.life-stat {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.life-stat__line {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
+}
+.life-stat__line.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.life-stat {
+  font-size: clamp(36px, 6.5vw, 104px);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
   color: #14161e;
-  letter-spacing: 0.01em;
-  line-height: 1.3;
-  margin: 0;
-  font-family: var(--font-sans);
-  text-transform: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.lst-line {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.18em;
+  white-space: nowrap;
+}
+.lst-w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
+}
+.lst-w.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.lst-pct { color: #553C9A; }
+#lst-count {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .carousel-heading {
@@ -1177,9 +1222,12 @@ body {
 }
 
 .carousel {
-  --card: min(
-    calc((100dvh - 80px) * 0.56),
-    calc((min(100vw, 1440px) - 48px) / 3)
+  --card: max(
+    400px,
+    min(
+      calc((100dvh - 80px) * 0.56),
+      calc((min(100vw, 1440px) - 48px) / 3)
+    )
   );
   position: relative;
   width: 100%;
@@ -1194,6 +1242,7 @@ body {
   width: var(--card);
   height: var(--card);
   margin-left: calc(var(--card) / -2);
+  overflow: hidden;
   transition:
     transform 560ms cubic-bezier(0.4, 0, 0.2, 1),
     opacity 480ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -2559,9 +2608,28 @@ body {
   </div>
 </section>
 
-<div class="problem-statement">
-  <p class="problem-statement__text reveal">You Spend <span style="color:#553C9A">1/3rd of Your Life</span> on a Mattress Not Made for You</p>
-</div>
+<section class="life-stat-section" aria-label="Sleep statistic">
+  <div class="life-stat">
+    <div class="lst-line">
+      <span class="lst-w" id="lst-you-spend">you spend</span>
+      <span class="lst-w lst-pct" id="lst-pct"><span id="lst-count">0</span>%</span>
+      <span class="lst-w" id="lst-of">of</span>
+    </div>
+    <div class="lst-line">
+      <span class="lst-w">your</span>
+      <span class="lst-w">life</span>
+      <span class="lst-w">on</span>
+      <span class="lst-w">a</span>
+      <span class="lst-w">mattress</span>
+    </div>
+    <div class="lst-line">
+      <span class="lst-w">not</span>
+      <span class="lst-w">made</span>
+      <span class="lst-w">for</span>
+      <span class="lst-w">you</span>
+    </div>
+  </div>
+</section>
 
 <section class="carousel-section" aria-label="Statistics overview">
   <h2 class="carousel-heading reveal">Your body will feel the difference, <span style="color:#553C9A">with Calibr8</span></h2>
@@ -3505,6 +3573,57 @@ body {
     }
     window.addEventListener('scroll', updateReveal, { passive: true });
     requestAnimationFrame(() => requestAnimationFrame(updateReveal));
+  }
+
+  // ── Life stat section animation ──
+  {
+    const section = document.querySelector('.life-stat-section');
+    if (section) {
+      const youSpend = document.getElementById('lst-you-spend');
+      const pctEl    = document.getElementById('lst-pct');
+      const countEl  = document.getElementById('lst-count');
+      const words    = Array.from(section.querySelectorAll('.lst-w'));
+      // words after "you spend" and "32%": starting from index 2 (lst-of onward)
+      const afterPct = words.slice(2);
+      const countDur = prefersReduced ? 0 : 1200;
+      const stagger  = prefersReduced ? 0 : 120;
+      let fired = false;
+
+      function runLifeStat() {
+        if (fired) return;
+        fired = true;
+
+        // Step 1 — "you spend"
+        youSpend.classList.add('is-visible');
+
+        // Step 2 — "32%" counts up
+        setTimeout(() => {
+          pctEl.classList.add('is-visible');
+          if (prefersReduced) {
+            countEl.textContent = '32';
+          } else {
+            const start = performance.now();
+            (function tick(now) {
+              const t = Math.min(1, (now - start) / countDur);
+              countEl.textContent = Math.round(32 * (1 - Math.pow(1 - t, 3)));
+              if (t < 1) requestAnimationFrame(tick);
+              else countEl.textContent = '32';
+            })(performance.now());
+          }
+        }, prefersReduced ? 0 : 300);
+
+        // Step 3 — each remaining word staggers in after count finishes
+        const wordsDelay = prefersReduced ? 0 : 300 + countDur + 100;
+        afterPct.forEach((w, i) => {
+          setTimeout(() => w.classList.add('is-visible'), wordsDelay + i * stagger);
+        });
+      }
+
+      const lsObs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) { runLifeStat(); lsObs.disconnect(); }
+      }, { threshold: 0.3 });
+      lsObs.observe(section);
+    }
   }
 
   // ── Shared utilities ──
