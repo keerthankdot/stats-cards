@@ -11,6 +11,91 @@
 @font-face { font-family: 'Space Grotesk'; src: url('fonts/SpaceGrotesk-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
 @font-face { font-family: 'Space Grotesk'; src: url('fonts/SpaceGrotesk-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
 @font-face { font-family: 'Space Grotesk'; src: url('fonts/SpaceGrotesk-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+
+.risk-return-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  padding: 0 24px;
+}
+.risk-return {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1em;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 750ms cubic-bezier(0.16,1,0.3,1), transform 750ms cubic-bezier(0.16,1,0.3,1);
+}
+.risk-return.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.risk-return__main {
+  font-size: clamp(36px, 6.5vw, 104px);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #14161e;
+}
+.risk-return__sub {
+  font-size: clamp(18px, 2.2vw, 38px);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: #14161e;
+  margin-top: 0.25em;
+}
+.risk-return__purple { color: #553C9A; }
+#rr-count { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+
+.warranty-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  padding: 0 24px;
+}
+.warranty {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1em;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 750ms cubic-bezier(0.16,1,0.3,1), transform 750ms cubic-bezier(0.16,1,0.3,1);
+}
+.warranty.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.warranty__main {
+  font-size: clamp(36px, 6.5vw, 104px);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #14161e;
+}
+.warranty__sub {
+  font-size: clamp(18px, 2.2vw, 38px);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: #14161e;
+  margin-top: 0.25em;
+}
+.warranty__purple { color: #553C9A; }
+#warranty-count { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+
 </style>
 <style>
 :root {
@@ -102,6 +187,9 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  border: none;
+  outline: none;
+  display: block;
 }
 
 .hero::after { display: none; }
@@ -565,7 +653,7 @@ body {
   padding-top: 0;
 }
 .stat-card__outcome {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -574,7 +662,7 @@ body {
 }
 .stat-card__benefit {
   display: none;
-  font-size: 13px;
+  font-size: 14.5px;
   line-height: 1.45;
   color: #000000;
   margin: 0;
@@ -583,8 +671,8 @@ body {
 .stat-card__title {
   font-size: clamp(22px, 2.4vw, 36px);
   font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-family: var(--font-sans);
   color: var(--ink-1);
   margin: 0 0 12px;
   line-height: 1.15;
@@ -742,7 +830,7 @@ body {
 .stat-card--arc .stat-card__benefit,
 .stat-card--graph .stat-card__benefit,
 [data-kind="lines"] .stat-card__benefit,
-[data-kind="vbars"] .stat-card__benefit { font-size: 12px; line-height: 1.3; }
+[data-kind="vbars"] .stat-card__benefit { font-size: 13.5px; line-height: 1.3; }
 .stat-card--bottom { aspect-ratio: auto; }
 
 .rings {
@@ -1055,7 +1143,7 @@ body {
   margin-top: auto;
   padding-top: 10px;
 }
-.stat-card--gauge .stat-card__benefit { font-size: 12.5px; line-height: 1.4; }
+.stat-card--gauge .stat-card__benefit { font-size: 14px; line-height: 1.4; }
 
 .gauge {
   position: relative;
@@ -1192,11 +1280,13 @@ body {
 }
 .lst-w {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
 }
-.lst-w.is-visible {
+.life-stat {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 750ms cubic-bezier(0.16,1,0.3,1), transform 750ms cubic-bezier(0.16,1,0.3,1);
+}
+.life-stat.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1495,6 +1585,8 @@ body {
   transition: transform 0.72s cubic-bezier(0.32, 1.28, 0.55, 1);
 }
 .calibr8-slider-section .card__video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.18); }
+#calibr8-slider .card[data-id="3"] .card__video { transform-origin: top center; object-position: top center; }
+#calibr8-slider .card[data-id="4"] .card__desc { max-width: 600px !important; }
 .calibr8-slider-section .card:not(.active):hover .card__bg { transform: scale(1.08); }
 
 .calibr8-slider-section .card:not(.active)::before {
@@ -1538,10 +1630,6 @@ body {
   line-height: 1.02;
   color: #fff;
   margin-bottom: 10px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-.calibr8-slider-section .card[data-id="2"] .card__eyebrow,
-.calibr8-slider-section .card[data-id="3"] .card__eyebrow {
   font-family: var(--font-sans);
 }
 .calibr8-slider-section .card__top-title {
@@ -1550,22 +1638,20 @@ body {
   color: #fff;
   letter-spacing: -1.2px;
   line-height: 1.02;
-  text-transform: uppercase;
   font-family: var(--font-sans);
   margin-bottom: 10px;
 }
 .calibr8-slider-section .card__title {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 400;
   color: #fff;
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  letter-spacing: 0;
   line-height: 1.62;
   margin-bottom: 10px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .calibr8-slider-section .card__desc {
-  font-size: 15px;
+  font-size: 17px;
   color: #fff;
   line-height: 1.62;
   max-width: 360px;
@@ -2140,16 +2226,35 @@ body {
 .cls-cred--bl.cls-absorbed { opacity: 0; transform: translate(280px, -220px) scale(0.05); }
 .cls-cred--br.cls-absorbed { opacity: 0; transform: translate(-280px, -220px) scale(0.05); }
 @media (max-width: 767px) {
-  .cls-card { width: 44vw; padding: 14px 16px; border-radius: 14px; }
-  .cls-card__body { font-size: 10px; }
-  .cls-cred--tl { top: calc(50% - 170px); left: 2vw; }
-  .cls-cred--tr { top: calc(50% - 170px); right: 2vw; left: auto; }
-  .cls-cred--bl { top: calc(50% + 60px);  left: 2vw; }
-  .cls-cred--br { top: calc(50% + 60px);  right: 2vw; left: auto; }
-  .cls-cred--tl.cls-absorbed { transform: translate(40vw, 130px) scale(0.05); }
-  .cls-cred--tr.cls-absorbed { transform: translate(-40vw, 130px) scale(0.05); }
-  .cls-cred--bl.cls-absorbed { transform: translate(40vw, -110px) scale(0.05); }
-  .cls-cred--br.cls-absorbed { transform: translate(-40vw, -110px) scale(0.05); }
+  /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
+  .cls-section { height: auto; min-height: 100svh; padding: 0; }
+  .cls-card {
+    width: 74vw;
+    left: 50% !important; right: auto !important;
+    transform: translateX(-50%) !important;
+    padding: 10px 14px;
+    border-radius: 14px;
+  }
+  .cls-card__title { font-size: 15px !important; margin-bottom: 6px; }
+  .cls-card__body { font-size: 11px; line-height: 1.4; }
+
+  /* Resting positions: spread to avoid overlap */
+  .cls-cred--tl { top: 3vh; }
+  .cls-cred--tr { top: 17vh; }
+  .cls-cred--bl { top: 61vh; }
+  .cls-cred--br { top: 76vh; }
+
+  /* Visible */
+  .cls-cred--tl.cls-vis,
+  .cls-cred--tr.cls-vis,
+  .cls-cred--bl.cls-vis,
+  .cls-cred--br.cls-vis { opacity: 1; transform: translateX(-50%) !important; }
+
+  /* Absorbed: slide to ring center (50vh) */
+  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 3vh - 30px)) scale(0.05) !important; }
+  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 17vh - 30px)) scale(0.05) !important; }
+  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 61vh + 30px)) scale(0.05) !important; }
+  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 76vh + 30px)) scale(0.05) !important; }
 }
 
 /* ── Book Your Calibration section ── */
@@ -2599,52 +2704,112 @@ body {
 @media (max-width: 480px) {
 
   /* ── Hero ── */
+  /* dark background = gradient seamlessly extends from screen top through empty space into frame */
   .hero {
-    min-height: unset;
+    min-height: 100dvh;
     padding: 0;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: flex-start;
-    overflow: visible;
+    justify-content: center;
+    overflow: hidden;
     text-align: center;
+    position: relative;
+    background: #0d0d0d;
+    transition: background-color 700ms cubic-bezier(0.4,0,0.2,1);
   }
+  .hero.is-dark { background: #ffffff; }
+
+  /* 4:5 frame centered in viewport */
   .hero__frame {
     position: relative;
     width: 100%;
     aspect-ratio: 4/5;
     overflow: hidden;
     flex-shrink: 0;
+    border: none;
+    outline: none;
   }
+
+  /* black gradient: screen top → just into the video top */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    /* covers empty space above frame + ~70px into video top */
+    height: calc(50dvh - 62.5vw + 70px);
+    background: linear-gradient(to bottom,
+      rgba(0,0,0,0.88) 0%,
+      rgba(0,0,0,0.5) 55%,
+      transparent 100%);
+    z-index: 3;
+    pointer-events: none;
+    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
+  }
+  .hero.is-dark::before { opacity: 0; }
+
+  /* white gradient same span, driven by existing JS (grad.style.opacity) */
+  .hero__text-grad {
+    height: calc(50dvh - 62.5vw + 70px);
+    z-index: 2;
+  }
+
   .hero__fade { display: block; }
+  .hero__fade--top { display: none !important; }
+
+  /* small black tinge at frame bottom */
+  .hero__fade--bottom {
+    height: 13%;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
+  }
+  .hero.is-dark .hero__fade--bottom { opacity: 0; }
+
+  /* white tinge at frame bottom when is-dark */
+  .hero__frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 13%;
+    background: linear-gradient(to top, rgba(255,255,255,0.75) 0%, transparent 100%);
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+  }
+  .hero.is-dark .hero__frame::after { opacity: 1; }
+
+  /* text at screen top, inside the gradient zone */
   .hero__text {
     position: absolute;
-    top: 36px; left: 0; right: 0;
-    z-index: 3;
+    top: 44px; left: 0; right: 0;
+    z-index: 4;
     text-align: center;
-    padding: 0 20px;
-  }
-  .hero__title {
-    font-size: clamp(38px, 13vw, 64px);
-    font-style: normal;
-    white-space: normal;
-    margin: 0 auto;
-  }
-  .hero__title em {
-    font-style: normal;
-  }
-  .hero__bottom {
-    position: relative;
-    z-index: 1;
-    padding: 20px 20px 36px;
+    padding: 0 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    text-align: center;
   }
-  .hero__cta { margin-bottom: 0; padding: 14px 36px; }
-  .hero__sub { white-space: normal; font-size: 15px; color: #444; }
+  .hero__title {
+    font-size: 20px;
+    font-style: normal;
+    white-space: normal;
+    margin: 0 0 6px;
+    letter-spacing: 0.04em;
+  }
+  .hero__title em { font-style: normal; }
+  .hero__bottom {
+    position: absolute;
+    bottom: 28px;
+    left: 0; right: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero__cta { margin-bottom: 0; padding: 12px 32px; }
+  .hero__sub { white-space: normal; font-size: 13px; color: #444; }
 
   /* ── Carousel (impact stats) ── */
   .carousel-section { padding: 60px 0 40px; gap: 24px; }
@@ -2655,7 +2820,7 @@ body {
   .calibr8-slider-section { min-height: unset; padding: 40px 0 32px; gap: 16px; }
   .calibr8-slider-section .hero-text { padding: 0 20px; text-align: center; }
   .calibr8-slider-section .hero-title { font-size: 18px; text-align: center; }
-  .calibr8-slider-section .hero-sub { font-size: 20px; text-align: center; }
+  .calibr8-slider-section .hero-sub { font-size: 15px; text-align: center; }
   .calibr8-slider-section .hero-sub-desc { font-size: 13px; text-align: center; }
   .calibr8-slider-section .slider {
     padding: 0 16px;
@@ -2679,7 +2844,7 @@ body {
   }
   .calibr8-slider-section .card__content { padding: 16px 18px 20px; }
   .calibr8-slider-section .card__eyebrow { font-size: 18px; }
-  .calibr8-slider-section .card__desc { font-size: 13px; max-width: 100%; }
+  .calibr8-slider-section .card__desc { font-size: 16px; max-width: 100%; }
   /* Show number on inactive squares, hide content text */
   .calibr8-slider-section .card:not(.active) .card__content { display: none; }
   .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
@@ -2738,6 +2903,15 @@ body {
 
   /* ── Arc section ── */
   .arc-item-sub { max-width: 260px; padding-right: 16px; }
+  .arc-item-title { font-size: 20px; }
+  .arc-tag-headline { font-size: 4.5vw; }
+
+  /* ── Life stat display ── */
+  .life-stat { font-size: clamp(20px, 5.5vw, 26px); }
+
+  /* ── Zone intro ── */
+  .zone-intro__title { font-size: clamp(18px, 5vw, 22px); }
+  .zone-intro__desc { font-size: 14px; }
 }
 
 /* ── Tablet (481–767px) ── */
@@ -2817,14 +2991,25 @@ body {
     <div class="carousel__track" id="carousel-track"></div>
   </div>
 </section>
-
-
+<section class="risk-return-section" aria-label="Risk-free return">
+  <div class="risk-return">
+    <div class="risk-return__main"><span id="rr-count">0</span> Days <span class="risk-return__purple">Risk-Free Return</span></div>
+    <div class="risk-return__sub">Easily return it if it doesn't feel right</div>
+  </div>
+</section>
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
     <p class="slider-heading reveal">Your personalised mattress, built in <span style="color:#553C9A">6 precise steps.</span></p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
+</section>
+
+<section class="warranty-section" aria-label="Warranty">
+  <div class="warranty">
+    <div class="warranty__main">Up To <span class="warranty__purple"><span id="warranty-count">0</span> Years Warranty</span></div>
+    <div class="warranty__sub">Long-term support that lasts for years</div>
+  </div>
 </section>
 
 <div class="zone-intro">
@@ -3321,24 +3506,6 @@ body {
   </div>
 </section>
 
-<section class="arc-section">
-  <header id="arc-tagline">
-    <span class="arc-tag-label">Powered by</span>
-    <span class="arc-tag-headline">India's largest <span style="color:#553C9A">sleep study</span></span>
-  </header>
-  <div id="arc-app">
-    <svg id="arc-layer"></svg>
-    <div id="arc-stage"></div>
-    <div id="arc-fade-top"></div>
-    <div id="arc-fade-bottom"></div>
-    <div id="arc-dot">
-      <div id="arc-dot-track"></div>
-      <div id="arc-dot-glint"></div>
-      <div id="arc-dot-rim"></div>
-    </div>
-  </div>
-</section>
-
 <section class="cls-section" aria-label="Calibr8 sleep score">
   <canvas id="cls-canvas"></canvas>
   <div class="cls-score-num" id="cls-score-num"></div>
@@ -3363,6 +3530,8 @@ body {
     <div class="cls-card__body">8+ years of sleep research across 8,000+ Indian body types, creating the most comprehensive sleep data set built in India.</div>
   </div>
 </section>
+
+
 
 <script>
 (() => {
@@ -3799,36 +3968,76 @@ body {
         if (fired) return;
         fired = true;
 
-        // Step 1 — "you spend"
-        youSpend.classList.add('is-visible');
+        // Whole block fades up at once
+        const lifeStat = section.querySelector('.life-stat');
+        lifeStat.classList.add('is-visible');
 
-        // Step 2 — "32%" counts up
-        setTimeout(() => {
-          pctEl.classList.add('is-visible');
-          if (prefersReduced) {
-            countEl.textContent = '32';
-          } else {
-            const start = performance.now();
-            (function tick(now) {
-              const t = Math.min(1, (now - start) / countDur);
-              countEl.textContent = Math.round(32 * (1 - Math.pow(1 - t, 3)));
-              if (t < 1) requestAnimationFrame(tick);
-              else countEl.textContent = '32';
-            })(performance.now());
-          }
-        }, prefersReduced ? 0 : 300);
-
-        // Step 3 — each remaining word staggers in after count finishes
-        const wordsDelay = prefersReduced ? 0 : 300 + countDur + 100;
-        afterPct.forEach((w, i) => {
-          setTimeout(() => w.classList.add('is-visible'), wordsDelay + i * stagger);
-        });
+        // 32% counts up simultaneously
+        if (prefersReduced) {
+          countEl.textContent = '32';
+        } else {
+          const start = performance.now();
+          (function tick(now) {
+            const t = Math.min(1, (now - start) / countDur);
+            countEl.textContent = Math.round(32 * (1 - Math.pow(1 - t, 3)));
+            if (t < 1) requestAnimationFrame(tick);
+            else countEl.textContent = '32';
+          })(performance.now());
+        }
       }
 
       const lsObs = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) { runLifeStat(); lsObs.disconnect(); }
       }, { threshold: 0.3 });
       lsObs.observe(section);
+    }
+
+    const rrSection = document.querySelector('.risk-return-section');
+    if (rrSection) {
+      const rrEl = rrSection.querySelector('.risk-return');
+      const rrCountEl = document.getElementById('rr-count');
+      const rrObs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          rrEl.classList.add('is-visible');
+          rrObs.disconnect();
+          if (prefersReduced) { rrCountEl.textContent = '100'; }
+          else {
+            const start = performance.now();
+            const dur = 1200;
+            (function tick(now) {
+              const t = Math.min(1, (now - start) / dur);
+              rrCountEl.textContent = Math.round(100 * (1 - Math.pow(1 - t, 3)));
+              if (t < 1) requestAnimationFrame(tick);
+              else rrCountEl.textContent = '100';
+            })(performance.now());
+          }
+        }
+      }, { threshold: 0.3 });
+      rrObs.observe(rrSection);
+    }
+
+    const warSection = document.querySelector('.warranty-section');
+    if (warSection) {
+      const warEl = warSection.querySelector('.warranty');
+      const warCountEl = document.getElementById('warranty-count');
+      const warObs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          warEl.classList.add('is-visible');
+          warObs.disconnect();
+          if (prefersReduced) { warCountEl.textContent = '12'; }
+          else {
+            const start = performance.now();
+            const dur = 1200;
+            (function tick(now) {
+              const t = Math.min(1, (now - start) / dur);
+              warCountEl.textContent = Math.round(12 * (1 - Math.pow(1 - t, 3)));
+              if (t < 1) requestAnimationFrame(tick);
+              else warCountEl.textContent = '12';
+            })(performance.now());
+          }
+        }
+      }, { threshold: 0.3 });
+      warObs.observe(warSection);
     }
   }
 
@@ -4144,11 +4353,11 @@ body {
 
   const CARDS = [
     { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: 'videos/new scan flow.mp4', icon: scanIcon('#ffffff') },
-    { id: 1, title: 'Heatmap', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: 'videos/heatmap.mov', icon: heatmapIcon('#ffffff') },
+    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: 'videos/heatmap.mov', icon: heatmapIcon('#ffffff') },
     { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: 'videos/Calibration.mov', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'A personalised sleep report is created with your calibration profile & mattress recommendations.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Mattress type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
-    { id: 5, title: 'Your Calibr8ed mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
+    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/layers.MOV', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Your Calibr8ed Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
@@ -4194,11 +4403,11 @@ body {
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS = [
-    { id: 0, eyebrow: 'THE PAIN SUFFERER', title: 'Waking up with body pain shouldn\'t be your normal.', desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',                                               video: 'videos/pain.MOV' },
+    { id: 0, eyebrow: 'The Pain Sufferer', title: 'Waking up with body pain shouldn\'t be your normal.', desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',                                               video: 'videos/pain.MOV' },
     { id: 1, eyebrow: 'The Daily Grinder', title: 'Your desk job puts pressure on your spine every day.', desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',                                             video: 'videos/work.mp4' },
-    { id: 2, eyebrow: 'THE COUPLE',        title: 'Two people. Completely different needs.',        desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',                                                         video: 'videos/couple.MOV' },
-    { id: 3, eyebrow: 'The High Achiever', title: 'You train hard. Hustle hard. Push your body every day.', desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',                                             img: null, video: 'videos/high achiever.mp4' },
-    { id: 4, eyebrow: 'THE OVERTHINKER',   title: 'Too many choices. Too much guesswork.',            desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',                                                   video: 'videos/choices.mp4' },
+    { id: 2, eyebrow: 'The Couple',        title: 'Two people. Completely different needs.',        desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',                                                         video: 'videos/couple.MOV' },
+    { id: 3, eyebrow: 'The High Achiever', title: 'You train hard. Hustle hard. Push your body every day.', desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',                                             img: null, video: 'videos/lift.MOV' },
+    { id: 4, eyebrow: 'The Overthinker',   title: 'Too many choices. Too much guesswork.',            desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',                                                   video: 'videos/choices.mp4' },
   ];
 
   let processActiveId = 0;
@@ -4385,262 +4594,6 @@ body {
   });
 })();
 
-// Arc Slider
-(() => {
-  const ARC_ITEMS = [
-    { n: '01', t: 'Engineered',  s: 'Built with orthopedists & biomedical engineers, using spinal biomechanics to support your body more accurately.' },
-    { n: '02', t: 'Data-Driven', s: 'Machine learning trained on real pressure-mapping data, with the system learning from each calibration.' },
-    { n: '03', t: 'Global Tech',  s: 'Advanced Spanish pressure-mapping technology that is engineered for Indian body types & sleep conditions.' },
-    { n: '04', t: 'Research',    s: '8+ years of sleep research across 8,000+ Indian body types, creating the most comprehensive sleep data set built in India.' },
-  ];
-  const ARC_DURATION = 720;
-  let AG = {};
-
-  function arcComputeGeo() {
-    const W = window.innerWidth, H = window.innerHeight;
-    const mob = W < 768;
-    if (mob) {
-      // Bottom bowl arc: dot at center, items fan upward left-right
-      const R   = H * 0.52;
-      const apexY = H * 0.6;
-      const CX  = W * 0.5, CY = apexY - R;
-      const halfW = Math.round(W * 0.38);
-      return { W, H, R, CX, CY, apexX: CX, apexY, mob,
-        step: W * 0.28, itemH: 22, itemOff: 150, halfW, btnSize: 68 };
-    }
-    const R = W * 0.68;
-    const apexX = W * 0.5;
-    const CX = apexX - R, CY = H * 0.5;
-    return { W, H, R, CX, CY, apexX, mob,
-      step: 370, itemH: 22, itemOff: 74, halfW: 0, btnSize: 92 };
-  }
-
-  function arcPoint(floatOffset) {
-    const { R, CX, CY, mob } = AG;
-    if (mob) {
-      // Bowl/U shape: x = CX + R·sin(t), y = CY + R·cos(t)
-      const dx = floatOffset * AG.step;
-      const s  = Math.max(-0.9999, Math.min(0.9999, dx / R));
-      const t  = Math.asin(s);
-      return { x: CX + R * Math.sin(t), y: CY + R * Math.cos(t), angle: t };
-    }
-    const dy = floatOffset * AG.step;
-    const s  = Math.max(-0.9999, Math.min(0.9999, dy / R));
-    const t  = Math.asin(s);
-    return { x: CX + R * Math.cos(t), y: CY + R * Math.sin(t), angle: t };
-  }
-
-  const arcApp      = document.getElementById('arc-app');
-  const arcSVG      = document.getElementById('arc-layer');
-  const arcStage    = document.getElementById('arc-stage');
-  const arcDotEl    = document.getElementById('arc-dot');
-  const arcDotTrack = document.getElementById('arc-dot-track');
-  let arcItemEls = [];
-
-  function arcBuildItems() {
-    arcStage.innerHTML = '';
-    arcItemEls = [];
-    ARC_ITEMS.forEach(item => {
-      const el = document.createElement('div');
-      el.className = 'arc-item';
-      el.innerHTML = '<div class="arc-item-body">' +
-        '<span class="arc-item-title">' + item.t + '</span>' +
-        '<span class="arc-item-sub">'   + item.s + '</span>' +
-        '</div>';
-      arcStage.appendChild(el);
-      arcItemEls.push(el);
-    });
-  }
-
-  function arcBuildDot() {
-    arcDotTrack.innerHTML = '';
-    ARC_ITEMS.forEach(item => {
-      const span = document.createElement('span');
-      span.className = 'arc-dot-num';
-      span.textContent = item.n;
-      arcDotTrack.appendChild(span);
-    });
-  }
-
-  function arcUpdateDotStyle() {
-    const sz = AG.btnSize;
-    arcDotEl.style.width = arcDotEl.style.height = sz + 'px';
-    arcDotTrack.style.flexDirection = AG.mob ? 'row' : 'column';
-    document.querySelectorAll('.arc-dot-num').forEach(el => {
-      el.style.height = sz + 'px';
-      if (AG.mob) el.style.width = sz + 'px';
-      el.style.fontSize = (AG.mob ? 30 : 44) + 'px';
-    });
-  }
-
-  function arcBuildArc() {
-    const { R, CX, CY, W, H, mob } = AG;
-    arcSVG.setAttribute('width', W); arcSVG.setAttribute('height', H);
-    const cl = v => Math.max(-0.9999, Math.min(0.9999, v));
-    const gap = 4, Ro = R + gap, Ri = R - gap;
-    let dO, dI;
-    if (mob) {
-      // Bowl arc: x = CX + R·sin(t), y = CY + R·cos(t)
-      const t1 = Math.asin(cl((-50 - CX) / R));
-      const t2 = Math.asin(cl((W + 50 - CX) / R));
-      const pt = (r, t) => [(CX + r * Math.sin(t)).toFixed(2), (CY + r * Math.cos(t)).toFixed(2)];
-      const [x1o,y1o] = pt(Ro,t1), [x2o,y2o] = pt(Ro,t2);
-      const [x1i,y1i] = pt(Ri,t1), [x2i,y2i] = pt(Ri,t2);
-      dO = `M${x1o} ${y1o} A${Ro} ${Ro} 0 0 0 ${x2o} ${y2o}`;
-      dI = `M${x1i} ${y1i} A${Ri} ${Ri} 0 0 0 ${x2i} ${y2i}`;
-    } else {
-      const t1 = Math.asin(cl((-50 - CY) / R));
-      const t2 = Math.asin(cl((H + 50 - CY) / R));
-      const pt = (r, t) => [(CX + r * Math.cos(t)).toFixed(2), (CY + r * Math.sin(t)).toFixed(2)];
-      const [x1o,y1o] = pt(Ro,t1), [x2o,y2o] = pt(Ro,t2);
-      const [x1i,y1i] = pt(Ri,t1), [x2i,y2i] = pt(Ri,t2);
-      dO = `M${x1o} ${y1o} A${Ro} ${Ro} 0 0 1 ${x2o} ${y2o}`;
-      dI = `M${x1i} ${y1i} A${Ri} ${Ri} 0 0 1 ${x2i} ${y2i}`;
-    }
-    arcSVG.innerHTML =
-      `<path d="${dO}" stroke="rgba(200,198,218,0.45)" stroke-width="1" fill="none" stroke-linecap="round"/>` +
-      `<path d="${dI}" stroke="rgba(200,198,218,0.45)" stroke-width="1" fill="none" stroke-linecap="round"/>` +
-      `<path d="${dO}" stroke="rgba(255,255,255,0.7)"  stroke-width="0.6" fill="none" stroke-linecap="round"/>`;
-  }
-
-  function arcPositionDot() {
-    const p = arcPoint(0);
-    arcDotEl.style.left = p.x + 'px';
-    arcDotEl.style.top  = p.y + 'px';
-  }
-
-  function arcRenderMob() {
-    const { W, H, btnSize } = AG;
-    const itemW = Math.round(W * 0.88);
-    const itemX = Math.round((W - itemW) / 2);
-    const itemY = Math.round(H * 0.32);
-    arcItemEls.forEach((el, i) => {
-      el.style.width = itemW + 'px';
-      el.style.transition = 'none';
-      el.style.transform = (i === arcTarget)
-        ? `translate3d(${itemX}px, ${itemY}px, 0)`
-        : `translate3d(${itemX + W}px, ${itemY}px, 0)`;
-      el.style.opacity = '1';
-    });
-    arcDotTrack.style.transition = 'none';
-    arcDotTrack.style.transform = `translateX(${(-arcTarget * btnSize).toFixed(1)}px)`;
-  }
-
-  function arcGoToMob(idx) {
-    const { W, H, btnSize } = AG;
-    const itemW = Math.round(W * 0.88);
-    const itemX = Math.round((W - itemW) / 2);
-    const itemY = Math.round(H * 0.32);
-    const prev  = arcTarget;
-    const n     = ARC_ITEMS.length;
-    const dir   = ((idx - prev + n) % n) <= n / 2 ? 1 : -1;
-    arcTarget   = idx;
-    arcCurPos   = idx;
-    const prevEl = arcItemEls[prev];
-    const nextEl = arcItemEls[idx];
-    // pre-position entering element off-screen
-    nextEl.style.transition = 'none';
-    nextEl.style.width = itemW + 'px';
-    nextEl.style.transform = `translate3d(${itemX + dir * W}px, ${itemY}px, 0)`;
-    nextEl.style.opacity = '1';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
-      nextEl.style.transition = `transform 480ms ${ease}`;
-      nextEl.style.transform  = `translate3d(${itemX}px, ${itemY}px, 0)`;
-      prevEl.style.transition = `transform 480ms ${ease}`;
-      prevEl.style.transform  = `translate3d(${itemX - dir * W}px, ${itemY}px, 0)`;
-      arcDotTrack.style.transition = `transform 480ms ${ease}`;
-      arcDotTrack.style.transform  = `translateX(${(-idx * btnSize).toFixed(1)}px)`;
-    }));
-  }
-
-  function arcRender(pos) {
-    if (AG.mob) { arcRenderMob(); return; }
-    arcItemEls.forEach((el, i) => {
-      el.style.width = ''; el.style.transition = '';
-      const offset  = i - pos;
-      const p       = arcPoint(offset);
-      const dist    = Math.abs(offset);
-      const opacity = dist < 1 ? 1 - dist * 0.8 : Math.max(0, 0.2 - (dist - 1) * 0.4);
-      el.style.transformOrigin = (-AG.itemOff) + 'px ' + AG.itemH + 'px';
-      el.style.transform = `translate3d(${(p.x + AG.itemOff).toFixed(1)}px,${(p.y - AG.itemH).toFixed(1)}px,0) rotate(${(p.angle * 180 / Math.PI).toFixed(3)}deg)`;
-      el.style.opacity = opacity.toFixed(4);
-    });
-    arcDotTrack.style.transform = `translateY(${(-pos * AG.btnSize).toFixed(2)}px)`;
-  }
-
-  let arcCurPos = 0, arcTarget = 0, arcRafId = null;
-  let arcAFrom = 0, arcATo = 0, arcAStart = 0, arcRunning = false;
-
-  function arcEaseOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-  function arcTick(now) {
-    const t = Math.min((now - arcAStart) / ARC_DURATION, 1);
-    arcCurPos = arcAFrom + (arcATo - arcAFrom) * arcEaseOut(t);
-    arcRender(arcCurPos);
-    if (t < 1) {
-      arcRafId = requestAnimationFrame(arcTick);
-    } else {
-      arcCurPos = arcATo; arcRunning = false; arcRender(arcCurPos);
-      if (arcTarget !== arcATo) arcStart(arcCurPos, arcTarget);
-    }
-  }
-
-  function arcStart(from, to) {
-    arcAFrom = from; arcATo = to; arcAStart = performance.now();
-    arcRunning = true;
-    if (arcRafId) cancelAnimationFrame(arcRafId);
-    arcRafId = requestAnimationFrame(arcTick);
-  }
-
-  function arcGoTo(idx) {
-    idx = Math.max(0, Math.min(ARC_ITEMS.length - 1, idx));
-    if (AG.mob) {
-      if (idx !== arcTarget) arcGoToMob(idx);
-      return;
-    }
-    arcTarget = idx;
-    if (arcRunning) {
-      const t = Math.min((performance.now() - arcAStart) / ARC_DURATION, 1);
-      arcCurPos = arcAFrom + (arcATo - arcAFrom) * arcEaseOut(t);
-      cancelAnimationFrame(arcRafId); arcRunning = false;
-    }
-    if (Math.abs(arcCurPos - idx) < 0.001) return;
-    arcStart(arcCurPos, idx);
-  }
-
-  let arcAutoTimer = null;
-  function arcScheduleNext() {
-    clearTimeout(arcAutoTimer);
-    arcAutoTimer = setTimeout(() => {
-      arcGoTo((arcTarget + 1) % ARC_ITEMS.length);
-      arcScheduleNext();
-    }, 2000);
-  }
-
-  // Use IntersectionObserver so auto-advance only runs when section is visible
-  const arcSection = document.querySelector('.arc-section');
-  const arcObserver = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) arcScheduleNext();
-    else clearTimeout(arcAutoTimer);
-  }, { threshold: 0.4 });
-  arcObserver.observe(arcSection);
-
-  arcSection.addEventListener('mouseenter', () => clearTimeout(arcAutoTimer));
-  arcSection.addEventListener('mouseleave', () => arcScheduleNext());
-
-  let arcResizeTmr = null;
-  window.addEventListener('resize', () => {
-    clearTimeout(arcResizeTmr);
-    arcResizeTmr = setTimeout(() => {
-      AG = arcComputeGeo();
-      arcUpdateDotStyle(); arcBuildArc(); arcPositionDot(); arcRender(arcCurPos);
-    }, 100);
-  });
-
-  AG = arcComputeGeo();
-  arcBuildItems(); arcBuildDot(); arcUpdateDotStyle(); arcBuildArc(); arcPositionDot(); arcRender(0);
-})();
 </script>
 
 <script>
@@ -4676,6 +4629,7 @@ body {
     title.style.color = DARK_TITLE;
     sub.style.color   = DARK_SUB;
     if (grad) grad.style.opacity = '1';
+    hero.classList.add('is-dark');
     isDark = true; morphedNearEnd = false;
   }
 
@@ -4683,6 +4637,7 @@ body {
     title.style.color = WHITE;
     sub.style.color   = WHITE;
     if (grad) grad.style.opacity = '0';
+    hero.classList.remove('is-dark');
     isDark = false;
   }
 
@@ -4828,31 +4783,31 @@ body {
     taglineEl.classList.remove('cls-tag-vis');
     ringTgt = 0.19; orbitTgt = 1.4;
 
-    // 1 appears → ENGINEERED flies in
-    setTimeout(() => { showNum(1); ringTgt = 0.212; },                                  600 * D);
-    setTimeout(() => { absorb(0);  ringTgt = 0.232; orbitTgt = 1.8; },                 1300 * D);
-    // 2 appears → DATA-DRIVEN flies in
-    setTimeout(() => { showNum(2); ringTgt = 0.245; },                                 2400 * D);
-    setTimeout(() => { absorb(1);  ringTgt = 0.256; orbitTgt = 2.1; },                 3100 * D);
-    // 3 appears → GLOBAL TECH flies in
-    setTimeout(() => { showNum(3); ringTgt = 0.265; },                                 4200 * D);
-    setTimeout(() => { absorb(2);  ringTgt = 0.272; orbitTgt = 2.5; },                 4900 * D);
-    // 4 appears → RESEARCH flies in
-    setTimeout(() => { showNum(4); ringTgt = 0.276; },                                 6000 * D);
-    setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                 6700 * D);
+    // number shows → 2.5s dwell → card absorbs → 500ms → next number
+    setTimeout(() => { showNum(1); ringTgt = 0.212; },                                   600 * D);
+    setTimeout(() => { absorb(0);  ringTgt = 0.232; orbitTgt = 1.8; },                 3100 * D);
+
+    setTimeout(() => { showNum(2); ringTgt = 0.245; },                                  3600 * D);
+    setTimeout(() => { absorb(1);  ringTgt = 0.256; orbitTgt = 2.1; },                 6100 * D);
+
+    setTimeout(() => { showNum(3); ringTgt = 0.265; },                                  6600 * D);
+    setTimeout(() => { absorb(2);  ringTgt = 0.272; orbitTgt = 2.5; },                 9100 * D);
+
+    setTimeout(() => { showNum(4); ringTgt = 0.276; },                                  9600 * D);
+    setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                12100 * D);
 
     // Number fades → tagline forms
-    setTimeout(() => { hideNum(); },                                                    8000 * D);
-    setTimeout(() => { taglineEl.classList.add('cls-tag-vis'); },                       8400 * D);
+    setTimeout(() => { hideNum(); },                                                   13400 * D);
+    setTimeout(() => { taglineEl.classList.add('cls-tag-vis'); },                      13800 * D);
 
     // Tagline fades → all 4 cards come out together
-    setTimeout(() => { taglineEl.classList.remove('cls-tag-vis'); },                   10400 * D);
+    setTimeout(() => { taglineEl.classList.remove('cls-tag-vis'); },                   15800 * D);
     setTimeout(() => {
       restore(0); restore(1); restore(2); restore(3);
       ringTgt = 0.19; orbitTgt = 1.4;
-    }, 11200 * D);
+    }, 16600 * D);
 
-    setTimeout(runLoop, prefRed ? 500 : 13200);
+    setTimeout(runLoop, prefRed ? 500 : 18000);
   }
 
   // ── Render loop ──
