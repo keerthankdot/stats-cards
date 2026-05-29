@@ -2642,11 +2642,12 @@ body {
   border: 1px solid rgba(255,255,255,0.55);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 24px rgba(0,0,0,0.05);
   outline: none;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px 16px;
+  padding: 14px 16px 0;
   box-sizing: border-box;
   position: relative;
 }
@@ -2655,16 +2656,18 @@ body {
   max-width: 100%;
   display: block;
   flex-shrink: 0;
+  margin-top: 0;
 }
 .rev-cal__label {
+  position: absolute;
+  top: 16px;
+  left: 0; right: 0;
   font-size: 18px; font-weight: 700; color: #111;
   white-space: normal; line-height: 1.1;
   text-transform: uppercase; text-align: center;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  margin-bottom: 20px;
-  flex-shrink: 0;
+  font-family: var(--font-sans);
+  z-index: 2;
 }
-.rev-cal__label--before { font-family: var(--font-sans); }
 .reviews-name { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 3px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 .reviews-city { display: none; }
 .reviews-quote {
@@ -3497,8 +3500,8 @@ body {
 <section class="book-section" aria-label="Book your calibration">
   <h2 class="book-heading">It's Time to <span style="color:#553C9A">Calibr8</span> Your Sleep</h2>
   <div class="book-card">
-    <video class="book-img" id="book-img-store" src="videos/store.mp4" autoplay loop muted playsinline></video>
-    <video class="book-img hidden" id="book-img-home" src="videos/home.mp4" autoplay loop muted playsinline></video>
+    <video class="book-img" id="book-img-store" src="videos/store.MOV" autoplay loop muted playsinline></video>
+    <video class="book-img hidden" id="book-img-home" src="videos/home.MOV" autoplay loop muted playsinline></video>
     <div class="book-toggle">
       <button class="book-btn active" data-tab="store">Store Visit</button>
       <button class="book-btn" data-tab="home">Home Consultation</button>
@@ -4896,20 +4899,14 @@ function equalizeRevCalGaps() {
     const img   = card.querySelector('.rev-cal__body-img');
     if (!label || !img || !img.naturalWidth) return;
 
-    const hPad    = 16;
-    const cardH   = card.clientHeight;
-    const availW  = card.clientWidth - hPad * 2;
-    const labelH  = label.offsetHeight;
+    const hPad   = 16;
+    const availW = card.clientWidth - hPad * 2;
+    const imgH   = Math.round(availW * (img.naturalHeight / img.naturalWidth));
 
-    // Rendered image height when width-constrained
-    const imgH = Math.round(availW * (img.naturalHeight / img.naturalWidth));
-
-    // P = equal gap: top-of-card→text, text→head, foot→bottom-of-card
-    const P = Math.max(8, Math.round((cardH - labelH - imgH) / 3));
-
-    card.style.paddingTop    = P + 'px';
-    card.style.paddingBottom = P + 'px';
-    label.style.marginBottom = P + 'px';
+    // Label is absolute overlay — image fills card from top, offset 5px
+    card.style.paddingTop    = '0px';
+    card.style.paddingBottom = '0px';
+    img.style.marginTop = '25px';
     img.style.width  = availW + 'px';
     img.style.height = imgH   + 'px';
   });
