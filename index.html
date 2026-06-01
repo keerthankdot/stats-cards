@@ -12,90 +12,81 @@
 @font-face { font-family: 'Space Grotesk'; src: url('fonts/SpaceGrotesk-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
 @font-face { font-family: 'Space Grotesk'; src: url('fonts/SpaceGrotesk-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
 
-.risk-return-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  padding: 0 24px;
+
+
+
+.trust-section {
+  position: relative;
+  padding: clamp(64px, 8vw, 112px) clamp(24px, 6vw, 80px);
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(100,60,180,0.18) 0%, rgba(120,80,200,0.08) 55%, transparent 100%), #ffffff;
 }
-.risk-return {
-  text-align: center;
+.trust-section::before,
+.trust-section::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+.trust-section::before {
+  top: 0;
+  background: linear-gradient(to bottom, #ffffff, transparent);
+}
+.trust-section::after {
+  bottom: 0;
+  background: linear-gradient(to top, #ffffff, transparent);
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.trust-card {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-top: 1.5px solid rgba(255,255,255,0.95);
+  border-radius: 22px;
+  padding: 32px 32px 36px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.1em;
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 750ms cubic-bezier(0.16,1,0.3,1), transform 750ms cubic-bezier(0.16,1,0.3,1);
+  gap: 0;
+  box-shadow: 0 8px 48px rgba(85,60,154,0.10),
+              inset 0 1.5px 0 rgba(255,255,255,0.9),
+              inset 0 -1px 0 rgba(255,255,255,0.2),
+              inset 1px 0 0 rgba(255,255,255,0.15),
+              inset -1px 0 0 rgba(255,255,255,0.15);
 }
-.risk-return.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.risk-return__main {
-  font-size: clamp(36px, 6.5vw, 104px);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: #14161e;
-}
-.risk-return__sub {
-  font-size: clamp(18px, 2.2vw, 38px);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  color: #14161e;
-  margin-top: 0.25em;
-}
-.risk-return__purple { color: #553C9A; }
-#rr-count { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
 
-.warranty-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  padding: 0 24px;
+.trust-card__icon {
+  width: 32px; height: 32px;
+  margin-bottom: 24px;
+  color: rgba(20,16,40,0.7);
 }
-.warranty {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1em;
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 750ms cubic-bezier(0.16,1,0.3,1), transform 750ms cubic-bezier(0.16,1,0.3,1);
-}
-.warranty.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.warranty__main {
-  font-size: clamp(36px, 6.5vw, 104px);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: #14161e;
-}
-.warranty__sub {
-  font-size: clamp(18px, 2.2vw, 38px);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 400;
+.trust-card__title {
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+  color: rgba(20,16,40,0.85);
   letter-spacing: -0.02em;
-  line-height: 1.3;
-  color: #14161e;
-  margin-top: 0.25em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  min-height: 2.4em;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.warranty__purple { color: #553C9A; }
-#warranty-count { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
-
+.trust-card__desc {
+  font-size: 15px;
+  color: rgba(20,16,40,0.55);
+  line-height: 1.6;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+@media (max-width: 767px) {
+  .trust-grid { grid-template-columns: 1fr; }
+}
 </style>
 <style>
 :root {
@@ -1240,7 +1231,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(100,60,180,0.15) 0%, rgba(120,80,200,0.07) 55%, transparent 100%), #ffffff;
   padding: 0 24px;
 }
 .life-stat {
@@ -1585,8 +1576,8 @@ body {
   transition: transform 0.72s cubic-bezier(0.32, 1.28, 0.55, 1);
 }
 .calibr8-slider-section .card__video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.18); }
-#calibr8-slider .card[data-id="3"] .card__video { transform-origin: top center; object-position: top center; }
-#calibr8-slider .card[data-id="4"] .card__desc { max-width: 600px !important; }
+#calibr8-slider .card[data-id="3"] .card__video { transform: translateY(9%) scale(1.18) !important; object-position: top center; }
+#calibr8-slider .card[data-id="4"] .card__desc { max-width: 600px !important; font-size: 15.5px; }
 .calibr8-slider-section .card:not(.active):hover .card__bg { transform: scale(1.08); }
 
 .calibr8-slider-section .card:not(.active)::before {
@@ -1627,9 +1618,9 @@ body {
   font-size: 34px;
   font-weight: 800;
   letter-spacing: -1.2px;
-  line-height: 1.02;
+  line-height: 0.9;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
   font-family: var(--font-sans);
 }
 .calibr8-slider-section .card__top-title {
@@ -1637,9 +1628,9 @@ body {
   font-weight: 800;
   color: #fff;
   letter-spacing: -1.2px;
-  line-height: 1.02;
+  line-height: 0.9;
   font-family: var(--font-sans);
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 .calibr8-slider-section .card__title {
   font-size: 17px;
@@ -1654,7 +1645,7 @@ body {
   font-size: 17px;
   color: #fff;
   line-height: 1.62;
-  max-width: 360px;
+  max-width: 440px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -2994,12 +2985,6 @@ body {
     <div class="carousel__track" id="carousel-track"></div>
   </div>
 </section>
-<section class="risk-return-section" aria-label="Risk-free return">
-  <div class="risk-return">
-    <div class="risk-return__main"><span id="rr-count">0</span> Days <span class="risk-return__purple">Risk-Free Return</span></div>
-    <div class="risk-return__sub">Easily return it if it doesn't feel right</div>
-  </div>
-</section>
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
@@ -3008,10 +2993,23 @@ body {
   <div class="slider" id="calibr8-slider"></div>
 </section>
 
-<section class="warranty-section" aria-label="Warranty">
-  <div class="warranty">
-    <div class="warranty__main">Up To <span class="warranty__purple"><span id="warranty-count">0</span> Years Warranty</span></div>
-    <div class="warranty__sub">Long-term support that lasts for years</div>
+<section class="trust-section" aria-label="Trust signals">
+  <div class="trust-grid">
+    <div class="trust-card reveal">
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <div class="trust-card__title">100 Days Risk-Free Return</div>
+      <div class="trust-card__desc">Easily return it if it doesn't feel right</div>
+    </div>
+    <div class="trust-card reveal">
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10C8.5 20.5 5 17 5 12V6l7-4z"/></svg>
+      <div class="trust-card__title">Up To 12 Years Warranty</div>
+      <div class="trust-card__desc">Long-term support that lasts for years</div>
+    </div>
+    <div class="trust-card reveal">
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h4M2 15v4a2 2 0 0 0 2 2h4M22 9V5a2 2 0 0 0-2-2h-4M22 15v4a2 2 0 0 1-2 2h-4"/><circle cx="12" cy="10" r="2"/><path d="M8 20c0-2.5 1.8-4 4-4s4 1.5 4 4"/></svg>
+      <div class="trust-card__title">Free Calibr8 Scan</div>
+      <div class="trust-card__desc">Available in-store or at home</div>
+    </div>
   </div>
 </section>
 
@@ -3995,53 +3993,7 @@ body {
       lsObs.observe(section);
     }
 
-    const rrSection = document.querySelector('.risk-return-section');
-    if (rrSection) {
-      const rrEl = rrSection.querySelector('.risk-return');
-      const rrCountEl = document.getElementById('rr-count');
-      const rrObs = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          rrEl.classList.add('is-visible');
-          rrObs.disconnect();
-          if (prefersReduced) { rrCountEl.textContent = '100'; }
-          else {
-            const start = performance.now();
-            const dur = 1200;
-            (function tick(now) {
-              const t = Math.min(1, (now - start) / dur);
-              rrCountEl.textContent = Math.round(100 * (1 - Math.pow(1 - t, 3)));
-              if (t < 1) requestAnimationFrame(tick);
-              else rrCountEl.textContent = '100';
-            })(performance.now());
-          }
-        }
-      }, { threshold: 0.3 });
-      rrObs.observe(rrSection);
-    }
 
-    const warSection = document.querySelector('.warranty-section');
-    if (warSection) {
-      const warEl = warSection.querySelector('.warranty');
-      const warCountEl = document.getElementById('warranty-count');
-      const warObs = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          warEl.classList.add('is-visible');
-          warObs.disconnect();
-          if (prefersReduced) { warCountEl.textContent = '12'; }
-          else {
-            const start = performance.now();
-            const dur = 1200;
-            (function tick(now) {
-              const t = Math.min(1, (now - start) / dur);
-              warCountEl.textContent = Math.round(12 * (1 - Math.pow(1 - t, 3)));
-              if (t < 1) requestAnimationFrame(tick);
-              else warCountEl.textContent = '12';
-            })(performance.now());
-          }
-        }
-      }, { threshold: 0.3 });
-      warObs.observe(warSection);
-    }
   }
 
   // ── Shared utilities ──
