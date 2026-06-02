@@ -2711,7 +2711,7 @@ body {
     overflow: hidden;
     text-align: center;
     position: relative;
-    background: #0d0d0d;
+    background: #000000;
     transition: background-color 700ms cubic-bezier(0.4,0,0.2,1);
   }
   .hero.is-dark { background: #ffffff; }
@@ -2733,33 +2733,40 @@ body {
     position: absolute;
     top: 0; left: 0; right: 0;
     /* covers empty space above frame + ~70px into video top */
-    height: calc(50dvh - 62.5vw + 70px);
+    height: calc(50dvh - 62.5vw + 140px);
     background: linear-gradient(to bottom,
-      rgba(0,0,0,0.88) 0%,
-      rgba(0,0,0,0.5) 55%,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 50%,
       transparent 100%);
     z-index: 3;
     pointer-events: none;
-    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
+    transition: background 700ms cubic-bezier(0.4,0,0.2,1);
   }
-  .hero.is-dark::before { opacity: 0; }
+  .hero.is-dark::before {
+    background: linear-gradient(to bottom,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,0.85) 50%,
+      transparent 100%);
+  }
 
   /* white gradient same span, driven by existing JS (grad.style.opacity) */
   .hero__text-grad {
-    height: calc(50dvh - 62.5vw + 70px);
+    height: calc(50dvh - 62.5vw + 140px);
     z-index: 2;
   }
 
   .hero__fade { display: block; }
   .hero__fade--top { display: none !important; }
 
-  /* small black tinge at frame bottom */
+  /* bottom gradient: covers from video bottom to screen bottom */
   .hero__fade--bottom {
-    height: 13%;
-    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
-    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
+    height: 30%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+    transition: background 700ms cubic-bezier(0.4,0,0.2,1);
   }
-  .hero.is-dark .hero__fade--bottom { opacity: 0; }
+  .hero.is-dark .hero__fade--bottom {
+    background: linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+  }
 
   /* white tinge at frame bottom when is-dark */
   .hero__frame::after {
@@ -2773,7 +2780,7 @@ body {
     transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
     pointer-events: none;
   }
-  .hero.is-dark .hero__frame::after { opacity: 1; }
+  .hero.is-dark .hero__frame::after { opacity: 0; }
 
   /* text at screen top, inside the gradient zone */
   .hero__text {
@@ -2787,12 +2794,15 @@ body {
     align-items: center;
   }
   .hero__title {
-    font-size: 20px;
+    font-size: clamp(52px, 16vw, 72px);
     font-style: normal;
     white-space: normal;
-    margin: 0 0 6px;
+    margin: 0 0 8px;
     letter-spacing: 0.04em;
+    color: #ffffff;
+    transition: color 700ms ease;
   }
+  .hero.is-dark .hero__title { color: #111111; }
   .hero__title em { font-style: normal; }
   .hero__bottom {
     position: absolute;
@@ -2805,18 +2815,49 @@ body {
     gap: 12px;
   }
   .hero__cta { margin-bottom: 0; padding: 12px 32px; }
-  .hero__sub { white-space: normal; font-size: 13px; color: #444; }
+  .hero__sub { white-space: normal; font-size: 16px; color: #ffffff; text-align: center; max-width: 82vw; transition: color 700ms ease; }
+  .hero.is-dark .hero__sub { color: #444444; }
+  .hero__block { display: contents; }
 
   /* ── Carousel (impact stats) ── */
-  .carousel-section { padding: 60px 0 40px; gap: 24px; }
-  .carousel-heading { font-size: clamp(18px, 5vw, 26px); padding: 0 20px; margin: 0; }
-  .carousel { --card: min(72vw, 320px); }
+  .carousel-section {
+    height: 62dvh;
+    min-height: unset;
+    padding: 0;
+    gap: 16px;
+    justify-content: center;
+  }
+  .carousel-heading {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    padding: 0 20px;
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .ch-p1 { display: block; }
+  .ch-calibr8 { font-family: var(--font-sans); font-weight: 700; }
+  .lst-pct { font-weight: 700; }
+  .carousel { --card: min(52dvh, 72vw, 300px); }
 
   /* ── Calibr8 Slider (how-it-works) ── */
   .calibr8-slider-section { min-height: unset; padding: 40px 0 32px; gap: 16px; }
   .calibr8-slider-section .hero-text { padding: 0 20px; text-align: center; }
   .calibr8-slider-section .hero-title { font-size: 18px; text-align: center; }
-  .calibr8-slider-section .hero-sub { font-size: 15px; text-align: center; }
+  .slider-heading {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .sh-p1 { display: block; }
+  .sh-purple { font-family: var(--font-sans); font-weight: 700; }
+  .calibr8-slider-section .hero-sub {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align: center;
+  }
+  .hps-p1 { display: block; margin-bottom: 1em; }
+  .hps-purple { font-family: var(--font-sans); font-weight: 700; }
   .calibr8-slider-section .hero-sub-desc { font-size: 13px; text-align: center; }
   .calibr8-slider-section .slider {
     padding: 0 16px;
@@ -2826,15 +2867,24 @@ body {
   }
   /* Active card: full width, tall */
   .calibr8-slider-section .card {
-    flex: 0 0 calc(25% - 6px);
-    height: calc(25vw - 6px);
+    flex: 0 0 calc(20% - 7px);
+    aspect-ratio: 1;
+    height: auto;
     min-width: unset;
     border-radius: 12px;
     order: 1;
+    transition: none;
+  }
+  .calibr8-slider-section .card.active {
+    transition:
+      flex-basis 0.62s cubic-bezier(0.32, 1.28, 0.55, 1),
+      aspect-ratio 0.62s cubic-bezier(0.32, 1.28, 0.55, 1),
+      border-radius 0.62s cubic-bezier(0.32, 1.28, 0.55, 1);
   }
   .calibr8-slider-section .card.active {
     flex: 0 0 100%;
-    height: 72vw;
+    height: unset;
+    aspect-ratio: 16/9;
     order: 0;
     border-radius: 16px;
   }
@@ -2844,6 +2894,93 @@ body {
   /* Show number on inactive squares, hide content text */
   .calibr8-slider-section .card:not(.active) .card__content { display: none; }
   .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
+  .calibr8-slider-section .card:not(.active) .card__icon {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+  }
+  /* Active card: number left-aligned */
+  .calibr8-slider-section .card.active .card__icon {
+    opacity: 1 !important;
+    left: 18px !important;
+    transform: scale(1) !important;
+  }
+  /* Text below card */
+  .calibr8-slider-section .card.active {
+    overflow: visible;
+    margin-bottom: 138px; /* 14px pad-top + ~36px title + 70px desc (3×15.5px×1.5) + 14px pad-bottom + 4px buffer */
+  }
+  .calibr8-slider-section .card.active .card__video,
+  #calibr8-slider .card.active .card__video,
+  #calibr8-slider .card.active[data-id="3"] .card__video { transform: none !important; }
+  .calibr8-slider-section .card.active .card__bg { border-radius: 16px; overflow: hidden; }
+  .calibr8-slider-section .card.active .card__scrim { border-radius: 16px; overflow: hidden; }
+  .calibr8-slider-section .card .card__content {
+    transition: opacity 0.38s cubic-bezier(0.16,1,0.3,1) 0.22s,
+                transform 0.38s cubic-bezier(0.16,1,0.3,1) 0.22s;
+  }
+  .calibr8-slider-section .card.active .card__content {
+    position: absolute;
+    top: 100%;
+    bottom: auto;
+    left: 0; right: 0;
+    padding: 14px 0 14px;
+    text-align: left;
+    opacity: 1;
+    transform: translateY(0);
+    background: transparent;
+  }
+  /* Big title — calibr8 uses card__top-title, process uses card__eyebrow */
+  #calibr8-slider .card.active .card__top-title,
+  #process-slider .card.active .card__eyebrow {
+    color: #111;
+    text-align: left;
+    font-size: clamp(28px, 8vw, 40px);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-transform: none;
+  }
+  /* Process card__title = same size as desc (15.5px) */
+  #process-slider .card.active .card__title {
+    color: #111;
+    font-size: 15.5px;
+    text-align: left;
+    line-height: 1.5;
+    margin-bottom: 1em;
+  }
+  /* Process slider needs more bottom margin (eyebrow + title + desc) */
+  #process-slider .card.active {
+    margin-bottom: 165px;
+  }
+  /* 4 inactive cards fill the row exactly */
+  #process-slider .card:not(.active) {
+    flex: 0 0 calc(25% - 6px);
+  }
+  /* Process slider: no width constraints — text flows freely */
+  #process-slider .card.active .card__title,
+  #process-slider .card.active .card__desc {
+    max-width: 100%;
+    min-height: unset;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    display: block;
+    overflow: visible;
+    text-wrap: unset;
+  }
+  .calibr8-slider-section .card.active .card__desc {
+    color: #111;
+    font-size: 15.5px;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+    min-height: calc(3 * 15.5px * 1.5);
+    max-width: 65%;
+  }
 
   /* ── Zone intro ── */
   .zone-intro { padding: 32px 20px 24px; }
@@ -2869,7 +3006,15 @@ body {
   .zones-section__heatmap { width: 110px; }
   .zones-section__grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .zone-card { transform: none; transform-origin: unset; }
-  .reviews-intro { width: 100%; margin: 0; padding: 40px 20px 0; }
+  .reviews-intro { width: 100%; margin: 0; padding: 40px 20px 32px; }
+  .reviews-intro__heading {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align: center;
+  }
+  .rih-l1 { display: block; }
+  .rih-purple { font-family: var(--font-sans); font-weight: 700; }
 
   /* ── Reviews section ── */
   .reviews-section { padding: 0 0 48px; }
@@ -2877,33 +3022,74 @@ body {
   .reviews-body {
     width: auto;
     padding: 0 16px;
-    flex-direction: column;
-    height: auto;
-    gap: 12px;
+    flex-direction: row;
+    align-items: stretch;
+    height: 180px;
+    gap: 8px;
   }
-  .rev-person-col { flex: 0 0 auto; width: 100%; height: 280px; }
-  .rev-cal { flex: 0 0 auto; width: 100%; height: 200px; }
+  .rev-person-col { flex: 1; width: auto; height: auto; }
+  .rev-cal { flex: 1; width: auto; height: auto; padding: 8px 4px 0; justify-content: center; }
+  .rev-cal__label { font-size: 8px; top: 8px; letter-spacing: 0.04em; }
+  .rev-cal__body-img { width: 100%; height: auto; transform: scale(1.15); transform-origin: center center; }
   .reviews-quote { font-size: 16px; }
 
   /* ── Social Proof ── */
-  .sp-section { padding: 48px 16px 64px; }
+  .sp-section { padding: 48px 16px 64px; margin-top: 96px; overflow: hidden; }
   .sp-heading { margin-bottom: 32px; }
   .sp-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .sp-col:nth-child(3), .sp-col:nth-child(4) { display: none; }
+  .sp-col { min-width: 0; }
+  .sp-col:nth-child(3), .sp-col:nth-child(4) { display: flex; }
+  .sp-card--tweet { padding: 12px 10px 12px; }
+  .sp-tweet-avatar { width: 26px; height: 26px; }
+  .sp-tweet-name { font-size: 10px; }
+  .sp-tweet-handle { font-size: 9px; }
+  .sp-tweet-text { font-size: 10px; line-height: 1.5; margin-bottom: 8px; }
+  .sp-tweet-header { margin-bottom: 8px; }
+  .sp-tweet-user { gap: 6px; }
+  /* Harsha Bhogle testimonial card — reduce text */
+  .sp-test-body { padding: 8px 10px 10px; }
+  .sp-test-text { font-size: 9px; line-height: 1.45; margin-bottom: 6px; }
+  .sp-test-author { font-size: 8px; }
+  /* MS Dhoni video card — 4:3 */
+  #sp-vid2-card { aspect-ratio: 4/3; }
 
   /* ── Book section ── */
-  .book-section { padding: 0 16px 64px; }
-  .book-card { aspect-ratio: 16/9; }
-  .book-btn { min-width: 110px; font-size: 12px; }
-  .book-toggle { top: 16px; }
+  /* Book section heading — same treatment as reviews heading */
+  .book-section { padding: 0 16px 96px; }
+  .book-heading {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .bkh-calibr8 { font-family: var(--font-sans); font-weight: 700; }
+  /* portrait card, reduced height — video fills via object-fit: cover */
+  .book-card { aspect-ratio: unset; width: 100%; height: 68vw; overflow: visible; }
+  .book-img { border-radius: 24px; }
+  /* Toggle outside card — full width, below the card */
+  .book-toggle {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0; right: 0;
+    transform: none;
+    width: 100%;
+  }
+  .book-btn { flex: 1; min-width: unset; font-size: 13px; }
 
   /* ── Arc section ── */
   .arc-item-sub { max-width: 260px; padding-right: 16px; }
   .arc-item-title { font-size: 20px; }
   .arc-tag-headline { font-size: 4.5vw; }
 
-  /* ── Life stat display ── */
-  .life-stat { font-size: clamp(20px, 5.5vw, 26px); }
+  /* ── Life-stat + Carousel = exactly one screen together ── */
+  .life-stat-section {
+    min-height: unset;
+    height: 38dvh;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .life-stat { font-size: clamp(18px, 5vw, 22px); }
 
   /* ── Zone intro ── */
   .zone-intro__title { font-size: clamp(18px, 5vw, 22px); }
@@ -2950,8 +3136,10 @@ body {
   </div>
   <div class="hero__text-grad"></div>
   <div class="hero__text">
-    <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
-    <p class="hero__sub">A mattress that understands your body before you do</p>
+    <div class="hero__block">
+      <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
+      <p class="hero__sub">A mattress that understands your body before you do</p>
+    </div>
   </div>
   <div class="hero__bottom">
     <a class="hero__cta" href="#">BOOK NOW</a>
@@ -2972,7 +3160,7 @@ body {
 </section>
 
 <section class="carousel-section" aria-label="Statistics overview">
-  <h2 class="carousel-heading reveal">Your body will feel the difference, <span style="color:#553C9A">with Calibr8</span></h2>
+  <h2 class="carousel-heading reveal"><span class="ch-p1">Your body will feel the</span><span class="ch-p2"> difference, with <span class="ch-calibr8" style="color:#553C9A">Calibr8</span></span></h2>
   <div class="carousel">
     <div class="carousel__track" id="carousel-track"></div>
   </div>
@@ -2980,7 +3168,7 @@ body {
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
-    <p class="slider-heading reveal">Your personalised mattress, built in <span style="color:#553C9A">6 precise steps.</span></p>
+    <p class="slider-heading reveal"><span class="sh-p1">Your personalised mattress,</span><span class="sh-p2"> built in <span class="sh-purple" style="color:#553C9A">6 precise steps.</span></span></p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
 </section>
@@ -3321,13 +3509,13 @@ body {
 </div>
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub reveal">Your pressure distribution is as unique as your fingerprint.<br><span style="color:#553C9A">Calibr8 reads it.</span> Then builds around it.</p>
+    <p class="hero-sub reveal"><span class="hps-p1">Your pressure distribution is as unique as your fingerprint.</span><span class="hps-p2"> <span class="hps-purple" style="color:#553C9A">Calibr8 reads it.</span> Then builds around it.</span></p>
   </div>
   <div class="slider" id="process-slider"></div>
 </section>
 
 <div class="reviews-intro">
-  <p class="reviews-intro__heading reveal">Trusted by Thousands of <span style="color:#553C9A">Sleepers</span> like You.</p>
+  <p class="reviews-intro__heading reveal"><span class="rih-l1">Trusted by Thousands of</span><span class="rih-l2"><span class="rih-purple" style="color:#553C9A">Sleepers</span> like You.</span></p>
 </div>
 
 <div class="reviews-box">
@@ -3488,7 +3676,7 @@ body {
 </section>
 
 <section class="book-section" aria-label="Book your calibration">
-  <h2 class="book-heading">It's Time to <span style="color:#553C9A">Calibr8</span> Your Sleep</h2>
+  <h2 class="book-heading">It's Time to <span class="bkh-calibr8" style="color:#553C9A">Calibr8</span> Your Sleep</h2>
   <div class="book-card">
     <video class="book-img" id="book-img-store" src="videos/store.MOV" autoplay loop muted playsinline></video>
     <video class="book-img hidden" id="book-img-home" src="videos/home.mp4" autoplay loop muted playsinline></video>
@@ -4302,7 +4490,7 @@ body {
     { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: 'videos/new scan flow.mp4', icon: scanIcon('#ffffff') },
     { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: 'videos/heatmap.mov', icon: heatmapIcon('#ffffff') },
     { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: 'videos/Calibration.mov', icon: calibrationIcon('#ffffff') },
-    { id: 3, title: 'Report', desc: 'A personalised sleep report is created with your calibration profile & mattress recommendations.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
+    { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
     { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/layers.MOV', icon: mattressIcon('#ffffff') },
     { id: 5, title: 'Your Calibr8ed Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
   ];
