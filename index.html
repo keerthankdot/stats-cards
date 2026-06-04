@@ -84,6 +84,13 @@
   line-height: 1.6;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+.hero-sub--mobile { display: none; }
+.slider-heading--mobile { display: none; }
+
+/* Swap: Free Calibr8 Scan before Warranty — all screen sizes */
+.trust-grid .trust-card:nth-child(2) { order: 3; }
+.trust-grid .trust-card:nth-child(3) { order: 2; }
+
 @media (max-width: 767px) {
   .trust-grid { grid-template-columns: 1fr; }
 }
@@ -1604,6 +1611,8 @@ body {
 
 .card__nav { display: none; }
 .card__content-header { display: contents; }
+.card__inline-title { display: none; }
+#calibr8-static-nav { display: none; }
 
 .calibr8-slider-section .card__content {
   position: absolute;
@@ -2865,7 +2874,7 @@ body {
   .carousel { --card: min(52dvh, 72vw, 300px); }
 
   /* ── Calibr8 Slider (how-it-works) ── */
-  .calibr8-slider-section { min-height: unset; padding: 40px 0 32px; gap: 16px; }
+  .calibr8-slider-section { min-height: unset; padding: 40px 0 32px; gap: 16px; overflow-x: clip; }
   .calibr8-slider-section .hero-text { padding: 0 20px; text-align: center; }
   .calibr8-slider-section .hero-title { font-size: 18px; text-align: center; }
   .slider-heading {
@@ -2881,14 +2890,20 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-align: center;
   }
+  .hero-sub--desktop { display: none; }
+  .hero-sub--mobile  { display: block; }
+  .slider-heading--desktop { display: none; }
+  .slider-heading--mobile  { display: block; }
   .hps-p1 { display: block; margin-bottom: 1em; }
   .hps-purple { font-family: var(--font-sans); font-weight: 700; }
   .calibr8-slider-section .hero-sub-desc { font-size: 13px; text-align: center; }
   .calibr8-slider-section .slider {
-    padding: 0 16px;
-    flex-wrap: wrap;
+    padding: 0;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
     height: auto;
-    gap: 8px;
+    gap: 10px;
   }
   /* Active card: full width, tall */
   .calibr8-slider-section .card {
@@ -2908,17 +2923,38 @@ body {
     animation: calibrSlideFromLeft 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
   }
   .calibr8-slider-section .card.active {
-    flex: 0 0 100%;
-    aspect-ratio: 4/5;
-    height: unset;
+    flex: 0 0 calc(100vw - 52px);
+    width: calc(100vw - 52px);
+    height: calc((100vw - 52px) * 5 / 4);
+    aspect-ratio: unset;
     order: 0;
     border-radius: 16px;
   }
+  /* Prev/next peek cards — exactly same dimensions as active */
+  #calibr8-slider .card.is-prev,
+  #calibr8-slider .card.is-next {
+    display: block !important;
+    flex: 0 0 calc(100vw - 80px);
+    width: calc(100vw - 80px);
+    height: calc((100vw - 80px) * 5 / 4);
+    aspect-ratio: unset;
+    border-radius: 16px;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  #calibr8-slider .card.is-prev { order: -1; margin-top: 17.5px; }
+  #calibr8-slider .card.is-next { order: 1;  margin-top: 17.5px; }
+  #calibr8-slider .card.is-prev .card__content,
+  #calibr8-slider .card.is-prev .card__inline-title,
+  #calibr8-slider .card.is-prev .card__icon,
+  #calibr8-slider .card.is-next .card__content,
+  #calibr8-slider .card.is-next .card__inline-title,
+  #calibr8-slider .card.is-next .card__icon { display: none !important; }
+  /* Hide all other inactive cards */
+  #calibr8-slider .card:not(.active):not(.is-next):not(.is-prev) { display: none; }
   .calibr8-slider-section .card__content { padding: 16px 18px 20px; }
   .calibr8-slider-section .card__eyebrow { font-size: 18px; }
   .calibr8-slider-section .card__desc { font-size: 16px; max-width: 100%; }
-  /* Hide inactive cards — arrows handle navigation */
-  #calibr8-slider .card:not(.active) { display: none; }
   .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
   /* Arrow nav — mobile only */
   .card__content-header {
@@ -2944,42 +2980,111 @@ body {
     cursor: pointer;
   }
 
-  /* Active card: number bottom-left */
-  .calibr8-slider-section .card.active .card__icon {
-    opacity: 1 !important;
-    left: 18px !important;
-    top: auto !important;
-    bottom: 18px;
-    transform: scale(1) !important;
+  /* Section needs position:relative so static nav can be absolute within it */
+  #process-section { position: relative; }
+
+  /* Static nav — absolutely positioned at right edge, starts at same height as desc */
+  /* top = section-padding(40) + heading(~62) + gap(16) + card-height(125vw-40) + content-padding(14) */
+  .calibr8-nav {
+    display: none;
+    position: absolute;
+    top: calc(92px + 125vw);
+    right: 16px;
+    gap: 8px;
+    z-index: 10;
+    pointer-events: none;
   }
-  /* Text below card */
+  .calibr8-nav .card__nav-btn { pointer-events: auto; }
+
+  /* Hide static nav — peek replaces it */
+  #calibr8-static-nav { display: none; }
+  #calibr8-slider .card__nav { display: none !important; }
+  #calibr8-slider .card.active .card__content-header { display: none; }
+  /* Desc: no clamp, no max-width */
+  #calibr8-slider .card.active .card__desc {
+    padding-right: 0;
+    max-width: none;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    display: block;
+    overflow: visible;
+    min-height: unset;
+  }
+
+  /* Inline title: bottom-left inside card, right of badge, vertically centered to badge */
+  #calibr8-slider .card.active .card__inline-title {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 18px;
+    left: 70px;
+    right: 16px;
+    height: 42px;
+    color: #fff;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.3px;
+    z-index: 5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Active card: overflow visible so below-card text shows */
   .calibr8-slider-section .card.active {
     overflow: visible;
-    margin-bottom: 138px;
-    z-index: 2; /* 14px pad-top + ~36px title + 70px desc (3×15.5px×1.5) + 14px pad-bottom + 4px buffer */
+    margin-bottom: 80px;
+    z-index: 2;
+  }
+  .calibr8-slider-section .card.active .card__bg { border-radius: 16px; overflow: hidden; }
+  .calibr8-slider-section .card.active .card__scrim { border-radius: 16px; opacity: 0; }
+  .calibr8-slider-section .card.active .card__icon {
+    opacity: 1 !important;
+    display: flex !important;
+    left: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    transform: scale(1) !important;
+    z-index: 5;
   }
   .calibr8-slider-section .card.active .card__video,
   #calibr8-slider .card.active .card__video,
   #calibr8-slider .card.active[data-id="3"] .card__video { transform: none !important; }
-  .calibr8-slider-section .card.active .card__bg { border-radius: 16px; overflow: hidden; }
-  .calibr8-slider-section .card.active .card__scrim { border-radius: 16px; overflow: hidden; }
   .calibr8-slider-section .card .card__content {
     transition: opacity 0.38s cubic-bezier(0.16,1,0.3,1) 0.22s,
                 transform 0.38s cubic-bezier(0.16,1,0.3,1) 0.22s;
   }
+  /* Text below the card */
   .calibr8-slider-section .card.active .card__content {
     position: absolute;
     top: 100%;
     bottom: auto;
-    left: 0; right: 0;
-    padding: 14px 0 14px;
+    left: 0;
+    right: 0;
+    padding: 14px 0 0;
     text-align: left;
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
     background: transparent;
+    pointer-events: auto;
+    z-index: 4;
   }
-  /* Big title — calibr8 uses card__top-title, process uses card__eyebrow */
-  #calibr8-slider .card.active .card__top-title,
+  /* Title shown inline on card — hide from below-card content */
+  #calibr8-slider .card.active .card__top-title { display: none; }
+  /* Desc below card — black, full card width, natural wrap */
+  #calibr8-slider .card.active .card__desc {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    display: block;
+    max-width: 100%;
+    text-wrap: unset;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    overflow: visible;
+  }
+  /* Process big eyebrow — below card, dark */
   #process-slider .card.active .card__eyebrow {
     color: #111;
     text-align: left;
@@ -3030,6 +3135,14 @@ body {
     max-width: 65%;
   }
 
+  /* ── Trust section — balanced size, all 3 fit one screen ── */
+  .trust-section { padding: 40px 16px; }
+  .trust-grid { gap: 12px; }
+  .trust-card { padding: 24px 22px 26px; border-radius: 18px; }
+  .trust-card__icon { width: 28px; height: 28px; margin-bottom: 18px; }
+  .trust-card__title { font-size: 18px; margin-bottom: 8px; min-height: unset; }
+  .trust-card__desc { font-size: 14px; line-height: 1.5; }
+
   /* ── Zone intro ── */
   .zone-intro { padding: 32px 20px 24px; }
   .zone-intro__desc {
@@ -3038,6 +3151,17 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .zi-purple { font-family: var(--font-sans); font-weight: 700; }
+
+  /* ── Zone dots: smaller on mobile, desktop unchanged ── */
+  .zone-dot__ring   { width: 16px; height: 16px; }
+  .zone-dot__center { width: 9px;  height: 9px; }
+
+  /* ── Zone tooltip: translucent on mobile (no blur) ── */
+  .zone-tooltip {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255,255,255,0.22);
+  }
 
   /* ── Zone map: 4:5 portrait ── */
   .zone-map {
@@ -3056,11 +3180,12 @@ body {
   .zone-map__caption { font-size: 13px; white-space: normal; padding: 0 12px; }
   .zone-tooltip {
     width: 180px;
-    padding: 12px 14px;
+    padding: 18px 16px 16px;
+    border-radius: 12px;
     right: auto;
     left: 50%;
-    top: auto;
-    bottom: 14px;
+    bottom: auto;
+    top: 16px;
     transform: translateX(-50%) scale(0.96);
   }
   .zone-tooltip.is-visible { transform: translateX(-50%) scale(1); }
@@ -3156,6 +3281,11 @@ body {
   }
   .life-stat { font-size: clamp(18px, 5vw, 22px); }
 
+  /* ── Arc card: std below its plot point, cal stays top-right ── */
+  /* Arc labels — same size as other cards */
+  .arc__label--std { left: 50%; top: 54%; transform: translateX(-50%); text-align: center; }
+  .arc__label--cal { right: 2%; top: 10%; }
+
   /* ── Zone intro ── */
   .zone-intro__title { font-size: clamp(18px, 5vw, 22px); }
   .zone-intro__desc { font-size: clamp(18px, 5vw, 22px); }
@@ -3233,9 +3363,14 @@ body {
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
-    <p class="slider-heading reveal"><span class="sh-p1">Your personalised mattress,</span><span class="sh-p2"> built in <span class="sh-purple" style="color:#553C9A">6 precise steps.</span></span></p>
+    <p class="slider-heading slider-heading--desktop reveal"><span class="sh-p1">Your personalised mattress,</span><span class="sh-p2"> built in <span class="sh-purple" style="color:#553C9A">6 precise steps.</span></span></p>
+    <p class="slider-heading slider-heading--mobile reveal"><span class="sh-p1">Your personal <span class="sh-purple" style="color:#553C9A">Calibr8</span> mattress</span><span class="sh-p2"> built in <span class="sh-purple" style="color:#553C9A">6 precise steps.</span></span></p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
+  <div class="calibr8-nav" id="calibr8-static-nav">
+    <button class="card__nav-btn card__nav-btn--prev" id="c8-prev" aria-label="Previous">&#8592;</button>
+    <button class="card__nav-btn card__nav-btn--next" id="c8-next" aria-label="Next">&#8594;</button>
+  </div>
 </section>
 
 <section class="trust-section" aria-label="Trust signals">
@@ -3251,7 +3386,7 @@ body {
       <div class="trust-card__desc">Long-term support that lasts for years</div>
     </div>
     <div class="trust-card reveal">
-      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h4M2 15v4a2 2 0 0 0 2 2h4M22 9V5a2 2 0 0 0-2-2h-4M22 15v4a2 2 0 0 1-2 2h-4"/><circle cx="12" cy="10" r="2"/><path d="M8 20c0-2.5 1.8-4 4-4s4 1.5 4 4"/></svg>
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-1a5 5 0 0 1 10 0v1"/></svg>
       <div class="trust-card__title">Free Calibr8 Scan</div>
       <div class="trust-card__desc">Available in-store or at home</div>
     </div>
@@ -3574,7 +3709,8 @@ body {
 </div>
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub reveal"><span class="hps-p1">Your pressure distribution is as unique as your fingerprint.</span><span class="hps-p2"> <span class="hps-purple" style="color:#553C9A">Calibr8 reads it.</span> Then builds around it.</span></p>
+    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-p1">Your pressure distribution is as unique as your fingerprint.</span><span class="hps-p2"> <span class="hps-purple" style="color:#553C9A">Calibr8 reads it.</span> Then builds around it.</span></p>
+    <p class="hero-sub hero-sub--mobile reveal">Your body has a sleep signature. <span class="hps-purple" style="color:#553C9A">Calibr8</span> builds around it.</p>
   </div>
   <div class="slider" id="process-slider"></div>
 </section>
@@ -4514,8 +4650,10 @@ body {
       // Convert to position within full image
       const img_x_pct = left_px / W_REF * 100;
       const img_y_pct = (top_px + 100) / H_img_ref * 100; // +100 for the cropped top
-      zDots[i].style.left = img_x_pct.toFixed(2) + '%';
-      zDots[i].style.top  = img_y_pct.toFixed(2) + '%';
+      const mobileShift = i * 5; // dot 1: 0px, dot 2: +5px … dot 8: +35px (rightward)
+      const mobileClose = i * 5; // dot 1: 0px, dot 2: 5px up … dot 8: 35px up (closer together)
+      zDots[i].style.left = 'calc(' + img_x_pct.toFixed(2) + '% + ' + mobileShift + 'px)';
+      zDots[i].style.top  = 'calc(' + img_y_pct.toFixed(2) + '% - ' + mobileClose + 'px)';
     });
   }
 
@@ -4557,7 +4695,7 @@ body {
     { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: 'videos/Calibration.mov', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
     { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/layers.MOV', icon: mattressIcon('#ffffff') },
-    { id: 5, title: 'Your Calibr8ed Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
@@ -4575,6 +4713,7 @@ body {
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
+        <div class="card__inline-title">${card.title}</div>
         <div class="card__content">
           <div class="card__content-header">
             <div class="card__top-title">${card.title}</div>
@@ -4601,30 +4740,92 @@ body {
   }
 
   function updateCalibr8Arrows() {
-    const active = document.querySelector('#calibr8-slider .card.active');
-    if (!active) return;
-    const prev = active.querySelector('.card__nav-btn--prev');
-    const next = active.querySelector('.card__nav-btn--next');
-    if (prev) prev.style.display = activeId === 0 ? 'none' : '';
-    if (next) next.style.display = activeId === CARDS.length - 1 ? 'none' : '';
+    const prevs = document.querySelectorAll('#calibr8-static-nav .card__nav-btn--prev');
+    const nexts = document.querySelectorAll('#calibr8-static-nav .card__nav-btn--next');
+    prevs.forEach(b => b.style.display = activeId === 0 ? 'none' : '');
+    nexts.forEach(b => b.style.display = activeId === CARDS.length - 1 ? 'none' : '');
+  }
+
+  // Wire static nav buttons
+  document.getElementById('c8-prev').addEventListener('click', () => activate((activeId - 1 + CARDS.length) % CARDS.length, -1));
+  document.getElementById('c8-next').addEventListener('click', () => activate((activeId + 1) % CARDS.length, 1));
+
+  function updatePeek() {
+    if (window.innerWidth > 480) return;
+    document.querySelectorAll('#calibr8-slider .card').forEach(c => c.classList.remove('is-next', 'is-prev'));
+    const nextId = (activeId + 1) % CARDS.length;
+    const prevId = (activeId - 1 + CARDS.length) % CARDS.length;
+    const nextCard = document.querySelector(`#calibr8-slider .card[data-id="${nextId}"]`);
+    const prevCard = document.querySelector(`#calibr8-slider .card[data-id="${prevId}"]`);
+    if (nextCard) nextCard.classList.add('is-next');
+    if (prevCard) prevCard.classList.add('is-prev');
   }
 
   function activate(id, direction = 1) {
     if (id === activeId) return;
+    const isMobile = window.innerWidth <= 480;
+    const oldActive = document.querySelector('#calibr8-slider .card.active');
+    const incoming  = document.querySelector(`#calibr8-slider .card[data-id="${id}"]`);
+
+    // FIRST — capture positions before any class change
+    const oldFirst = isMobile && oldActive  ? oldActive.getBoundingClientRect()  : null;
+    const newFirst = isMobile && incoming   ? incoming.getBoundingClientRect()    : null;
+
+    // Apply class changes
     document.querySelectorAll('#calibr8-slider .card').forEach(c => {
-      c.classList.remove('slide-from-right', 'slide-from-left');
+      c.classList.remove('slide-from-right', 'slide-from-left', 'is-next', 'is-prev');
       c.classList.toggle('active', parseInt(c.dataset.id) === id);
     });
     activeId = id;
-    const newActive = document.querySelector('#calibr8-slider .card.active');
-    if (newActive) {
-      const cls = direction > 0 ? 'slide-from-right' : 'slide-from-left';
-      requestAnimationFrame(() => {
-        newActive.classList.add(cls);
-        newActive.addEventListener('animationend', () => newActive.classList.remove(cls), { once: true });
-      });
-    }
+    updatePeek();
     updateCalibr8Arrows();
+
+    if (isMobile && oldActive && incoming && oldFirst && newFirst) {
+      // LAST — positions after class change (forces style recalc, no paint yet)
+      const oldLast = oldActive.getBoundingClientRect();
+      const newLast = incoming.getBoundingClientRect();
+
+      if (newLast.width > 0 && oldLast.width > 0) {
+        const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+        const DUR  = '0.5s';
+
+        // INVERT — push both cards back to their old visual positions via transform
+        [[incoming, newFirst, newLast], [oldActive, oldFirst, oldLast]].forEach(([el, f, l]) => {
+          const dx = f.left - l.left;
+          const dy = f.top  - l.top;
+          const sx = f.width  / l.width;
+          const sy = f.height / l.height;
+          el.style.transition     = 'none';
+          el.style.transformOrigin = 'top left';
+          el.style.transform      = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+        });
+
+        // PLAY — release transforms so browser animates to natural layout positions
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          [incoming, oldActive].forEach(el => {
+            el.style.transition = `transform ${DUR} ${EASE}`;
+            el.style.transform  = 'translate(0,0) scale(1)';
+          });
+          setTimeout(() => {
+            [incoming, oldActive].forEach(el => {
+              el.style.transition      = '';
+              el.style.transform       = '';
+              el.style.transformOrigin = '';
+            });
+          }, 550);
+        }));
+      }
+    } else if (!isMobile) {
+      // Desktop: original slide-in animation
+      const newActive = document.querySelector('#calibr8-slider .card.active');
+      if (newActive) {
+        const cls = direction > 0 ? 'slide-from-right' : 'slide-from-left';
+        requestAnimationFrame(() => {
+          newActive.classList.add(cls);
+          newActive.addEventListener('animationend', () => newActive.classList.remove(cls), { once: true });
+        });
+      }
+    }
   }
 
   document.addEventListener('keydown', e => {
@@ -4634,15 +4835,24 @@ body {
 
   buildSlider();
   updateCalibr8Arrows();
+  updatePeek();
 
   // ── Process slider (persona cards) ──
-  const PROCESS_CARDS = [
-    { id: 0, eyebrow: 'The Pain Sufferer', title: 'Waking up with body pain shouldn\'t be your normal.', desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',                                               video: 'videos/pain.MOV' },
-    { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day.', desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',                                             video: 'videos/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',        title: 'Two people. Completely different needs.',        desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',                                                         video: 'videos/couple.MOV' },
-    { id: 3, eyebrow: 'The High Achiever', title: 'You train hard. Hustle hard. Push your body every day.', desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',                                             img: null, video: 'videos/lift.MOV' },
-    { id: 4, eyebrow: 'The Overthinker',   title: 'Too many choices. Too much guesswork.',            desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',                                                   video: 'videos/choices.mp4' },
+  const PROCESS_CARDS_DESKTOP = [
+    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: 'videos/pain.MOV' },
+    { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day.',    desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',         video: 'videos/work.mp4' },
+    { id: 2, eyebrow: 'The Couple',           title: 'Two people. Completely different needs.',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: 'videos/couple.MOV' },
+    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard. Hustle hard. Push your body every day.',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: 'videos/lift.MOV' },
+    { id: 4, eyebrow: 'The Overthinker',      title: 'Too many choices. Too much guesswork.',                   desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',           video: 'videos/choices.mp4' },
   ];
+  const PROCESS_CARDS_MOBILE = [
+    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: 'videos/pain.MOV' },
+    { id: 1, eyebrow: 'The Daily Grinder', title: '',  desc: 'Calibr8 supports pressure points caused by long sitting hours, helping your spine recover.',                         video: 'videos/work.mp4' },
+    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: 'videos/couple.MOV' },
+    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: 'videos/lift.MOV' },
+    { id: 4, eyebrow: 'The Overthinker',   title: '',  desc: 'Instead of opinions and buzzwords, Calibr8 builds your mattress based on how you actually rest.',                   video: 'videos/choices.mp4' },
+  ];
+  const PROCESS_CARDS = window.innerWidth <= 480 ? PROCESS_CARDS_MOBILE : PROCESS_CARDS_DESKTOP;
 
   let processActiveId = 0;
 
