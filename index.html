@@ -1602,6 +1602,9 @@ body {
 }
 .calibr8-slider-section .card.active .card__scrim { opacity: 1; }
 
+.card__nav { display: none; }
+.card__content-header { display: contents; }
+
 .calibr8-slider-section .card__content {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -2433,12 +2436,9 @@ body {
   pointer-events: none;
 }
 .book-toggle {
-  position: absolute;
-  top: 28px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   display: flex;
-  gap: 4px;
+  gap: 0;
   background: rgba(255,255,255,0.28);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -2448,6 +2448,23 @@ body {
   padding: 5px;
   z-index: 10;
   white-space: nowrap;
+  align-self: center;
+}
+/* sliding pill behind the active button */
+.book-toggle::before {
+  content: '';
+  position: absolute;
+  top: 5px; bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  background: #fff;
+  border-radius: 100px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.14);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+.book-toggle.tab-home::before {
+  transform: translateX(100%);
 }
 .book-btn {
   font-family: var(--font-sans);
@@ -2461,14 +2478,13 @@ body {
   min-width: 160px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  transition: color 0.28s ease;
   line-height: 1;
+  position: relative;
+  z-index: 1;
+  flex: 1;
 }
-.book-btn.active {
-  background: #fff;
-  color: #111;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.14);
-}
+.book-btn.active { color: #111; background: transparent; box-shadow: none; }
 
 /* ── Arc Slider Section ── */
 .arc-section {
@@ -2694,6 +2710,15 @@ body {
 }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
+@keyframes calibrSlideFromRight {
+  from { transform: translateX(105%); }
+  to   { transform: translateX(0); }
+}
+@keyframes calibrSlideFromLeft {
+  from { transform: translateX(-105%); }
+  to   { transform: translateX(0); }
+}
+
 /* ═══════════════════════════════════════════
    MOBILE RESPONSIVE — 480px and below
    ═══════════════════════════════════════════ */
@@ -2875,40 +2900,63 @@ body {
     order: 1;
     transition: none;
   }
-  .calibr8-slider-section .card.active {
-    transition:
-      flex-basis 0.62s cubic-bezier(0.32, 1.28, 0.55, 1),
-      aspect-ratio 0.62s cubic-bezier(0.32, 1.28, 0.55, 1),
-      border-radius 0.62s cubic-bezier(0.32, 1.28, 0.55, 1);
+  .calibr8-slider-section .card.active { transition: none; }
+  .calibr8-slider-section .card.active.slide-from-right {
+    animation: calibrSlideFromRight 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+  .calibr8-slider-section .card.active.slide-from-left {
+    animation: calibrSlideFromLeft 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
   }
   .calibr8-slider-section .card.active {
     flex: 0 0 100%;
+    aspect-ratio: 4/5;
     height: unset;
-    aspect-ratio: 16/9;
     order: 0;
     border-radius: 16px;
   }
   .calibr8-slider-section .card__content { padding: 16px 18px 20px; }
   .calibr8-slider-section .card__eyebrow { font-size: 18px; }
   .calibr8-slider-section .card__desc { font-size: 16px; max-width: 100%; }
-  /* Show number on inactive squares, hide content text */
-  .calibr8-slider-section .card:not(.active) .card__content { display: none; }
+  /* Hide inactive cards — arrows handle navigation */
+  #calibr8-slider .card:not(.active) { display: none; }
   .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
-  .calibr8-slider-section .card:not(.active) .card__icon {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
+  /* Arrow nav — mobile only */
+  .card__content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
   }
-  /* Active card: number left-aligned */
+  .card__nav { display: flex; gap: 6px; flex-shrink: 0; }
+  .calibr8-slider-section .card.active .card__content { pointer-events: auto; }
+  .card__nav-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at 38% 28%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.04) 55%, transparent 72%), rgba(255,255,255,0.07);
+    backdrop-filter: blur(20px) brightness(1.15) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) brightness(1.15) saturate(1.6);
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.7), 0 2px 8px rgba(0,0,0,0.1);
+    color: #111;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  /* Active card: number bottom-left */
   .calibr8-slider-section .card.active .card__icon {
     opacity: 1 !important;
     left: 18px !important;
+    top: auto !important;
+    bottom: 18px;
     transform: scale(1) !important;
   }
   /* Text below card */
   .calibr8-slider-section .card.active {
     overflow: visible;
-    margin-bottom: 138px; /* 14px pad-top + ~36px title + 70px desc (3×15.5px×1.5) + 14px pad-bottom + 4px buffer */
+    margin-bottom: 138px;
+    z-index: 2; /* 14px pad-top + ~36px title + 70px desc (3×15.5px×1.5) + 14px pad-bottom + 4px buffer */
   }
   .calibr8-slider-section .card.active .card__video,
   #calibr8-slider .card.active .card__video,
@@ -2954,10 +3002,10 @@ body {
   #process-slider .card.active {
     margin-bottom: 165px;
   }
-  /* 4 inactive cards fill the row exactly */
-  #process-slider .card:not(.active) {
-    flex: 0 0 calc(25% - 6px);
-  }
+  /* Hide inactive process cards — arrows handle navigation */
+  #process-slider .card:not(.active) { display: none; }
+  #process-slider .card.active { pointer-events: auto; }
+  #process-slider .card.active .card__content { pointer-events: auto; }
   /* Process slider: no width constraints — text flows freely */
   #process-slider .card.active .card__title,
   #process-slider .card.active .card__desc {
@@ -2984,11 +3032,27 @@ body {
 
   /* ── Zone intro ── */
   .zone-intro { padding: 32px 20px 24px; }
+  .zone-intro__desc {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .zi-purple { font-family: var(--font-sans); font-weight: 700; }
 
-  /* ── Zone map ── */
-  .zone-map { width: calc(100% - 32px); margin: 0 16px; border-radius: 16px; }
+  /* ── Zone map: 4:5 portrait ── */
+  .zone-map {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    border-radius: 16px;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+  .zone-map__img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    margin-top: 0; margin-bottom: 0;
+  }
   .reviews-box { width: calc(100% - 32px); margin: 0 16px; border-radius: 16px; }
-  .zone-map__img { margin-top: 0; margin-bottom: 0; }
   .zone-map__caption { font-size: 13px; white-space: normal; padding: 0 12px; }
   .zone-tooltip {
     width: 180px;
@@ -3062,16 +3126,17 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .bkh-calibr8 { font-family: var(--font-sans); font-weight: 700; }
-  /* portrait card, reduced height — video fills via object-fit: cover */
-  .book-card { aspect-ratio: unset; width: 100%; height: 68vw; overflow: visible; }
+  /* 4:5 portrait — matches slider cards above */
+  .book-card { aspect-ratio: 4/5; width: 100%; height: unset; overflow: visible; }
   .book-img { border-radius: 24px; }
-  /* Toggle outside card — full width, below the card */
+  /* Toggle above the video card */
   .book-toggle {
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 0; right: 0;
-    transform: none;
+    position: relative;
     width: 100%;
+    margin-bottom: 12px;
+    transform: none;
+    left: auto;
+    top: auto;
   }
   .book-btn { flex: 1; min-width: unset; font-size: 13px; }
 
@@ -3093,7 +3158,7 @@ body {
 
   /* ── Zone intro ── */
   .zone-intro__title { font-size: clamp(18px, 5vw, 22px); }
-  .zone-intro__desc { font-size: 14px; }
+  .zone-intro__desc { font-size: clamp(18px, 5vw, 22px); }
 }
 
 /* ── Tablet (481–767px) ── */
@@ -3194,7 +3259,7 @@ body {
 </section>
 
 <div class="zone-intro">
-  <p class="zone-intro__desc reveal">Calibr8 maps your body's pressure distribution across <span style="color:#553C9A">8 spinal zones.</span></p>
+  <p class="zone-intro__desc reveal">Calibr8 maps your body's pressure distribution across <span class="zi-purple" style="color:#553C9A">8 spinal zones.</span></p>
 </div>
 
 <div class="zone-map">
@@ -3677,13 +3742,13 @@ body {
 
 <section class="book-section" aria-label="Book your calibration">
   <h2 class="book-heading">It's Time to <span class="bkh-calibr8" style="color:#553C9A">Calibr8</span> Your Sleep</h2>
+  <div class="book-toggle">
+    <button class="book-btn active" data-tab="store">Store Visit</button>
+    <button class="book-btn" data-tab="home">Home Consultation</button>
+  </div>
   <div class="book-card">
     <video class="book-img" id="book-img-store" src="videos/store.MOV" autoplay loop muted playsinline></video>
     <video class="book-img hidden" id="book-img-home" src="videos/home.mp4" autoplay loop muted playsinline></video>
-    <div class="book-toggle">
-      <button class="book-btn active" data-tab="store">Store Visit</button>
-      <button class="book-btn" data-tab="home">Home Consultation</button>
-    </div>
   </div>
 </section>
 
@@ -4511,30 +4576,64 @@ body {
         }
         <div class="card__scrim"></div>
         <div class="card__content">
-          <div class="card__top-title">${card.title}</div>
+          <div class="card__content-header">
+            <div class="card__top-title">${card.title}</div>
+            <div class="card__nav">
+              <button class="card__nav-btn card__nav-btn--prev" aria-label="Previous">&#8592;</button>
+              <button class="card__nav-btn card__nav-btn--next" aria-label="Next">&#8594;</button>
+            </div>
+          </div>
           <div class="card__desc">${card.desc}</div>
         </div>
         <div class="card__icon">${card.id + 1}</div>
       `;
       el.addEventListener('click', () => activate(parseInt(el.dataset.id)));
+      el.querySelector('.card__nav-btn--prev').addEventListener('click', e => {
+        e.stopPropagation();
+        activate((activeId - 1 + CARDS.length) % CARDS.length, -1);
+      });
+      el.querySelector('.card__nav-btn--next').addEventListener('click', e => {
+        e.stopPropagation();
+        activate((activeId + 1) % CARDS.length, 1);
+      });
       slider.appendChild(el);
     });
   }
 
-  function activate(id) {
+  function updateCalibr8Arrows() {
+    const active = document.querySelector('#calibr8-slider .card.active');
+    if (!active) return;
+    const prev = active.querySelector('.card__nav-btn--prev');
+    const next = active.querySelector('.card__nav-btn--next');
+    if (prev) prev.style.display = activeId === 0 ? 'none' : '';
+    if (next) next.style.display = activeId === CARDS.length - 1 ? 'none' : '';
+  }
+
+  function activate(id, direction = 1) {
     if (id === activeId) return;
     document.querySelectorAll('#calibr8-slider .card').forEach(c => {
+      c.classList.remove('slide-from-right', 'slide-from-left');
       c.classList.toggle('active', parseInt(c.dataset.id) === id);
     });
     activeId = id;
+    const newActive = document.querySelector('#calibr8-slider .card.active');
+    if (newActive) {
+      const cls = direction > 0 ? 'slide-from-right' : 'slide-from-left';
+      requestAnimationFrame(() => {
+        newActive.classList.add(cls);
+        newActive.addEventListener('animationend', () => newActive.classList.remove(cls), { once: true });
+      });
+    }
+    updateCalibr8Arrows();
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') activate((activeId + 1) % CARDS.length);
-    if (e.key === 'ArrowLeft')  activate((activeId - 1 + CARDS.length) % CARDS.length);
+    if (e.key === 'ArrowRight') activate((activeId + 1) % CARDS.length, 1);
+    if (e.key === 'ArrowLeft')  activate((activeId - 1 + CARDS.length) % CARDS.length, -1);
   });
 
   buildSlider();
+  updateCalibr8Arrows();
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS = [
@@ -4546,6 +4645,33 @@ body {
   ];
 
   let processActiveId = 0;
+
+  function updateProcessArrows() {
+    const active = document.querySelector('#process-slider .card.active');
+    if (!active) return;
+    const prev = active.querySelector('.card__nav-btn--prev');
+    const next = active.querySelector('.card__nav-btn--next');
+    if (prev) prev.style.display = processActiveId === 0 ? 'none' : '';
+    if (next) next.style.display = processActiveId === PROCESS_CARDS.length - 1 ? 'none' : '';
+  }
+
+  function processActivate(id, direction = 1) {
+    if (id === processActiveId) return;
+    document.querySelectorAll('#process-slider .card').forEach(c => {
+      c.classList.remove('slide-from-right', 'slide-from-left');
+      c.classList.toggle('active', parseInt(c.dataset.id) === id);
+    });
+    processActiveId = id;
+    const newActive = document.querySelector('#process-slider .card.active');
+    if (newActive) {
+      const cls = direction > 0 ? 'slide-from-right' : 'slide-from-left';
+      requestAnimationFrame(() => {
+        newActive.classList.add(cls);
+        newActive.addEventListener('animationend', () => newActive.classList.remove(cls), { once: true });
+      });
+    }
+    updateProcessArrows();
+  }
 
   function buildProcessSlider() {
     const slider = document.getElementById('process-slider');
@@ -4561,24 +4687,33 @@ body {
         }
         <div class="card__scrim"></div>
         <div class="card__content">
-          <div class="card__eyebrow">${card.eyebrow}</div>
+          <div class="card__content-header">
+            <div class="card__eyebrow">${card.eyebrow}</div>
+            <div class="card__nav">
+              <button class="card__nav-btn card__nav-btn--prev" aria-label="Previous">&#8592;</button>
+              <button class="card__nav-btn card__nav-btn--next" aria-label="Next">&#8594;</button>
+            </div>
+          </div>
           <div class="card__title">${card.title}</div>
           <div class="card__desc">${card.desc}</div>
         </div>
         <div class="card__icon">${card.id + 1}</div>
       `;
-      el.addEventListener('click', () => {
-        if (parseInt(el.dataset.id) === processActiveId) return;
-        document.querySelectorAll('#process-slider .card').forEach(c => {
-          c.classList.toggle('active', parseInt(c.dataset.id) === parseInt(el.dataset.id));
-        });
-        processActiveId = parseInt(el.dataset.id);
+      el.querySelector('.card__nav-btn--prev').addEventListener('click', e => {
+        e.stopPropagation();
+        processActivate((processActiveId - 1 + PROCESS_CARDS.length) % PROCESS_CARDS.length, -1);
       });
+      el.querySelector('.card__nav-btn--next').addEventListener('click', e => {
+        e.stopPropagation();
+        processActivate((processActiveId + 1) % PROCESS_CARDS.length, 1);
+      });
+      el.addEventListener('click', () => processActivate(parseInt(el.dataset.id), 1));
       slider.appendChild(el);
     });
   }
 
   buildProcessSlider();
+  updateProcessArrows();
 
   // ── Reviews ──
   const REVIEWS = [
@@ -4715,13 +4850,15 @@ body {
   const imgMap = { store: document.getElementById('book-img-store'), home: document.getElementById('book-img-home') };
   let current  = 'store';
 
+  const toggle = document.querySelector('.book-toggle');
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.dataset.tab;
       if (tab === current) return;
       btns.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+      if (toggle) toggle.classList.toggle('tab-home', tab === 'home');
       imgMap[current].classList.add('hidden');
-      if (imgMap[current].play) imgMap[current].pause();
+      if (imgMap[current].pause) imgMap[current].pause();
       imgMap[tab].classList.remove('hidden');
       if (imgMap[tab].play) imgMap[tab].play();
       current = tab;
