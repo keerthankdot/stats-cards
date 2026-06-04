@@ -1238,7 +1238,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(100,60,180,0.15) 0%, rgba(120,80,200,0.07) 55%, transparent 100%), #ffffff;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(100,60,180,0.32) 0%, rgba(120,80,200,0.14) 55%, transparent 100%), #ffffff;
   padding: 0 24px;
 }
 .life-stat {
@@ -2232,7 +2232,7 @@ body {
 .cls-cred--br.cls-absorbed { opacity: 0; transform: translate(-280px, -220px) scale(0.05); }
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
-  .cls-section { height: auto; min-height: 100svh; padding: 0; }
+  .cls-section { height: auto; min-height: 100svh; padding: 0 0 40px; }
   .cls-card {
     width: 74vw;
     left: 50% !important; right: auto !important;
@@ -2243,11 +2243,12 @@ body {
   .cls-card__title { font-size: 15px !important; margin-bottom: 6px; }
   .cls-card__body { font-size: 11px; line-height: 1.4; }
 
-  /* Resting positions: spread to avoid overlap */
+  /* Resting positions — all 4 inter-element gaps equal (~5.6vh) */
+  /* ring center 50vh, ring top ~35vh, ring bottom ~65vh        */
   .cls-cred--tl { top: 3vh; }
-  .cls-cred--tr { top: 17vh; }
-  .cls-cred--bl { top: 61vh; }
-  .cls-cred--br { top: 76vh; }
+  .cls-cred--tr { top: 19vh; }
+  .cls-cred--bl { top: 68vh; }
+  .cls-cred--br { top: 84vh; }
 
   /* Visible */
   .cls-cred--tl.cls-vis,
@@ -2256,10 +2257,10 @@ body {
   .cls-cred--br.cls-vis { opacity: 1; transform: translateX(-50%) !important; }
 
   /* Absorbed: slide to ring center (50vh) */
-  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 3vh - 30px)) scale(0.05) !important; }
-  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 17vh - 30px)) scale(0.05) !important; }
-  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 61vh + 30px)) scale(0.05) !important; }
-  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 76vh + 30px)) scale(0.05) !important; }
+  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 3vh  - 30px)) scale(0.05) !important; }
+  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 19vh - 30px)) scale(0.05) !important; }
+  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 68vh - 30px)) scale(0.05) !important; }
+  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 84vh - 30px)) scale(0.05) !important; }
 }
 
 /* ── Book Your Calibration section ── */
@@ -2399,6 +2400,73 @@ body {
   font-family: var(--font-sans);
   font-size: 12px; color: #888;
 }
+
+/* ── Final CTA section — mirrors life-stat-section design ── */
+.final-cta-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 4vw, 56px);
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(100,60,180,0.32) 0%, rgba(120,80,200,0.14) 55%, transparent 100%), #ffffff;
+  padding: 0 24px;
+  text-align: center;
+}
+.final-cta__heading {
+  font-size: clamp(36px, 6.5vw, 104px);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: #14161e;
+}
+.final-cta__accent { color: #553C9A; font-family: var(--font-sans); font-weight: 700; }
+.final-cta__btn {
+  display: inline-block;
+  padding: 17px 58px;
+  border-radius: 999px;
+  font-size: clamp(9px, 1.1vw, 14px);
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: #111;
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 100%);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    inset 1px 0 0 rgba(255,255,255,0.6),
+    inset -1px 0 0 rgba(255,255,255,0.3),
+    inset 0 16px 24px -14px rgba(255,255,255,0.85),
+    0 2px 8px rgba(0,0,0,0.08),
+    0 12px 32px rgba(0,0,0,0.10);
+  transition: box-shadow 240ms ease, transform 200ms ease;
+  border: 1px solid rgba(180,160,220,0.35);
+}
+.final-cta__btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.4) 35%,
+    rgba(255,255,255,0.08) 55%,
+    rgba(255,255,255,0.5) 80%,
+    rgba(255,255,255,0.9) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.final-cta__btn:hover { transform: translateY(-1px); }
 
 .book-section {
   background: #fff;
@@ -2944,6 +3012,8 @@ body {
   }
   #calibr8-slider .card.is-prev { order: -1; margin-top: 17.5px; }
   #calibr8-slider .card.is-next { order: 1;  margin-top: 17.5px; }
+  #calibr8-slider .card.is-ghost,
+  #process-slider .card.is-ghost { opacity: 0 !important; pointer-events: none !important; }
   #calibr8-slider .card.is-prev .card__content,
   #calibr8-slider .card.is-prev .card__inline-title,
   #calibr8-slider .card.is-prev .card__icon,
@@ -2981,7 +3051,7 @@ body {
   }
 
   /* Section needs position:relative so static nav can be absolute within it */
-  #process-section { position: relative; }
+  #process-section { position: relative; overflow-x: clip; }
 
   /* Static nav — absolutely positioned at right edge, starts at same height as desc */
   /* top = section-padding(40) + heading(~62) + gap(16) + card-height(125vw-40) + content-padding(14) */
@@ -3020,7 +3090,7 @@ body {
     left: 70px;
     right: 16px;
     height: 42px;
-    color: #fff;
+    color: #553C9A;
     font-size: 23px;
     font-weight: 700;
     line-height: 1;
@@ -3029,6 +3099,11 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  /* Badge number same size as title */
+  #calibr8-slider .card.active .card__icon,
+  #process-slider .card.active .card__icon {
+    font-size: 23px !important;
   }
 
   /* Active card: overflow visible so below-card text shows */
@@ -3084,56 +3159,88 @@ body {
     -webkit-box-orient: unset;
     overflow: visible;
   }
-  /* Process big eyebrow — below card, dark */
-  #process-slider .card.active .card__eyebrow {
-    color: #111;
-    text-align: left;
-    font-size: clamp(28px, 8vw, 40px);
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-    margin-bottom: 6px;
-    font-weight: 600;
-    text-transform: none;
-  }
-  /* Process card__title = same size as desc (15.5px) */
-  #process-slider .card.active .card__title {
-    color: #111;
-    font-size: 15.5px;
-    text-align: left;
-    line-height: 1.5;
-    margin-bottom: 1em;
-  }
-  /* Process slider needs more bottom margin (eyebrow + title + desc) */
+  /* ── Process slider: peek carousel (mirrors calibr8 slider) ── */
+  #process-section { overflow-x: clip; }
+  /* Active card dimensions — matches calibr8 active */
   #process-slider .card.active {
-    margin-bottom: 165px;
+    margin-bottom: 80px;
+    overflow: visible;
+    pointer-events: auto;
   }
-  /* Hide inactive process cards — arrows handle navigation */
-  #process-slider .card:not(.active) { display: none; }
-  #process-slider .card.active { pointer-events: auto; }
-  #process-slider .card.active .card__content { pointer-events: auto; }
-  /* Process slider: no width constraints — text flows freely */
+  /* Inline title (eyebrow) inside card — bottom-left, right of badge */
+  #process-slider .card.active .card__inline-title {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 18px;
+    left: 70px;
+    right: 16px;
+    height: 42px;
+    color: #553C9A;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.3px;
+    z-index: 5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* Badge bottom-left inside card */
+  #process-slider .card.active .card__icon {
+    opacity: 1 !important;
+    display: flex !important;
+    left: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    transform: scale(1) !important;
+    z-index: 5;
+  }
+  /* Scrim for badge/title legibility */
+  #process-slider .card.active .card__scrim {
+    border-radius: 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.12) 40%, transparent 65%);
+    opacity: 1;
+  }
+  /* Hide eyebrow/title from below-card content — shown inline instead */
+  #process-slider .card.active .card__eyebrow,
   #process-slider .card.active .card__title,
+  #process-slider .card.active .card__content-header { display: none; }
+  #process-slider .card.active .card__content { pointer-events: auto; }
+  /* Desc below card — black, full width */
   #process-slider .card.active .card__desc {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
     max-width: 100%;
-    min-height: unset;
+    text-wrap: unset;
+    display: block;
     -webkit-line-clamp: unset;
     -webkit-box-orient: unset;
-    display: block;
     overflow: visible;
-    text-wrap: unset;
+    min-height: unset;
   }
-  .calibr8-slider-section .card.active .card__desc {
-    color: #111;
-    font-size: 15.5px;
-    text-align: left;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.5;
-    min-height: calc(3 * 15.5px * 1.5);
-    max-width: 65%;
+  /* Peek cards */
+  #process-slider .card.is-prev,
+  #process-slider .card.is-next {
+    display: block !important;
+    flex: 0 0 calc(100vw - 80px);
+    width: calc(100vw - 80px);
+    height: calc((100vw - 80px) * 5 / 4);
+    aspect-ratio: unset;
+    border-radius: 16px;
+    pointer-events: auto;
+    cursor: pointer;
   }
+  #process-slider .card.is-prev { order: -1; margin-top: 17.5px; }
+  #process-slider .card.is-next { order: 1;  margin-top: 17.5px; }
+  #process-slider .card.is-prev .card__content,
+  #process-slider .card.is-prev .card__inline-title,
+  #process-slider .card.is-prev .card__icon,
+  #process-slider .card.is-next .card__content,
+  #process-slider .card.is-next .card__inline-title,
+  #process-slider .card.is-next .card__icon { display: none !important; }
+  #process-slider .card:not(.active):not(.is-next):not(.is-prev) { display: none; }
 
   /* ── Trust section — balanced size, all 3 fit one screen ── */
   .trust-section { padding: 40px 16px; }
@@ -3280,6 +3387,9 @@ body {
     justify-content: center;
   }
   .life-stat { font-size: clamp(18px, 5vw, 22px); }
+  .final-cta-section { min-height: 100dvh; gap: 28px; padding: 0 24px; }
+  .final-cta__heading { font-size: clamp(28px, 7vw, 40px); }
+  .final-cta__btn { padding: 14px 36px; font-size: 13px; }
 
   /* ── Arc card: std below its plot point, cal stays top-right ── */
   /* Arc labels — same size as other cards */
@@ -3913,7 +4023,10 @@ body {
   </div>
 </section>
 
-
+<section class="final-cta-section" aria-label="Final call to action">
+  <p class="final-cta__heading">Your <span style="color:#553C9A">body</span> is unique.<br>Your <span style="color:#553C9A">mattress</span> should be too.</p>
+  <a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a>
+</section>
 
 <script>
 (() => {
@@ -4752,13 +4865,19 @@ body {
 
   function updatePeek() {
     if (window.innerWidth > 480) return;
-    document.querySelectorAll('#calibr8-slider .card').forEach(c => c.classList.remove('is-next', 'is-prev'));
+    document.querySelectorAll('#calibr8-slider .card').forEach(c => c.classList.remove('is-next', 'is-prev', 'is-ghost'));
     const nextId = (activeId + 1) % CARDS.length;
     const prevId = (activeId - 1 + CARDS.length) % CARDS.length;
     const nextCard = document.querySelector(`#calibr8-slider .card[data-id="${nextId}"]`);
     const prevCard = document.querySelector(`#calibr8-slider .card[data-id="${prevId}"]`);
-    if (nextCard) nextCard.classList.add('is-next');
-    if (prevCard) prevCard.classList.add('is-prev');
+    if (nextCard) {
+      nextCard.classList.add('is-next');
+      if (activeId === CARDS.length - 1) nextCard.classList.add('is-ghost');
+    }
+    if (prevCard) {
+      prevCard.classList.add('is-prev');
+      if (activeId === 0) prevCard.classList.add('is-ghost');
+    }
   }
 
   function activate(id, direction = 1) {
@@ -4856,36 +4975,80 @@ body {
 
   let processActiveId = 0;
 
-  function updateProcessArrows() {
-    const active = document.querySelector('#process-slider .card.active');
-    if (!active) return;
-    const prev = active.querySelector('.card__nav-btn--prev');
-    const next = active.querySelector('.card__nav-btn--next');
-    if (prev) prev.style.display = processActiveId === 0 ? 'none' : '';
-    if (next) next.style.display = processActiveId === PROCESS_CARDS.length - 1 ? 'none' : '';
+  function updateProcessPeek() {
+    if (window.innerWidth > 480) return;
+    document.querySelectorAll('#process-slider .card').forEach(c => c.classList.remove('is-next', 'is-prev', 'is-ghost'));
+    const nextId = (processActiveId + 1) % PROCESS_CARDS.length;
+    const prevId = (processActiveId - 1 + PROCESS_CARDS.length) % PROCESS_CARDS.length;
+    const nextCard = document.querySelector(`#process-slider .card[data-id="${nextId}"]`);
+    const prevCard = document.querySelector(`#process-slider .card[data-id="${prevId}"]`);
+    if (nextCard) {
+      nextCard.classList.add('is-next');
+      if (processActiveId === PROCESS_CARDS.length - 1) nextCard.classList.add('is-ghost');
+    }
+    if (prevCard) {
+      prevCard.classList.add('is-prev');
+      if (processActiveId === 0) prevCard.classList.add('is-ghost');
+    }
   }
 
   function processActivate(id, direction = 1) {
     if (id === processActiveId) return;
+    const isMobile = window.innerWidth <= 480;
+    const oldActive = document.querySelector('#process-slider .card.active');
+    const incoming  = document.querySelector(`#process-slider .card[data-id="${id}"]`);
+
+    const oldFirst = isMobile && oldActive ? oldActive.getBoundingClientRect() : null;
+    const newFirst = isMobile && incoming  ? incoming.getBoundingClientRect()  : null;
+
     document.querySelectorAll('#process-slider .card').forEach(c => {
-      c.classList.remove('slide-from-right', 'slide-from-left');
+      c.classList.remove('slide-from-right', 'slide-from-left', 'is-next', 'is-prev');
       c.classList.toggle('active', parseInt(c.dataset.id) === id);
     });
     processActiveId = id;
-    const newActive = document.querySelector('#process-slider .card.active');
-    if (newActive) {
-      const cls = direction > 0 ? 'slide-from-right' : 'slide-from-left';
-      requestAnimationFrame(() => {
-        newActive.classList.add(cls);
-        newActive.addEventListener('animationend', () => newActive.classList.remove(cls), { once: true });
-      });
+    updateProcessPeek();
+
+    if (isMobile && oldActive && incoming && oldFirst && newFirst) {
+      const oldLast = oldActive.getBoundingClientRect();
+      const newLast = incoming.getBoundingClientRect();
+      if (newLast.width > 0 && oldLast.width > 0) {
+        const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+        const DUR  = '0.5s';
+        [[incoming, newFirst, newLast], [oldActive, oldFirst, oldLast]].forEach(([el, f, l]) => {
+          const dx = f.left - l.left, dy = f.top - l.top;
+          const sx = f.width / l.width,  sy = f.height / l.height;
+          el.style.transition = 'none';
+          el.style.transformOrigin = 'top left';
+          el.style.transform = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+        });
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          [incoming, oldActive].forEach(el => {
+            el.style.transition = `transform ${DUR} ${EASE}`;
+            el.style.transform  = 'translate(0,0) scale(1)';
+          });
+          setTimeout(() => {
+            [incoming, oldActive].forEach(el => {
+              el.style.transition = el.style.transform = el.style.transformOrigin = '';
+            });
+          }, 550);
+        }));
+      }
+    } else if (!isMobile) {
+      const newActive = document.querySelector('#process-slider .card.active');
+      if (newActive) {
+        const cls = direction > 0 ? 'slide-from-right' : 'slide-from-left';
+        requestAnimationFrame(() => {
+          newActive.classList.add(cls);
+          newActive.addEventListener('animationend', () => newActive.classList.remove(cls), { once: true });
+        });
+      }
     }
-    updateProcessArrows();
   }
 
   function buildProcessSlider() {
     const slider = document.getElementById('process-slider');
     if (!slider) return;
+    const isMobile = window.innerWidth <= 480;
     PROCESS_CARDS.forEach(card => {
       const el = document.createElement('div');
       el.className = 'card' + (card.id === processActiveId ? ' active' : '');
@@ -4896,34 +5059,37 @@ body {
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
+        ${isMobile ? `<div class="card__inline-title">${card.eyebrow}</div>` : ''}
         <div class="card__content">
           <div class="card__content-header">
             <div class="card__eyebrow">${card.eyebrow}</div>
-            <div class="card__nav">
+            ${!isMobile ? `<div class="card__nav">
               <button class="card__nav-btn card__nav-btn--prev" aria-label="Previous">&#8592;</button>
               <button class="card__nav-btn card__nav-btn--next" aria-label="Next">&#8594;</button>
-            </div>
+            </div>` : ''}
           </div>
           <div class="card__title">${card.title}</div>
           <div class="card__desc">${card.desc}</div>
         </div>
         <div class="card__icon">${card.id + 1}</div>
       `;
-      el.querySelector('.card__nav-btn--prev').addEventListener('click', e => {
-        e.stopPropagation();
-        processActivate((processActiveId - 1 + PROCESS_CARDS.length) % PROCESS_CARDS.length, -1);
-      });
-      el.querySelector('.card__nav-btn--next').addEventListener('click', e => {
-        e.stopPropagation();
-        processActivate((processActiveId + 1) % PROCESS_CARDS.length, 1);
-      });
+      if (!isMobile) {
+        el.querySelector('.card__nav-btn--prev').addEventListener('click', e => {
+          e.stopPropagation();
+          processActivate((processActiveId - 1 + PROCESS_CARDS.length) % PROCESS_CARDS.length, -1);
+        });
+        el.querySelector('.card__nav-btn--next').addEventListener('click', e => {
+          e.stopPropagation();
+          processActivate((processActiveId + 1) % PROCESS_CARDS.length, 1);
+        });
+      }
       el.addEventListener('click', () => processActivate(parseInt(el.dataset.id), 1));
       slider.appendChild(el);
     });
   }
 
   buildProcessSlider();
-  updateProcessArrows();
+  updateProcessPeek();
 
   // ── Reviews ──
   const REVIEWS = [
