@@ -39,7 +39,7 @@
 }
 .trust-section__title {
   text-align: center;
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   letter-spacing: -0.02em;
   color: #14161e;
@@ -1356,6 +1356,7 @@ body {
   transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
 }
 .problem-stat.is-visible .pst-w { opacity: 1; transform: none; }
+.pst-line--sub { font-size: 0.58em; color: #14161e; }
 .pst-pct { color: #553C9A; }
 
 /* ── Narrative: solution (video card) ── */
@@ -1472,7 +1473,7 @@ body {
 }
 
 .carousel-heading {
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   letter-spacing: 0.01em;
   text-transform: none;
@@ -1666,7 +1667,7 @@ body {
 
 /* ── Calibr8 Slider ── */
 .slider-heading {
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   color: #14161e;
   margin: 0;
@@ -1706,16 +1707,17 @@ body {
   font-family: var(--font-sans);
 }
 .calibr8-slider-section .hero-sub {
-  font-size: clamp(16.5px, 2.1vw, 27px);
   font-weight: 600;
   color: #14161e;
-  line-height: 1.25;
+  line-height: 1.3;
   letter-spacing: -0.02em;
   font-family: var(--font-sans);
   max-width: none;
   text-align: center;
   margin: 0;
 }
+.hps-line1 { display: block; font-size: clamp(22px, 2.76vw, 35px); }
+.hps-line2 { display: block; font-size: clamp(16.5px, 2.1vw, 28px); margin-top: 0.2em; }
 
 .calibr8-slider-section .hero-sub-desc {
   font-size: clamp(10.5px, 1.2vw, 18px);
@@ -1890,12 +1892,19 @@ body {
   margin: 0 0 12px;
 }
 .zone-intro__desc {
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   line-height: 1.4;
   color: #14161e;
-  margin: 0;
+  margin: 0 0 16px;
   white-space: normal;
+}
+.zone-intro__sub {
+  font-size: clamp(14px, 1.4vw, 20px);
+  font-weight: 400;
+  color: #14161e;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* ── Zone map (image + dots) ── */
@@ -2227,7 +2236,7 @@ body {
   margin: 0;
 }
 .reviews-intro__heading {
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   color: #14161e;
   line-height: 1.3;
@@ -2297,7 +2306,7 @@ body {
   pointer-events: none;
 }
 .cls-tag-eyebrow {
-  font-size: clamp(10px, 1vw, 13px);
+  font-size: clamp(17.5px, 1.75vw, 23px);
   font-weight: 700;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -2306,7 +2315,7 @@ body {
   margin-bottom: 10px;
 }
 .cls-tag-headline {
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   color: #14101e;
   font-family: 'Space Grotesk', sans-serif;
@@ -2338,7 +2347,7 @@ body {
               transform 1100ms cubic-bezier(0.4,0,0.2,1);
 }
 .cls-card__title {
-  font-size: clamp(26px, 3vw, 40px);
+  font-size: clamp(15px, 1.75vw, 26px);
   font-weight: 700;
   color: rgba(20,16,40,0.85);
   letter-spacing: -0.02em;
@@ -2378,7 +2387,7 @@ body {
 }
 /* Credential card body text */
 .cls-card__body {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   color: rgba(20,16,40,0.55);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -2410,7 +2419,7 @@ body {
     padding: 10px 14px;
     border-radius: 14px;
   }
-  .cls-card__title { font-size: 15px !important; margin-bottom: 6px; }
+  .cls-card__title { font-size: 13px !important; margin-bottom: 6px; }
   .cls-card__body { font-size: 11px; line-height: 1.4; }
 
   /* Resting positions — all 4 inter-element gaps equal (~5.6vh) */
@@ -2652,7 +2661,7 @@ body {
 }
 .book-heading {
   font-family: var(--font-sans);
-  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-size: clamp(22px, 2.76vw, 35px);
   font-weight: 600;
   color: #111;
   letter-spacing: -0.02em;
@@ -3668,8 +3677,8 @@ body {
     <div class="pst-line">
       <span class="pst-w">sleeping on a mattress not made for you.</span>
     </div>
-    <div class="pst-line" style="height: 0.6em;"></div>
-    <div class="pst-line">
+    <div class="pst-line" style="height: 1.4em;"></div>
+    <div class="pst-line pst-line--sub">
       <span class="pst-w">And your body has been paying the price.</span>
     </div>
   </div>
@@ -3679,7 +3688,7 @@ body {
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
     <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="videos/heroGIF.mp4" muted playsinline></video>
-    <p class="narrative-solution">Calibr8 is India's first sleep technology that builds a mattress around your body.</p>
+    <p class="narrative-solution">Calibr8 is India's first sleep technology<br>that builds a mattress around your body.</p>
   </div>
 </section>
 
@@ -3704,7 +3713,7 @@ body {
   </div>
   <div class="cls-card cls-cred--br" id="cls-c3">
     <div class="cls-card__title">Research</div>
-    <div class="cls-card__body">8+ years of sleep research across 8,000+ Indian body types, creating the most comprehensive sleep data set built in India.</div>
+    <div class="cls-card__body">8+ years of research across 8,000+ Indian body types — India's most comprehensive sleep dataset.</div>
   </div>
 </section>
 
@@ -3826,8 +3835,8 @@ body {
 
 <section class="calibr8-slider-section" id="process-section">
   <div class="hero-text">
-    <p class="slider-heading slider-heading--desktop reveal"><span class="sh-p1">Your personalised mattress,</span><span class="sh-p2"> built in <span class="sh-purple" style="color:#553C9A">6 precise steps.</span></span></p>
-    <p class="slider-heading slider-heading--mobile reveal"><span class="sh-p1">Your personal <span class="sh-purple" style="color:#553C9A">Calibr8</span> mattress</span><span class="sh-p2"> built in <span class="sh-purple" style="color:#553C9A">6 precise steps.</span></span></p>
+    <p class="slider-heading slider-heading--desktop reveal"><span class="sh-p1">Your Personalised Mattress,</span><span class="sh-p2"> Built in <span class="sh-purple" style="color:#553C9A">6 Precise Steps</span></span></p>
+    <p class="slider-heading slider-heading--mobile reveal"><span class="sh-p1">Your Personal <span class="sh-purple" style="color:#553C9A">Calibr8</span> Mattress,</span><span class="sh-p2"> Built in <span class="sh-purple" style="color:#553C9A">6 Precise Steps</span></span></p>
   </div>
   <div class="slider" id="calibr8-slider"></div>
   <div class="calibr8-nav" id="calibr8-static-nav">
@@ -3837,7 +3846,8 @@ body {
 </section>
 
 <div class="zone-intro">
-  <p class="zone-intro__desc reveal">Calibr8 maps your body's pressure distribution across <span class="zi-purple" style="color:#553C9A">8 spinal zones.</span></p>
+  <p class="zone-intro__desc reveal">Calibr8 Maps Your Body's Pressure Distribution Across <span class="zi-purple" style="color:#553C9A">8 Spinal Zones</span></p>
+  <p class="zone-intro__sub reveal">Each zone is calibrated independently — adapting your mattress to support your body exactly where it needs it.</p>
 </div>
 
 <div class="zone-map">
@@ -4159,7 +4169,7 @@ body {
 
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-p1">Different bodies need different support. <span class="hps-purple" style="color:#553C9A">Calibr8</span> builds around what your body needs.</span></p>
+    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-line1">Different Bodies Need Different Support.</span><span class="hps-line2"><span class="hps-purple" style="color:#553C9A">Calibr8</span> Builds Around What Your Body Needs.</span></p>
     <p class="hero-sub hero-sub--mobile reveal">Your body has a sleep signature. <span class="hps-purple" style="color:#553C9A">Calibr8</span> builds around it.</p>
   </div>
   <div class="slider" id="process-slider"></div>
@@ -4189,7 +4199,7 @@ body {
 
 
 <div class="reviews-intro">
-  <p class="reviews-intro__heading reveal"><span class="rih-l1">Trusted by Thousands of </span><span class="rih-l2"><span class="rih-purple" style="color:#553C9A">Sleepers</span> like You.</span></p>
+  <p class="reviews-intro__heading reveal">Thousands of Better Mornings Have Already Started Here!</p>
 </div>
 
 <div class="reviews-box">
@@ -4246,7 +4256,7 @@ body {
     <video preload="none" class="book-img hidden" id="book-img-home" data-src="videos/home.mp4" autoplay loop muted playsinline></video>
     <div class="book-card__overlay">
       <div class="book-toggle">
-        <button class="book-btn active" data-tab="store">Store Visit</button>
+        <button class="book-btn active" data-tab="store">In-Store</button>
         <button class="book-btn" data-tab="home">Home Consultation</button>
       </div>
       <a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a>
