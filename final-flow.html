@@ -3657,7 +3657,7 @@ body {
       <p class="narrative-blame">Stress. Age. Long workdays.<br>You have a lot of things you can blame.</p>
     </div>
     <div class="narrative-video-box">
-      <video id="stitch-vid" src="videos/pain.MOV" muted playsinline autoplay style="width:100%;height:100%;object-fit:cover;"></video>
+      <video preload="none" id="stitch-vid" data-src="videos/pain.mp4" muted playsinline autoplay style="width:100%;height:100%;object-fit:cover;"></video>
     </div>
   </div>
 </section>
@@ -3683,7 +3683,7 @@ body {
 <!-- Narrative 4: solution -->
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
-    <video class="narrative-solution-video" id="solution-vid" src="videos/heroGIF.mp4" muted playsinline></video>
+    <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="videos/heroGIF.mp4" muted playsinline></video>
     <p class="narrative-solution">Calibr8 is India's first sleep technology that builds a mattress around your body.</p>
   </div>
 </section>
@@ -3720,7 +3720,7 @@ body {
     <!-- Col 1: video + tweet -->
     <div class="sp-col">
     <div class="sp-card sp-card--photo" id="sp-vid1-card">
-      <video src="videos/vid1.webm" muted playsinline loop preload="metadata"
+      <video data-src="videos/vid1.webm" muted playsinline loop preload="none"
              style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"></video>
       <div class="sp-photo-overlay"></div>
       <div class="sp-play" id="sp-vid1-btn">
@@ -3734,7 +3734,7 @@ body {
     <div class="sp-card sp-card--tweet">
       <div class="sp-tweet-header">
         <div class="sp-tweet-user">
-          <img class="sp-tweet-avatar" src="images/neeraj chopra.jpg" alt="">
+          <img loading="lazy" class="sp-tweet-avatar" src="images/neeraj chopra.jpg" alt="">
           <div class="sp-tweet-names">
             <span class="sp-tweet-name">Neeraj Chopra</span>
             <span class="sp-tweet-handle">@neerajchopra1</span>
@@ -3751,7 +3751,7 @@ body {
       <div class="sp-card sp-card--tweet">
         <div class="sp-tweet-header">
           <div class="sp-tweet-user">
-            <img class="sp-tweet-avatar" src="images/Smriti_Mandhana.jpg" alt="">
+            <img loading="lazy" class="sp-tweet-avatar" src="images/Smriti_Mandhana.jpg" alt="">
             <div class="sp-tweet-names">
               <span class="sp-tweet-name">Smriti Mandhana</span>
               <span class="sp-tweet-handle">@smritimandhana</span>
@@ -3762,7 +3762,7 @@ body {
         <p class="sp-tweet-text">Pressure mapping before choosing a mattress is the future of sleep medicine. What Calibr8 is doing for Indian consumers is exactly what we've needed for years.</p>
       </div>
       <div class="sp-card sp-card--photo" style="flex:1;min-height:200px;">
-        <img src="images/couple review.webp" alt="Dinesh &amp; Dipika">
+        <img loading="lazy" src="images/couple review.webp" alt="Dinesh &amp; Dipika">
         <div class="sp-photo-overlay"></div>
         <div class="sp-play">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
@@ -3779,7 +3779,7 @@ body {
       <div class="sp-card sp-card--tweet">
         <div class="sp-tweet-header">
           <div class="sp-tweet-user">
-            <img class="sp-tweet-avatar" src="images/nikhil kamath.avif" alt="">
+            <img loading="lazy" class="sp-tweet-avatar" src="images/nikhil kamath.avif" alt="">
             <div class="sp-tweet-names">
               <span class="sp-tweet-name">Nikhil Kamath</span>
               <span class="sp-tweet-handle">@nikhilkam</span>
@@ -3790,7 +3790,7 @@ body {
         <p class="sp-tweet-text">Sleep optimization is underrated in India. Calibr8's pressure mapping approach is the kind of data-driven thinking I respect.</p>
       </div>
       <div class="sp-card sp-card--testimonial" style="flex:1;display:flex;flex-direction:column;">
-        <img class="sp-test-img" src="images/harsha bhogle.jpg" alt="Harsha Bhogle">
+        <img loading="lazy" class="sp-test-img" src="images/harsha bhogle.jpg" alt="Harsha Bhogle">
         <div class="sp-test-body">
           <p class="sp-test-text">I dedicate more attention to my recovery since getting my Calibr8 mattress. The pressure report was eye-opening — I had no idea my lower back was taking that much load every night.</p>
         </div>
@@ -3800,7 +3800,7 @@ body {
     <!-- Col 4: video + tweet -->
     <div class="sp-col">
     <div class="sp-card sp-card--photo" id="sp-vid2-card" style="flex:1;min-height:200px;">
-      <video src="videos/vid2.webm" muted playsinline loop preload="metadata"
+      <video data-src="videos/vid2.webm" muted playsinline loop preload="none"
              style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"></video>
       <div class="sp-photo-overlay"></div>
       <div class="sp-play" id="sp-vid2-btn">
@@ -3814,7 +3814,7 @@ body {
     <div class="sp-card sp-card--tweet">
       <div class="sp-tweet-header">
         <div class="sp-tweet-user">
-          <img class="sp-tweet-avatar" src="images/m s dhoni.jpeg" alt="">
+          <img loading="lazy" class="sp-tweet-avatar" src="images/m s dhoni.jpeg" alt="">
           <div class="sp-tweet-names">
             <span class="sp-tweet-name">MS Dhoni</span>
             <span class="sp-tweet-handle">@msdhoni</span>
@@ -3846,7 +3846,7 @@ body {
 </div>
 
 <div class="zone-map">
-  <img class="zone-map__img" src="images/8zones new.png" alt="Calibr8 8-zone mattress">
+  <img loading="lazy" class="zone-map__img" src="images/8zones new.png" alt="Calibr8 8-zone mattress">
   <div class="zone-tooltip" id="zone-tooltip">
     <div class="zone-tooltip__num"></div>
     <div class="zone-tooltip__name"></div>
@@ -4199,7 +4199,7 @@ body {
 
 <div class="reviews-box">
 <div class="reviews-bg-wrap">
-<img class="reviews-bg-img" src="images/reviewsbg1.png" alt="">
+<img loading="lazy" class="reviews-bg-img" src="images/reviewsbg1.png" alt="">
 <!-- Quote centered below title -->
 <div class="reviews-quote-wrap" id="reviews-quote-wrap">
   <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
@@ -4217,7 +4217,7 @@ body {
     <!-- Before Calibration -->
     <div class="rev-cal" id="rev-cal-before">
       <span class="rev-cal__label rev-cal__label--before">Before<br>Calibration</span>
-      <img class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
+      <img loading="lazy" class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
     </div>
 
     <!-- Person photo center -->
@@ -4230,7 +4230,7 @@ body {
     <!-- After Calibration -->
     <div class="rev-cal" id="rev-cal-after">
       <span class="rev-cal__label">After<br>Calibration</span>
-      <img class="rev-cal__body-img" id="rev-cal-aft-img" src="" alt="After calibration">
+      <img loading="lazy" class="rev-cal__body-img" id="rev-cal-aft-img" src="" alt="After calibration">
     </div>
 
   </div>
@@ -4247,8 +4247,8 @@ body {
 <section class="book-section" aria-label="Book your calibration">
   <h2 class="book-heading">You've spent years sleeping on a mattress built for everyone.<br>Now experience one built for you.</h2>
   <div class="book-card">
-    <video class="book-img" id="book-img-store" src="videos/store.MOV" autoplay loop muted playsinline></video>
-    <video class="book-img hidden" id="book-img-home" src="videos/home.mp4" autoplay loop muted playsinline></video>
+    <video preload="none" class="book-img" id="book-img-store" data-src="videos/store.mp4" autoplay loop muted playsinline></video>
+    <video preload="none" class="book-img hidden" id="book-img-home" data-src="videos/home.mp4" autoplay loop muted playsinline></video>
     <div class="book-card__overlay">
       <div class="book-toggle">
         <button class="book-btn active" data-tab="store">Store Visit</button>
@@ -5117,11 +5117,11 @@ body {
 
   const CARDS = [
     { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: 'videos/new scan flow.mp4', icon: scanIcon('#ffffff') },
-    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: 'videos/heatmap.mov', icon: heatmapIcon('#ffffff') },
-    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: 'videos/Calibration.mov', icon: calibrationIcon('#ffffff') },
+    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: 'videos/heatmap.mp4', icon: heatmapIcon('#ffffff') },
+    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: 'videos/Calibration.mp4', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/layers.MOV', icon: mattressIcon('#ffffff') },
-    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mov', icon: mattressIcon('#ffffff') },
+    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/layers.mp4', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
@@ -5135,7 +5135,7 @@ body {
       el.dataset.id = card.id;
       el.innerHTML = `
         ${card.video
-          ? `<video class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          ? `<video preload="none" class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
@@ -5271,17 +5271,17 @@ body {
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS_DESKTOP = [
-    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: 'videos/pain.MOV' },
+    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: 'videos/pain.mp4' },
     { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day.',    desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',         video: 'videos/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',           title: 'Two people. Completely different needs.',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: 'videos/couple.MOV' },
-    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard. Hustle hard. Push your body every day.',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: 'videos/lift.MOV' },
+    { id: 2, eyebrow: 'The Couple',           title: 'Two people. Completely different needs.',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: 'videos/couple.mp4' },
+    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard. Hustle hard. Push your body every day.',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: 'videos/lift.mp4' },
     { id: 4, eyebrow: 'The Overthinker',      title: 'Too many choices. Too much guesswork.',                   desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',           video: 'videos/choices.mp4' },
   ];
   const PROCESS_CARDS_MOBILE = [
-    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: 'videos/pain.MOV' },
+    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: 'videos/pain.mp4' },
     { id: 1, eyebrow: 'The Daily Grinder', title: '',  desc: 'Calibr8 supports pressure points caused by long sitting hours, helping your spine recover.',                         video: 'videos/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: 'videos/couple.MOV' },
-    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: 'videos/lift.MOV' },
+    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: 'videos/couple.mp4' },
+    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: 'videos/lift.mp4' },
     { id: 4, eyebrow: 'The Overthinker',   title: '',  desc: 'Instead of opinions and buzzwords, Calibr8 builds your mattress based on how you actually rest.',                   video: 'videos/choices.mp4' },
   ];
   const PROCESS_CARDS = window.innerWidth <= 480 ? PROCESS_CARDS_MOBILE : PROCESS_CARDS_DESKTOP;
@@ -5368,7 +5368,7 @@ body {
       el.dataset.id = card.id;
       el.innerHTML = `
         ${card.video
-          ? `<video class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          ? `<video preload="none" class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
@@ -5888,6 +5888,31 @@ function initRevCal() {
 
 document.addEventListener('DOMContentLoaded', initRevCal);
 window.addEventListener('resize', equalizeRevCalGaps);
+
+// ── Lazy-load below-fold videos ──
+(() => {
+  function loadVid(v) {
+    if (v.dataset.src && !v.src.includes(v.dataset.src)) {
+      v.src = v.dataset.src;
+      delete v.dataset.src;
+      v.load();
+    }
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { loadVid(e.target); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '300px' });
+  document.querySelectorAll('video[data-src]').forEach(v => io.observe(v));
+
+  // Book-section toggle: load video on demand
+  document.querySelectorAll('.book-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.book-img').forEach(v => loadVid(v));
+    }, { once: true });
+  });
+})();
+
 </script>
 </body>
 </html>
