@@ -2266,7 +2266,7 @@ body {
 .cls-section {
   position: relative;
   height: 100vh;
-  background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff;
+  background: radial-gradient(circle 23vmin at 50% calc(50% + 50px), rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -2302,7 +2302,7 @@ body {
   transform: translateX(-50%);
   text-align: center;
   white-space: nowrap;
-  z-index: 2;
+  z-index: 5;
   pointer-events: none;
 }
 .cls-tag-eyebrow {
@@ -2328,7 +2328,7 @@ body {
 /* Credential cards */
 .cls-card {
   position: absolute;
-  width: 520px;
+  width: clamp(280px, 33vw, 520px);
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(6px) saturate(1.2);
   -webkit-backdrop-filter: blur(6px) saturate(1.2);
@@ -2387,28 +2387,33 @@ body {
 }
 /* Credential card body text */
 .cls-card__body {
-  font-size: 17px;
+  font-size: clamp(13px, 1.2vw, 17px);
   font-weight: 400;
   color: rgba(20,16,40,0.55);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.6;
   margin-top: 8px;
 }
-/* Credential card positions — 520px wide */
-.cls-cred--tl { top: calc(50% - 320px + 50px); left: calc(50% - 540px); transform: translate(-28px,-28px); }
-.cls-cred--tr { top: calc(50% - 320px + 50px); left: calc(50% + 20px);  transform: translate(28px,-28px); }
-.cls-cred--bl { top: calc(50% + 120px + 50px); left: calc(50% - 540px); transform: translate(-28px,28px); }
-.cls-cred--br { top: calc(50% + 120px + 50px); left: calc(50% + 20px);  transform: translate(28px,28px); }
+/* Credential card positions — responsive, gap-anchored */
+.cls-cred--tl { top: max(calc(50% - 270px), 120px); right: calc(50% + 20px); left: auto; transform: translate(28px,-28px); }
+.cls-cred--tr { top: max(calc(50% - 270px), 120px); left: calc(50% + 20px);             transform: translate(-28px,-28px); }
+.cls-cred--bl { top: calc(50% + 170px);              right: calc(50% + 20px); left: auto; transform: translate(28px,28px); }
+.cls-cred--br { top: calc(50% + 170px);              left: calc(50% + 20px);             transform: translate(-28px,28px); }
 /* Visible at rest */
 .cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--bl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--br.cls-vis { opacity: 1; transform: translate(0,0); }
 /* Absorbed: fly to section center, shrink, vanish */
-.cls-cred--tl.cls-absorbed { opacity: 0; transform: translate(280px, 220px) scale(0.05); }
-.cls-cred--tr.cls-absorbed { opacity: 0; transform: translate(-280px, 220px) scale(0.05); }
-.cls-cred--bl.cls-absorbed { opacity: 0; transform: translate(280px, -220px) scale(0.05); }
-.cls-cred--br.cls-absorbed { opacity: 0; transform: translate(-280px, -220px) scale(0.05); }
+.cls-cred--tl.cls-absorbed { opacity: 0; transform: translate(20vw, 220px) scale(0.05); }
+.cls-cred--tr.cls-absorbed { opacity: 0; transform: translate(-20vw, 220px) scale(0.05); }
+.cls-cred--bl.cls-absorbed { opacity: 0; transform: translate(20vw, -220px) scale(0.05); }
+.cls-cred--br.cls-absorbed { opacity: 0; transform: translate(-20vw, -220px) scale(0.05); }
+/* ── Laptop / medium viewport ── */
+@media (max-width: 1200px) and (min-width: 768px) {
+  .cls-card { padding: 20px 24px; border-radius: 16px; }
+  .cls-score-num { font-size: clamp(72px, 9vw, 120px); }
+}
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
   .cls-section { height: auto; min-height: 100svh; padding: 0 0 40px; }
