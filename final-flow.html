@@ -2271,7 +2271,7 @@ body {
 }
 .cls-score-num {
   position: absolute;
-  top: 50%; left: 50%;
+  top: calc(50% + 50px); left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   pointer-events: none;
@@ -2288,35 +2288,30 @@ body {
 }
 #cls-tagline {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0.94);
+  top: clamp(40px, 6vh, 72px);
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-  pointer-events: none;
-  z-index: 2;
   white-space: nowrap;
-  opacity: 0;
-  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.16,1,0.3,1);
-}
-#cls-tagline.cls-tag-vis {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  z-index: 2;
+  pointer-events: none;
 }
 .cls-tag-eyebrow {
   font-size: clamp(10px, 1vw, 13px);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: #14101e;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin-bottom: 10px;
 }
 .cls-tag-headline {
-  font-size: clamp(26px, 3.2vw, 48px);
-  font-weight: 800;
+  font-size: clamp(16.5px, 2.1vw, 27px);
+  font-weight: 600;
   color: #14101e;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
 }
 .cls-tag-purple {
   color: #553C9A;
@@ -2391,10 +2386,10 @@ body {
   margin-top: 8px;
 }
 /* Credential card positions — 520px wide */
-.cls-cred--tl { top: calc(50% - 320px); left: calc(50% - 540px); transform: translate(-28px,-28px); }
-.cls-cred--tr { top: calc(50% - 320px); left: calc(50% + 20px);  transform: translate(28px,-28px); }
-.cls-cred--bl { top: calc(50% + 120px); left: calc(50% - 540px); transform: translate(-28px,28px); }
-.cls-cred--br { top: calc(50% + 120px); left: calc(50% + 20px);  transform: translate(28px,28px); }
+.cls-cred--tl { top: calc(50% - 320px + 50px); left: calc(50% - 540px); transform: translate(-28px,-28px); }
+.cls-cred--tr { top: calc(50% - 320px + 50px); left: calc(50% + 20px);  transform: translate(28px,-28px); }
+.cls-cred--bl { top: calc(50% + 120px + 50px); left: calc(50% - 540px); transform: translate(-28px,28px); }
+.cls-cred--br { top: calc(50% + 120px + 50px); left: calc(50% + 20px);  transform: translate(28px,28px); }
 /* Visible at rest */
 .cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
@@ -3689,12 +3684,12 @@ body {
 </section>
 
 <section class="cls-section" aria-label="Calibr8 sleep score">
-  <canvas id="cls-canvas"></canvas>
-  <div class="cls-score-num" id="cls-score-num"></div>
   <div id="cls-tagline">
     <div class="cls-tag-eyebrow">Powered by</div>
     <div class="cls-tag-headline">India's largest <span class="cls-tag-purple">sleep study</span></div>
   </div>
+  <canvas id="cls-canvas"></canvas>
+  <div class="cls-score-num" id="cls-score-num"></div>
   <div class="cls-card cls-cred--tl" id="cls-c0">
     <div class="cls-card__title">Engineered</div>
     <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics to support your body more accurately.</div>
@@ -5644,7 +5639,6 @@ body {
   const canvas    = document.getElementById('cls-canvas');
   const ctx       = canvas.getContext('2d');
   const numEl     = document.getElementById('cls-score-num');
-  const taglineEl = document.getElementById('cls-tagline');
   const prefRed   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function resize() { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight; }
@@ -5747,7 +5741,6 @@ body {
   function runLoop() {
     // Cards already visible — go straight into sequence
     hideNum();
-    taglineEl.classList.remove('cls-tag-vis');
     ringTgt = 0.19; orbitTgt = 1.4;
 
     // number shows → 2.5s dwell → card absorbs → 500ms → next number
@@ -5763,12 +5756,8 @@ body {
     setTimeout(() => { showNum(4); ringTgt = 0.276; },                                  9600 * D);
     setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                12100 * D);
 
-    // Number fades → tagline forms
+    // Number fades → all 4 cards come out together
     setTimeout(() => { hideNum(); },                                                   13400 * D);
-    setTimeout(() => { taglineEl.classList.add('cls-tag-vis'); },                      13800 * D);
-
-    // Tagline fades → all 4 cards come out together
-    setTimeout(() => { taglineEl.classList.remove('cls-tag-vis'); },                   15800 * D);
     setTimeout(() => {
       restore(0); restore(1); restore(2); restore(3);
       ringTgt = 0.19; orbitTgt = 1.4;
@@ -5780,7 +5769,7 @@ body {
   // ── Render loop ──
   function render() {
     const W = canvas.width, H = canvas.height;
-    const cx = W / 2, cy = H / 2;
+    const cx = W / 2, cy = H / 2 + 50;
     const minD = Math.min(W, H);
 
     ringFrac  += (ringTgt  - ringFrac)  * 0.022;
