@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Calibr8 — Measured Better Sleep</title>
+<title>Calibr8: Measured Better Sleep</title>
 <meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
 <style>
 @font-face { font-family: 'Space Grotesk'; src: url('fonts/SpaceGrotesk-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
@@ -1373,8 +1373,8 @@ body {
   overflow: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.10);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
@@ -1391,20 +1391,21 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.38);
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, transparent 70%);
   z-index: 1;
 }
 .narrative-solution {
   position: relative;
   z-index: 2;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: clamp(20px, 3vw, 48px);
+  font-size: clamp(18px, 2.2vw, 36px);
   font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.25;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
   color: #ffffff;
-  text-align: center;
-  max-width: 80%;
+  text-align: left;
+  max-width: 72%;
+  padding: clamp(24px, 3vw, 48px) clamp(28px, 4vw, 56px);
   opacity: 1;
   transform: none;
 }
@@ -1692,7 +1693,7 @@ body {
 .calibr8-slider-section .hero-text {
   text-align: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 1100px;
   padding: 0 24px;
   box-sizing: border-box;
   margin: 0 auto;
@@ -2653,6 +2654,60 @@ body {
           mask-composite: exclude;
   pointer-events: none;
 }
+@property --glow-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes glow-spin {
+  to { --glow-angle: 360deg; }
+}
+.cta-glow-wrap {
+  position: relative;
+  display: inline-flex;
+  border-radius: 999px;
+  isolation: isolate;
+  pointer-events: auto;
+}
+/* Soft outer halo */
+.cta-glow-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+  background: conic-gradient(from var(--glow-angle),
+    transparent 0deg, transparent 270deg,
+    rgba(255,255,255,0.2) 300deg,
+    rgba(255,255,255,0.75) 340deg,
+    rgba(255,255,255,1) 355deg,
+    rgba(255,255,255,0.75) 360deg
+  );
+  filter: blur(10px);
+  animation: glow-spin 3s linear infinite;
+  z-index: -1;
+}
+/* Crisp border ring only — mask excludes interior */
+.cta-glow-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  padding: 1.5px;
+  background: conic-gradient(from var(--glow-angle),
+    rgba(255,255,255,0.15) 0deg, rgba(255,255,255,0.15) 270deg,
+    rgba(255,255,255,0.5) 300deg,
+    rgba(255,255,255,0.9) 340deg,
+    rgba(255,255,255,1) 352deg,
+    rgba(255,255,255,0.9) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: glow-spin 3s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
 .final-cta__btn:hover { transform: translateY(-1px); }
 
 .book-section {
@@ -2699,6 +2754,7 @@ body {
 .book-card__overlay .book-toggle,
 .book-card__overlay .final-cta__btn {
   pointer-events: auto;
+  /* glow overrides below */
 }
 .book-img {
   width: 100%;
@@ -3655,7 +3711,7 @@ body {
 
 <!-- Narrative 1: hook centered -->
 <section class="narrative-hook-section" aria-label="Narrative hook">
-  <p class="narrative-hook">Your body is <span style="color:#553C9A">unique.</span><br>Your <span style="color:#553C9A">mattress</span> should be too.</p>
+  <p class="narrative-hook">Your body is <span style="color:#553C9A;font-family:'Space Grotesk',sans-serif">unique.</span><br>Your <span style="color:#553C9A;font-family:'Space Grotesk',sans-serif">mattress</span> should be too.</p>
 </section>
 
 <!-- Narrative 2: problem text left + video right -->
@@ -3693,20 +3749,20 @@ body {
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
     <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="videos/heroGIF.mp4" muted playsinline></video>
-    <p class="narrative-solution">Calibr8 is India's first sleep technology<br>that builds a mattress around your body.</p>
+    <p class="narrative-solution"><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em">Calibr8</span>India's first sleep technology<br>that builds a mattress around your body.</p>
   </div>
 </section>
 
 <section class="cls-section" aria-label="Calibr8 sleep score">
   <div id="cls-tagline">
     <div class="cls-tag-eyebrow">Powered by</div>
-    <div class="cls-tag-headline">India's largest <span class="cls-tag-purple">sleep study</span></div>
+    <div class="cls-tag-headline">India's Largest <span class="cls-tag-purple">Sleep Study</span></div>
   </div>
   <canvas id="cls-canvas"></canvas>
   <div class="cls-score-num" id="cls-score-num"></div>
   <div class="cls-card cls-cred--tl" id="cls-c0">
     <div class="cls-card__title">Engineered</div>
-    <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics to support your body more accurately.</div>
+    <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics for precise body support.</div>
   </div>
   <div class="cls-card cls-cred--tr" id="cls-c1">
     <div class="cls-card__title">Data-Driven</div>
@@ -3718,7 +3774,7 @@ body {
   </div>
   <div class="cls-card cls-cred--br" id="cls-c3">
     <div class="cls-card__title">Research</div>
-    <div class="cls-card__body">8+ years of research across 8,000+ Indian body types — India's most comprehensive sleep dataset.</div>
+    <div class="cls-card__body">8+ years of research across 8,000+ Indian body types. India's most comprehensive sleep dataset.</div>
   </div>
 </section>
 
@@ -3751,7 +3807,7 @@ body {
         </div>
         <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </div>
-      <p class="sp-tweet-text">Three weeks on the Calibr8 and my morning stiffness is gone. The body mapping process is unlike anything I'd experienced before — felt like a proper medical assessment.</p>
+      <p class="sp-tweet-text">Three weeks on the Calibr8 and my morning stiffness is gone. The body mapping process is unlike anything I'd experienced before. Felt like a proper medical assessment.</p>
     </div>
     </div>
 
@@ -3801,7 +3857,7 @@ body {
       <div class="sp-card sp-card--testimonial" style="flex:1;display:flex;flex-direction:column;">
         <img loading="lazy" class="sp-test-img" src="images/harsha bhogle.jpg" alt="Harsha Bhogle">
         <div class="sp-test-body">
-          <p class="sp-test-text">I dedicate more attention to my recovery since getting my Calibr8 mattress. The pressure report was eye-opening — I had no idea my lower back was taking that much load every night.</p>
+          <p class="sp-test-text">I dedicate more attention to my recovery since getting my Calibr8 mattress. The pressure report was eye-opening. I had no idea my lower back was taking that much load every night.</p>
         </div>
       </div>
     </div>
@@ -3831,7 +3887,7 @@ body {
         </div>
         <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </div>
-      <p class="sp-tweet-text">The pressure mapping report showed things I had no idea about. A mattress built specifically for my body — that's not a luxury, that's just correct.</p>
+      <p class="sp-tweet-text">The pressure mapping report showed things I had no idea about. A mattress built specifically for my body. That's not a luxury, that's just correct.</p>
     </div>
     </div>
 
@@ -3851,8 +3907,8 @@ body {
 </section>
 
 <div class="zone-intro">
-  <p class="zone-intro__desc reveal">Calibr8 Maps Your Body's Pressure Distribution Across <span class="zi-purple" style="color:#553C9A">8 Spinal Zones</span></p>
-  <p class="zone-intro__sub reveal">Each zone is calibrated independently — adapting your mattress to support your body exactly where it needs it.</p>
+  <p class="zone-intro__desc reveal">Your body's pressure distribution is spread across <span class="zi-purple" style="color:#553C9A">8 spinal zones.</span></p>
+  <p class="zone-intro__sub reveal">Calibr8 configures each zone independently for balanced support.</p>
 </div>
 
 <div class="zone-map">
@@ -3998,7 +4054,7 @@ body {
     <article class="tile stat-card stat-card--bottom"
              data-scheme="deepsleep" data-kind="rings" data-delay="400" data-delta="21"
              tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
-      <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78% — an 18 to 25 percent increase from reduced pressure discomfort.</p>
+      <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78%, an 18 to 25 percent increase from reduced pressure discomfort.</p>
       <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
 
       <div class="rings" aria-hidden="true">
@@ -4038,7 +4094,7 @@ body {
              data-baseline="82" data-optimized="46" data-delta="36"
              tabindex="0" aria-labelledby="s4-cat" aria-describedby="s4-sr">
       <p id="s4-sr" class="sr-only">
-        High-pressure zones reduced from 82 percent on a standard mattress to 46 percent with Calibr8 — a 36 percent reduction, meaning fewer wakeups.
+        High-pressure zones reduced from 82 percent on a standard mattress to 46 percent with Calibr8, a 36 percent reduction, meaning fewer wakeups.
       </p>
       <h3 id="s4-cat" class="stat-card__title">High Pressure Zones</h3>
       <div class="comparison" aria-hidden="true">
@@ -4129,7 +4185,7 @@ body {
     <article class="tile stat-card stat-card--bottom"
              data-scheme="rem" data-kind="vbars" data-delay="400" data-delta="16"
              tabindex="0" aria-labelledby="s6-title" aria-describedby="s6-sr">
-      <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79% — 12 to 20 percent improvement supporting cognitive recovery.</p>
+      <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79%, 12 to 20 percent improvement supporting cognitive recovery.</p>
       <h3 id="s6-title" class="stat-card__title">REM Sleep</h3>
 
       <div class="rem-bars" aria-hidden="true">
@@ -4182,7 +4238,7 @@ body {
 
 
 <section class="trust-section" aria-label="Trust signals">
-  <h2 class="trust-section__title reveal">Built to Help You Rest Easy, In Every Way</h2>
+  <h2 class="trust-section__title reveal">Built to Help You <span style="color:#553C9A">Rest Easy</span>, In Every Way</h2>
   <div class="trust-grid">
     <div class="trust-card reveal">
       <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -4255,7 +4311,7 @@ body {
 </section>
 
 <section class="book-section" aria-label="Book your calibration">
-  <h2 class="book-heading">You've spent years sleeping on a mattress built for everyone.<br>Now experience one built for you.</h2>
+  <h2 class="book-heading">You've spent years sleeping on a <span style="color:#553C9A">mattress</span> built for everyone.<br>Now experience one <span style="color:#553C9A">built for you.</span></h2>
   <div class="book-card">
     <video preload="none" class="book-img" id="book-img-store" data-src="videos/store.mp4" autoplay loop muted playsinline></video>
     <video preload="none" class="book-img hidden" id="book-img-home" data-src="videos/home.mp4" autoplay loop muted playsinline></video>
@@ -4264,7 +4320,7 @@ body {
         <button class="book-btn active" data-tab="store">In-Store</button>
         <button class="book-btn" data-tab="home">Home Consultation</button>
       </div>
-      <a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a>
+      <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a></span>
     </div>
   </div>
 </section>
@@ -5772,13 +5828,13 @@ body {
     setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                12100 * D);
 
     // Number fades → all 4 cards come out together
-    setTimeout(() => { hideNum(); },                                                   13400 * D);
+    setTimeout(() => { hideNum(); },                                                   12800 * D);
     setTimeout(() => {
       restore(0); restore(1); restore(2); restore(3);
       ringTgt = 0.19; orbitTgt = 1.4;
-    }, 16600 * D);
+    }, 13800 * D);
 
-    setTimeout(runLoop, prefRed ? 500 : 18000);
+    setTimeout(runLoop, prefRed ? 500 : 15600);
   }
 
   // ── Render loop ──
