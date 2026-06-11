@@ -3616,19 +3616,21 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .bkh-calibr8 { font-family: var(--font-sans); font-weight: 700; }
+  .bkh-l1 { display: block; margin-bottom: 0.65em; }
+  .book-card__overlay { justify-content: flex-end; }
   /* 4:5 portrait — matches slider cards above */
-  .book-card { aspect-ratio: 4/5; width: 100%; height: unset; overflow: visible; }
+  .book-card { aspect-ratio: 4/5; width: 100%; height: unset; overflow: visible; margin-top: 56px; }
   .book-img { border-radius: 24px; }
-  /* Toggle above the video card */
+  /* Toggle floated above the video card (card has overflow:visible on mobile) */
   .book-toggle {
-    position: relative;
-    width: 100%;
-    margin-bottom: 12px;
-    transform: none;
-    left: auto;
-    top: auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 14px));
+    width: auto;
+    margin: 0;
   }
-  .book-btn { flex: 1; min-width: unset; font-size: 13px; }
+  .book-btn { flex: 1; min-width: 130px; font-size: 13px; padding: 9px 16px; }
 
   /* ── Arc section ── */
   .arc-item-sub { max-width: 260px; padding-right: 16px; }
@@ -3645,6 +3647,56 @@ body {
     justify-content: center;
   }
   .life-stat { font-size: clamp(18px, 5vw, 22px); }
+
+  /* ── Narrative sections — mobile ── */
+  .narrative-hook-section {
+    min-height: unset;
+    padding: 48px 24px;
+  }
+  .narrative-hook {
+    font-size: clamp(26px, 7vw, 36px);
+    letter-spacing: -0.02em;
+  }
+  .narrative-split-section {
+    padding: 48px 20px;
+  }
+  .narrative-split-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .narrative-lead,
+  .narrative-blame {
+    font-size: clamp(18px, 5vw, 22px);
+    text-align: center;
+  }
+  .narrative-video-box {
+    aspect-ratio: 4/3;
+  }
+  .problem-stat-section {
+    min-height: unset;
+    padding: 56px 20px;
+  }
+  .problem-stat {
+    font-size: clamp(18px, 5vw, 22px);
+  }
+  .narrative-solution-section {
+    padding: 40px 0;
+  }
+  .narrative-solution-card {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    aspect-ratio: 4/5;
+    border-radius: 20px;
+  }
+  .narrative-solution {
+    font-size: clamp(16px, 4.5vw, 22px);
+    max-width: 92%;
+    padding: 20px 20px;
+  }
+  .narrative-solution span[style] {
+    font-size: clamp(32px, 9vw, 48px) !important;
+  }
+
   .final-cta-section { min-height: 100dvh; gap: 28px; padding: 0 24px; }
   .final-cta__heading { font-size: clamp(28px, 7vw, 40px); }
   .final-cta__btn { padding: 14px 36px; font-size: 13px; }
@@ -3692,7 +3744,7 @@ body {
 <section class="hero" aria-label="Calibr8 hero">
   <div class="hero__frame">
     <video class="hero__video" autoplay muted loop playsinline>
-      <source src="videos/heroGIF.mp4" type="video/mp4">
+      <source src="01-hero/heroGIF.mp4" type="video/mp4">
     </video>
     <div class="hero__fade hero__fade--top"></div>
     <div class="hero__fade hero__fade--bottom"></div>
@@ -3722,7 +3774,7 @@ body {
       <p class="narrative-blame">Stress. Age. Long workdays.<br>You have a lot of things you can blame.</p>
     </div>
     <div class="narrative-video-box">
-      <video preload="none" id="stitch-vid" data-src="videos/pain.mp4" muted playsinline autoplay style="width:100%;height:100%;object-fit:cover;"></video>
+      <video preload="none" id="stitch-vid" data-src="02-pain/pain.mp4" muted playsinline autoplay style="width:100%;height:100%;object-fit:cover;"></video>
     </div>
   </div>
 </section>
@@ -3748,7 +3800,7 @@ body {
 <!-- Narrative 4: solution -->
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
-    <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="videos/heroGIF.mp4" muted playsinline></video>
+    <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="01-hero/heroGIF.mp4" muted playsinline></video>
     <p class="narrative-solution"><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em">Calibr8</span>India's first sleep technology<br>that builds a mattress around your body.</p>
   </div>
 </section>
@@ -3785,7 +3837,7 @@ body {
     <!-- Col 1: video + tweet -->
     <div class="sp-col">
     <div class="sp-card sp-card--photo" id="sp-vid1-card">
-      <video data-src="videos/vid1.webm" muted playsinline loop preload="none"
+      <video data-src="04-social-proof/vid1.webm" muted playsinline loop preload="none"
              style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"></video>
       <div class="sp-photo-overlay"></div>
       <div class="sp-play" id="sp-vid1-btn">
@@ -3799,7 +3851,7 @@ body {
     <div class="sp-card sp-card--tweet">
       <div class="sp-tweet-header">
         <div class="sp-tweet-user">
-          <img loading="lazy" class="sp-tweet-avatar" src="images/neeraj chopra.jpg" alt="">
+          <img loading="lazy" class="sp-tweet-avatar" src="04-social-proof/neeraj chopra.jpg" alt="">
           <div class="sp-tweet-names">
             <span class="sp-tweet-name">Neeraj Chopra</span>
             <span class="sp-tweet-handle">@neerajchopra1</span>
@@ -3816,7 +3868,7 @@ body {
       <div class="sp-card sp-card--tweet">
         <div class="sp-tweet-header">
           <div class="sp-tweet-user">
-            <img loading="lazy" class="sp-tweet-avatar" src="images/Smriti_Mandhana.jpg" alt="">
+            <img loading="lazy" class="sp-tweet-avatar" src="04-social-proof/Smriti_Mandhana.jpg" alt="">
             <div class="sp-tweet-names">
               <span class="sp-tweet-name">Smriti Mandhana</span>
               <span class="sp-tweet-handle">@smritimandhana</span>
@@ -3827,7 +3879,7 @@ body {
         <p class="sp-tweet-text">Pressure mapping before choosing a mattress is the future of sleep medicine. What Calibr8 is doing for Indian consumers is exactly what we've needed for years.</p>
       </div>
       <div class="sp-card sp-card--photo" style="flex:1;min-height:200px;">
-        <img loading="lazy" src="images/couple review.webp" alt="Dinesh &amp; Dipika">
+        <img loading="lazy" src="04-social-proof/couple review.webp" alt="Dinesh &amp; Dipika">
         <div class="sp-photo-overlay"></div>
         <div class="sp-play">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
@@ -3844,7 +3896,7 @@ body {
       <div class="sp-card sp-card--tweet">
         <div class="sp-tweet-header">
           <div class="sp-tweet-user">
-            <img loading="lazy" class="sp-tweet-avatar" src="images/nikhil kamath.avif" alt="">
+            <img loading="lazy" class="sp-tweet-avatar" src="04-social-proof/nikhil kamath.avif" alt="">
             <div class="sp-tweet-names">
               <span class="sp-tweet-name">Nikhil Kamath</span>
               <span class="sp-tweet-handle">@nikhilkam</span>
@@ -3855,7 +3907,7 @@ body {
         <p class="sp-tweet-text">Sleep optimization is underrated in India. Calibr8's pressure mapping approach is the kind of data-driven thinking I respect.</p>
       </div>
       <div class="sp-card sp-card--testimonial" style="flex:1;display:flex;flex-direction:column;">
-        <img loading="lazy" class="sp-test-img" src="images/harsha bhogle.jpg" alt="Harsha Bhogle">
+        <img loading="lazy" class="sp-test-img" src="04-social-proof/harsha bhogle.jpg" alt="Harsha Bhogle">
         <div class="sp-test-body">
           <p class="sp-test-text">I dedicate more attention to my recovery since getting my Calibr8 mattress. The pressure report was eye-opening. I had no idea my lower back was taking that much load every night.</p>
         </div>
@@ -3865,7 +3917,7 @@ body {
     <!-- Col 4: video + tweet -->
     <div class="sp-col">
     <div class="sp-card sp-card--photo" id="sp-vid2-card" style="flex:1;min-height:200px;">
-      <video data-src="videos/vid2.webm" muted playsinline loop preload="none"
+      <video data-src="04-social-proof/vid2.webm" muted playsinline loop preload="none"
              style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"></video>
       <div class="sp-photo-overlay"></div>
       <div class="sp-play" id="sp-vid2-btn">
@@ -3879,7 +3931,7 @@ body {
     <div class="sp-card sp-card--tweet">
       <div class="sp-tweet-header">
         <div class="sp-tweet-user">
-          <img loading="lazy" class="sp-tweet-avatar" src="images/m s dhoni.jpeg" alt="">
+          <img loading="lazy" class="sp-tweet-avatar" src="04-social-proof/m s dhoni.jpeg" alt="">
           <div class="sp-tweet-names">
             <span class="sp-tweet-name">MS Dhoni</span>
             <span class="sp-tweet-handle">@msdhoni</span>
@@ -3912,7 +3964,7 @@ body {
 </div>
 
 <div class="zone-map">
-  <img loading="lazy" class="zone-map__img" src="images/8zones new.png" alt="Calibr8 8-zone mattress">
+  <img loading="lazy" class="zone-map__img" src="06-8zones/8zones new.png" alt="Calibr8 8-zone mattress">
   <div class="zone-tooltip" id="zone-tooltip">
     <div class="zone-tooltip__num"></div>
     <div class="zone-tooltip__name"></div>
@@ -4260,12 +4312,12 @@ body {
 
 
 <div class="reviews-intro">
-  <p class="reviews-intro__heading reveal">Thousands of Better Mornings Have Already Started Here!</p>
+  <p class="reviews-intro__heading reveal">Thousands of <span style="color:#553C9A">Better Mornings</span> Have Already Started Here!</p>
 </div>
 
 <div class="reviews-box">
 <div class="reviews-bg-wrap">
-<img loading="lazy" class="reviews-bg-img" src="images/reviewsbg1.png" alt="">
+<img loading="lazy" class="reviews-bg-img" src="08-testimonials/reviewsbg1.png" alt="">
 <!-- Quote centered below title -->
 <div class="reviews-quote-wrap" id="reviews-quote-wrap">
   <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
@@ -4311,10 +4363,10 @@ body {
 </section>
 
 <section class="book-section" aria-label="Book your calibration">
-  <h2 class="book-heading">You've spent years sleeping on a <span style="color:#553C9A">mattress</span> built for everyone.<br>Now experience one <span style="color:#553C9A">built for you.</span></h2>
+  <h2 class="book-heading"><span class="bkh-l1">You've spent years sleeping on a <span style="color:#553C9A">mattress</span> built for everyone.</span><br>Now experience one <span style="color:#553C9A">built for you.</span></h2>
   <div class="book-card">
-    <video preload="none" class="book-img" id="book-img-store" data-src="videos/store.mp4" autoplay loop muted playsinline></video>
-    <video preload="none" class="book-img hidden" id="book-img-home" data-src="videos/home.mp4" autoplay loop muted playsinline></video>
+    <video preload="none" class="book-img" id="book-img-store" data-src="09-cta/store.mp4" autoplay loop muted playsinline></video>
+    <video preload="none" class="book-img hidden" id="book-img-home" data-src="09-cta/home.mp4" autoplay loop muted playsinline></video>
     <div class="book-card__overlay">
       <div class="book-toggle">
         <button class="book-btn active" data-tab="store">In-Store</button>
@@ -5182,12 +5234,12 @@ body {
   }
 
   const CARDS = [
-    { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: 'videos/new scan flow.mp4', icon: scanIcon('#ffffff') },
-    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: 'videos/heatmap.mp4', icon: heatmapIcon('#ffffff') },
-    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: 'videos/Calibration.mp4', icon: calibrationIcon('#ffffff') },
-    { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: 'videos/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: 'videos/layers.mp4', icon: mattressIcon('#ffffff') },
-    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: 'videos/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
+    { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: '05-process/new scan flow.mp4', icon: scanIcon('#ffffff') },
+    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: '05-process/heatmap.mp4', icon: heatmapIcon('#ffffff') },
+    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: '05-process/Calibration.mp4', icon: calibrationIcon('#ffffff') },
+    { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: '05-process/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
+    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: '05-process/layers.mp4', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: '05-process/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
@@ -5337,18 +5389,18 @@ body {
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS_DESKTOP = [
-    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: 'videos/pain.mp4' },
-    { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day.',    desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',         video: 'videos/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',           title: 'Two people. Completely different needs.',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: 'videos/couple.mp4' },
-    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard. Hustle hard. Push your body every day.',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: 'videos/lift.mp4' },
-    { id: 4, eyebrow: 'The Overthinker',      title: 'Too many choices. Too much guesswork.',                   desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',           video: 'videos/choices.mp4' },
+    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: '02-pain/pain.mp4' },
+    { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day.',    desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',         video: '07-people/work.mp4' },
+    { id: 2, eyebrow: 'The Couple',           title: 'Two people. Completely different needs.',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: '07-people/couple.mp4' },
+    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard. Hustle hard. Push your body every day.',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: '07-people/lift.mp4' },
+    { id: 4, eyebrow: 'The Overthinker',      title: 'Too many choices. Too much guesswork.',                   desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',           video: '07-people/choices.mp4' },
   ];
   const PROCESS_CARDS_MOBILE = [
-    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: 'videos/pain.mp4' },
-    { id: 1, eyebrow: 'The Daily Grinder', title: '',  desc: 'Calibr8 supports pressure points caused by long sitting hours, helping your spine recover.',                         video: 'videos/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: 'videos/couple.mp4' },
-    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: 'videos/lift.mp4' },
-    { id: 4, eyebrow: 'The Overthinker',   title: '',  desc: 'Instead of opinions and buzzwords, Calibr8 builds your mattress based on how you actually rest.',                   video: 'videos/choices.mp4' },
+    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: '02-pain/pain.mp4' },
+    { id: 1, eyebrow: 'The Daily Grinder', title: '',  desc: 'Calibr8 supports pressure points caused by long sitting hours, helping your spine recover.',                         video: '07-people/work.mp4' },
+    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: '07-people/couple.mp4' },
+    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: '07-people/lift.mp4' },
+    { id: 4, eyebrow: 'The Overthinker',   title: '',  desc: 'Instead of opinions and buzzwords, Calibr8 builds your mattress based on how you actually rest.',                   video: '07-people/choices.mp4' },
   ];
   const PROCESS_CARDS = window.innerWidth <= 480 ? PROCESS_CARDS_MOBILE : PROCESS_CARDS_DESKTOP;
 
@@ -5472,11 +5524,11 @@ body {
 
   // ── Reviews ──
   const REVIEWS = [
-    { name: 'Kunal Shah',      city: 'Bengaluru', quote: '"I learnt about Calibr8 at a Wakefit store and it has been an incredible experience so far. The mattress adapts perfectly to my body shape, I would 100% recommend it!"',                                                                        img: 'images/kunal.jpeg',   bodyBefore: 'images/before.png', bodyAfter: 'images/after.png' },
-    { name: 'Shivashish Suman',city: 'Bengaluru', quote: '"I\'m confident I\'ve made the best purchase because the comfort I feel is exactly what I experienced with my calibration in the store!"',                                                                                                       img: 'images/shivphoto.png',  bodyBefore: 'images/shivashish_nobg.png', bodyAfter: 'images/shivashish2_nobg.png' },
-    { name: 'Ashish Naik',     city: 'Bengaluru', quote: '"What I love about Calibr8 is that it is tailored to my needs. In fact, I bought another Calibr8 mattress for my mother as well!"',                                                                                                             img: 'images/ashishphoto.png', bodyBefore: 'images/Ashish_nobg.png', bodyAfter: 'images/ashish2_nobg.png' },
-    { name: 'Purab Saxena',    city: 'Bengaluru', quote: '"My Calibr8 mattress has significantly improved my lower back pain and sleep quality. This technology is really impressive, I would recommend it to anyone who wants personalised sleep in India!"',                                              img: 'images/purabphoto.png',  bodyBefore: 'images/purab_nobg.png', bodyAfter: 'images/abhishek2_nobg.png' },
-    { name: 'Abhishek J R',    city: 'Bengaluru', quote: '"I am very happy with my Calibr8 mattress...it is so comfortable, stays cool & has improved my sleep experience immensely! Wakefit has a great customer service as well."',                                                                      img: 'images/abhishekphoto.png', bodyBefore: 'images/abhishek_nobg.png', bodyAfter: 'images/purab2_nobg.png' },
+    { name: 'Kunal Shah',      city: 'Bengaluru', quote: '"I learnt about Calibr8 at a Wakefit store and it has been an incredible experience so far. The mattress adapts perfectly to my body shape, I would 100% recommend it!"',                                                                        img: '08-testimonials/kunal.jpeg',   bodyBefore: '08-testimonials/before.png', bodyAfter: '08-testimonials/after.png' },
+    { name: 'Shivashish Suman',city: 'Bengaluru', quote: '"I\'m confident I\'ve made the best purchase because the comfort I feel is exactly what I experienced with my calibration in the store!"',                                                                                                       img: '08-testimonials/shivphoto.png',  bodyBefore: '08-testimonials/shivashish_nobg.png', bodyAfter: '08-testimonials/shivashish2_nobg.png' },
+    { name: 'Ashish Naik',     city: 'Bengaluru', quote: '"What I love about Calibr8 is that it is tailored to my needs. In fact, I bought another Calibr8 mattress for my mother as well!"',                                                                                                             img: '08-testimonials/ashishphoto.png', bodyBefore: '08-testimonials/Ashish_nobg.png', bodyAfter: '08-testimonials/ashish2_nobg.png' },
+    { name: 'Purab Saxena',    city: 'Bengaluru', quote: '"My Calibr8 mattress has significantly improved my lower back pain and sleep quality. This technology is really impressive, I would recommend it to anyone who wants personalised sleep in India!"',                                              img: '08-testimonials/purabphoto.png',  bodyBefore: '08-testimonials/purab_nobg.png', bodyAfter: '08-testimonials/abhishek2_nobg.png' },
+    { name: 'Abhishek J R',    city: 'Bengaluru', quote: '"I am very happy with my Calibr8 mattress...it is so comfortable, stays cool & has improved my sleep experience immensely! Wakefit has a great customer service as well."',                                                                      img: '08-testimonials/abhishekphoto.png', bodyBefore: '08-testimonials/abhishek_nobg.png', bodyAfter: '08-testimonials/purab2_nobg.png' },
   ];
 
   let rcActive = 0;
