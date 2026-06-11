@@ -2711,6 +2711,7 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+.bkh-br { display: none; }
 .book-heading {
   font-family: var(--font-sans);
   font-size: clamp(22px, 2.76vw, 35px);
@@ -3611,6 +3612,7 @@ body {
   }
   .bkh-calibr8 { font-family: var(--font-sans); font-weight: 700; }
   .bkh-l1 { display: block; margin-bottom: 0.65em; }
+  .bkh-br { display: inline; }
   .book-card__overlay { justify-content: flex-end; }
   /* 4:5 portrait — matches slider cards above */
   .book-card { aspect-ratio: 4/5; width: 100%; height: unset; overflow: visible; margin-top: 56px; }
@@ -4381,7 +4383,7 @@ body {
 </section>
 
 <section class="book-section" aria-label="Book your calibration">
-  <h2 class="book-heading"><span class="bkh-l1">You've spent years sleeping on a <span style="color:#553C9A">mattress</span> built for everyone</span><br>Now experience one <span style="color:#553C9A">built for you</span></h2>
+  <h2 class="book-heading"><span class="bkh-l1">You've spent years sleeping on<br class="bkh-br"> a <span style="color:#553C9A">mattress</span> built for everyone</span><br>Now experience one <span style="color:#553C9A">built for you</span></h2>
   <div class="book-card">
     <video preload="none" class="book-img" id="book-img-store" data-src="09-cta/store.mp4" autoplay loop muted playsinline></video>
     <video preload="none" class="book-img hidden" id="book-img-home" data-src="09-cta/home.mp4" autoplay loop muted playsinline></video>
