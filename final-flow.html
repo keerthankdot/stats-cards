@@ -2716,6 +2716,7 @@ body {
   justify-content: center;
 }
 .bkh-br { display: none; }
+.trust-br { display: none; }
 .book-heading {
   font-family: var(--font-sans);
   font-size: clamp(22px, 2.76vw, 35px);
@@ -3500,6 +3501,7 @@ body {
   /* ── Trust section — balanced size, all 3 fit one screen ── */
   .trust-section { padding: 40px 16px; background: #ffffff; }
   .trust-section::before { display: none; }
+  .trust-br { display: inline; }
   .trust-section__title {
     color: #14161e;
     font-size: clamp(18px, 5vw, 22px);
@@ -4321,7 +4323,7 @@ body {
 
 
 <section class="trust-section" aria-label="Trust signals">
-  <h2 class="trust-section__title reveal">Built to Help You <span style="color:#553C9A">Rest Easy</span>, In Every Way</h2>
+  <h2 class="trust-section__title reveal">Built to Help You <span style="color:#553C9A">Rest Easy</span>,<br class="trust-br"> In Every Way</h2>
   <div class="trust-grid">
     <div class="trust-card reveal">
       <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M9 12l2 2 4-4"/></svg>
