@@ -3495,8 +3495,15 @@ body {
 
   /* ── Trust section — balanced size, all 3 fit one screen ── */
   .trust-section { padding: 40px 16px; background: #ffffff; }
-  .trust-section__title { color: #14161e; }
-  .trust-section__title span { color: inherit; }
+  .trust-section::before { display: none; }
+  .trust-section__title {
+    color: #14161e;
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    letter-spacing: 0;
+  }
+  .trust-section__title span { color: #553C9A; }
   .trust-grid { gap: 12px; }
   .trust-card { padding: 24px 22px 26px; border-radius: 18px; }
   .trust-card__icon { width: 28px; height: 28px; margin-bottom: 18px; }
