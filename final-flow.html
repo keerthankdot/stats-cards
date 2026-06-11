@@ -2408,6 +2408,22 @@ body {
   .cls-card { padding: 20px 24px; border-radius: 16px; }
   .cls-score-num { font-size: clamp(72px, 9vw, 120px); }
 }
+
+/* ── Zone dots: correct rightward drift at intermediate viewport widths ──
+   Dot positions use calc(X% + Kpx). The Kpx part was calibrated at
+   zone-map-width=1280px (viewport ~1440px). At narrower viewports the Kpx
+   becomes proportionally larger, drifting dots right.
+   Compensate with: shift = Kpx_avg × (1 - zone-map-width / 1280px)
+   zone-map-width = 100vw − 160px  →  shift ≈ (1280px − (100vw − 160px)) × 0.13
+   Clamped to [0, 80px] so it never inverts on wide screens.            ── */
+@media (max-width: 1400px) and (min-width: 481px) {
+  .zone-dot {
+    transform: translate(
+      calc(-50% - clamp(0px, (1280px - (100vw - 160px)) * 0.13, 80px)),
+      -50%
+    );
+  }
+}
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
   .cls-section { height: auto; min-height: 100svh; padding: 0 0 40px; }
