@@ -1261,7 +1261,7 @@ body {
 }
 .pain-lead, .pain-close {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: clamp(16px, 1.8vw, 26px);
+  font-size: clamp(20px, 2.5vw, 36px);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.4;
@@ -1276,7 +1276,7 @@ body {
 .pain-items {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 .pain-item {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -3817,28 +3817,17 @@ body {
 <section class="bodies-section" aria-label="Unique bodies">
   <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
     <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="videos/bodies.mp4" muted playsinline loop autoplay></video>
-    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px)">Your body is unique.<br>Your mattress should be too.</p>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is unique.<br>Your mattress should be too.</p>
   </div>
 </section>
 
 <!-- Pain statement: text only, purple glow -->
-<section class="pain-text-section" id="pain-section" aria-label="Problem">
-  <div class="pain-text" id="pain-text">
-    <p class="pain-lead">You think waking up tired is normal.</p>
-    <div class="pain-items">
-      <p class="pain-item">Stress.</p>
-      <p class="pain-item">Age.</p>
-      <p class="pain-item">Long workdays.</p>
-    </div>
-    <p class="pain-close">You have a lot of things you can blame.</p>
-  </div>
-</section>
 
 <!-- Narrative 3: 32% truth — life-stat animation -->
 <section class="problem-stat-section" aria-label="32% truth">
   <div class="problem-stat">
     <div class="pst-line">
-      <span class="pst-w">But you've spent</span>
+      <span class="pst-w">You've spent</span>
       <span class="pst-w pst-pct"><span id="pst-count">0</span>%</span>
       <span class="pst-w">of your life</span>
     </div>
@@ -3847,7 +3836,10 @@ body {
     </div>
     <div class="pst-line" style="height: 1.4em;"></div>
     <div class="pst-line pst-line--sub">
-      <span class="pst-w">And your body has been paying the price</span>
+      <span class="pst-w">Your lifestyle gets the blame</span>
+    </div>
+    <div class="pst-line pst-line--sub">
+      <span class="pst-w">but your body pays the price</span>
     </div>
   </div>
 </section>
