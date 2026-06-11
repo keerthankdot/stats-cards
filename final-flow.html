@@ -2717,6 +2717,8 @@ body {
 }
 .bkh-br { display: none; }
 .trust-br { display: none; }
+.fcta-br-mob { display: none; }
+.fcta-br-dsk { display: inline; }
 .book-heading {
   font-family: var(--font-sans);
   font-size: clamp(22px, 2.76vw, 35px);
@@ -3502,6 +3504,8 @@ body {
   .trust-section { padding: 40px 16px; background: #ffffff; }
   .trust-section::before { display: none; }
   .trust-br { display: inline; }
+  .fcta-br-mob { display: inline; }
+  .fcta-br-dsk { display: none; }
   .trust-section__title {
     color: #14161e;
     font-size: clamp(18px, 5vw, 22px);
@@ -4392,7 +4396,7 @@ body {
 
 
 <section class="final-cta-section" aria-label="Recovery statement">
-  <p class="final-cta__heading">Every night on the wrong mattress<br>is a night your body doesn't recover</p>
+  <p class="final-cta__heading">Every night on the wrong<br class="fcta-br-mob"> mattress<br class="fcta-br-dsk"> is a night your<br class="fcta-br-mob"> body doesn't recover</p>
 </section>
 
 <section class="book-section" aria-label="Book your calibration">
