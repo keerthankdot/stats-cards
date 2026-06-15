@@ -3616,10 +3616,34 @@ body {
   .rev-cal__body-img { width: 100%; height: auto; transform: scale(1.15); transform-origin: center center; }
   .reviews-quote { font-size: 16px; }
 
-  /* ── Social Proof ── */
-  .sp-section { padding: 48px 16px 64px; margin-top: 96px; overflow: hidden; }
-  .sp-heading { margin-bottom: 32px; }
-  .sp-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  /* ── Social Proof — horizontal snap scroll, one viewport ── */
+  .sp-section {
+    padding: 40px 0 0;
+    margin-top: 64px;
+    overflow: hidden;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  .sp-heading { margin-bottom: 20px; padding: 0 16px; }
+  .sp-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    flex: 1;
+    padding: 0 16px 24px;
+    scrollbar-width: none;
+  }
+  .sp-grid::-webkit-scrollbar { display: none; }
+  .sp-col {
+    min-width: calc(50% - 4px);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
   .sp-col { min-width: 0; }
   .sp-col:nth-child(3), .sp-col:nth-child(4) { display: flex; }
   .sp-card--tweet { padding: 12px 10px 12px; }
