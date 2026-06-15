@@ -2738,7 +2738,7 @@ body {
 .fcta-br-mob { display: none; }
 .fcta-br-dsk { display: inline; }
 .zone-sub-br { display: none; }
-.bkh-l1 { display: block; margin-bottom: 0.15em; }
+.bkh-l1 { display: block; margin-bottom: 0; }
 .book-heading {
   font-family: var(--font-sans);
   font-size: clamp(22px, 2.76vw, 35px);
@@ -3706,7 +3706,7 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .bkh-calibr8 { font-family: var(--font-sans); font-weight: 700; }
-  .bkh-l1 { display: block; margin-bottom: 0.15em; }
+  .bkh-l1 { display: block; margin-bottom: 0.65em; }
   .bkh-br { display: inline; }
   .book-card__overlay { justify-content: flex-end; }
   /* 4:5 portrait — matches slider cards above */
@@ -4124,7 +4124,7 @@ body {
 
 <div class="zone-intro">
   <p class="zone-intro__desc reveal">Your Body's Pressure Distribution Is Spread Across <span class="zi-purple" style="color:#553C9A">8 Spinal Zones</span></p>
-  <p class="zone-intro__sub reveal">Calibr8 configures each zone<br class="zone-sub-br"> for balanced support</p>
+  <p class="zone-intro__sub reveal"><span style="color:#553C9A">Calibr8</span> configures each zone<br class="zone-sub-br"> for balanced support</p>
 </div>
 
 <div class="zone-map">
@@ -4468,7 +4468,7 @@ body {
     </div>
     <div class="trust-card reveal">
       <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-1a5 5 0 0 1 10 0v1"/></svg>
-      <div class="trust-card__title">Free Calibr8 Scan</div>
+      <div class="trust-card__title">Free <span style="color:#553C9A">Calibr8</span> Scan</div>
       <div class="trust-card__desc">Available in-store or at home</div>
     </div>
   </div>
@@ -5396,12 +5396,12 @@ body {
   }
 
   const CARDS = [
-    { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: '05-process/new scan flow.mp4', icon: scanIcon('#ffffff') },
+    { id: 0, title: 'Scan', desc: '<span style="color:#553C9A">Calibr8</span> scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: '05-process/new scan flow.mp4', icon: scanIcon('#ffffff') },
     { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: '05-process/heatmap.mp4', icon: heatmapIcon('#ffffff') },
-    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: '05-process/Calibration.mp4', icon: calibrationIcon('#ffffff') },
+    { id: 2, title: 'Calibration', desc: '<span style="color:#553C9A">Calibr8</span> reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: '05-process/Calibration.mp4', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: '05-process/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: '05-process/layers.mp4', icon: mattressIcon('#ffffff') },
-    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: '05-process/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
+    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your <span style="color:#553C9A">Calibr8</span>ed mattress.', img: null, video: '05-process/layers.mp4', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with <span style="color:#553C9A">Calibr8</span> is delivered to your home.', img: null, video: '05-process/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
