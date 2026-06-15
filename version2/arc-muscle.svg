@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="arc-gauge__svg" viewBox="0 0 300 210" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="muscle-arc-stroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#D96BA5"/>
+              <stop offset="100%" stop-color="#553C9A"/>
+            </linearGradient>
+          </defs>
+          <path class="arc__seg arc__seg--faint arc__seg--a"
+                d="M 20 205 A 130 130 0 0 1 166.3 76"
+                stroke="url(#muscle-arc-stroke)"/>
+          <path class="arc__seg arc__seg--glow arc__seg--b"
+                d="M 166.3 76 A 130 130 0 0 1 274.8 168.7"
+                stroke="url(#muscle-arc-stroke)"/>
+          <path class="arc__seg arc__seg--faint arc__seg--c"
+                d="M 274.8 168.7 A 130 130 0 0 1 280 205"
+                stroke="url(#muscle-arc-stroke)"/>
+          <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
+          <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
+          <line class="arc__stem arc__stem--cal" x1="274.8" y1="65" x2="274.8" y2="161"/>
+        </svg>

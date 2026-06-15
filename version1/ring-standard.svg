@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="ring__svg" viewBox="0 0 110 110">
+            <circle class="ring__track" cx="55" cy="55" r="46"/>
+            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="57"/>
+            <text class="ring__pct" x="55" y="55" text-anchor="middle"
+                  dominant-baseline="central" font-family="inherit">57%</text>
+          </svg>

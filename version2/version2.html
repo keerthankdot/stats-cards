@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calibr8: Measured Better Sleep</title>
+<meta name="description" content="Three clinically measured improvements delivered by the Calibr8 mattress.">
+
+
+<link rel="stylesheet" href="version2.css">
+</head>
+<body>
+
+<section class="hero" aria-label="Calibr8 hero">
+  <div class="hero__frame">
+    <video class="hero__video" autoplay muted loop playsinline>
+      <source src="../01-hero/heroGIF.mp4" type="video/mp4">
+    </video>
+    <div class="hero__fade hero__fade--top"></div>
+    <div class="hero__fade hero__fade--bottom"></div>
+  </div>
+  <div class="hero__text-grad"></div>
+  <div class="hero__text">
+    <div class="hero__block">
+      <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
+      <p class="hero__sub">A mattress that understands your body before you do</p>
+    </div>
+  </div>
+  <div class="hero__bottom">
+    <a class="hero__cta" href="#">BOOK NOW</a>
+  </div>
+</section>
+
+<!-- Bodies video: "Your body is unique. Your mattress should be too." -->
+<section class="bodies-section" aria-label="Unique bodies">
+  <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
+    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="videos/bodies.mp4" muted playsinline loop autoplay></video>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px)">Your body is unique.<br>Your mattress should be too.</p>
+  </div>
+</section>
+
+<!-- Pain statement: text only, purple glow -->
+<section class="pain-text-section" id="pain-section" aria-label="Problem">
+  <div class="pain-text" id="pain-text">
+    <p class="pain-lead">You think waking up tired is normal.</p>
+    <div class="pain-items">
+      <p class="pain-item">Stress.</p>
+      <p class="pain-item">Age.</p>
+      <p class="pain-item">Long workdays.</p>
+    </div>
+    <p class="pain-close">You have a lot of things you can blame.</p>
+  </div>
+</section>
+
+<!-- Narrative 3: 32% truth — life-stat animation -->
+<section class="problem-stat-section" aria-label="32% truth">
+  <div class="problem-stat">
+    <div class="pst-line">
+      <span class="pst-w">But you've spent</span>
+      <span class="pst-w pst-pct"><span id="pst-count">0</span>%</span>
+      <span class="pst-w">of your life</span>
+    </div>
+    <div class="pst-line">
+      <span class="pst-w">sleeping on a mattress not made for you.</span>
+    </div>
+    <div class="pst-line" style="height: 1.4em;"></div>
+    <div class="pst-line pst-line--sub">
+      <span class="pst-w">And your body has been paying the price</span>
+    </div>
+  </div>
+</section>
+
+<!-- Narrative 4: solution -->
+<section class="narrative-solution-section" aria-label="Solution intro">
+  <div class="narrative-solution-card">
+    <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="../01-hero/heroGIF.mp4" muted playsinline></video>
+    <p class="narrative-solution"><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 24px rgba(255,255,255,0.95),0 0 48px rgba(255,255,255,0.65),0 0 80px rgba(255,255,255,0.35)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
+  </div>
+</section>
+
+<section class="cls-section" aria-label="Calibr8 sleep score">
+  <div id="cls-tagline">
+    <div class="cls-tag-eyebrow">Powered by</div>
+    <div class="cls-tag-headline">India's Largest <span class="cls-tag-purple">Sleep Study</span></div>
+  </div>
+  <canvas id="cls-canvas"></canvas>
+  <div class="cls-score-num" id="cls-score-num"></div>
+  <div class="cls-card cls-cred--tl" id="cls-c0">
+    <div class="cls-card__title">Engineered</div>
+    <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics for precise body support.</div>
+  </div>
+  <div class="cls-card cls-cred--tr" id="cls-c1">
+    <div class="cls-card__title">Data-Driven</div>
+    <div class="cls-card__body">Machine learning trained on real pressure-mapping data, with the system learning from each calibration.</div>
+  </div>
+  <div class="cls-card cls-cred--bl" id="cls-c2">
+    <div class="cls-card__title">Global Tech</div>
+    <div class="cls-card__body">Advanced Spanish pressure-mapping technology engineered for Indian body types &amp; sleep conditions.</div>
+  </div>
+  <div class="cls-card cls-cred--br" id="cls-c3">
+    <div class="cls-card__title">Research</div>
+    <div class="cls-card__body">8+ years of research across 8,000+ Indian body types. India's most comprehensive sleep dataset.</div>
+  </div>
+</section>
+
+
+<section class="sp-section" aria-label="Social proof">
+  <div class="sp-grid">
+
+    <!-- Col 1: video + tweet -->
+    <div class="sp-col">
+    <div class="sp-card sp-card--photo" id="sp-vid1-card">
+      <video data-src="../04-social-proof/vid1.webm" muted playsinline loop preload="none"
+             style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"></video>
+      <div class="sp-photo-overlay"></div>
+      <div class="sp-play" id="sp-vid1-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <div class="sp-photo-meta">
+        <div class="sp-photo-name">Neeraj Chopra</div>
+        <div class="sp-photo-role">Olympic javelin champion</div>
+      </div>
+    </div>
+    <div class="sp-card sp-card--tweet">
+      <div class="sp-tweet-header">
+        <div class="sp-tweet-user">
+          <img loading="lazy" class="sp-tweet-avatar" src="../04-social-proof/neeraj chopra.jpg" alt="">
+          <div class="sp-tweet-names">
+            <span class="sp-tweet-name">Neeraj Chopra</span>
+            <span class="sp-tweet-handle">@neerajchopra1</span>
+          </div>
+        </div>
+        <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </div>
+      <p class="sp-tweet-text">Three weeks on the Calibr8 and my morning stiffness is gone. The body mapping process is unlike anything I'd experienced before. Felt like a proper medical assessment.</p>
+    </div>
+    </div>
+
+    <!-- Col 2: tweet + video card -->
+    <div class="sp-col">
+      <div class="sp-card sp-card--tweet">
+        <div class="sp-tweet-header">
+          <div class="sp-tweet-user">
+            <img loading="lazy" class="sp-tweet-avatar" src="../04-social-proof/Smriti_Mandhana.jpg" alt="">
+            <div class="sp-tweet-names">
+              <span class="sp-tweet-name">Smriti Mandhana</span>
+              <span class="sp-tweet-handle">@smritimandhana</span>
+            </div>
+          </div>
+          <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="sp-tweet-text">Pressure mapping before choosing a mattress is the future of sleep medicine. What Calibr8 is doing for Indian consumers is exactly what we've needed for years.</p>
+      </div>
+      <div class="sp-card sp-card--photo" style="flex:1;min-height:200px;">
+        <img loading="lazy" src="../04-social-proof/couple review.webp" alt="Dinesh &amp; Dipika">
+        <div class="sp-photo-overlay"></div>
+        <div class="sp-play">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="sp-photo-meta">
+          <div class="sp-photo-name">Dinesh &amp; Dipika</div>
+          <div class="sp-photo-role">Bengaluru</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 3: tweet + testimonial -->
+    <div class="sp-col">
+      <div class="sp-card sp-card--tweet">
+        <div class="sp-tweet-header">
+          <div class="sp-tweet-user">
+            <img loading="lazy" class="sp-tweet-avatar" src="../04-social-proof/nikhil kamath.avif" alt="">
+            <div class="sp-tweet-names">
+              <span class="sp-tweet-name">Nikhil Kamath</span>
+              <span class="sp-tweet-handle">@nikhilkam</span>
+            </div>
+          </div>
+          <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="sp-tweet-text">Sleep optimization is underrated in India. Calibr8's pressure mapping approach is the kind of data-driven thinking I respect.</p>
+      </div>
+      <div class="sp-card sp-card--testimonial" style="flex:1;display:flex;flex-direction:column;">
+        <img loading="lazy" class="sp-test-img" src="../04-social-proof/harsha bhogle.jpg" alt="Harsha Bhogle">
+        <div class="sp-test-body">
+          <p class="sp-test-text">I dedicate more attention to my recovery since getting my Calibr8 mattress. The pressure report was eye-opening. I had no idea my lower back was taking that much load every night.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 4: video + tweet -->
+    <div class="sp-col">
+    <div class="sp-card sp-card--photo" id="sp-vid2-card" style="flex:1;min-height:200px;">
+      <video data-src="../04-social-proof/vid2.webm" muted playsinline loop preload="none"
+             style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"></video>
+      <div class="sp-photo-overlay"></div>
+      <div class="sp-play" id="sp-vid2-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <div class="sp-photo-meta">
+        <div class="sp-photo-name">MS Dhoni</div>
+        <div class="sp-photo-role">Former Indian cricket captain</div>
+      </div>
+    </div>
+    <div class="sp-card sp-card--tweet">
+      <div class="sp-tweet-header">
+        <div class="sp-tweet-user">
+          <img loading="lazy" class="sp-tweet-avatar" src="../04-social-proof/m s dhoni.jpeg" alt="">
+          <div class="sp-tweet-names">
+            <span class="sp-tweet-name">MS Dhoni</span>
+            <span class="sp-tweet-handle">@msdhoni</span>
+          </div>
+        </div>
+        <svg class="sp-tweet-logo" width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </div>
+      <p class="sp-tweet-text">The pressure mapping report showed things I had no idea about. A mattress built specifically for my body. That's not a luxury, that's just correct.</p>
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="calibr8-slider-section" id="process-section">
+  <div class="hero-text">
+    <p class="slider-heading slider-heading--desktop reveal"><span class="sh-p1">Your Personalised Mattress,</span><span class="sh-p2"> Built in <span class="sh-purple" style="color:#553C9A">6 Precise Steps</span></span></p>
+    <p class="slider-heading slider-heading--mobile reveal"><span class="sh-p1">Your Personal <span class="sh-purple" style="color:#553C9A">Calibr8</span> Mattress,</span><span class="sh-p2"> Built in <span class="sh-purple" style="color:#553C9A">6 Precise Steps</span></span></p>
+  </div>
+  <div class="slider" id="calibr8-slider"></div>
+  <div class="calibr8-nav" id="calibr8-static-nav">
+    <button class="card__nav-btn card__nav-btn--prev" id="c8-prev" aria-label="Previous">&#8592;</button>
+    <button class="card__nav-btn card__nav-btn--next" id="c8-next" aria-label="Next">&#8594;</button>
+  </div>
+</section>
+
+<div class="zone-intro">
+  <p class="zone-intro__desc reveal">Your body's pressure distribution is spread across <span class="zi-purple" style="color:#553C9A">8 spinal zones</span></p>
+  <p class="zone-intro__sub reveal">Calibr8 configures each zone independently<br class="zone-sub-br">for balanced support</p>
+</div>
+
+<div class="zone-map">
+  <img loading="lazy" class="zone-map__img" src="../06-8zones/8zones new.png" alt="Calibr8 8-zone mattress">
+  <div class="zone-tooltip" id="zone-tooltip">
+    <div class="zone-tooltip__num"></div>
+    <div class="zone-tooltip__name"></div>
+    <div class="zone-tooltip__bar-track"><div class="zone-tooltip__bar-fill"></div></div>
+    <div class="zone-tooltip__footer">
+      <span class="zone-tooltip__firmness"></span>
+      <span class="zone-tooltip__code"></span>
+    </div>
+  </div>
+  <button class="zone-dot" style="left:calc(40% + 151.5px);top:calc(34.4% - 81px);--beat-delay:0s" aria-label="Head">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(41% + 153px);top:calc(34.4% - 36px);--beat-delay:0.28s" aria-label="Shoulder">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(42% + 159.5px);top:calc(34.4% + 9px);--beat-delay:0.56s" aria-label="Upper Back">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(43% + 166px);top:calc(34.4% + 54px);--beat-delay:0.84s" aria-label="Lumbar">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(44% + 171.5px);top:calc(34.4% + 99px);--beat-delay:1.12s" aria-label="Pelvic">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(45% + 178px);top:calc(34.4% + 144px);--beat-delay:1.4s" aria-label="Thigh">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(46% + 184.5px);top:calc(34.4% + 189px);--beat-delay:1.68s" aria-label="Leg">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+  <button class="zone-dot" style="left:calc(47.1% + 191px);top:calc(34.4% + 232px);--beat-delay:1.96s" aria-label="Foot">
+    <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
+  </button>
+</div>
+
+<div aria-hidden="true" style="display:none">
+<main class="shell">
+  <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
+
+    <article id="alignment" class="tile stat-card stat-card--graph stat-card--liquid-glass"
+             data-scheme="spinal" data-kind="graph" data-delay="0" data-delta="24"
+             tabindex="0" aria-labelledby="s1-title" aria-describedby="s1-sr">
+      <p id="s1-sr" class="sr-only">
+        Lumbar support: Calibr8 holds the spine 24 percent better than a standard mattress.
+      </p>
+      <h3 id="s1-title" class="stat-card__title">Lumbar Support</h3>
+
+      <div class="graph" aria-hidden="true">
+        <svg class="graph__svg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="spinal-stroke" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#C54B8C"/>
+              <stop offset="100%" stop-color="#553C9A"/>
+            </linearGradient>
+          </defs>
+          <!-- grid lines 0–100% mapped to y=0–150 -->
+          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
+          <line x1="0" y1="15"  x2="300" y2="15"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="45"  x2="300" y2="45"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="75"  x2="300" y2="75"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="105" x2="300" y2="105" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="120" x2="300" y2="120" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="135" x2="300" y2="135" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
+          <line x1="0" y1="150" x2="300" y2="150" stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
+          <path class="graph__line graph__line--faint graph__line--seg1"
+                d="M 0 92 C 25 87 50 96 82 75"
+                stroke="url(#spinal-stroke)"/>
+          <path class="graph__line graph__line--glow graph__line--seg2"
+                d="M 82 75 C 108 58 138 92 162 72 C 188 54 212 52 240 28"
+                stroke="url(#spinal-stroke)"/>
+          <path class="graph__line graph__line--faint graph__line--seg3"
+                d="M 240 28 C 260 32 280 22 300 18"
+                stroke="url(#spinal-stroke)"/>
+          <circle class="graph__dot graph__dot--std" cx="82" cy="75" r="6"/>
+          <circle class="graph__dot graph__dot--cal" cx="240" cy="28" r="6.5"/>
+        </svg>
+        <span class="graph__label graph__label--std">Standard<br>Mattress</span>
+        <span class="graph__label graph__label--cal">Calibrated<br>Mattress</span>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="24">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Better Alignment</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">Better spinal alignment with proper lumbar support through the night.</p>
+      </footer>
+    </article>
+
+    <article id="pressure" class="tile stat-card stat-card--arc"
+             data-scheme="muscle" data-kind="arc" data-delay="200" data-delta="37"
+             tabindex="0" aria-labelledby="s2-title" aria-describedby="s2-sr">
+      <p id="s2-sr" class="sr-only">
+        Muscle pressure distribution: Calibr8 spreads weight 37 percent more evenly than a standard mattress.
+      </p>
+      <h3 id="s2-title" class="stat-card__title">Muscle Pressure</h3>
+
+      <div class="arc-gauge" aria-hidden="true">
+        <svg class="arc-gauge__svg" viewBox="0 0 300 210" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="muscle-arc-stroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#D96BA5"/>
+              <stop offset="100%" stop-color="#553C9A"/>
+            </linearGradient>
+          </defs>
+          <path class="arc__seg arc__seg--faint arc__seg--a"
+                d="M 20 205 A 130 130 0 0 1 166.3 76"
+                stroke="url(#muscle-arc-stroke)"/>
+          <path class="arc__seg arc__seg--glow arc__seg--b"
+                d="M 166.3 76 A 130 130 0 0 1 274.8 168.7"
+                stroke="url(#muscle-arc-stroke)"/>
+          <path class="arc__seg arc__seg--faint arc__seg--c"
+                d="M 274.8 168.7 A 130 130 0 0 1 280 205"
+                stroke="url(#muscle-arc-stroke)"/>
+          <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
+          <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
+          <line class="arc__stem arc__stem--cal" x1="274.8" y1="65" x2="274.8" y2="161"/>
+        </svg>
+        <span class="arc__label arc__label--std">Standard<br>Mattress</span>
+        <span class="arc__label arc__label--cal">Calibrated<br>Mattress</span>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="37">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Even Pressure</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">Improved muscle pressure distribution for deeper, more restorative sleep.</p>
+      </footer>
+    </article>
+
+    <article class="tile stat-card stat-card--bottom"
+             data-scheme="deepsleep" data-kind="rings" data-delay="400" data-delta="21"
+             tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
+      <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78%, an 18 to 25 percent increase from reduced pressure discomfort.</p>
+      <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
+
+      <div class="rings" aria-hidden="true">
+        <div class="ring-item">
+          <svg class="ring__svg" viewBox="0 0 110 110">
+            <circle class="ring__track" cx="55" cy="55" r="46"/>
+            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="57"/>
+            <text class="ring__pct" x="55" y="55" text-anchor="middle"
+                  dominant-baseline="central" font-family="inherit">57%</text>
+          </svg>
+          <p class="ring__name">Standard<br>Mattress</p>
+        </div>
+        <div class="ring-item">
+          <svg class="ring__svg" viewBox="0 0 110 110">
+            <circle class="ring__track" cx="55" cy="55" r="46"/>
+            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="78"/>
+            <text class="ring__pct" x="55" y="55" text-anchor="middle"
+                  dominant-baseline="central" font-family="inherit">78%</text>
+          </svg>
+          <p class="ring__name">Calibrated<br>Mattress</p>
+        </div>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="21">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">More Deep Sleep</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">18 to 25% increase in slow-wave sleep from reduced overnight pressure discomfort.</p>
+      </footer>
+    </article>
+
+    <article id="circulation" class="tile stat-card stat-card--bottom"
+             data-scheme="circulation" data-kind="reduce" data-delay="0"
+             data-baseline="82" data-optimized="46" data-delta="36"
+             tabindex="0" aria-labelledby="s4-cat" aria-describedby="s4-sr">
+      <p id="s4-sr" class="sr-only">
+        High-pressure zones reduced from 82 percent on a standard mattress to 46 percent with Calibr8, a 36 percent reduction, meaning fewer wakeups.
+      </p>
+      <h3 id="s4-cat" class="stat-card__title">High Pressure Zones</h3>
+      <div class="comparison" aria-hidden="true">
+        <div class="row row--baseline">
+          <div class="row__meta">
+            <span class="row__label">Standard Mattress</span>
+            <span class="row__percent" data-target="82">0%</span>
+          </div>
+          <div class="bar" data-fill="16" data-total="20"></div>
+        </div>
+        <div class="row row--optimized">
+          <div class="row__meta">
+            <span class="row__label">Calibrated Mattress</span>
+            <span class="row__percent" data-target="46">0%</span>
+          </div>
+          <div class="bar" data-fill="9" data-total="20"></div>
+        </div>
+      </div>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">&minus;</span>
+        <span class="delta__value" data-target="36">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Fewer Wakeups</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">Reduced high-pressure zones mean better circulation and uninterrupted sleep.</p>
+      </footer>
+    </article>
+
+    <article class="tile stat-card stat-card--bottom"
+             data-scheme="fragmentation" data-kind="lines" data-delay="200"
+             data-baseline="100" data-optimized="75" data-delta="25"
+             tabindex="0" aria-labelledby="s5-title" aria-describedby="s5-sr">
+      <p id="s5-sr" class="sr-only">Sleep fragmentation reduced 15 to 30 percent with Calibr8, enabling longer uninterrupted sleep cycles.</p>
+      <h3 id="s5-title" class="stat-card__title">Sleep Interruption</h3>
+      <div class="sleep-lines" aria-hidden="true">
+        <div class="sleep-lines__legend">
+          <span class="sleep-lines__badge sleep-lines__badge--std">Standard Mattress</span>
+          <span class="sleep-lines__badge sleep-lines__badge--cal">Calibrated Mattress</span>
+        </div>
+        <svg class="sleep-lines__svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sleep-std-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#C54B8C" stop-opacity="0.50"/>
+              <stop offset="100%" stop-color="#C54B8C" stop-opacity="0.42"/>
+            </linearGradient>
+            <linearGradient id="sleep-cal-fill" x1="0" y1="72" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#553C9A" stop-opacity="0.72"/>
+              <stop offset="100%" stop-color="#553C9A" stop-opacity="0.65"/>
+            </linearGradient>
+            <clipPath id="sleep-reveal-clip">
+              <rect class="sleep-reveal-rect" x="0" y="-10" width="0" height="120"/>
+            </clipPath>
+          </defs>
+          <!-- grid lines at 0,10,20...100% -->
+          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+          <line x1="0" y1="10"  x2="300" y2="10"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="20"  x2="300" y2="20"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="40"  x2="300" y2="40"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="50"  x2="300" y2="50"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="70"  x2="300" y2="70"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="80"  x2="300" y2="80"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="100" x2="300" y2="100" stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+          <path class="sleep-fill sleep-fill--std" fill="url(#sleep-std-fill)" clip-path="url(#sleep-reveal-clip)"
+                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22 L 300,100 L 0,100 Z"/>
+          <path class="sleep-fill sleep-fill--cal" fill="url(#sleep-cal-fill)" clip-path="url(#sleep-reveal-clip)"
+                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71 L 300,100 L 0,100 Z"/>
+          <path class="sleep-line sleep-line--std"
+                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22"/>
+          <path class="sleep-line sleep-line--cal"
+                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71"/>
+        </svg>
+      </div>
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">&minus;</span>
+        <span class="delta__value" data-target="25">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Fewer Wakeups</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">15 to 30% reduction in micro-awakenings leading to longer uninterrupted sleep cycles.</p>
+      </footer>
+    </article>
+
+    <article class="tile stat-card stat-card--bottom"
+             data-scheme="rem" data-kind="vbars" data-delay="400" data-delta="16"
+             tabindex="0" aria-labelledby="s6-title" aria-describedby="s6-sr">
+      <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79%, 12 to 20 percent improvement supporting cognitive recovery.</p>
+      <h3 id="s6-title" class="stat-card__title">REM Sleep</h3>
+
+      <div class="rem-bars" aria-hidden="true">
+        <p class="rem-label">Standard<br>Mattress</p>
+        <div class="rem-bars__pair">
+          <div class="rem-track rem-track--std">
+            <div class="vbar__fill rem-fill" data-pct="63" style="--pct:63">
+              <span class="rem-pct">63%</span>
+            </div>
+          </div>
+          <div class="rem-track rem-track--cal">
+            <div class="vbar__fill rem-fill" data-pct="79" style="--pct:79">
+              <span class="rem-pct">79%</span>
+            </div>
+          </div>
+        </div>
+        <p class="rem-label">Calibrated<br>Mattress</p>
+      </div>
+
+      <div class="delta" aria-hidden="true">
+        <span class="delta__sign">+</span>
+        <span class="delta__value" data-target="16">0</span>
+        <span class="delta__suffix">%</span>
+      </div>
+      <div class="stat-card__outcome">Better REM Recovery</div>
+      <footer class="stat-card__footer">
+        <p class="stat-card__benefit">12 to 20% improvement in REM continuity supporting memory consolidation and cognitive recovery.</p>
+      </footer>
+    </article>
+
+  </section>
+</main>
+
+</div>
+
+<section class="carousel-section" aria-label="Statistics overview">
+  <h2 class="carousel-heading reveal"><span class="ch-p1">Your Body Can Feel the Difference,</span><span class="ch-p2"> With <span class="ch-calibr8" style="color:#553C9A">Calibr8</span></span></h2>
+  <div class="carousel">
+    <div class="carousel__track" id="carousel-track"></div>
+  </div>
+</section>
+
+<section class="calibr8-slider-section">
+  <div class="hero-text">
+    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-line1">Different Bodies Need Different Support</span><span class="hps-line2"><span class="hps-purple" style="color:#553C9A">Calibr8</span> Builds Around What Your Body Needs</span></p>
+    <p class="hero-sub hero-sub--mobile reveal">Your body has a sleep signature <span class="hps-purple" style="color:#553C9A">Calibr8</span> builds around it</p>
+  </div>
+  <div class="slider" id="process-slider"></div>
+</section>
+
+
+<section class="trust-section" aria-label="Trust signals">
+  <h2 class="trust-section__title reveal">Built to Help You <span style="color:#553C9A">Rest Easy</span>,<br class="trust-br"> In Every Way</h2>
+  <div class="trust-grid">
+    <div class="trust-card reveal">
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <div class="trust-card__title">100 Days Risk-Free Return</div>
+      <div class="trust-card__desc">Easily return it if it doesn't feel right</div>
+    </div>
+    <div class="trust-card reveal">
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10C8.5 20.5 5 17 5 12V6l7-4z"/></svg>
+      <div class="trust-card__title">Up To 12 Years Warranty</div>
+      <div class="trust-card__desc">Long-term support that lasts for years</div>
+    </div>
+    <div class="trust-card reveal">
+      <svg class="trust-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-1a5 5 0 0 1 10 0v1"/></svg>
+      <div class="trust-card__title">Free Calibr8 Scan</div>
+      <div class="trust-card__desc">Available in-store or at home</div>
+    </div>
+  </div>
+</section>
+
+
+<div class="reviews-intro">
+  <p class="reviews-intro__heading reveal">Thousands of <span style="color:#553C9A">Better Mornings</span> Have Already Started Here!</p>
+</div>
+
+<div class="reviews-box">
+<div class="reviews-bg-wrap">
+<img loading="lazy" class="reviews-bg-img" src="../08-testimonials/reviewsbg1.png" alt="">
+<!-- Quote centered below title -->
+<div class="reviews-quote-wrap" id="reviews-quote-wrap">
+  <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
+  <div class="reviews-meta">
+    <div class="reviews-name" id="reviews-name"></div>
+    <div class="reviews-city" id="reviews-city"></div>
+  </div>
+</div>
+
+<!-- Three cards: Before | Person | After -->
+<section class="reviews-section" aria-label="Customer reviews">
+  <div class="reviews-viewport">
+  <div class="reviews-body" id="reviews-body">
+
+    <!-- Before Calibration -->
+    <div class="rev-cal" id="rev-cal-before">
+      <span class="rev-cal__label rev-cal__label--before">Before<br>Calibration</span>
+      <img loading="lazy" class="rev-cal__body-img" id="rev-cal-bef-img" src="" alt="Before calibration">
+    </div>
+
+    <!-- Person photo center -->
+    <div class="rev-person-col">
+      <div class="reviews-hero">
+        <img id="reviews-hero-img" src="" alt="" loading="eager">
+      </div>
+    </div>
+
+    <!-- After Calibration -->
+    <div class="rev-cal" id="rev-cal-after">
+      <span class="rev-cal__label">After<br>Calibration</span>
+      <img loading="lazy" class="rev-cal__body-img" id="rev-cal-aft-img" src="" alt="After calibration">
+    </div>
+
+  </div>
+  </div><!-- /.reviews-viewport -->
+</section>
+</div><!-- /.reviews-bg-wrap -->
+</div><!-- /.reviews-box -->
+
+
+<section class="final-cta-section" aria-label="Recovery statement">
+  <p class="final-cta__heading">Every night on the wrong<br class="fcta-br-mob"> mattress<br class="fcta-br-dsk"> is a night your<br class="fcta-br-mob"> body doesn't recover</p>
+</section>
+
+<section class="book-section" aria-label="Book your calibration">
+  <h2 class="book-heading"><span class="bkh-l1">You've spent years sleeping on<br class="bkh-br"> a <span style="color:#553C9A">mattress</span> built for everyone</span><br>Now experience one <span style="color:#553C9A">built for you</span></h2>
+  <div class="book-card">
+    <video preload="none" class="book-img" id="book-img-store" data-src="../09-cta/store.mp4" autoplay loop muted playsinline></video>
+    <video preload="none" class="book-img hidden" id="book-img-home" data-src="../09-cta/home.mp4" autoplay loop muted playsinline></video>
+    <div class="book-card__overlay">
+      <div class="book-toggle">
+        <button class="book-btn active" data-tab="store">In-Store</button>
+        <button class="book-btn" data-tab="home">Home Consultation</button>
+      </div>
+      <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a></span>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<script src="version2.js"></script>
+</body>
+</html>

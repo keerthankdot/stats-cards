@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="sleep-lines__svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sleep-std-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#C54B8C" stop-opacity="0.50"/>
+              <stop offset="100%" stop-color="#C54B8C" stop-opacity="0.42"/>
+            </linearGradient>
+            <linearGradient id="sleep-cal-fill" x1="0" y1="72" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#553C9A" stop-opacity="0.72"/>
+              <stop offset="100%" stop-color="#553C9A" stop-opacity="0.65"/>
+            </linearGradient>
+            <clipPath id="sleep-reveal-clip">
+              <rect class="sleep-reveal-rect" x="0" y="-10" width="0" height="120"/>
+            </clipPath>
+          </defs>
+          <!-- grid lines at 0,10,20...100% -->
+          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+          <line x1="0" y1="10"  x2="300" y2="10"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="20"  x2="300" y2="20"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="40"  x2="300" y2="40"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="50"  x2="300" y2="50"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="70"  x2="300" y2="70"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="80"  x2="300" y2="80"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+          <line x1="0" y1="100" x2="300" y2="100" stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+          <path class="sleep-fill sleep-fill--std" fill="url(#sleep-std-fill)" clip-path="url(#sleep-reveal-clip)"
+                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22 L 300,100 L 0,100 Z"/>
+          <path class="sleep-fill sleep-fill--cal" fill="url(#sleep-cal-fill)" clip-path="url(#sleep-reveal-clip)"
+                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71 L 300,100 L 0,100 Z"/>
+          <path class="sleep-line sleep-line--std"
+                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22"/>
+          <path class="sleep-line sleep-line--cal"
+                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71"/>
+        </svg>
