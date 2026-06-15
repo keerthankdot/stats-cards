@@ -1306,14 +1306,15 @@ body {
 
 /* ── Narrative: 32% truth — life-stat style ── */
 .problem-stat-section {
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(100,60,180,0.32) 0%, rgba(120,80,200,0.14) 55%, transparent 100%), #ffffff;
-  padding: clamp(32px, 3.5vw, 52px) 24px;
+  padding: 0 24px;
 }
 .problem-stat {
-  font-size: clamp(20px, 2.8vw, 44px);
+  font-size: clamp(30px, 5.5vw, 88px);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
   letter-spacing: -0.03em;
@@ -2599,14 +2600,13 @@ body {
 
 /* ── Final CTA section — mirrors life-stat-section design ── */
 .final-cta-section {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: clamp(32px, 4vw, 56px);
   background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(100,60,180,0.32) 0%, rgba(120,80,200,0.14) 55%, transparent 100%), #ffffff;
-  padding: 0 24px;
+  padding: clamp(48px, 6vw, 88px) 24px;
   text-align: center;
 }
 .final-cta-section[aria-label="Recovery statement"] .final-cta__heading {
