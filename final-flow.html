@@ -3819,7 +3819,8 @@ body {
     font-size: clamp(32px, 9vw, 48px) !important;
   }
 
-  .final-cta-section { min-height: 100dvh; gap: 28px; padding: 0 24px; }
+  .final-cta-section { min-height: unset; gap: 28px; padding: 64px 24px; }
+  .final-cta-section[aria-label="Recovery statement"] { padding: clamp(40px, 8vw, 64px) 24px; }
   .final-cta__heading { font-size: clamp(28px, 7vw, 40px); }
   .final-cta__btn { padding: 14px 36px; font-size: 13px; }
 
