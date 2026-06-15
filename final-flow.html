@@ -1752,6 +1752,9 @@ body {
 }
 .calibr8-slider-section .card__video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.18); }
 #calibr8-slider .card[data-id="3"] .card__video { transform: translateY(9%) scale(1.18) !important; object-position: top center; }
+@media (max-width: 480px) {
+  #calibr8-slider .card[data-id="4"] .card__video { transform: scale(1.55); }
+}
 #calibr8-slider .card[data-id="4"] .card__desc { max-width: 600px !important; font-size: 15.5px; }
 .calibr8-slider-section .card:not(.active):hover .card__bg { transform: scale(1.08); }
 
@@ -3964,7 +3967,7 @@ body {
 <!-- Narrative 4: solution -->
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
-    <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="videos/floating.MOV" muted playsinline loop autoplay></video>
+    <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="03-calibr8gif/floating.MOV" muted playsinline loop autoplay></video>
     <p class="narrative-solution"><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 16px rgba(255,255,255,0.7),0 0 36px rgba(255,255,255,0.35)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
   </div>
 </section>
@@ -5400,7 +5403,7 @@ body {
     { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: '05-process/heatmap.mp4', icon: heatmapIcon('#ffffff') },
     { id: 2, title: 'Calibration', desc: '<span style="color:#553C9A">Calibr8</span> reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: '05-process/Calibration.mp4', icon: calibrationIcon('#ffffff') },
     { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: '05-process/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your <span style="color:#553C9A">Calibr8</span>ed mattress.', img: null, video: '05-process/layers.mp4', icon: mattressIcon('#ffffff') },
+    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your <span style="color:#553C9A">Calibr8</span>ed mattress.', img: null, video: '05-process/layers.mp4', videoMobile: '05-process/layersmobile.mp4', icon: mattressIcon('#ffffff') },
     { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with <span style="color:#553C9A">Calibr8</span> is delivered to your home.', img: null, video: '05-process/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
   ];
 
@@ -5415,7 +5418,7 @@ body {
       el.dataset.id = card.id;
       el.innerHTML = `
         ${card.video
-          ? `<video preload="none" class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          ? `<video preload="none" class="card__bg card__video" src="${window.innerWidth <= 480 && card.videoMobile ? card.videoMobile : card.video}" autoplay loop muted playsinline></video>`
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
