@@ -1,3 +1,4 @@
+
 (() => {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -414,6 +415,81 @@
     requestAnimationFrame(() => requestAnimationFrame(updateReveal));
   }
 
+  // ── Narrative simple reveals ──
+  {
+    const simpleEls = Array.from(document.querySelectorAll(
+      '.narrative-solution-card'
+    ));
+    if (simpleEls.length) {
+      const nObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            nObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      simpleEls.forEach(el => nObs.observe(el));
+    }
+  }
+
+  // ── Problem stat (32% truth) — word stagger like life-stat ──
+  {
+    const pSection = document.querySelector('.problem-stat-section');
+    if (pSection) {
+      const pStat  = pSection.querySelector('.problem-stat');
+      const pWords = Array.from(pSection.querySelectorAll('.pst-w'));
+      const pCountEl = document.getElementById('pst-count');
+      const pObs = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        pStat.classList.add('is-visible');
+        pWords.forEach((w, i) => {
+          setTimeout(() => { w.style.transitionDelay = '0ms'; w.style.opacity = '1'; w.style.transform = 'none'; }, 300 + i * 120);
+        });
+        // count-up 0→32
+        if (pCountEl) {
+          const start = performance.now();
+          const dur = 1200;
+          (function tick(now) {
+            const t = Math.min(1, (now - start) / dur);
+            pCountEl.textContent = Math.round(32 * (1 - Math.pow(1 - t, 3)));
+            if (t < 1) requestAnimationFrame(tick);
+            else pCountEl.textContent = '32';
+          })(performance.now());
+        }
+        pObs.disconnect();
+      }, { threshold: 0.3 });
+      pObs.observe(pSection);
+    }
+  }
+
+  // ── Bodies video: play on load ──
+  {
+    const bv = document.getElementById('bodies-vid');
+    if (bv) {
+      bv.addEventListener('loadedmetadata', () => bv.play().catch(() => {}));
+    }
+  }
+
+  // ── Solution section: heroGIF.mp4 last-5s loop ──
+  {
+    const sv = document.getElementById('solution-vid');
+    if (sv) {
+      sv.addEventListener('loadedmetadata', () => { sv.play().catch(() => {}); });
+    }
+  }
+
+  // ── Pain text section: fade in on scroll ──
+  {
+    const pt = document.getElementById('pain-text');
+    if (pt) {
+      const io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { pt.classList.add('is-visible'); io.disconnect(); }
+      }, { threshold: 0.3 });
+      io.observe(pt);
+    }
+  }
+
   // ── Life stat section animation ──
   {
     const section = document.querySelector('.life-stat-section');
@@ -617,6 +693,8 @@
   }
 })();
 
+
+
 /* ── Zone dot tooltip ── */
 (function () {
   const ZONES = [
@@ -691,6 +769,8 @@
   startTimer();
 })();
 
+
+
 /* ── Zone dot mobile repositioning ── */
 (function () {
   const W_REF = 1120; // reference desktop zone-map width (1280px viewport - 160px margins)
@@ -747,6 +827,8 @@
   });
 })();
 
+
+
 /* ── Calibr8 Slider ── */
 (function() {
   function scanIcon(c) {
@@ -766,12 +848,12 @@
   }
 
   const CARDS = [
-    { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: '../05-process/new scan flow.mp4', icon: scanIcon('#ffffff') },
-    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: '../05-process/heatmap.mov', icon: heatmapIcon('#ffffff') },
-    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: '../05-process/Calibration.mov', icon: calibrationIcon('#ffffff') },
-    { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: '../05-process/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
-    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: '../05-process/layers.MOV', icon: mattressIcon('#ffffff') },
-    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: '../05-process/Final Mattress.mov', icon: mattressIcon('#ffffff') },
+    { id: 0, title: 'Scan', desc: 'Calibr8 scans 8 zones of your body to identify your body\'s pressure points.', img: null, video: '06-process/new scan flow.mp4', icon: scanIcon('#ffffff') },
+    { id: 1, title: 'Heat Map', desc: 'Your body pressure appears in real time from Blue to Red, revealing where it\'s building up.', img: null, video: '06-process/heatmap.mp4', icon: heatmapIcon('#ffffff') },
+    { id: 2, title: 'Calibration', desc: 'Calibr8 reconfigures the middle support layer, until your body\'s 8 zones find perfect support.', img: null, video: '06-process/Calibration.mp4', icon: calibrationIcon('#ffffff') },
+    { id: 3, title: 'Report', desc: 'A personalised sleep report is created from your calibration profile & recommendations.', img: null, video: '06-process/scroll.mp4?v=2', icon: reportIcon('#ffffff') },
+    { id: 4, title: 'Mattress Type', desc: 'Choose between memory foam, latex or grid as the preferred top layer for your Calibr8ed mattress.', img: null, video: '06-process/layers.mp4', videoMobile: '06-process/layersmobile.mp4', icon: mattressIcon('#ffffff') },
+    { id: 5, title: 'Your Mattress', desc: 'A one-of-a-kind personalised mattress designed with Calibr8 is delivered to your home.', img: null, video: '06-process/Final Mattress.mp4', icon: mattressIcon('#ffffff') },
   ];
 
   let activeId = 0;
@@ -785,7 +867,7 @@
       el.dataset.id = card.id;
       el.innerHTML = `
         ${card.video
-          ? `<video class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          ? `<video preload="none" class="card__bg card__video" src="${window.innerWidth <= 480 && card.videoMobile ? card.videoMobile : card.video}" autoplay loop muted playsinline></video>`
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
@@ -921,18 +1003,18 @@
 
   // ── Process slider (persona cards) ──
   const PROCESS_CARDS_DESKTOP = [
-    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: '../02-pain/pain.MOV' },
-    { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day',    desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',         video: '../07-people/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',           title: 'Two people Completely different needs',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: '../07-people/couple.MOV' },
-    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard Hustle hard Push your body every day',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: '../07-people/lift.MOV' },
-    { id: 4, eyebrow: 'The Overthinker',      title: 'Too many choices Too much guesswork',                   desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',           video: '../07-people/choices.mp4' },
+    { id: 0, eyebrow: 'The Pain Sufferer',    title: 'Waking up with body pain shouldn\'t be your normal.',     desc: 'Targeted support relieves the pressure points across your back, shoulders, hips & joints.',           video: '02-bodies/pain.mp4' },
+    { id: 1, eyebrow: 'The Everyday Hustler', title: 'Your desk job puts pressure on your spine every day',    desc: 'Calibr8 supports pressure points caused by long sitting hours, helping you recover at night.',         video: '09-people/work.mp4' },
+    { id: 2, eyebrow: 'The Couple',           title: 'Two people Completely different needs',                 desc: 'Each side is calibr8ed independently, so both of you get the support your body needs.',               video: '09-people/couple.mp4' },
+    { id: 3, eyebrow: 'The High Achiever',    title: 'You train hard Hustle hard Push your body every day',  desc: 'Calibr8ed support helps your body recover deeper, so you wake up ready to do it all again.',           video: '09-people/lift.mp4' },
+    { id: 4, eyebrow: 'The Overthinker',      title: 'Too many choices Too much guesswork',                   desc: 'Instead of opinions and buzzwords, your mattress is built on how your body actually rests.',           video: '09-people/choices.mp4' },
   ];
   const PROCESS_CARDS_MOBILE = [
-    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: '../02-pain/pain.MOV' },
-    { id: 1, eyebrow: 'The Daily Grinder', title: '',  desc: 'Calibr8 supports pressure points caused by long sitting hours, helping your spine recover.',                         video: '../07-people/work.mp4' },
-    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: '../07-people/couple.MOV' },
-    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: '../07-people/lift.MOV' },
-    { id: 4, eyebrow: 'The Overthinker',   title: '',  desc: 'Instead of opinions and buzzwords, Calibr8 builds your mattress based on how you actually rest.',                   video: '../07-people/choices.mp4' },
+    { id: 0, eyebrow: 'The Pain Sufferer', title: '',  desc: 'Targeted support relieves the pain across your back, shoulders, hips & joints while you sleep.',                    video: '02-bodies/pain.mp4' },
+    { id: 1, eyebrow: 'The Everyday Hustler', title: '',  desc: 'Calibr8 supports pressure points caused by long sitting hours, helping your spine recover.',                         video: '09-people/work.mp4' },
+    { id: 2, eyebrow: 'The Couple',        title: '',  desc: 'Each side is calibrated independently, to support two people with different needs.',                                   video: '09-people/couple.mp4' },
+    { id: 3, eyebrow: 'The High Achiever', title: '',  desc: 'As you train hard, Calibr8ed support helps your body recover better through the night.',                             video: '09-people/lift.mp4' },
+    { id: 4, eyebrow: 'The Overthinker',   title: '',  desc: 'Instead of opinions and buzzwords, Calibr8 builds your mattress based on how you actually rest.',                   video: '09-people/choices.mp4' },
   ];
   const PROCESS_CARDS = window.innerWidth <= 480 ? PROCESS_CARDS_MOBILE : PROCESS_CARDS_DESKTOP;
 
@@ -1018,7 +1100,7 @@
       el.dataset.id = card.id;
       el.innerHTML = `
         ${card.video
-          ? `<video class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
+          ? `<video preload="none" class="card__bg card__video" src="${card.video}" autoplay loop muted playsinline></video>`
           : `<div class="card__bg" style="background-image:url('${card.img}')"></div>`
         }
         <div class="card__scrim"></div>
@@ -1056,11 +1138,11 @@
 
   // ── Reviews ──
   const REVIEWS = [
-    { name: 'Kunal Shah',      city: 'Bengaluru', quote: '"I learnt about Calibr8 at a Wakefit store and it has been an incredible experience so far. The mattress adapts perfectly to my body shape, I would 100% recommend it!"',                                                                        img: '../08-testimonials/kunal.jpeg',   bodyBefore: '../08-testimonials/before.png', bodyAfter: '../08-testimonials/after.png' },
-    { name: 'Shivashish Suman',city: 'Bengaluru', quote: '"I\'m confident I\'ve made the best purchase because the comfort I feel is exactly what I experienced with my calibration in the store!"',                                                                                                       img: '../08-testimonials/shivphoto.png',  bodyBefore: '../08-testimonials/shivashish_nobg.png', bodyAfter: '../08-testimonials/shivashish2_nobg.png' },
-    { name: 'Ashish Naik',     city: 'Bengaluru', quote: '"What I love about Calibr8 is that it is tailored to my needs. In fact, I bought another Calibr8 mattress for my mother as well!"',                                                                                                             img: '../08-testimonials/ashishphoto.png', bodyBefore: '../08-testimonials/Ashish_nobg.png', bodyAfter: '../08-testimonials/ashish2_nobg.png' },
-    { name: 'Purab Saxena',    city: 'Bengaluru', quote: '"My Calibr8 mattress has significantly improved my lower back pain and sleep quality. This technology is really impressive, I would recommend it to anyone who wants personalised sleep in India!"',                                              img: '../08-testimonials/purabphoto.png',  bodyBefore: '../08-testimonials/purab_nobg.png', bodyAfter: '../08-testimonials/abhishek2_nobg.png' },
-    { name: 'Abhishek J R',    city: 'Bengaluru', quote: '"I am very happy with my Calibr8 mattress...it is so comfortable, stays cool & has improved my sleep experience immensely! Wakefit has a great customer service as well."',                                                                      img: '../08-testimonials/abhishekphoto.png', bodyBefore: '../08-testimonials/abhishek_nobg.png', bodyAfter: '../08-testimonials/purab2_nobg.png' },
+    { name: 'Kunal Shah',      city: 'Bengaluru', quote: '"I learnt about Calibr8 at a Wakefit store and it has been an incredible experience so far. The mattress adapts perfectly to my body shape, I would 100% recommend it!"',                                                                        img: '11-testimonials/kunal.jpeg',   bodyBefore: '11-testimonials/before.png', bodyAfter: '11-testimonials/after.png' },
+    { name: 'Shivashish Suman',city: 'Bengaluru', quote: '"I\'m confident I\'ve made the best purchase because the comfort I feel is exactly what I experienced with my calibration in the store!"',                                                                                                       img: '11-testimonials/shivphoto.png',  bodyBefore: '11-testimonials/shivashish_nobg.png', bodyAfter: '11-testimonials/shivashish2_nobg.png' },
+    { name: 'Ashish Naik',     city: 'Bengaluru', quote: '"What I love about Calibr8 is that it is tailored to my needs. In fact, I bought another Calibr8 mattress for my mother as well!"',                                                                                                             img: '11-testimonials/ashishphoto.png', bodyBefore: '11-testimonials/Ashish_nobg.png', bodyAfter: '11-testimonials/ashish2_nobg.png' },
+    { name: 'Purab Saxena',    city: 'Bengaluru', quote: '"My Calibr8 mattress improved my lower back pain and sleep quality. I\'d recommend it to anyone who wants personalised sleep."',                                              img: '11-testimonials/purabphoto.png',  bodyBefore: '11-testimonials/purab_nobg.png', bodyAfter: '11-testimonials/abhishek2_nobg.png' },
+    { name: 'Abhishek J R',    city: 'Bengaluru', quote: '"I am very happy with my Calibr8 mattress...it is so comfortable, stays cool & has improved my sleep experience immensely! Wakefit has a great customer service as well."',                                                                      img: '11-testimonials/abhishekphoto.png', bodyBefore: '11-testimonials/abhishek_nobg.png', bodyAfter: '11-testimonials/purab2_nobg.png' },
   ];
 
   let rcActive = 0;
@@ -1073,10 +1155,13 @@
     document.getElementById('reviews-name').textContent  = r.name;
     document.getElementById('reviews-city').textContent  = r.city;
     const personCol = document.querySelector('.rev-person-col');
+    const mobImg = document.getElementById('rev-person-mob-img');
     if (r.img) {
       document.getElementById('reviews-hero-img').src = r.img;
+      if (mobImg) mobImg.src = r.img;
       if (personCol) personCol.style.display = '';
     } else {
+      if (mobImg) mobImg.src = '';
       if (personCol) personCol.style.display = 'none';
     }
     document.getElementById('rev-cal-bef-img').src = r.bodyBefore;
@@ -1211,6 +1296,9 @@
   });
 })();
 
+
+
+
 (function () {
   const hero  = document.querySelector('.hero');
   if (!hero) return;
@@ -1291,7 +1379,6 @@
   const canvas    = document.getElementById('cls-canvas');
   const ctx       = canvas.getContext('2d');
   const numEl     = document.getElementById('cls-score-num');
-  const taglineEl = document.getElementById('cls-tagline');
   const prefRed   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function resize() { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight; }
@@ -1394,7 +1481,6 @@
   function runLoop() {
     // Cards already visible — go straight into sequence
     hideNum();
-    taglineEl.classList.remove('cls-tag-vis');
     ringTgt = 0.19; orbitTgt = 1.4;
 
     // number shows → 2.5s dwell → card absorbs → 500ms → next number
@@ -1410,24 +1496,20 @@
     setTimeout(() => { showNum(4); ringTgt = 0.276; },                                  9600 * D);
     setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                12100 * D);
 
-    // Number fades → tagline forms
-    setTimeout(() => { hideNum(); },                                                   13400 * D);
-    setTimeout(() => { taglineEl.classList.add('cls-tag-vis'); },                      13800 * D);
-
-    // Tagline fades → all 4 cards come out together
-    setTimeout(() => { taglineEl.classList.remove('cls-tag-vis'); },                   15800 * D);
+    // Number fades → all 4 cards come out together
+    setTimeout(() => { hideNum(); },                                                   12800 * D);
     setTimeout(() => {
       restore(0); restore(1); restore(2); restore(3);
       ringTgt = 0.19; orbitTgt = 1.4;
-    }, 16600 * D);
+    }, 13800 * D);
 
-    setTimeout(runLoop, prefRed ? 500 : 18000);
+    setTimeout(runLoop, prefRed ? 500 : 15600);
   }
 
   // ── Render loop ──
   function render() {
     const W = canvas.width, H = canvas.height;
-    const cx = W / 2, cy = H / 2;
+    const cx = W / 2, cy = H / 2 + 50;
     const minD = Math.min(W, H);
 
     ringFrac  += (ringTgt  - ringFrac)  * 0.022;
@@ -1503,6 +1585,8 @@
   window.addEventListener('resize', matchWidth);
 })();
 
+
+
 function equalizeRevCalGaps() {
   document.querySelectorAll('.rev-cal').forEach(card => {
     const label = card.querySelector('.rev-cal__label');
@@ -1534,3 +1618,28 @@ function initRevCal() {
 
 document.addEventListener('DOMContentLoaded', initRevCal);
 window.addEventListener('resize', equalizeRevCalGaps);
+
+// ── Lazy-load below-fold videos ──
+(() => {
+  function loadVid(v) {
+    if (v.dataset.src && !v.src.includes(v.dataset.src)) {
+      v.src = v.dataset.src;
+      delete v.dataset.src;
+      v.load();
+    }
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { loadVid(e.target); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '300px' });
+  document.querySelectorAll('video[data-src]').forEach(v => io.observe(v));
+
+  // Book-section toggle: load video on demand
+  document.querySelectorAll('.book-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.book-img').forEach(v => loadVid(v));
+    }, { once: true });
+  });
+})();
+
