@@ -2246,6 +2246,8 @@ body {
   margin: 0 auto 40px;
   padding: 48px 24px 0;
 }
+.rev-person-mob { display: none; }
+.rev-quote-content { width: 100%; }
 .reviews-meta { margin-top: 12px; }
 
 /* ── Reviews section ── */
@@ -3631,20 +3633,45 @@ body {
 
   /* ── Reviews section ── */
   .reviews-section { padding: 0 0 48px; }
-  .reviews-quote-wrap { margin: 24px auto 28px; }
+  /* ── Reviews: mobile layout ── */
+  .reviews-quote-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+    padding: 24px 16px 0;
+    margin: 0 0 20px;
+    max-width: 100%;
+  }
+  .rev-person-mob {
+    display: block;
+    width: 68px;
+    height: 68px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .rev-person-mob img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+  }
+  .rev-quote-content { flex: 1; }
+  .reviews-quote { font-size: 13px; line-height: 1.5; }
+  .reviews-name { font-size: 12px; }
+  .reviews-city { font-size: 11px; }
   .reviews-body {
     width: auto;
     padding: 0 16px;
     flex-direction: row;
     align-items: stretch;
-    height: 180px;
+    height: 240px;
     gap: 8px;
   }
-  .rev-person-col { flex: 1; width: auto; height: auto; }
-  .rev-cal { flex: 1; width: auto; height: auto; padding: 8px 4px 0; justify-content: center; }
+  .rev-person-col { display: none; }
+  .rev-cal { flex: 1; width: auto; height: auto; padding: 8px 6px 0; justify-content: center; }
   .rev-cal__label { font-size: 8px; top: 8px; letter-spacing: 0.04em; }
-  .rev-cal__body-img { width: 100%; height: auto; transform: scale(1.15); transform-origin: center center; }
-  .reviews-quote { font-size: 16px; }
+  .rev-cal__body-img { width: 100%; height: auto; transform: scale(1.1); transform-origin: center center; }
 
   /* ── Social Proof ── */
   .sp-section { padding: 48px 16px 64px; margin-top: 96px; overflow: hidden; }
@@ -4439,10 +4466,15 @@ body {
 <img loading="lazy" class="reviews-bg-img" src="08-testimonials/reviewsbg1.png" alt="">
 <!-- Quote centered below title -->
 <div class="reviews-quote-wrap" id="reviews-quote-wrap">
-  <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
-  <div class="reviews-meta">
-    <div class="reviews-name" id="reviews-name"></div>
-    <div class="reviews-city" id="reviews-city"></div>
+  <div class="rev-person-mob" id="rev-person-mob">
+    <img id="rev-person-mob-img" src="" alt="">
+  </div>
+  <div class="rev-quote-content">
+    <blockquote class="reviews-quote" id="reviews-quote"></blockquote>
+    <div class="reviews-meta">
+      <div class="reviews-name" id="reviews-name"></div>
+      <div class="reviews-city" id="reviews-city"></div>
+    </div>
   </div>
 </div>
 
@@ -5661,10 +5693,13 @@ body {
     document.getElementById('reviews-name').textContent  = r.name;
     document.getElementById('reviews-city').textContent  = r.city;
     const personCol = document.querySelector('.rev-person-col');
+    const mobImg = document.getElementById('rev-person-mob-img');
     if (r.img) {
       document.getElementById('reviews-hero-img').src = r.img;
+      if (mobImg) mobImg.src = r.img;
       if (personCol) personCol.style.display = '';
     } else {
+      if (mobImg) mobImg.src = '';
       if (personCol) personCol.style.display = 'none';
     }
     document.getElementById('rev-cal-bef-img').src = r.bodyBefore;
