@@ -1485,8 +1485,8 @@ body {
   overflow: hidden;
   vertical-align: bottom;
   line-height: 1.15;
-  min-width: 5.6em;
   text-align: center;
+  /* width locked to widest word by JS */
 }
 .body-word {
   display: inline-block;
@@ -6466,8 +6466,23 @@ window.addEventListener('resize', equalizeRevCalGaps);
   let idx = 0;
   let timer = null;
   const el = document.querySelector('.body-word');
+  const wrap = document.querySelector('.body-word-wrap');
   const vid = document.getElementById('bodies-vid');
-  if (!el) return;
+  if (!el || !wrap) return;
+
+  // Lock wrapper to widest word so "Your body is" never shifts
+  (function lockWidth() {
+    const orig = el.textContent;
+    el.style.transition = 'none';
+    let maxW = 0;
+    words.forEach(function(w) {
+      el.textContent = w;
+      var r = el.getBoundingClientRect();
+      if (r.width > maxW) maxW = r.width;
+    });
+    if (maxW > 0) wrap.style.width = maxW + 'px';
+    el.textContent = orig;
+  })();
 
   function animateTo(word) {
     el.style.transition = 'transform 0.32s cubic-bezier(0.4,0,1,1), opacity 0.24s ease';
