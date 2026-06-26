@@ -878,6 +878,22 @@ body {
 [data-kind="graph"] .delta__value      { font-size: 92px; }
 [data-kind="graph"] .delta__suffix     { font-size: 41px; }
 
+/* ── Lumbar horizontal bar card ── */
+[data-kind="hbar"] .hbar { width: 88%; margin: 0 auto; }
+[data-kind="hbar"] .stat-card__title { font-size: clamp(25px, 2.76vw, 41px); }
+[data-kind="hbar"] .delta__sign      { font-size: 62px; }
+[data-kind="hbar"] .delta__value     { font-size: 92px; }
+[data-kind="hbar"] .delta__suffix    { font-size: 41px; }
+.hbar__svg { width: 100%; height: auto; display: block; }
+.hbar__label { font-size: 11px; fill: rgba(0,0,0,0.45); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+.hbar__label--cal { fill: #553C9A; font-weight: 600; }
+.hbar__bar--std { stroke: rgba(85,60,154,0.18); }
+.hbar__axis-label { font-size: 8.5px; fill: rgba(0,0,0,0.32); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: 0.02em; }
+.stat-card--purple .hbar__label { fill: rgba(255,255,255,0.6); }
+.stat-card--purple .hbar__label--cal { fill: rgba(255,255,255,0.95); }
+.stat-card--purple .hbar__bar--std { stroke: rgba(255,255,255,0.2); }
+.stat-card--purple .hbar__axis-label { fill: rgba(255,255,255,0.35); }
+
 /* ── Muscle pressure card ── */
 [data-kind="arc"] .delta { justify-content: center; }
 [data-kind="rings"] .delta { justify-content: center; margin-top: auto; }
@@ -1443,6 +1459,10 @@ body {
   background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, transparent 70%);
   z-index: 1;
 }
+.sol-intro-label {
+  display: block;
+  margin-bottom: 0.15em;
+}
 .narrative-solution {
   position: relative;
   z-index: 2;
@@ -1458,6 +1478,19 @@ body {
   text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   opacity: 1;
   transform: none;
+}
+
+.body-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.15;
+  min-width: 5.6em;
+  text-align: center;
+}
+.body-word {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .life-stat-section {
@@ -1900,7 +1933,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
-  width: 42px; height: 42px;
+  width: 62px; height: 62px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1912,10 +1945,11 @@ body {
   -webkit-backdrop-filter: blur(20px) brightness(1.15) saturate(1.6);
   border: 1px solid rgba(255,255,255,0.55);
   box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.08), 0 6px 20px rgba(0,0,0,0.2);
-  font-size: 13px;
+  font-size: 22px;
   font-weight: 700;
   color: rgba(255,255,255,0.9);
   font-family: var(--font-sans);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.28), 0 2px 8px rgba(0,0,0,0.15);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .calibr8-slider-section .card.active .card__icon {
@@ -2318,9 +2352,106 @@ body {
 .reviews-section {
   background: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 0 0 80px;
 }
+.heatmap-legend-wrap {
+  width: 100%;
+  max-width: 960px;
+  padding: 0 60px;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+.heatmap-legend {
+  width: 100%;
+  margin: 0;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.65);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 20px rgba(0,0,0,0.07);
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+.heatmap-legend__zone-sep {
+  width: 0;
+  align-self: stretch;
+  position: relative;
+  overflow: visible;
+  flex-shrink: 0;
+}
+.heatmap-legend__zone-sep::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 12px;
+  background: rgba(60,60,80,0.4);
+  border-radius: 1px;
+}
+.heatmap-legend__bar-wrap {
+  position: relative;
+  width: 100%;
+}
+.heatmap-legend__bar-tick {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.85);
+  border-radius: 1px;
+}
+.heatmap-legend__bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+    #0a1a6e,
+    #1050d0,
+    #0090ff,
+    #00c4e8,
+    #00d4a0,
+    #00e060,
+    #90e000,
+    #f5e000,
+    #ffaa00,
+    #ff6200,
+    #ff1500
+  );
+}
+.heatmap-legend__zones {
+  display: flex;
+  margin-top: 6px;
+}
+.heatmap-legend__zones--mob { display: none; }
+.heatmap-legend__zone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+.heatmap-legend__zone::before,
+.heatmap-legend__zone::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  min-width: 4px;
+}
+.heatmap-legend__zone--rec  { color: #1050d0; }
+.heatmap-legend__zone--low  { color: #00a060; }
+.heatmap-legend__zone--high { color: #e03000; }
 
 /* ── Calibr8 Score Live Section ── */
 .cls-section {
@@ -2786,6 +2917,23 @@ body {
   z-index: 2;
 }
 .final-cta__btn:hover { transform: translateY(-1px); }
+.book-cta-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  pointer-events: auto;
+}
+.book-cta-row .cta-glow-wrap {
+  flex: 1;
+}
+.book-cta-row .final-cta__btn {
+  width: 100%;
+  padding: 17px 36px;
+  font-size: clamp(9px, 1.1vw, 14px);
+  text-align: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
 
 .book-section {
   background: #fff;
@@ -2798,6 +2946,7 @@ body {
 }
 .bkh-br { display: none; }
 .trust-br { display: none; }
+.sp-head-br { display: none; }
 .fcta-br-mob { display: none; }
 .fcta-br-dsk { display: inline; }
 .zone-sub-br { display: none; }
@@ -2835,9 +2984,9 @@ body {
   z-index: 2;
 }
 .book-card__overlay .book-toggle,
-.book-card__overlay .final-cta__btn {
+.book-card__overlay .final-cta__btn,
+.book-card__overlay .book-cta-row {
   pointer-events: auto;
-  /* glow overrides below */
 }
 .book-img {
   width: 100%;
@@ -3304,7 +3453,7 @@ body {
   .slider-heading--desktop { display: none; }
   .slider-heading--mobile  { display: block; }
   .hps-p1 { display: block; margin-bottom: 1em; }
-  .hps-purple { font-family: var(--font-sans); font-weight: 700; }
+  .hps-purple { font-family: var(--font-sans); font-weight: 700; color: #553C9A; }
   .calibr8-slider-section .hero-sub-desc { font-size: 13px; text-align: center; }
   .calibr8-slider-section .slider {
     padding: 0;
@@ -3366,7 +3515,7 @@ body {
   .calibr8-slider-section .card__content { padding: 16px 18px 20px; }
   .calibr8-slider-section .card__eyebrow { font-size: 18px; }
   .calibr8-slider-section .card__desc { font-size: 16px; max-width: 100%; }
-  .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
+  .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; width: 42px; height: 42px; font-size: 13px; text-shadow: none; }
   /* Arrow nav — mobile only */
   .card__content-header {
     display: flex;
@@ -3516,7 +3665,7 @@ body {
   }
   /* ── Process slider: peek carousel (mirrors calibr8 slider) ── */
   #process-section { overflow-x: clip; }
-  /* Active card dimensions — matches calibr8 active */
+  /* Active card dimensions — inherits from .calibr8-slider-section .card.active base */
   #process-slider .card.active {
     margin-bottom: 80px;
     overflow: visible;
@@ -3583,7 +3732,7 @@ body {
     overflow: visible;
     min-height: unset;
   }
-  /* Peek cards */
+  /* Peek cards — same dimensions as #calibr8-slider reference */
   #process-slider .card.is-prev,
   #process-slider .card.is-next {
     display: block !important;
@@ -3609,6 +3758,8 @@ body {
   .trust-section { padding: 40px 16px; background: #ffffff; }
   .trust-section::before { display: none; }
   .trust-br { display: inline; }
+  .sp-head-br { display: inline; }
+  .sp-section .trust-section__title { white-space: normal; max-width: 92%; }
   .fcta-br-mob { display: inline; }
   .fcta-br-dsk { display: none; }
   .zone-sub-br { display: inline; }
@@ -3668,6 +3819,13 @@ body {
     margin-top: 0; margin-bottom: 0;
   }
   .reviews-box { width: calc(100% - 32px); margin: 0 16px; border-radius: 16px; }
+  .heatmap-legend-wrap { padding: 0 16px; margin-top: 14px; }
+  .heatmap-legend { width: 100%; padding: 10px 14px; margin-top: 0; }
+  .heatmap-legend__bar { height: 6px; }
+  .heatmap-legend__zone { font-size: 8px; }
+  .heatmap-legend__zones--desk { display: none; }
+  .heatmap-legend__zones--mob { display: flex; }
+  .heatmap-legend__bar-tick--first { display: none; }
   .zone-map__caption { font-size: 13px; white-space: normal; padding: 0 12px; }
   .zone-tooltip {
     width: 180px;
@@ -3877,18 +4035,24 @@ body {
   .narrative-solution {
     font-size: clamp(16px, 4.5vw, 22px);
     max-width: 92%;
-    padding: 20px 20px 28px;
+    padding: 20px 20px 52px;
     text-align: center;
     text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   }
   .narrative-solution span[style] {
     font-size: clamp(32px, 9vw, 48px) !important;
   }
+  .narrative-solution .sol-intro-label {
+    font-size: inherit !important;
+  }
 
   .final-cta-section { min-height: unset; gap: 28px; padding: 64px 24px; }
   .final-cta-section[aria-label="Recovery statement"] { padding: clamp(40px, 8vw, 64px) 24px; }
   .final-cta__heading { font-size: clamp(28px, 7vw, 40px); }
   .final-cta__btn { padding: 14px 36px; font-size: 13px; }
+  .book-cta-row { flex-direction: column; gap: 10px; width: 100%; }
+  .book-cta-row .cta-glow-wrap { width: 100%; }
+  .book-cta-row .final-cta__btn { padding: 14px 28px; font-size: 12px; }
 
   /* ── Arc card: std below its plot point, cal stays top-right ── */
   /* Arc labels — same size as other cards */
@@ -4000,7 +4164,7 @@ body {
 <section class="bodies-section" aria-label="Unique bodies">
   <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
     <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline loop autoplay></video>
-    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is unique.<br>Your mattress should be too.</p>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is <span class="body-word-wrap"><span class="body-word">Athletic</span></span>.<br>Your mattress should be too.</p>
   </div>
 </section>
 
@@ -4031,7 +4195,7 @@ body {
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
     <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="03-calibr8gif/floating.MOV" muted playsinline loop autoplay></video>
-    <p class="narrative-solution"><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 16px rgba(255,255,255,0.7),0 0 36px rgba(255,255,255,0.35)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
+    <p class="narrative-solution"><span class="sol-intro-label">Introducing</span><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 20px rgba(255,255,255,0.35)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
   </div>
 </section>
 
@@ -4062,6 +4226,7 @@ body {
 
 
 <section class="sp-section" aria-label="Social proof">
+  <h2 class="trust-section__title reveal" style="max-width:none;white-space:nowrap">Trusted by Those who Chase <span style="color:#553C9A">Excellence,</span><br class="sp-head-br">Even in <span style="color:#553C9A">Sleep</span></h2>
   <div class="sp-grid">
 
     <!-- Col 1: video + tweet -->
@@ -4234,48 +4399,34 @@ body {
 <main class="shell">
   <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
 
-    <article id="alignment" class="tile stat-card stat-card--graph stat-card--liquid-glass"
-             data-scheme="spinal" data-kind="graph" data-delay="0" data-delta="24"
+    <article id="alignment" class="tile stat-card stat-card--hbar stat-card--liquid-glass"
+             data-scheme="spinal" data-kind="hbar" data-delay="0" data-delta="24"
              tabindex="0" aria-labelledby="s1-title" aria-describedby="s1-sr">
       <p id="s1-sr" class="sr-only">
         Lumbar support: Calibr8 holds the spine 24 percent better than a standard mattress.
       </p>
       <h3 id="s1-title" class="stat-card__title">Lumbar Support</h3>
 
-      <div class="graph" aria-hidden="true">
-        <svg class="graph__svg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet">
+      <div class="hbar" aria-hidden="true">
+        <svg class="hbar__svg" viewBox="0 0 300 130" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <linearGradient id="spinal-stroke" x1="0" y1="1" x2="1" y2="0">
+            <linearGradient id="hbar-cal-grad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#C54B8C"/>
               <stop offset="100%" stop-color="#553C9A"/>
             </linearGradient>
           </defs>
-          <!-- grid lines 0–100% mapped to y=0–150 -->
-          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
-          <line x1="0" y1="15"  x2="300" y2="15"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="45"  x2="300" y2="45"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="75"  x2="300" y2="75"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="105" x2="300" y2="105" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="120" x2="300" y2="120" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="135" x2="300" y2="135" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="150" x2="300" y2="150" stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
-          <path class="graph__line graph__line--faint graph__line--seg1"
-                d="M 0 92 C 25 87 50 96 82 75"
-                stroke="url(#spinal-stroke)"/>
-          <path class="graph__line graph__line--glow graph__line--seg2"
-                d="M 82 75 C 108 58 138 92 162 72 C 188 54 212 52 240 28"
-                stroke="url(#spinal-stroke)"/>
-          <path class="graph__line graph__line--faint graph__line--seg3"
-                d="M 240 28 C 260 32 280 22 300 18"
-                stroke="url(#spinal-stroke)"/>
-          <circle class="graph__dot graph__dot--std" cx="82" cy="75" r="6"/>
-          <circle class="graph__dot graph__dot--cal" cx="240" cy="28" r="6.5"/>
+          <!-- Vertical axis -->
+          <line x1="86" y1="12" x2="86" y2="105" stroke="rgba(85,60,154,0.22)" stroke-width="1.5"/>
+          <!-- Row labels -->
+          <text x="81" y="47" text-anchor="end" class="hbar__label hbar__label--std">Standard</text>
+          <text x="81" y="85" text-anchor="end" class="hbar__label hbar__label--cal">Calibr8</text>
+          <!-- Standard bar: 52% of 214px range → 111px -->
+          <line class="hbar__bar hbar__bar--std" x1="86" y1="40" x2="197" y2="40" stroke-width="20" stroke-linecap="round"/>
+          <!-- Calibr8 bar: 76% of 214px range → 163px -->
+          <line class="hbar__bar hbar__bar--cal" x1="86" y1="78" x2="249" y2="78" stroke-width="20" stroke-linecap="round" stroke="url(#hbar-cal-grad)"/>
+          <!-- Axis label -->
+          <text x="168" y="120" text-anchor="middle" class="hbar__axis-label">Lumbar Contact Area  →</text>
         </svg>
-        <span class="graph__label graph__label--std">Standard<br>Mattress</span>
-        <span class="graph__label graph__label--cal">Calibrated<br>Mattress</span>
       </div>
 
       <div class="delta" aria-hidden="true">
@@ -4588,6 +4739,32 @@ body {
 
   </div>
   </div><!-- /.reviews-viewport -->
+
+  <!-- Heatmap legend strip -->
+  <div class="heatmap-legend-wrap">
+    <div class="heatmap-legend">
+      <div class="heatmap-legend__bar-wrap">
+        <div class="heatmap-legend__bar"></div>
+        <div class="heatmap-legend__bar-tick heatmap-legend__bar-tick--first" style="left:33.1%"></div>
+        <div class="heatmap-legend__bar-tick" style="left:58.3%"></div>
+      </div>
+      <!-- Desktop: 3 zones -->
+      <div class="heatmap-legend__zones heatmap-legend__zones--desk">
+        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:33.1">Recommended Body<br>Pressure Range</span>
+        <i class="heatmap-legend__zone-sep"></i>
+        <span class="heatmap-legend__zone heatmap-legend__zone--low" style="flex:25.2">Low Body<br>Pressure Range</span>
+        <i class="heatmap-legend__zone-sep"></i>
+        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body<br>Pressure Range</span>
+      </div>
+      <!-- Mobile: 2 zones -->
+      <div class="heatmap-legend__zones heatmap-legend__zones--mob">
+        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:58.3">Recommended Body<br>Pressure Range</span>
+        <i class="heatmap-legend__zone-sep"></i>
+        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body<br>Pressure Range</span>
+      </div>
+    </div>
+  </div>
+
 </section>
 </div><!-- /.reviews-bg-wrap -->
 </div><!-- /.reviews-box -->
@@ -4607,7 +4784,10 @@ body {
         <button class="book-btn active" data-tab="store">In-Store</button>
         <button class="book-btn" data-tab="home">Home Consultation</button>
       </div>
-      <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a></span>
+      <div class="book-cta-row">
+        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Fill the Form for a Callback</a></span>
+        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed at Nearest Store</a></span>
+      </div>
     </div>
   </div>
 </section>
@@ -4716,6 +4896,28 @@ body {
     card.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = 0; });
     card.querySelectorAll('.graph__dot').forEach(d => d.classList.add('is-on'));
     card.querySelectorAll('.graph__label').forEach(l => l.classList.add('is-on'));
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateHBar(card) {
+    const bars = card.querySelectorAll('.hbar__bar');
+    const dv = card.querySelector('.delta__value');
+    bars.forEach((bar, i) => {
+      const len = bar.getTotalLength();
+      bar.style.transition = 'none';
+      bar.style.strokeDasharray = len;
+      bar.style.strokeDashoffset = len;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        bar.style.transition = `stroke-dashoffset ${i === 0 ? 900 : 1200}ms cubic-bezier(0.16, 1, 0.3, 1) ${i * 150}ms`;
+        bar.style.strokeDashoffset = 0;
+      }));
+    });
+    countToLinear(dv, Number(dv.dataset.target), 700);
+  }
+
+  function snapHBar(card) {
+    card.querySelectorAll('.hbar__bar').forEach(bar => { bar.style.strokeDasharray = ''; bar.style.strokeDashoffset = 0; });
     const dv = card.querySelector('.delta__value');
     dv.textContent = dv.dataset.target;
   }
@@ -4983,6 +5185,7 @@ body {
       else if (kind === 'rings') snapRings(card);
       else if (kind === 'arc') snapArc(card);
       else if (kind === 'graph') snapGraph(card);
+      else if (kind === 'hbar') snapHBar(card);
       else if (kind === 'gauge') snapGauge(card);
       else if (kind === 'reduce') snapBarsReduce(card);
       else if (kind === 'lines') snapLines(card);
@@ -4993,6 +5196,7 @@ body {
     else if (kind === 'rings') animateRings(card);
     else if (kind === 'arc') animateArc(card);
     else if (kind === 'graph') animateGraph(card);
+    else if (kind === 'hbar') animateHBar(card);
     else if (kind === 'gauge') animateGauge(card);
     else if (kind === 'reduce') animateBarsReduce(card);
     else if (kind === 'lines') animateLines(card);
@@ -5752,11 +5956,11 @@ body {
 
   // ── Reviews ──
   const REVIEWS = [
-    { name: 'Kunal Shah',      city: 'Bengaluru', quote: '"I learnt about Calibr8 at a Wakefit store and it has been an incredible experience so far. The mattress adapts perfectly to my body shape, I would 100% recommend it!"',                                                                        img: '11-testimonials/kunal.jpeg',   bodyBefore: '11-testimonials/before.png', bodyAfter: '11-testimonials/after.png' },
+    { name: 'Kunal Shah',      city: 'Bengaluru', quote: '"Incredible experience. The mattress adapts perfectly to my body shape — I would 100% recommend it! Changed my sleep completely."',                                                                        img: '11-testimonials/kunal.jpeg',   bodyBefore: '11-testimonials/before.png', bodyAfter: '11-testimonials/after.png' },
     { name: 'Shivashish Suman',city: 'Bengaluru', quote: '"I\'m confident I\'ve made the best purchase because the comfort I feel is exactly what I experienced with my calibration in the store!"',                                                                                                       img: '11-testimonials/shivphoto.png',  bodyBefore: '11-testimonials/shivashish_nobg.png', bodyAfter: '11-testimonials/shivashish2_nobg.png' },
     { name: 'Ashish Naik',     city: 'Bengaluru', quote: '"What I love about Calibr8 is that it is tailored to my needs. In fact, I bought another Calibr8 mattress for my mother as well!"',                                                                                                             img: '11-testimonials/ashishphoto.png', bodyBefore: '11-testimonials/Ashish_nobg.png', bodyAfter: '11-testimonials/ashish2_nobg.png' },
     { name: 'Purab Saxena',    city: 'Bengaluru', quote: '"My Calibr8 mattress improved my lower back pain and sleep quality. I\'d recommend it to anyone who wants personalised sleep."',                                              img: '11-testimonials/purabphoto.png',  bodyBefore: '11-testimonials/purab_nobg.png', bodyAfter: '11-testimonials/abhishek2_nobg.png' },
-    { name: 'Abhishek J R',    city: 'Bengaluru', quote: '"I am very happy with my Calibr8 mattress...it is so comfortable, stays cool & has improved my sleep experience immensely! Wakefit has a great customer service as well."',                                                                      img: '11-testimonials/abhishekphoto.png', bodyBefore: '11-testimonials/abhishek_nobg.png', bodyAfter: '11-testimonials/purab2_nobg.png' },
+    { name: 'Abhishek J R',    city: 'Bengaluru', quote: '"My Calibr8 mattress is so comfortable, stays cool, and has improved my sleep experience immensely! Worth every single penny."',                                                                      img: '11-testimonials/abhishekphoto.png', bodyBefore: '11-testimonials/abhishek_nobg.png', bodyAfter: '11-testimonials/purab2_nobg.png' },
   ];
 
   let rcActive = 0;
@@ -6254,6 +6458,65 @@ window.addEventListener('resize', equalizeRevCalGaps);
       document.querySelectorAll('.book-img').forEach(v => loadVid(v));
     }, { once: true });
   });
+})();
+
+/* ── Body-word ticker ── */
+(function() {
+  const words = ['Athletic', 'Plus-Sized', 'Toned', 'Slender', 'unique'];
+  let idx = 0;
+  let timer = null;
+  const el = document.querySelector('.body-word');
+  const vid = document.getElementById('bodies-vid');
+  if (!el) return;
+
+  function animateTo(word) {
+    el.style.transition = 'transform 0.32s cubic-bezier(0.4,0,1,1), opacity 0.24s ease';
+    el.style.transform = 'translateY(-115%)';
+    el.style.opacity = '0';
+    setTimeout(function() {
+      el.style.transition = 'none';
+      el.style.transform = 'translateY(115%)';
+      el.style.opacity = '0';
+      el.textContent = word;
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          el.style.transition = 'transform 0.32s cubic-bezier(0,0,0.2,1), opacity 0.24s ease';
+          el.style.transform = 'translateY(0)';
+          el.style.opacity = '1';
+        });
+      });
+    }, 320);
+  }
+
+  function startCycle() {
+    if (timer) { clearInterval(timer); timer = null; }
+    idx = 0;
+    el.style.transition = 'none';
+    el.style.transform = 'translateY(0)';
+    el.style.opacity = '1';
+    el.textContent = words[0];
+    timer = setInterval(function() {
+      idx++;
+      animateTo(words[idx]);
+      if (idx >= words.length - 1) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }, 1000);
+  }
+
+  startCycle();
+
+  if (vid) {
+    vid.removeAttribute('loop');
+    vid.addEventListener('ended', function() {
+      setTimeout(function() {
+        vid.currentTime = 0;
+        vid.play();
+        startCycle();
+      }, 1000);
+    });
+  }
 })();
 
 </script>
