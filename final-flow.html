@@ -178,46 +178,70 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
-  padding: 80px 40px 60px;
+  gap: clamp(20px, 3vw, 36px);
+  padding: clamp(60px, 8vw, 96px) 40px clamp(40px, 6vw, 64px);
+  background: #ffffff;
 }
-
-.hero__frame {
+/* Purple radial glow centered on the video */
+.hero::before {
+  content: '';
   position: absolute;
   inset: 0;
+  background: radial-gradient(ellipse 68% 65% at 50% 52%,
+    rgba(130, 75, 220, 0.22) 0%,
+    rgba(108, 55, 195, 0.12) 38%,
+    rgba(85,  40, 168, 0.05) 60%,
+    transparent 70%);
+  pointer-events: none;
   z-index: 0;
 }
-.hero__video {
+.hero__title, .hero__sub, .hero__video-box, .hero__bottom { position: relative; z-index: 1; }
+
+.hero__frame { display: none; }
+.hero__text-grad { display: none; }
+.hero__fade { display: none !important; }
+
+.hero__video-box {
+  width: min(90vw, 1260px);
+  aspect-ratio: 16 / 9;
+  max-height: 64dvh;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 1px 6px rgba(0,0,0,0.06);
+  flex-shrink: 0;
+  position: relative;
+}
+/* Subtle bottom scrim so glass buttons read on video */
+.hero__video-box::after {
+  content: '';
   position: absolute;
-  inset: 0;
+  bottom: 0; left: 0; right: 0;
+  height: 32%;
+  background: linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.hero__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
-  border: none;
-  outline: none;
   display: block;
 }
-
-.hero::after { display: none; }
-
-.hero__text, .hero__cta, .hero__bottom { position: relative; z-index: 2; }
-.hero__text-grad {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.5) 55%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
-}
-.hero__bottom { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-
-@keyframes heroFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* Buttons live inside the video box on desktop */
+@media (min-width: 481px) {
+  .hero__bottom { display: none; }
+  .problem-stat { font-size: clamp(28px, 3.8vw, 60px) !important; }
+  .hero__video-box .hero__cta-group {
+    position: absolute;
+    bottom: clamp(20px, 3vh, 36px);
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+    z-index: 2;
+    white-space: nowrap;
+  }
 }
 
 .hero__title {
@@ -314,7 +338,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 64px;
+  margin-bottom: 0;
 }
 .hero__watch {
   display: inline-block;
@@ -1420,8 +1444,17 @@ body {
   transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
 }
 .problem-stat.is-visible .pst-w { opacity: 1; transform: none; }
-.pst-line--sub { font-size: 0.68em; color: #14161e; }
+.pst-line--sub { font-size: 1em; color: #14161e; }
 .pst-pct { color: #553C9A; }
+.pst-alt-wrap { position: relative; overflow: hidden; height: 2.6em; width: 100%; }
+.pst-alt {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  text-align: center;
+}
+.pst-alt--a { transform: translateX(0); white-space: normal; }
+.pst-alt--b { transform: translateX(-100%); white-space: nowrap; }
 
 /* ── Narrative: solution (video card) ── */
 .narrative-solution-section {
@@ -1484,13 +1517,19 @@ body {
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  line-height: 1.15;
-  text-align: center;
-  /* width locked to widest word by JS */
+  height: 1.2em;
+  line-height: 1.2;
+  position: relative;
+  top: -3px;
+  /* width set + transitioned by JS */
 }
 .body-word {
   display: inline-block;
   white-space: nowrap;
+  line-height: 1.2;
+  font-size: inherit;
+  font-weight: inherit;
+  text-shadow: inherit;
 }
 
 .life-stat-section {
@@ -1590,12 +1629,86 @@ body {
   width: var(--card);
   height: var(--card);
   margin-left: calc(var(--card) / -2);
-  overflow: hidden;
+  overflow: visible;
   transition:
     transform 560ms cubic-bezier(0.4, 0, 0.2, 1),
     opacity 480ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
   transform-origin: center center;
+  perspective: 1400px;
+}
+
+/* ── Card flip mechanism ── */
+.card-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  transform-style: preserve-3d;
+  transition: rotate 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover float uses translate property — independent of rotate, no conflict */
+@keyframes cardFloat {
+  0%, 100% { translate: 0 0px; }
+  40%      { translate: 0 -10px; }
+  70%      { translate: 0 -5px; }
+}
+.card-inner.is-hovering {
+  animation: cardFloat 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  cursor: pointer;
+}
+.carousel-card.c-left,
+.carousel-card.c-right { cursor: pointer; }
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.card-face--back {
+  transform: rotateY(-180deg);
+  background: radial-gradient(ellipse 75% 65% at 50% 50%,
+    rgba(120, 60, 210, 0.18) 0%,
+    rgba(100, 45, 185, 0.08) 45%,
+    transparent 70%
+  ), #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 12%;
+  text-align: center;
+}
+.card-back__delta {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: calc(var(--card) * 0.21);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #2a0e6e;
+  line-height: 1;
+  margin-bottom: calc(var(--card) * 0.04);
+}
+.card-back__metric {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: calc(var(--card) * 0.052);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: rgba(30, 10, 80, 0.85);
+  line-height: 1.2;
+  margin-bottom: calc(var(--card) * 0.025);
+}
+.card-back__label {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: calc(var(--card) * 0.034);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(80, 40, 160, 0.55);
+  line-height: 1.5;
 }
 
 /* State classes — two-class specificity overrides .stat-card */
@@ -2519,7 +2632,9 @@ body {
 /* Credential cards */
 .cls-card {
   position: absolute;
-  width: clamp(280px, 33vw, 520px);
+  width: clamp(300px, 38vw, 580px);
+  height: 200px;
+  overflow: hidden;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(6px) saturate(1.2);
   -webkit-backdrop-filter: blur(6px) saturate(1.2);
@@ -2623,23 +2738,28 @@ body {
 }
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
-  .cls-section { height: auto; min-height: 100svh; padding: 0 0 40px; }
+  .cls-section { height: auto; min-height: 106svh; padding: 0 0 40px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
   .cls-card {
-    width: 74vw;
+    width: calc(88vw + 5px);
+    min-height: 90px;
+    height: auto !important;
+    overflow: visible !important;
     left: 50% !important; right: auto !important;
     transform: translateX(-50%) !important;
     padding: 10px 14px;
     border-radius: 14px;
   }
-  .cls-card__title { font-size: 13px !important; margin-bottom: 6px; }
-  .cls-card__body { font-size: 11px; line-height: 1.4; }
+  .cls-card__title { font-size: 11.5px !important; margin-bottom: 5px; }
+  .cls-card__body { font-size: 9.5px; line-height: 1.4; }
 
-  /* Resting positions — top 2 below title (~17vh), bottom 2 below ring */
-  /* ring center 50vh, ring top ~35vh, ring bottom ~65vh                */
-  .cls-cred--tl { top: 32vh; }
-  .cls-cred--tr { top: 17vh; }
-  .cls-cred--bl { top: 68vh; }
-  .cls-cred--br { top: 84vh; }
+  /* Score number centred at true 50% on mobile (no +50px offset) */
+  #cls-score-num { top: 50% !important; }
+
+  /* 14vh gap between each card pair; ring centre = true 50% */
+  .cls-cred--tr { top: 10vh; }
+  .cls-cred--tl { top: 24vh; }
+  .cls-cred--bl { top: 67vh; }
+  .cls-cred--br { top: 81vh; }
 
   /* Visible */
   .cls-cred--tl.cls-vis,
@@ -2647,11 +2767,11 @@ body {
   .cls-cred--bl.cls-vis,
   .cls-cred--br.cls-vis { opacity: 1; transform: translateX(-50%) !important; }
 
-  /* Absorbed: slide to ring center (50vh) */
-  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 32vh - 30px)) scale(0.05) !important; }
-  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 17vh - 30px)) scale(0.05) !important; }
-  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 68vh - 30px)) scale(0.05) !important; }
-  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 84vh - 30px)) scale(0.05) !important; }
+  /* Absorbed: slide to ring centre at 53vh (half of 106svh section, no +50px offset) */
+  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 24vh - 30px)) scale(0.05) !important; }
+  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 10vh - 30px)) scale(0.05) !important; }
+  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 67vh - 30px)) scale(0.05) !important; }
+  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 81vh - 30px)) scale(0.05) !important; }
 
   .cls-tag-eyebrow { font-size: clamp(9px, 2.3vw, 11px); margin-bottom: 6px; }
   .cls-tag-headline { font-weight: 400; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -3292,124 +3412,87 @@ body {
 @media (max-width: 480px) {
 
   /* ── Hero ── */
-  /* dark background = gradient seamlessly extends from screen top through empty space into frame */
   .hero {
     min-height: 100dvh;
-    padding: 0;
+    padding: 52px 16px 36px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     text-align: center;
     position: relative;
-    background: #000000;
-    transition: background-color 700ms cubic-bezier(0.4,0,0.2,1);
+    background: #ffffff;
+    overflow: visible;
   }
-  .hero.is-dark { background: #ffffff; }
+  .hero::before { display: none; }
+  .hero__text-grad { display: none; }
+  .hero__fade--bottom { display: none; }
+  .hero__fade--top { display: none !important; }
+  .hero__frame::after { display: none; }
 
-  /* 4:5 frame centered in viewport */
-  .hero__frame {
-    position: relative;
+  /* title: naturally first in DOM, no order tricks needed */
+  .hero__title,
+  .hero.is-dark .hero__title {
+    font-size: clamp(24px, 8vw, 40px);
+    font-style: normal;
+    white-space: nowrap;
+    margin: 0 0 -10px;
+    letter-spacing: 0.04em;
+    color: #111111 !important;
+    transition: none !important;
+    text-align: center;
+    width: 100%;
+    flex-shrink: 0;
+  }
+  .hero__title em { font-style: normal; }
+
+  /* subtitle moves above video box */
+  .hero__sub,
+  .hero.is-dark .hero__sub {
+    order: 2;
+    white-space: normal;
+    font-size: 18px;
+    color: #111111 !important;
+    text-align: center;
+    max-width: 82vw;
+    transition: none !important;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  /* video box: order 3 (after subtitle) */
+  .hero__video-box {
+    order: 3;
     width: 100%;
     aspect-ratio: 4/5;
-    overflow: hidden;
+    max-height: none;
+    border-radius: 24px;
     flex-shrink: 0;
-    border: none;
-    outline: none;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
   }
+  /* no scrim needed — no buttons inside video on mobile */
+  .hero__video-box::after { display: none; }
+  /* hide overlay CTA buttons inside the video */
+  .hero__video-box .hero__cta-group { display: none; }
 
-  /* black gradient: screen top → just into the video top */
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    /* covers empty space above frame + ~70px into video top */
-    height: calc(50dvh - 62.5vw + 140px);
-    background: linear-gradient(to bottom,
-      rgba(0,0,0,1) 0%,
-      rgba(0,0,0,0.85) 50%,
-      transparent 100%);
-    z-index: 3;
-    pointer-events: none;
-    transition: background 700ms cubic-bezier(0.4,0,0.2,1);
-  }
-  .hero.is-dark::before {
-    background: linear-gradient(to bottom,
-      rgba(255,255,255,1) 0%,
-      rgba(255,255,255,0.85) 50%,
-      transparent 100%);
-  }
-
-  /* white gradient same span, driven by existing JS (grad.style.opacity) */
-  .hero__text-grad {
-    height: calc(50dvh - 62.5vw + 140px);
-    z-index: 2;
-  }
-
-  .hero__fade { display: block; }
-  .hero__fade--top { display: none !important; }
-
-  /* bottom gradient: covers from video bottom to screen bottom */
-  .hero__fade--bottom {
-    height: 30%;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
-    transition: background 700ms cubic-bezier(0.4,0,0.2,1);
-  }
-  .hero.is-dark .hero__fade--bottom {
-    background: linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-  }
-
-  /* white tinge at frame bottom when is-dark */
-  .hero__frame::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 13%;
-    background: linear-gradient(to top, rgba(255,255,255,0.75) 0%, transparent 100%);
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
-    pointer-events: none;
-  }
-  .hero.is-dark .hero__frame::after { opacity: 0; }
-
-  /* text at screen top, inside the gradient zone */
-  .hero__text {
-    position: absolute;
-    top: 44px; left: 0; right: 0;
-    z-index: 4;
-    text-align: center;
-    padding: 0 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .hero__title {
-    font-size: clamp(52px, 16vw, 72px);
-    font-style: normal;
-    white-space: normal;
-    margin: 0 0 8px;
-    letter-spacing: 0.04em;
-    color: #ffffff;
-    transition: color 700ms ease;
-  }
-  .hero.is-dark .hero__title { color: #111111; }
-  .hero__title em { font-style: normal; }
+  /* show bottom buttons row below video, order 4 */
   .hero__bottom {
-    position: absolute;
-    bottom: 28px;
-    left: 0; right: 0;
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    order: 4;
+    display: flex !important;
+    justify-content: center;
+    padding: 0;
   }
-  .hero__cta, .hero__watch { margin-bottom: 0; padding: 12px 32px; }
-  .hero__sub { white-space: normal; font-size: 16px; color: #ffffff; text-align: center; max-width: 82vw; transition: color 700ms ease; }
-  .hero.is-dark .hero__sub { color: #444444; }
-  .hero__block { display: contents; }
+  /* equal-size buttons with larger text */
+  .hero__bottom .hero__cta,
+  .hero__bottom .hero__watch {
+    font-size: 15px !important;
+    font-weight: 500;
+    min-width: 136px;
+    text-align: center;
+    padding: 14px 20px;
+  }
 
   /* ── Carousel (impact stats) ── */
   .carousel-section {
@@ -3975,6 +4058,9 @@ body {
     padding: 40px 0;
   }
   .bodies-section .narrative-solution { font-size: 20px !important; max-width: 92% !important; }
+  .bodies-section .body-word-wrap,
+  .bodies-section .body-word { font-size: 20px !important; line-height: 1.2; }
+  .bodies-section .body-word-wrap { top: -1.5px; }
   /* pain + problem-stat share one continuous gradient — each gradient aimed at their shared boundary */
   .pain-text-section {
     position: relative;
@@ -4039,7 +4125,7 @@ body {
     text-align: center;
     text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   }
-  .narrative-solution span[style] {
+  .narrative-solution span[style]:not(.body-word-wrap):not(.body-word) {
     font-size: clamp(32px, 9vw, 48px) !important;
   }
   .narrative-solution .sol-intro-label {
@@ -4138,20 +4224,18 @@ body {
 <body>
 
 <section class="hero" aria-label="Calibr8 hero">
-  <div class="hero__frame">
+  <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
+  <div class="hero__video-box">
     <video class="hero__video" autoplay muted loop playsinline>
       <source src="01-hero/heroGIF.mp4" type="video/mp4">
     </video>
-    <div class="hero__fade hero__fade--top"></div>
-    <div class="hero__fade hero__fade--bottom"></div>
-  </div>
-  <div class="hero__text-grad"></div>
-  <div class="hero__text">
-    <div class="hero__block">
-      <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
-      <p class="hero__sub">Your body deserves a mattress that understands it.</p>
+    <div class="hero__cta-group">
+      <a class="hero__cta" href="#">Book Now</a>
+      <a class="hero__watch" href="#">Watch Demo</a>
     </div>
   </div>
+  <p class="hero__sub">Your body deserves a mattress that understands it.</p>
+  <!-- hero__bottom: mobile CTA row (desktop hidden via min-width:481px rule) -->
   <div class="hero__bottom">
     <div class="hero__cta-group">
       <a class="hero__cta" href="#">Book Now</a>
@@ -4163,8 +4247,8 @@ body {
 <!-- Bodies video: "Your body is unique. Your mattress should be too." -->
 <section class="bodies-section" aria-label="Unique bodies">
   <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
-    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline loop autoplay></video>
-    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is <span class="body-word-wrap"><span class="body-word">Athletic</span></span>.<br>Your mattress should be too.</p>
+    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline autoplay></video>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is <span class="body-word-wrap"><span class="body-word">Toned</span></span>.<br>Your mattress should be too.</p>
   </div>
 </section>
 
@@ -4181,8 +4265,9 @@ body {
     <div class="pst-line">
       <span class="pst-w">sleeping on a mattress</span>
     </div>
-    <div class="pst-line">
-      <span class="pst-w">not made for you.</span>
+    <div class="pst-line pst-alt-wrap">
+      <span class="pst-w pst-alt pst-alt--a">made by an industry that caters to averages.</span>
+      <span class="pst-alt pst-alt--b">not made for you.</span>
     </div>
     <div class="pst-line" style="height: 1.4em;"></div>
     <div class="pst-line pst-line--sub">
@@ -4195,7 +4280,7 @@ body {
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
     <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="03-calibr8gif/floating.MOV" muted playsinline loop autoplay></video>
-    <p class="narrative-solution"><span class="sol-intro-label">Introducing</span><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 20px rgba(255,255,255,0.35)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
+    <p class="narrative-solution"><span class="sol-intro-label">Introducing</span><span style="display:block;font-weight:700;color:#ffffff;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 24px rgba(85,60,154,0.7),0 0 48px rgba(85,60,154,0.4)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
   </div>
 </section>
 
@@ -4207,20 +4292,20 @@ body {
   <canvas id="cls-canvas"></canvas>
   <div class="cls-score-num" id="cls-score-num"></div>
   <div class="cls-card cls-cred--tl" id="cls-c0">
-    <div class="cls-card__title">Engineered</div>
-    <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics for precise body support.</div>
+    <div class="cls-card__title">Precision Engineering</div>
+    <div class="cls-card__body">Built with orthopedists and biomedical engineers, Calibr8 applies proven zonal support principles by measuring and calibrating each spinal zone independently instead of treating your body as one flat surface.</div>
   </div>
   <div class="cls-card cls-cred--tr" id="cls-c1">
-    <div class="cls-card__title">Data-Driven</div>
-    <div class="cls-card__body">Machine learning trained on real pressure-mapping data, with the system learning from each calibration.</div>
+    <div class="cls-card__title">Data-Driven Intelligence</div>
+    <div class="cls-card__body">There's no one firmness that's right for everyone. Calibr8 uses machine learning trained on real pressure-mapping data to identify the support your body needs, while getting smarter with every calibration.</div>
   </div>
   <div class="cls-card cls-cred--bl" id="cls-c2">
-    <div class="cls-card__title">Global Tech</div>
-    <div class="cls-card__body">Advanced Spanish pressure-mapping technology engineered for Indian body types &amp; sleep conditions.</div>
+    <div class="cls-card__title">Global Technology</div>
+    <div class="cls-card__body">Built on clinical-grade Spanish pressure-mapping technology, Calibr8 uses its proprietary calibration engine to translate every pressure point into support designed specifically for Indian sleepers.</div>
   </div>
   <div class="cls-card cls-cred--br" id="cls-c3">
-    <div class="cls-card__title">Research</div>
-    <div class="cls-card__body">8+ years of research across 8,000+ Indian body types. India's most comprehensive sleep dataset.</div>
+    <div class="cls-card__title">Sleep Research</div>
+    <div class="cls-card__body">Calibr8 is built on 10+ years of studying how Indian bodies sleep, creating one of India's largest real-world pressure-mapping datasets, captured live from thousands of Indian body types and growing with every calibration.</div>
   </div>
 </section>
 
@@ -5281,6 +5366,59 @@ body {
     }
   }
 
+  // ── Problem stat: slide A→right / B from left, every 3s ──
+  {
+    const altA = document.querySelector('.pst-alt--a');
+    const altB = document.querySelector('.pst-alt--b');
+    if (altA && altB) {
+      const DUR = 380;
+      let showA = true;
+
+      function initPositions() {
+        altA.style.transition = 'none';
+        altB.style.transition = 'none';
+        altA.style.transform = 'translateX(0)';
+        altB.style.transform = 'translateX(-100%)';
+      }
+
+      function swap() {
+        const exitEl  = showA ? altA : altB;
+        const enterEl = showA ? altB : altA;
+        showA = !showA;
+
+        // 1. slide current out to right
+        exitEl.style.transition = `transform ${DUR}ms cubic-bezier(0.4,0,1,1)`;
+        exitEl.style.transform  = 'translateX(100%)';
+
+        // 2. after exit, reset exited el to left, slide new el in from left
+        setTimeout(function() {
+          exitEl.style.transition  = 'none';
+          exitEl.style.transform   = 'translateX(-100%)';
+          enterEl.style.transition = 'none';
+          enterEl.style.transform  = 'translateX(-100%)';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              enterEl.style.transition = `transform ${DUR}ms cubic-bezier(0,0,0.2,1)`;
+              enterEl.style.transform  = 'translateX(0)';
+            });
+          });
+        }, DUR);
+      }
+
+      const pStat = document.querySelector('.problem-stat');
+      function startAltCycle() {
+        initPositions();
+        setInterval(swap, 3000);
+      }
+      if (pStat) {
+        const mo = new MutationObserver(function() {
+          if (pStat.classList.contains('is-visible')) { mo.disconnect(); startAltCycle(); }
+        });
+        mo.observe(pStat, { attributes: true, attributeFilter: ['class'] });
+      }
+    }
+  }
+
   // ── Bodies video: play on load ──
   {
     const bv = document.getElementById('bodies-vid');
@@ -5413,10 +5551,32 @@ body {
         'display:flex', 'flex-direction:column'
       ].join(';') + ';';
       while (clone.firstChild) scaler.appendChild(clone.firstChild);
-      clone.appendChild(scaler);
+
+      // Wrap scaler in front face
+      const front = document.createElement('div');
+      front.className = 'card-face card-face--front';
+      front.appendChild(scaler);
+
+      // Build back face
+      const sign      = (src.querySelector('.delta__sign') || {}).textContent || '+';
+      const deltaNum  = src.dataset.delta || '';
+      const titleText = (src.querySelector('.stat-card__title') || {}).textContent || '';
+      const outcome   = (src.querySelector('.stat-card__outcome') || {}).textContent || '';
+      const back = document.createElement('div');
+      back.className = 'card-face card-face--back';
+      back.innerHTML = '<div class="card-back__delta">' + sign + deltaNum + '%</div>'
+        + '<div class="card-back__metric">' + titleText + '</div>'
+        + '<div class="card-back__label">' + outcome + '</div>';
+
+      const inner = document.createElement('div');
+      inner.className = 'card-inner';
+      inner.appendChild(front);
+      inner.appendChild(back);
+      clone.appendChild(inner);
       track.appendChild(clone);
       cCards.push(clone);
     });
+
     function stateFor(idx, active) {
       const d = ((idx - active) % N + N) % N;
       if (d === 0) return 'c-center';
@@ -5430,7 +5590,7 @@ body {
       card.classList.add(state);
       if (instant) { card.getBoundingClientRect(); card.style.transition = ''; }
     }
-    let active = 0, advancing = false;
+    let active = 0, advancing = false, flipTimer = null, pausedByHover = false, clickPaused = false;
     function setAll(a) { cCards.forEach((c,i) => applyState(c, stateFor(i,a))); }
     function clearViz(card) {
       card.dataset.revealed = '';
@@ -5445,18 +5605,160 @@ body {
         el.style.strokeDasharray = '9999';
         el.style.strokeDashoffset = '9999';
       });
+      const inn = card.querySelector('.card-inner');
+      if (inn) cardReset(inn);
     }
+
+    // Helpers — cumulative rotateY so both flip and flip-back go left→right
+    function cardFlipOut(inn) {
+      const a = (parseFloat(inn.dataset.fa) || 0) - 180;
+      inn.dataset.fa = a;
+      inn.style.rotate = 'y ' + a + 'deg';
+    }
+    function cardFlipIn(inn) {
+      const a = (parseFloat(inn.dataset.fa) || 0) - 180;
+      inn.dataset.fa = a;
+      inn.style.rotate = 'y ' + a + 'deg';
+    }
+    function cardIsBack(inn) {
+      const a = ((parseFloat(inn.dataset.fa) || 0) % 360 + 360) % 360;
+      return a === 180;
+    }
+    function cardReset(inn) {
+      inn.classList.remove('is-hovering');
+      inn.style.transition = 'none';
+      inn.dataset.fa = '0';
+      inn.style.rotate = 'y 0deg';
+      inn.getBoundingClientRect();
+      inn.style.transition = '';
+    }
+
+    function scheduleFlip(card) {
+      if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+      const inn = card.querySelector('.card-inner');
+      flipTimer = setTimeout(function() {
+        if (pausedByHover || clickPaused || !inn) return;
+        inn.classList.remove('is-hovering');
+        cardFlipOut(inn);
+        flipTimer = setTimeout(function() {
+          if (pausedByHover || clickPaused || !inn) return;
+          cardFlipIn(inn);
+          flipTimer = setTimeout(function() {
+            if (!pausedByHover && !clickPaused) advance();
+          }, 700);
+        }, 2500);
+      }, 1500);
+    }
+
     function advance() {
-      if (advancing) return;
+      if (advancing || pausedByHover || clickPaused) return;
       advancing = true;
-      const next = (active+1)%N;
-      const hiddenIdx = (active+N-2)%N;
+      const next = (active + 1) % N;
+      const hiddenIdx = (active + N - 2) % N;
+      const prevInn = cCards[active].querySelector('.card-inner');
+      if (prevInn) cardReset(prevInn);
       applyState(cCards[hiddenIdx], 'c-hidden', true);
       active = next; setAll(active);
       revealCard(cCards[active]);
-      setTimeout(() => { advancing = false; }, 580);
-      setTimeout(advance, 3000);
+      setTimeout(function() { advancing = false; }, 580);
+      scheduleFlip(cCards[active]);
     }
+
+    // User-triggered navigation — forward or backward, optionally arrive flipped
+    function navigateTo(targetIdx, flipOnArrive) {
+      if (advancing) return;
+      advancing = true;
+      clickPaused = true;
+      if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+
+      const prevInn = cCards[active].querySelector('.card-inner');
+      if (prevInn) cardReset(prevInn);
+
+      const isForward = ((targetIdx - active + N) % N) === 1;
+      if (isForward) {
+        // Snap the about-to-leave card (was c-left) to hidden so it doesn't sweep across
+        applyState(cCards[(active + N - 2) % N], 'c-hidden', true);
+      } else {
+        // Backward: new c-left was at far-right hidden — snap it to left so it doesn't sweep
+        applyState(cCards[(targetIdx + N - 1) % N], 'c-left', true);
+        // Snap old c-right to hidden
+        applyState(cCards[(active + 1) % N], 'c-hidden', true);
+      }
+
+      active = targetIdx;
+      setAll(active);
+
+      const newInn = cCards[active].querySelector('.card-inner');
+      if (flipOnArrive && newInn) {
+        // Start flip immediately — slides in while flipping
+        cardFlipOut(newInn);
+      }
+
+      revealCard(cCards[active]);
+      setTimeout(function() { advancing = false; }, 580);
+    }
+
+    // Hover: float bounce + pause; click: navigate or flip
+    cCards.forEach(function(card) {
+      card.addEventListener('mouseenter', function() {
+        if (!card.classList.contains('c-center')) return;
+        pausedByHover = true;
+        if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+        const inn = card.querySelector('.card-inner');
+        if (inn && !cardIsBack(inn)) inn.classList.add('is-hovering');
+      });
+      card.addEventListener('mouseleave', function() {
+        if (!card.classList.contains('c-center')) return;
+        const inn = card.querySelector('.card-inner');
+        if (inn) inn.classList.remove('is-hovering');
+        pausedByHover = false;
+        // Only resume auto-cycle if user hasn't clicked (clickPaused stays until outside click)
+        if (!advancing && !clickPaused) {
+          const isBack = inn && cardIsBack(inn);
+          flipTimer = setTimeout(function() {
+            if (isBack && inn) cardFlipIn(inn);
+            flipTimer = setTimeout(advance, isBack ? 700 : 0);
+          }, isBack ? 800 : 1200);
+        }
+      });
+      card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isCenter = card.classList.contains('c-center');
+        const isRight  = card.classList.contains('c-right');
+        const isLeft   = card.classList.contains('c-left');
+
+        if (isCenter) {
+          if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+          clickPaused = true;
+          const inn = card.querySelector('.card-inner');
+          if (inn) {
+            inn.classList.remove('is-hovering');
+            if (cardIsBack(inn)) cardFlipIn(inn); else cardFlipOut(inn);
+          }
+        } else if (isRight) {
+          navigateTo((active + 1) % N, true);
+        } else if (isLeft) {
+          navigateTo((active + N - 1) % N, true);
+        }
+      });
+    });
+
+    // Click outside carousel → resume auto-cycle
+    document.addEventListener('click', function() {
+      if (!clickPaused) return;
+      clickPaused = false;
+      const centerCard = cCards.find(function(c) { return c.classList.contains('c-center'); });
+      if (centerCard) {
+        const inn = centerCard.querySelector('.card-inner');
+        if (inn && cardIsBack(inn)) {
+          cardFlipIn(inn);
+          flipTimer = setTimeout(advance, 1400);
+        } else {
+          scheduleFlip(centerCard);
+        }
+      }
+    });
+
     let started = false;
     const cio = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting || started) return;
@@ -5465,7 +5767,7 @@ body {
       revealCard(cCards[active]);
       cCards[(active+N-1)%N].classList.add('is-revealed');
       cCards[(active+1)%N].classList.add('is-revealed');
-      setTimeout(advance, 3000);
+      scheduleFlip(cCards[active]);
     }, { threshold: 0.3 });
     cio.observe(section);
   }
@@ -6117,77 +6419,7 @@ body {
 </script>
 
 <script>
-(function () {
-  const hero  = document.querySelector('.hero');
-  if (!hero) return;
-  const video = hero.querySelector('video');
-  const title = hero.querySelector('.hero__title');
-  const sub   = hero.querySelector('.hero__sub');
-  const grad  = hero.querySelector('.hero__text-grad');
-  if (!video || !title || !sub) return;
-
-  const EASE            = 'cubic-bezier(0.4, 0, 0.2, 1)';
-  const COLOR_IN_DELAY  = 3000; // ms after loop start to morph to dark
-  const COLOR_OUT_EARLY = 1.0;  // seconds before loop end to morph back to white
-
-  const DARK_TITLE = '#111';
-  const DARK_SUB   = '#111';
-  const WHITE       = '#ffffff';
-
-  // Start white, always visible
-  title.style.color      = WHITE;
-  title.style.transition = `color 700ms ${EASE}`;
-  sub.style.color        = WHITE;
-  sub.style.transition   = `color 700ms ${EASE} 150ms`;
-
-  let isDark = false;
-  let morphedNearEnd = false;
-  let prevTime = 0;
-  let morphTimer = null;
-
-  function toDark() {
-    title.style.color = DARK_TITLE;
-    sub.style.color   = DARK_SUB;
-    if (grad) grad.style.opacity = '1';
-    hero.classList.add('is-dark');
-    isDark = true; morphedNearEnd = false;
-  }
-
-  function toWhite() {
-    title.style.color = WHITE;
-    sub.style.color   = WHITE;
-    if (grad) grad.style.opacity = '0';
-    hero.classList.remove('is-dark');
-    isDark = false;
-  }
-
-  function scheduleDark() {
-    clearTimeout(morphTimer);
-    morphTimer = setTimeout(toDark, COLOR_IN_DELAY);
-  }
-
-  scheduleDark(); // initial load
-
-  video.addEventListener('timeupdate', function () {
-    const cur = video.currentTime;
-    const dur = video.duration;
-
-    // Loop detected — reset to white, schedule dark again
-    if (cur < prevTime - 0.5) {
-      toWhite();
-      morphedNearEnd = false;
-      scheduleDark();
-    }
-
-    // Morph back to white near end of loop
-    if (dur && isDark && !morphedNearEnd && cur > dur - COLOR_OUT_EARLY) {
-      toWhite();
-      morphedNearEnd = true;
-    }
-
-    prevTime = cur;
-  });
-})();
+/* hero text-morph removed — text is always black */
 
 // ── Calibr8 Score Live Section ──
 (function () {
@@ -6327,7 +6559,7 @@ body {
   // ── Render loop ──
   function render() {
     const W = canvas.width, H = canvas.height;
-    const cx = W / 2, cy = H / 2 + 50;
+    const cx = W / 2, cy = H / 2 + (window.innerWidth <= 767 ? 0 : 50);
     const minD = Math.min(W, H);
 
     ringFrac  += (ringTgt  - ringFrac)  * 0.022;
@@ -6375,13 +6607,14 @@ body {
   obs.observe(section);
 })();
 
-// Match hero title width to subtitle width
+// Match hero title width to subtitle width (desktop only)
 (function () {
   const title = document.querySelector('.hero__title');
   const sub   = document.querySelector('.hero__sub');
   if (!title || !sub) return;
 
   function matchWidth() {
+    if (window.innerWidth <= 480) { title.style.fontSize = ''; return; }
     title.style.fontSize = '';
     const targetW = sub.getBoundingClientRect().width;
     let lo = 8, hi = 300;
@@ -6460,77 +6693,98 @@ window.addEventListener('resize', equalizeRevCalGaps);
   });
 })();
 
-/* ── Body-word ticker ── */
+/* ── Body-word ticker (video-synced) ── */
 (function() {
-  const words = ['Athletic', 'Plus-Sized', 'Toned', 'Slender', 'unique'];
-  let idx = 0;
-  let timer = null;
-  const el = document.querySelector('.body-word');
+  const words = ['Toned', 'Athletic', 'Plus-Sized', 'Slender', 'unique'];
+  const el   = document.querySelector('.body-word');
   const wrap = document.querySelector('.body-word-wrap');
-  const vid = document.getElementById('bodies-vid');
+  const vid  = document.getElementById('bodies-vid');
   if (!el || !wrap) return;
 
-  // Lock wrapper to widest word so "Your body is" never shifts
-  (function lockWidth() {
-    const orig = el.textContent;
-    el.style.transition = 'none';
-    let maxW = 0;
-    words.forEach(function(w) {
-      el.textContent = w;
-      var r = el.getBoundingClientRect();
-      if (r.width > maxW) maxW = r.width;
-    });
-    if (maxW > 0) wrap.style.width = maxW + 'px';
-    el.textContent = orig;
-  })();
+  // Measure natural width of each word
+  const widths = [];
+  wrap.style.transition = 'none';
+  wrap.style.width = '';
+  words.forEach(function(w) {
+    el.textContent = w;
+    widths.push(wrap.getBoundingClientRect().width);
+  });
 
-  function animateTo(word) {
-    el.style.transition = 'transform 0.32s cubic-bezier(0.4,0,1,1), opacity 0.24s ease';
-    el.style.transform = 'translateY(-115%)';
-    el.style.opacity = '0';
+  var cycleTimer  = null;
+  var isFirstRun  = true;
+
+  function snapToFirst() {
+    if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
+    el.style.transition = 'none';
+    el.style.transform  = 'translateY(0)';
+    el.style.opacity    = '1';
+    el.textContent = words[0];
+    wrap.style.transition = 'none';
+    wrap.style.width = widths[0] + 'px';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        wrap.style.transition = 'width 0.32s cubic-bezier(0.4, 0, 0.2, 1)';
+      });
+    });
+  }
+
+  function animateTo(nextIdx) {
+    wrap.style.width = widths[nextIdx] + 'px';
+    el.style.transition = 'transform 0.28s cubic-bezier(0.4,0,1,1), opacity 0.22s ease';
+    el.style.transform  = 'translateY(-115%)';
+    el.style.opacity    = '0';
     setTimeout(function() {
       el.style.transition = 'none';
-      el.style.transform = 'translateY(115%)';
-      el.style.opacity = '0';
-      el.textContent = word;
+      el.style.transform  = 'translateY(115%)';
+      el.style.opacity    = '0';
+      el.textContent = words[nextIdx];
       requestAnimationFrame(function() {
         requestAnimationFrame(function() {
-          el.style.transition = 'transform 0.32s cubic-bezier(0,0,0.2,1), opacity 0.24s ease';
-          el.style.transform = 'translateY(0)';
-          el.style.opacity = '1';
+          el.style.transition = 'transform 0.28s cubic-bezier(0,0,0.2,1), opacity 0.22s ease';
+          el.style.transform  = 'translateY(0)';
+          el.style.opacity    = '1';
         });
       });
-    }, 320);
+    }, 280);
   }
 
   function startCycle() {
-    if (timer) { clearInterval(timer); timer = null; }
-    idx = 0;
-    el.style.transition = 'none';
-    el.style.transform = 'translateY(0)';
-    el.style.opacity = '1';
-    el.textContent = words[0];
-    timer = setInterval(function() {
-      idx++;
-      animateTo(words[idx]);
-      if (idx >= words.length - 1) {
-        clearInterval(timer);
-        timer = null;
-      }
-    }, 1000);
+    if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
+    if (isFirstRun) {
+      isFirstRun = false;
+      snapToFirst(); // first play: snap Toned in cleanly
+    } else {
+      animateTo(0); // loop restart: unique slides up, Toned comes from bottom
+    }
+    var idx = 0;
+    // Toned shows for 0.9s before Athletic arrives
+    setTimeout(function() {
+      cycleTimer = setInterval(function() {
+        idx++;
+        animateTo(idx);
+        if (idx >= words.length - 1) {
+          clearInterval(cycleTimer);
+          cycleTimer = null;
+          // unique stays 3s, then restart video + text together
+          setTimeout(function() {
+            if (vid) {
+              vid.currentTime = 0;
+              vid.play(); // triggers 'play' → startCycle
+            } else {
+              startCycle();
+            }
+          }, 3000);
+        }
+      }, 900);
+    }, 900);
   }
 
-  startCycle();
-
   if (vid) {
-    vid.removeAttribute('loop');
-    vid.addEventListener('ended', function() {
-      setTimeout(function() {
-        vid.currentTime = 0;
-        vid.play();
-        startCycle();
-      }, 1000);
+    vid.addEventListener('play', function() {
+      if (vid.currentTime < 0.5) startCycle();
     });
+  } else {
+    startCycle();
   }
 })();
 
