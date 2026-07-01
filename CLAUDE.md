@@ -89,6 +89,8 @@ Full reference: `docs/premium-web-design-reference.md`
 - **Arc animation (muscle pressure):** only segB draws in. Same double rAF pattern.
 - **No commits without asking.**
 - **Commits to GitHub trigger auto-deploy to Vercel** (`stats-page-calibr8.vercel.app`).
+- **LOCKED — Calibr8 Slider mobile layout** (`#calibr8-slider`, `.calibr8-slider-section`): active card = `100vw - 52px`, prev/next peek cards = `100vw - 80px` (smaller), `margin-top: 17.5px` on both. Do NOT change these values unless user explicitly requests.
+- **LOCKED — Bodies Slider mobile layout** (the "Your body is a sleep signature" section): peek animation, card sizing, and order are approved. Do NOT change unless user explicitly requests.
 
 ---
 
