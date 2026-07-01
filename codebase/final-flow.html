@@ -1069,6 +1069,64 @@ body {
   filter: drop-shadow(0 0 2px rgba(85,60,154,0.55));
 }
 
+/* ── Sleep pie chart (REM / Deep) ── */
+[data-kind="pie"] .sleep-pie {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 6px 0 8px;
+}
+[data-kind="pie"] .sleep-pie__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+}
+[data-kind="pie"] .sleep-pie__svg { width: 100%; height: auto; overflow: visible; }
+[data-kind="pie"] .sleep-pie__name {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-align: center;
+  line-height: 1.3;
+  margin: 0;
+}
+[data-kind="pie"] .sleep-pie__name--std { color: #C54B8C; }
+[data-kind="pie"] .sleep-pie__name--cal { color: #553C9A; }
+[data-kind="pie"] .delta { justify-content: center; margin-top: auto; }
+[data-kind="pie"] .stat-card__outcome { text-align: center; margin: 0; }
+[data-kind="pie"] .stat-card__benefit { text-align: center; }
+.spc__bg  { fill: rgba(175,173,188,0.32); stroke: none; }
+.spc__seg { stroke: none; }
+.spc__rem--std  { fill: rgba(85,60,154,0.42); }
+.spc__rem--cal  { fill: #553C9A; filter: drop-shadow(0 0 5px rgba(85,60,154,0.55)); }
+.spc__deep      { fill: rgba(40,25,90,0.52); }
+.spc__light     { fill: rgba(197,75,140,0.22); }
+.spc__awake     { fill: rgba(180,170,200,0.28); }
+.spc__div       { stroke: rgba(255,255,255,0.55); stroke-width: 1; }
+.spc__lbl       { fill: rgba(255,255,255,0.82); font-size: 7px; font-weight: 700;
+                  text-anchor: middle; dominant-baseline: central; letter-spacing: 0.03em; }
+.spc__lbl--rem-std  { fill: rgba(255,255,255,0.9); }
+.spc__lbl--rem-cal  { fill: #fff; font-size: 8px; }
+.spc__deep--std     { fill: rgba(85,60,154,0.42); }
+.spc__deep--cal     { fill: #553C9A; filter: drop-shadow(0 0 5px rgba(85,60,154,0.55)); }
+.spc__lbl--deep-std { fill: rgba(255,255,255,0.9); }
+.spc__lbl--deep-cal { fill: #fff; font-size: 8px; }
+[data-scheme="deepsleep"] .spc__deep      { fill: rgba(180,175,195,0.28); }
+[data-scheme="deepsleep"] .spc__deep--std { fill: rgba(197,75,140,0.6); filter: drop-shadow(0 0 4px rgba(197,75,140,0.45)); }
+[data-scheme="deepsleep"] .spc__light     { fill: rgba(150,150,165,0.22); }
+[data-scheme="deepsleep"] .spc__awake     { fill: rgba(160,158,172,0.35); }
+[data-scheme="rem"] .spc__rem--std { fill: rgba(197,75,140,0.6); filter: drop-shadow(0 0 4px rgba(197,75,140,0.45)); }
+[data-scheme="rem"] .spc__deep     { fill: rgba(180,175,195,0.28); }
+[data-scheme="rem"] .spc__light    { fill: rgba(150,150,165,0.22); }
+[data-scheme="rem"] .spc__awake    { fill: rgba(160,158,172,0.35); }
+
+
 .vbars {
   display: flex;
   justify-content: center;
@@ -4334,29 +4392,49 @@ body {
     </article>
 
     <article class="tile stat-card stat-card--bottom"
-             data-scheme="deepsleep" data-kind="rings" data-delay="400" data-delta="21"
+             data-scheme="deepsleep" data-kind="pie" data-delay="400" data-delta="21"
              tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
       <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78%, an 18 to 25 percent increase from reduced pressure discomfort.</p>
       <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
 
-      <div class="rings" aria-hidden="true">
-        <div class="ring-item">
-          <svg class="ring__svg" viewBox="0 0 110 110">
-            <circle class="ring__track" cx="55" cy="55" r="46"/>
-            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="57"/>
-            <text class="ring__pct" x="55" y="55" text-anchor="middle"
-                  dominant-baseline="central" font-family="inherit">57%</text>
+      <div class="sleep-pie" aria-hidden="true">
+        <div class="sleep-pie__item">
+          <svg class="sleep-pie__svg" viewBox="0 0 110 110">
+            <!-- Standard: REM 18%, Deep 22% (highlighted), Light 46%, Awake 14% -->
+            <circle class="spc__bg" cx="55" cy="55" r="48"/>
+            <path class="spc__seg spc__deep"      data-start="0"     data-end="64.8"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 98.4 34.6 Z"/>
+            <path class="spc__seg spc__deep--std" data-start="64.8"  data-end="144"   d="M 55 55 L 98.4 34.6 A 48 48 0 0 1 83.2 93.8 Z"/>
+            <path class="spc__seg spc__light"     data-start="144"   data-end="309.6" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 18.0 24.4 Z"/>
+            <path class="spc__seg spc__awake"     data-start="309.6" data-end="360"   d="M 55 55 L 18.0 24.4 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="98.4" y2="34.6"/>
+            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="18.0" y2="24.4"/>
+            <text class="spc__lbl" x="69.5" y="32.2">REM</text>
+            <text class="spc__lbl spc__lbl--deep-std" x="81.2" y="61.7">Deep</text>
+            <text class="spc__lbl" x="35.3" y="73.5">Light</text>
+            <text class="spc__lbl" x="43.5" y="30.6">Awake</text>
           </svg>
-          <p class="ring__name">Standard<br>Mattress</p>
+          <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
-        <div class="ring-item">
-          <svg class="ring__svg" viewBox="0 0 110 110">
-            <circle class="ring__track" cx="55" cy="55" r="46"/>
-            <circle class="ring__fill" cx="55" cy="55" r="46" data-pct="78"/>
-            <text class="ring__pct" x="55" y="55" text-anchor="middle"
-                  dominant-baseline="central" font-family="inherit">78%</text>
+        <div class="sleep-pie__item">
+          <svg class="sleep-pie__svg" viewBox="0 0 110 110">
+            <!-- Calibr8: REM 25%, Deep 22% (highlighted), Light 43%, Awake 10% -->
+            <circle class="spc__bg" cx="55" cy="55" r="48"/>
+            <path class="spc__seg spc__deep"      data-start="0"     data-end="90"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
+            <path class="spc__seg spc__deep--cal" data-start="90"    data-end="169.2" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 64.0 102.1 Z"/>
+            <path class="spc__seg spc__light"     data-start="169.2" data-end="324"   d="M 55 55 L 64.0 102.1 A 48 48 0 0 1 26.8 16.2 Z"/>
+            <path class="spc__seg spc__awake"     data-start="324"   data-end="360"   d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="64.0" y2="102.1"/>
+            <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
+            <text class="spc__lbl" x="74.1" y="35.9">REM</text>
+            <text class="spc__lbl spc__lbl--deep-cal" x="75.8" y="72.2">Deep</text>
+            <text class="spc__lbl" x="30.2" y="65.7">Light</text>
+            <text class="spc__lbl" x="46.7" y="29.3">Awake</text>
           </svg>
-          <p class="ring__name">Calibrated<br>Mattress</p>
+          <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
         </div>
       </div>
 
@@ -4465,26 +4543,50 @@ body {
     </article>
 
     <article class="tile stat-card stat-card--bottom"
-             data-scheme="rem" data-kind="vbars" data-delay="400" data-delta="16"
+             data-scheme="rem" data-kind="pie" data-delay="400" data-delta="16"
              tabindex="0" aria-labelledby="s6-title" aria-describedby="s6-sr">
       <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79%, 12 to 20 percent improvement supporting cognitive recovery.</p>
       <h3 id="s6-title" class="stat-card__title">REM Sleep</h3>
 
-      <div class="rem-bars" aria-hidden="true">
-        <p class="rem-label">Standard<br>Mattress</p>
-        <div class="rem-bars__pair">
-          <div class="rem-track rem-track--std">
-            <div class="vbar__fill rem-fill" data-pct="63" style="--pct:63">
-              <span class="rem-pct">63%</span>
-            </div>
-          </div>
-          <div class="rem-track rem-track--cal">
-            <div class="vbar__fill rem-fill" data-pct="79" style="--pct:79">
-              <span class="rem-pct">79%</span>
-            </div>
-          </div>
+      <div class="sleep-pie" aria-hidden="true">
+        <div class="sleep-pie__item">
+          <svg class="sleep-pie__svg" viewBox="0 0 110 110">
+            <!-- Standard: REM 18%, Deep 22%, Light 46%, Awake 14% -->
+            <circle class="spc__bg" cx="55" cy="55" r="48"/>
+            <path class="spc__seg spc__rem--std" data-start="0"     data-end="64.8"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 98.4 34.6 Z"/>
+            <path class="spc__seg spc__deep"     data-start="64.8"  data-end="144"   d="M 55 55 L 98.4 34.6 A 48 48 0 0 1 83.2 93.8 Z"/>
+            <path class="spc__seg spc__light"    data-start="144"   data-end="309.6" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 18.0 24.4 Z"/>
+            <path class="spc__seg spc__awake"    data-start="309.6" data-end="360"   d="M 55 55 L 18.0 24.4 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="98.4" y2="34.6"/>
+            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="18.0" y2="24.4"/>
+            <text class="spc__lbl spc__lbl--rem-std" x="69.5" y="32.2">REM</text>
+            <text class="spc__lbl" x="81.2" y="61.7">Deep</text>
+            <text class="spc__lbl" x="35.3" y="73.5">Light</text>
+            <text class="spc__lbl" x="43.5" y="30.6">Awake</text>
+          </svg>
+          <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
-        <p class="rem-label">Calibrated<br>Mattress</p>
+        <div class="sleep-pie__item">
+          <svg class="sleep-pie__svg" viewBox="0 0 110 110">
+            <!-- Calibr8: REM 25% (highlighted), Deep 22%, Light 43%, Awake 10% -->
+            <circle class="spc__bg" cx="55" cy="55" r="48"/>
+            <path class="spc__seg spc__rem--cal" data-start="0"     data-end="90"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
+            <path class="spc__seg spc__deep"     data-start="90"    data-end="169.2" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 64.0 102.1 Z"/>
+            <path class="spc__seg spc__light"    data-start="169.2" data-end="324"   d="M 55 55 L 64.0 102.1 A 48 48 0 0 1 26.8 16.2 Z"/>
+            <path class="spc__seg spc__awake"    data-start="324"   data-end="360"   d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="64.0" y2="102.1"/>
+            <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
+            <text class="spc__lbl spc__lbl--rem-cal" x="74.1" y="35.9">REM</text>
+            <text class="spc__lbl" x="75.8" y="72.2">Deep</text>
+            <text class="spc__lbl" x="30.2" y="65.7">Light</text>
+            <text class="spc__lbl" x="46.7" y="29.3">Awake</text>
+          </svg>
+          <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
+        </div>
       </div>
 
       <div class="delta" aria-hidden="true">
@@ -4913,6 +5015,88 @@ body {
     dv.textContent = dv.dataset.target;
   }
 
+  function snapPie(card) {
+    card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '');
+  }
+
+  function animatePieOut(card) {
+    const CX = 55, CY = 55, R = 48;
+    function pt(deg) {
+      const a = deg * Math.PI / 180;
+      return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
+    }
+    function segPath(s, e) {
+      if (e - s < 0.1) return `M${CX} ${CY}Z`;
+      const [sx, sy] = pt(s), [ex, ey] = pt(e);
+      return `M${CX} ${CY}L${sx} ${sy}A${R} ${R} 0 ${e-s>=180?1:0} 1 ${ex} ${ey}Z`;
+    }
+    function easeIn(t) { return t * t * t; }
+    function collapseItem(item) {
+      const segs = [...item.querySelectorAll('.spc__seg')].map(el => ({
+        el, s: +el.dataset.start, e: +el.dataset.end
+      }));
+      item.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+      const t0 = performance.now(), dur = 600;
+      (function frame(now) {
+        const t = Math.min((now - t0) / dur, 1);
+        const sw = (1 - easeIn(t)) * 360;
+        segs.forEach(({el, s, e}) =>
+          el.setAttribute('d', sw > s ? segPath(s, Math.min(sw, e)) : `M${CX} ${CY}Z`)
+        );
+        if (t < 1) requestAnimationFrame(frame);
+        else segs.forEach(({el}) => el.setAttribute('d', `M${CX} ${CY}Z`));
+      })(t0);
+    }
+    card.querySelectorAll('.sleep-pie__item').forEach(collapseItem);
+    const dv = card.querySelector('.delta__value');
+    if (dv && dv.textContent !== '0') countTo(dv, 0, 500);
+  }
+
+  function animatePie(card) {
+    const CX = 55, CY = 55, R = 48;
+    function pt(deg) {
+      const a = deg * Math.PI / 180;
+      return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
+    }
+    function segPath(s, e) {
+      if (e - s < 0.1) return `M${CX} ${CY}Z`;
+      const [sx, sy] = pt(s), [ex, ey] = pt(e);
+      return `M${CX} ${CY}L${sx} ${sy}A${R} ${R} 0 ${e-s>=180?1:0} 1 ${ex} ${ey}Z`;
+    }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function sweepItem(item, dur, delay, cb) {
+      const segs = [...item.querySelectorAll('.spc__seg')].map(el => ({
+        el, s: +el.dataset.start, e: +el.dataset.end
+      }));
+      const extras = item.querySelectorAll('.spc__div, .spc__lbl');
+      segs.forEach(({el}) => el.setAttribute('d', `M${CX} ${CY}Z`));
+      extras.forEach(el => el.style.opacity = 0);
+      setTimeout(() => {
+        const t0 = performance.now();
+        (function frame(now) {
+          const t  = Math.min((now - t0) / dur, 1);
+          const sw = easeOut(t) * 360;
+          segs.forEach(({el, s, e}) =>
+            el.setAttribute('d', sw > s ? segPath(s, Math.min(sw, e)) : `M${CX} ${CY}Z`)
+          );
+          if (t > 0.6) extras.forEach(el => el.style.opacity = (t - 0.6) / 0.4);
+          if (t < 1) requestAnimationFrame(frame);
+          else { extras.forEach(el => el.style.opacity = ''); if (cb) cb(); }
+        })(t0);
+      }, delay);
+    }
+    const [std, cal] = card.querySelectorAll('.sleep-pie__item');
+    if (!std || !cal) return;
+    [std, cal].forEach(item => {
+      item.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', `M${CX} ${CY}Z`));
+      item.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+    });
+    const dv = card.querySelector('.delta__value');
+    sweepItem(std, 1100, 0, () => sweepItem(cal, 1100, 200, () => {
+      if (dv) countTo(dv, Number(dv.dataset.target), 800);
+    }));
+  }
+
   function animateBarsReduce(card) {
     const rows = card.querySelectorAll('.row');
     const total = 20;
@@ -4986,6 +5170,7 @@ body {
       else if (kind === 'gauge') snapGauge(card);
       else if (kind === 'reduce') snapBarsReduce(card);
       else if (kind === 'lines') snapLines(card);
+      else if (kind === 'pie') snapPie(card);
       else snapBars(card);
       return;
     }
@@ -4996,6 +5181,7 @@ body {
     else if (kind === 'gauge') animateGauge(card);
     else if (kind === 'reduce') animateBarsReduce(card);
     else if (kind === 'lines') animateLines(card);
+    else if (kind === 'pie') animatePie(card);
     else animateBars(card);
   }
 
@@ -5175,6 +5361,8 @@ body {
     clone.querySelectorAll('.delta__value').forEach(el => el.textContent = '0');
     clone.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
     clone.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
+    clone.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', 'M55 55Z'));
+    clone.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
     clone.querySelectorAll('[style]').forEach(el => {
       ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
     });
@@ -5241,12 +5429,19 @@ body {
         el.style.strokeDasharray = '9999';
         el.style.strokeDashoffset = '9999';
       });
+      if (card.dataset.kind === 'pie') {
+        animatePieOut(card);
+      } else {
+        card.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', 'M55 55Z'));
+        card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+      }
     }
     function advance() {
       if (advancing) return;
       advancing = true;
       const next = (active+1)%N;
       const hiddenIdx = (active+N-2)%N;
+      clearViz(cCards[active]);
       applyState(cCards[hiddenIdx], 'c-hidden', true);
       active = next; setAll(active);
       revealCard(cCards[active]);
