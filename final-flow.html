@@ -1481,15 +1481,14 @@ body {
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
-  transform: scale(1.14);
+  object-fit: contain;
   z-index: 0;
 }
 .narrative-solution-card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, transparent 70%);
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, transparent 70%), rgba(0,0,0,0.09);
   z-index: 1;
 }
 .sol-intro-label {
@@ -1508,7 +1507,6 @@ body {
   text-align: left;
   max-width: 72%;
   padding: clamp(24px, 3vw, 48px) clamp(28px, 4vw, 56px);
-  text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   opacity: 1;
   transform: none;
 }
@@ -1520,7 +1518,7 @@ body {
   height: 1.2em;
   line-height: 1.2;
   position: relative;
-  top: -3px;
+  top: -2px;
   /* width set + transitioned by JS */
 }
 .body-word {
@@ -1529,7 +1527,7 @@ body {
   line-height: 1.2;
   font-size: inherit;
   font-weight: inherit;
-  text-shadow: inherit;
+  text-shadow: none;
 }
 
 .life-stat-section {
@@ -4060,7 +4058,7 @@ body {
   .bodies-section .narrative-solution { font-size: 20px !important; max-width: 92% !important; }
   .bodies-section .body-word-wrap,
   .bodies-section .body-word { font-size: 20px !important; line-height: 1.2; }
-  .bodies-section .body-word-wrap { top: -1.5px; }
+  .bodies-section .body-word-wrap { top: -0.5px; }
   /* pain + problem-stat share one continuous gradient — each gradient aimed at their shared boundary */
   .pain-text-section {
     position: relative;
@@ -4123,7 +4121,6 @@ body {
     max-width: 92%;
     padding: 20px 20px 52px;
     text-align: center;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   }
   .narrative-solution span[style]:not(.body-word-wrap):not(.body-word) {
     font-size: clamp(32px, 9vw, 48px) !important;
@@ -4248,7 +4245,7 @@ body {
 <section class="bodies-section" aria-label="Unique bodies">
   <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
     <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline autoplay></video>
-    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is <span class="body-word-wrap"><span class="body-word">Toned</span></span>.<br>Your mattress should be too.</p>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px)">Your body is <span class="body-word-wrap"><span class="body-word">Toned</span></span>.<br>Your mattress should be too.</p>
   </div>
 </section>
 
@@ -4311,7 +4308,7 @@ body {
 
 
 <section class="sp-section" aria-label="Social proof">
-  <h2 class="trust-section__title reveal" style="max-width:none;white-space:nowrap">Trusted by Those who Chase <span style="color:#553C9A">Excellence,</span><br class="sp-head-br">Even in <span style="color:#553C9A">Sleep</span></h2>
+  <h2 class="trust-section__title reveal" style="max-width:none;white-space:nowrap">Trusted by Those who Chase <span style="color:#553C9A">Excellence,</span><br class="sp-head-br"> Even in <span style="color:#553C9A">Sleep</span></h2>
   <div class="sp-grid">
 
     <!-- Col 1: video + tweet -->
@@ -4748,7 +4745,7 @@ body {
 
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-line1">Different Bodies Need Different Support</span><span class="hps-line2"><span class="hps-purple">Calibr8</span> builds around what your body needs</span></p>
+    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-line1">Different Bodies Need <span style="color:#553C9A">Different Support</span></span><span class="hps-line2"><span class="hps-purple">Calibr8</span> builds around what your body needs</span></p>
     <p class="hero-sub hero-sub--mobile reveal">Your body has a sleep signature.<br><span class="hps-purple">Calibr8</span> builds around it.</p>
   </div>
   <div class="slider" id="process-slider"></div>
