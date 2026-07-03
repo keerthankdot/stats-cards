@@ -4271,6 +4271,16 @@ body {
   .bodies-section .body-word-wrap,
   .bodies-section .body-word { font-size: 20px !important; line-height: 1.2; }
   .bodies-section .body-word-wrap { top: -0.5px; }
+  @keyframes bodies-vid-correct {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-15px); }
+  }
+  #bodies-vid {
+    animation: bodies-vid-correct 5.1s linear forwards;
+  }
+  #bodies-card {
+    background-color: #c8b8d6;
+  }
   /* pain + problem-stat share one continuous gradient — each gradient aimed at their shared boundary */
   .pain-text-section {
     position: relative;
@@ -4464,8 +4474,8 @@ body {
 <!-- Bodies video: "Your body is unique. Your mattress should be too." -->
 <section class="bodies-section" aria-label="Unique bodies">
   <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
-    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline autoplay></video>
-    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px)">Your body is <span class="body-word-wrap"><span class="body-word">Toned</span></span>.<br>Your mattress should be too.</p>
+    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/latest.mp4" muted playsinline autoplay></video>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px)">Your body is unique.<br>Your mattress should be too.</p>
   </div>
 </section>
 
@@ -7513,100 +7523,6 @@ window.addEventListener('resize', equalizeRevCalGaps);
   });
 })();
 
-/* ── Body-word ticker (video-synced) ── */
-(function() {
-  const words = ['Toned', 'Athletic', 'Plus-Sized', 'Slender', 'unique'];
-  const el   = document.querySelector('.body-word');
-  const wrap = document.querySelector('.body-word-wrap');
-  const vid  = document.getElementById('bodies-vid');
-  if (!el || !wrap) return;
-
-  // Measure natural width of each word
-  const widths = [];
-  wrap.style.transition = 'none';
-  wrap.style.width = '';
-  words.forEach(function(w) {
-    el.textContent = w;
-    widths.push(wrap.getBoundingClientRect().width);
-  });
-
-  var cycleTimer  = null;
-  var isFirstRun  = true;
-
-  function snapToFirst() {
-    if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
-    el.style.transition = 'none';
-    el.style.transform  = 'translateY(0)';
-    el.style.opacity    = '1';
-    el.textContent = words[0];
-    wrap.style.transition = 'none';
-    wrap.style.width = widths[0] + 'px';
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        wrap.style.transition = 'width 0.32s cubic-bezier(0.4, 0, 0.2, 1)';
-      });
-    });
-  }
-
-  function animateTo(nextIdx) {
-    wrap.style.width = widths[nextIdx] + 'px';
-    el.style.transition = 'transform 0.28s cubic-bezier(0.4,0,1,1), opacity 0.22s ease';
-    el.style.transform  = 'translateY(-115%)';
-    el.style.opacity    = '0';
-    setTimeout(function() {
-      el.style.transition = 'none';
-      el.style.transform  = 'translateY(115%)';
-      el.style.opacity    = '0';
-      el.textContent = words[nextIdx];
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          el.style.transition = 'transform 0.28s cubic-bezier(0,0,0.2,1), opacity 0.22s ease';
-          el.style.transform  = 'translateY(0)';
-          el.style.opacity    = '1';
-        });
-      });
-    }, 280);
-  }
-
-  function startCycle() {
-    if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
-    if (isFirstRun) {
-      isFirstRun = false;
-      snapToFirst(); // first play: snap Toned in cleanly
-    } else {
-      animateTo(0); // loop restart: unique slides up, Toned comes from bottom
-    }
-    var idx = 0;
-    // Toned shows for 0.9s before Athletic arrives
-    setTimeout(function() {
-      cycleTimer = setInterval(function() {
-        idx++;
-        animateTo(idx);
-        if (idx >= words.length - 1) {
-          clearInterval(cycleTimer);
-          cycleTimer = null;
-          // unique stays 3s, then restart video + text together
-          setTimeout(function() {
-            if (vid) {
-              vid.currentTime = 0;
-              vid.play(); // triggers 'play' → startCycle
-            } else {
-              startCycle();
-            }
-          }, 3000);
-        }
-      }, 900);
-    }, 900);
-  }
-
-  if (vid) {
-    vid.addEventListener('play', function() {
-      if (vid.currentTime < 0.5) startCycle();
-    });
-  } else {
-    startCycle();
-  }
-})();
 
 </script>
 </body>
