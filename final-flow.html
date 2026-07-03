@@ -2779,7 +2779,7 @@ body {
 }
 #cls-tagline {
   position: absolute;
-  top: clamp(20px, 3vh, 36px);
+  top: clamp(40px, 6vh, 72px);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -2879,10 +2879,10 @@ body {
   margin-top: 8px;
 }
 /* Credential card positions — closer to center */
-.cls-cred--tl { top: max(calc(50% - 240px), 120px); right: calc(50% + 8px); left: auto; transform: translate(20px,-20px); }
-.cls-cred--tr { top: max(calc(50% - 240px), 120px); left: calc(50% + 8px);             transform: translate(-20px,-20px); }
-.cls-cred--bl { top: calc(50% + 148px);              right: calc(50% + 8px); left: auto; transform: translate(20px,20px); }
-.cls-cred--br { top: calc(50% + 148px);              left: calc(50% + 8px);             transform: translate(-20px,20px); }
+.cls-cred--tl { top: max(calc(50% - 230px), 120px); right: calc(50% + 8px); left: auto; transform: translate(20px,-20px); }
+.cls-cred--tr { top: max(calc(50% - 230px), 120px); left: calc(50% + 8px);             transform: translate(-20px,-20px); }
+.cls-cred--bl { top: calc(50% + 50px);              right: calc(50% + 8px); left: auto; transform: translate(20px,20px); }
+.cls-cred--br { top: calc(50% + 50px);              left: calc(50% + 8px);             transform: translate(-20px,20px); }
 /* Visible at rest */
 .cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
@@ -2916,7 +2916,7 @@ body {
 }
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
-  .cls-section { height: auto; min-height: 110svh; padding: 0 0 48px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
+  .cls-section { height: auto; min-height: 108svh; padding: 0 0 48px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
   .cls-card {
     width: calc(88vw + 5px);
     min-height: 90px;
@@ -2933,9 +2933,9 @@ body {
   /* Score number centred at true 50% on mobile (no +50px offset) */
   #cls-score-num { top: 50% !important; }
 
-  /* Cards stacked — 12vh clears section header, 18vh gap between each pair */
-  .cls-cred--tr { top: 12vh; }
-  .cls-cred--tl { top: 30vh; }
+  /* Mobile: equal 18vh gaps between pairs, orb visible at center */
+  .cls-cred--tr { top: 14vh; }
+  .cls-cred--tl { top: 32vh; }
   .cls-cred--bl { top: 60vh; }
   .cls-cred--br { top: 78vh; }
 
@@ -4868,42 +4868,42 @@ body {
       <div class="sleep-pie" aria-hidden="true">
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Standard: Deep 57% (highlighted), REM 10%, Light 25%, Awake 8% -->
+            <!-- Standard: Deep 15% (highlighted), REM 25%, Light 35%, Awake 25% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__deep--std" data-start="0"     data-end="205.2" d="M 55 55 L 55.0 7.0 A 48 48 0 1 1 34.6 98.4 Z"/>
-            <path class="spc__seg spc__deep"      data-start="205.2" data-end="241.2" d="M 55 55 L 34.6 98.4 A 48 48 0 0 1 13.0 78.3 Z"/>
-            <path class="spc__seg spc__light"     data-start="241.2" data-end="331.2" d="M 55 55 L 13.0 78.3 A 48 48 0 0 1 31.9 12.9 Z"/>
-            <path class="spc__seg spc__awake"     data-start="331.2" data-end="360"   d="M 55 55 L 31.9 12.9 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__deep--std" data-start="0"   data-end="54"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 93.8 26.8 Z"/>
+            <path class="spc__seg spc__deep"      data-start="54"  data-end="144" d="M 55 55 L 93.8 26.8 A 48 48 0 0 1 83.2 93.8 Z"/>
+            <path class="spc__seg spc__light"     data-start="144" data-end="270" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 7.0 55.0 Z"/>
+            <path class="spc__seg spc__awake"     data-start="270" data-end="360" d="M 55 55 L 7.0 55.0 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="34.6" y2="98.4"/>
-            <line class="spc__div" x1="55" y1="55" x2="13.0" y2="78.3"/>
-            <line class="spc__div" x1="55" y1="55" x2="31.9" y2="12.9"/>
+            <line class="spc__div" x1="55" y1="55" x2="93.8" y2="26.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="7.0" y2="55.0"/>
             <circle class="spc__hole" cx="55" cy="55" r="18"/>
-            <text class="spc__lbl spc__lbl--deep-std" text-anchor="middle" x="87.2" y="62.1">Deep</text>
-            <text class="spc__lbl" text-anchor="middle" x="32.4" y="79.1">REM</text>
-            <text class="spc__lbl" text-anchor="middle" x="23.3" y="45.8">Light</text>
-            <text class="spc__lbl" text-anchor="middle" x="41" y="2">Awake</text>
+            <text class="spc__lbl spc__lbl--deep-std" text-anchor="middle" x="68.6" y="28.3">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="89.6" y="60.5">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="39.1" y="86.2">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="30.3" y="30.3">Awake</text>
             <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Calibr8: Deep 78% (highlighted), REM 7%, Light 12%, Awake 3% -->
+            <!-- Calibr8: Deep 35% (highlighted), REM 35%, Light 15%, Awake 15% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__deep--cal" data-start="0"     data-end="280.8" d="M 55 55 L 55.0 7.0 A 48 48 0 1 1 7.9 46.0 Z"/>
-            <path class="spc__seg spc__deep"      data-start="280.8" data-end="306"   d="M 55 55 L 7.9 46.0 A 48 48 0 0 1 16.2 26.8 Z"/>
-            <path class="spc__seg spc__light"     data-start="306"   data-end="349.2" d="M 55 55 L 16.2 26.8 A 48 48 0 0 1 46.0 7.9 Z"/>
-            <path class="spc__seg spc__awake"     data-start="349.2" data-end="360"   d="M 55 55 L 46.0 7.9 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__deep--cal" data-start="0"   data-end="126" d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 93.8 83.2 Z"/>
+            <path class="spc__seg spc__deep"      data-start="126" data-end="252" d="M 55 55 L 93.8 83.2 A 48 48 0 0 1 9.3 69.8 Z"/>
+            <path class="spc__seg spc__light"     data-start="252" data-end="306" d="M 55 55 L 9.3 69.8 A 48 48 0 0 1 16.2 26.8 Z"/>
+            <path class="spc__seg spc__awake"     data-start="306" data-end="360" d="M 55 55 L 16.2 26.8 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="7.9" y2="46.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="93.8" y2="83.2"/>
+            <line class="spc__div" x1="55" y1="55" x2="9.3" y2="69.8"/>
             <line class="spc__div" x1="55" y1="55" x2="16.2" y2="26.8"/>
-            <line class="spc__div" x1="55" y1="55" x2="46.0" y2="7.9"/>
             <circle class="spc__hole" cx="55" cy="55" r="18"/>
-            <text class="spc__lbl spc__lbl--deep-cal" text-anchor="middle" x="76.0" y="80.4">Deep</text>
-            <text class="spc__lbl" text-anchor="middle" x="20.2" y="39.9">REM</text>
-            <text class="spc__lbl" text-anchor="middle" x="37.3" y="27.1">Light</text>
-            <text class="spc__lbl" text-anchor="middle" x="50" y="2">Awake</text>
+            <text class="spc__lbl spc__lbl--deep-cal" text-anchor="middle" x="83.5" y="40.5">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="50.0" y="86.6">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="23.4" y="50.0">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="40.5" y="26.5">Awake</text>
             <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
@@ -5121,42 +5121,42 @@ body {
       <div class="sleep-pie" aria-hidden="true">
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Standard: REM 10% (highlighted), Deep 57%, Light 25%, Awake 8% -->
+            <!-- Standard: REM 25% (highlighted), Deep 15%, Light 35%, Awake 25% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__rem--std" data-start="0"     data-end="36"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 83.2 16.2 Z"/>
-            <path class="spc__seg spc__deep"     data-start="36"    data-end="241.2" d="M 55 55 L 83.2 16.2 A 48 48 0 1 1 13.0 78.3 Z"/>
-            <path class="spc__seg spc__light"    data-start="241.2" data-end="331.2" d="M 55 55 L 13.0 78.3 A 48 48 0 0 1 31.9 12.9 Z"/>
-            <path class="spc__seg spc__awake"    data-start="331.2" data-end="360"   d="M 55 55 L 31.9 12.9 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__rem--std" data-start="0"   data-end="90"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
+            <path class="spc__seg spc__deep"     data-start="90"  data-end="144" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 83.2 93.8 Z"/>
+            <path class="spc__seg spc__light"    data-start="144" data-end="270" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 7.0 55.0 Z"/>
+            <path class="spc__seg spc__awake"    data-start="270" data-end="360" d="M 55 55 L 7.0 55.0 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="16.2"/>
-            <line class="spc__div" x1="55" y1="55" x2="13.0" y2="78.3"/>
-            <line class="spc__div" x1="55" y1="55" x2="31.9" y2="12.9"/>
+            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="7.0" y2="55.0"/>
             <circle class="spc__hole" cx="55" cy="55" r="18"/>
-            <text class="spc__lbl spc__lbl--rem-std" text-anchor="middle" x="65.2" y="23.6">REM</text>
-            <text class="spc__lbl" text-anchor="middle" x="76.8" y="79.8">Deep</text>
-            <text class="spc__lbl" text-anchor="middle" x="23.3" y="45.8">Light</text>
-            <text class="spc__lbl" text-anchor="middle" x="41" y="2">Awake</text>
+            <text class="spc__lbl spc__lbl--rem-std" text-anchor="middle" x="79.8" y="30.3">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="86.2" y="70.9">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="39.1" y="86.2">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="30.3" y="30.3">Awake</text>
             <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Calibr8: REM 12% (highlighted), Deep 78%, Light 7%, Awake 3% -->
+            <!-- Calibr8: REM 35% (highlighted), Deep 35%, Light 15%, Awake 15% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__rem--cal" data-start="0"     data-end="43.2"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 87.9 20.0 Z"/>
-            <path class="spc__seg spc__deep"     data-start="43.2"  data-end="324"   d="M 55 55 L 87.9 20.0 A 48 48 0 1 1 26.8 16.2 Z"/>
-            <path class="spc__seg spc__light"    data-start="324"   data-end="349.2" d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 46.0 7.9 Z"/>
-            <path class="spc__seg spc__awake"    data-start="349.2" data-end="360"   d="M 55 55 L 46.0 7.9 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__rem--cal" data-start="0"   data-end="126" d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 93.8 83.2 Z"/>
+            <path class="spc__seg spc__deep"     data-start="126" data-end="252" d="M 55 55 L 93.8 83.2 A 48 48 0 0 1 9.3 69.8 Z"/>
+            <path class="spc__seg spc__light"    data-start="252" data-end="306" d="M 55 55 L 9.3 69.8 A 48 48 0 0 1 16.2 26.8 Z"/>
+            <path class="spc__seg spc__awake"    data-start="306" data-end="360" d="M 55 55 L 16.2 26.8 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="87.9" y2="20.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
-            <line class="spc__div" x1="55" y1="55" x2="46.0" y2="7.9"/>
+            <line class="spc__div" x1="55" y1="55" x2="93.8" y2="83.2"/>
+            <line class="spc__div" x1="55" y1="55" x2="9.3" y2="69.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="16.2" y2="26.8"/>
             <circle class="spc__hole" cx="55" cy="55" r="18"/>
-            <text class="spc__lbl spc__lbl--rem-cal" text-anchor="middle" x="67.1" y="24.3">REM</text>
-            <text class="spc__lbl" text-anchor="middle" x="52.9" y="87.9">Deep</text>
-            <text class="spc__lbl" text-anchor="middle" x="24" y="9">Light</text>
-            <text class="spc__lbl" text-anchor="middle" x="50" y="2">Awake</text>
+            <text class="spc__lbl spc__lbl--rem-cal" text-anchor="middle" x="83.5" y="40.5">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="50.0" y="86.6">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="23.4" y="50.0">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="40.5" y="26.5">Awake</text>
             <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
@@ -7389,7 +7389,7 @@ body {
   // ── Render loop ──
   function render() {
     const W = canvas.width, H = canvas.height;
-    const cx = W / 2, cy = H / 2 + (window.innerWidth <= 767 ? 0 : 50);
+    const cx = W / 2, cy = H / 2 + (window.innerWidth <= 767 ? 0 : 10);
     const minD = Math.min(W, H);
 
     ringFrac  += (ringTgt  - ringFrac)  * 0.022;
