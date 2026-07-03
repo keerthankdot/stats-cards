@@ -246,17 +246,17 @@ body {
 
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(38px, 6vw, 72px);
-  font-weight: 600;
+  font-size: clamp(52px, 8vw, 120px);
+  font-weight: 700;
   letter-spacing: -0.03em;
   color: #111;
-  margin: 0 0 12px;
+  margin: 0;
   line-height: 1;
 }
-.hero__title em { font-style: normal; font-weight: 600; }
+.hero__title em { font-style: normal; font-weight: 700; }
 
 .hero__sub {
-  font-size: clamp(11px, 1.77vw, 21px);
+  font-size: clamp(13px, 1.4vw, 20px);
   color: #111;
   line-height: 1.55;
   white-space: nowrap;
@@ -395,10 +395,24 @@ body {
     0 20px 48px rgba(0,0,0,0.14);
 }
 
+@media (min-width: 781px) {
+  /* Desktop: tighter title→subtitle gap (single line), bigger title */
+  .hero { gap: 0; }
+  .hero__title {
+    font-size: clamp(72px, 9.5vw, 148px);
+    margin-bottom: 14px;
+  }
+  .hero__sub { margin-bottom: 40px; }
+}
+
 @media (max-width: 780px) {
   .hero { padding: 60px 24px 48px; }
-  .hero__title { font-size: clamp(42px, 12vw, 68px); }
+  .hero__title { font-size: clamp(48px, 14vw, 80px); }
+  .hero__sub { white-space: normal; text-align: center; }
   .hero__cta { padding: 15px 44px; }
+  /* Mobile: slightly smaller button text */
+  .hero__cta,
+  .hero__watch { font-size: 11px; }
 }
 
 .shell {
@@ -1068,8 +1082,8 @@ body {
 @media (max-width: 767px) { .sl-desktop { display: none !important; } }
 @media (min-width: 768px) {
   .sl-mobile { display: none !important; }
-  .sleep-lines__label--std { top: 34%; }
-  .sleep-lines__label--cal { top: 63%; }
+  .sleep-lines__label--std { top: 53%; }
+  .sleep-lines__label--cal { top: 81%; }
 }
 
 /* Card 3 – Deep Sleep ring names */
@@ -1206,7 +1220,7 @@ body {
   gap: 5px;
   flex: 1;
 }
-[data-kind="pie"] .sleep-pie__svg { width: 100%; height: auto; overflow: visible; }
+[data-kind="pie"] .sleep-pie__svg { overflow: visible; width: 100%; height: auto; }
 [data-kind="pie"] .sleep-pie__name {
   font-size: 20px;
   font-weight: 600;
@@ -1228,14 +1242,16 @@ body {
 .spc__light     { fill: rgba(197,75,140,0.22); }
 .spc__awake     { fill: rgba(180,170,200,0.28); }
 .spc__div       { stroke: rgba(255,255,255,0.55); stroke-width: 1; }
-.spc__lbl       { fill: rgba(255,255,255,0.82); font-size: 7px; font-weight: 700;
+.spc__lbl       { fill: rgba(60,50,90,0.7); font-size: 7px; font-weight: 700;
                   text-anchor: middle; dominant-baseline: central; letter-spacing: 0.03em; }
 .spc__lbl--rem-std  { fill: rgba(255,255,255,0.9); }
-.spc__lbl--rem-cal  { fill: #fff; font-size: 8px; }
+.spc__lbl--rem-cal  { fill: #fff; }
 .spc__deep--std     { fill: rgba(85,60,154,0.42); }
 .spc__deep--cal     { fill: #553C9A; filter: drop-shadow(0 0 5px rgba(85,60,154,0.55)); }
 .spc__lbl--deep-std { fill: rgba(255,255,255,0.9); }
 .spc__lbl--deep-cal { fill: #fff; font-size: 8px; }
+.spc__hole   { fill: #fff; }
+.spc__center { font-size: 6.5px; font-weight: 700; fill: rgba(30,25,60,0.82); letter-spacing: 0.2px; }
 [data-scheme="deepsleep"] .spc__deep      { fill: rgba(180,175,195,0.28); }
 [data-scheme="deepsleep"] .spc__deep--std { fill: rgba(197,75,140,0.6); filter: drop-shadow(0 0 4px rgba(197,75,140,0.45)); }
 [data-scheme="deepsleep"] .spc__light     { fill: rgba(150,150,165,0.22); }
@@ -1319,6 +1335,8 @@ body {
 }
 .arc__tip { opacity: 0; }
 .arc__endpoint { opacity: 0; transition: opacity 250ms ease; }
+.arc__mmhg { opacity: 0; transition: opacity 300ms ease; }
+@media (min-width: 481px) { .arc__mmhg { transform: translateY(10px); } }
 .arc__seg--faint { stroke-opacity: 0.28; }
 .arc__seg--glow {
   filter:
@@ -1818,37 +1836,36 @@ body {
   ), #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 0;
-  padding: 12%;
-  text-align: center;
+  padding: 11% 12%;
+  text-align: left;
 }
 .card-back__delta {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: calc(var(--card) * 0.21);
+  font-size: calc(var(--card) * 0.18);
   font-weight: 800;
   letter-spacing: -0.04em;
   color: #2a0e6e;
   line-height: 1;
-  margin-bottom: calc(var(--card) * 0.04);
+  margin-bottom: calc(var(--card) * 0.05);
 }
-.card-back__metric {
+.card-back__headline {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: calc(var(--card) * 0.052);
+  font-size: calc(var(--card) * 0.082);
   font-weight: 700;
-  letter-spacing: -0.01em;
-  color: rgba(30, 10, 80, 0.85);
+  letter-spacing: -0.02em;
+  color: rgba(20, 6, 60, 0.92);
   line-height: 1.2;
-  margin-bottom: calc(var(--card) * 0.025);
+  margin-bottom: calc(var(--card) * 0.05);
 }
-.card-back__label {
+.card-back__body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: calc(var(--card) * 0.034);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(80, 40, 160, 0.55);
+  font-size: calc(var(--card) * 0.048);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: rgba(30, 10, 80, 0.62);
   line-height: 1.5;
 }
 
@@ -1875,6 +1892,11 @@ body {
 }
 .carousel-card.c-hidden {
   transform: translateX(320%) scale(0.50);
+  z-index: 0; opacity: 0; pointer-events: none;
+  transition: none !important;
+}
+.carousel-card.c-hidden-left {
+  transform: translateX(-320%) scale(0.50);
   z-index: 0; opacity: 0; pointer-events: none;
   transition: none !important;
 }
@@ -2424,8 +2446,7 @@ body {
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.9);
   transform: translate(-50%,-50%);
-  animation: zone-beat 2.2s ease-out infinite;
-  animation-delay: var(--beat-delay, 0s);
+  animation: none;
 }
 .zone-dot__center {
   position: absolute;
@@ -2444,8 +2465,26 @@ body {
 }
 .zone-dot.is-active .zone-dot__ring {
   border-color: #9B7DD4;
-  opacity: 0.65;
+  opacity: 1;
+  animation: zone-beat 2.2s ease-out infinite;
+  animation-delay: 0s;
 }
+.zone-dot.is-active::before,
+.zone-dot.is-active::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 2px solid #9B7DD4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%,-50%);
+  animation: zone-beat 2.2s ease-out infinite;
+}
+.zone-dot.is-active::before { animation-delay: 0.73s; }
+.zone-dot.is-active::after  { animation-delay: 1.47s; }
 
 /* ── Zones section ── */
 .zones-section {
@@ -2736,21 +2775,7 @@ body {
   z-index: 1;
 }
 .cls-score-num {
-  position: absolute;
-  top: calc(50% + 50px); left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-  z-index: 2;
-  font-size: clamp(88px, 11vw, 152px);
-  font-weight: 800;
-  color: #14101e;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: -0.05em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  min-width: 1ch;
-  opacity: 0;
+  display: none;
 }
 #cls-tagline {
   position: absolute;
@@ -2853,11 +2878,11 @@ body {
   line-height: 1.6;
   margin-top: 8px;
 }
-/* Credential card positions — responsive, gap-anchored */
-.cls-cred--tl { top: max(calc(50% - 270px), 120px); right: calc(50% + 20px); left: auto; transform: translate(28px,-28px); }
-.cls-cred--tr { top: max(calc(50% - 270px), 120px); left: calc(50% + 20px);             transform: translate(-28px,-28px); }
-.cls-cred--bl { top: calc(50% + 170px);              right: calc(50% + 20px); left: auto; transform: translate(28px,28px); }
-.cls-cred--br { top: calc(50% + 170px);              left: calc(50% + 20px);             transform: translate(-28px,28px); }
+/* Credential card positions — closer to center */
+.cls-cred--tl { top: max(calc(50% - 240px), 120px); right: calc(50% + 8px); left: auto; transform: translate(20px,-20px); }
+.cls-cred--tr { top: max(calc(50% - 240px), 120px); left: calc(50% + 8px);             transform: translate(-20px,-20px); }
+.cls-cred--bl { top: calc(50% + 148px);              right: calc(50% + 8px); left: auto; transform: translate(20px,20px); }
+.cls-cred--br { top: calc(50% + 148px);              left: calc(50% + 8px);             transform: translate(-20px,20px); }
 /* Visible at rest */
 .cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
@@ -2891,7 +2916,7 @@ body {
 }
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
-  .cls-section { height: auto; min-height: 106svh; padding: 0 0 40px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
+  .cls-section { height: auto; min-height: 110svh; padding: 0 0 48px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
   .cls-card {
     width: calc(88vw + 5px);
     min-height: 90px;
@@ -2902,17 +2927,17 @@ body {
     padding: 10px 14px;
     border-radius: 14px;
   }
-  .cls-card__title { font-size: 11.5px !important; margin-bottom: 5px; }
-  .cls-card__body { font-size: 9.5px; line-height: 1.4; }
+  .cls-card__title { font-size: 13px !important; margin-bottom: 6px; }
+  .cls-card__body { font-size: 11px; line-height: 1.45; }
 
   /* Score number centred at true 50% on mobile (no +50px offset) */
   #cls-score-num { top: 50% !important; }
 
-  /* 14vh gap between each card pair; ring centre = true 50% */
-  .cls-cred--tr { top: 10vh; }
-  .cls-cred--tl { top: 24vh; }
-  .cls-cred--bl { top: 67vh; }
-  .cls-cred--br { top: 81vh; }
+  /* Cards stacked — 12vh clears section header, 18vh gap between each pair */
+  .cls-cred--tr { top: 12vh; }
+  .cls-cred--tl { top: 30vh; }
+  .cls-cred--bl { top: 60vh; }
+  .cls-cred--br { top: 78vh; }
 
   /* Visible */
   .cls-cred--tl.cls-vis,
@@ -2920,11 +2945,11 @@ body {
   .cls-cred--bl.cls-vis,
   .cls-cred--br.cls-vis { opacity: 1; transform: translateX(-50%) !important; }
 
-  /* Absorbed: slide to ring centre at 53vh (half of 106svh section, no +50px offset) */
-  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 24vh - 30px)) scale(0.05) !important; }
-  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 10vh - 30px)) scale(0.05) !important; }
-  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 67vh - 30px)) scale(0.05) !important; }
-  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(53vh - 81vh - 30px)) scale(0.05) !important; }
+  /* Absorbed states unused (absorb removed) — kept for safety */
+  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
 
   .cls-tag-eyebrow { font-size: clamp(9px, 2.3vw, 11px); margin-bottom: 6px; }
   .cls-tag-headline { font-weight: 400; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -3675,8 +3700,10 @@ body {
   .sleep-lines__label--cal { top: 85%; }
 
   /* Arc card: move endpoint labels below the dots, inside the arc — mobile only */
-  .arc__endpoint--std text,
-  .arc__endpoint--cal text { transform: translateY(65px); }
+  .arc__endpoint--std .arc__name,
+  .arc__endpoint--cal .arc__name { transform: translateY(65px); }
+  /* mm Hg: shift below the name labels (which are shifted 65px) */
+  .arc__mmhg { transform: translateY(45px); }
 
   /* Delta + outcome smaller on mobile */
   .delta__sign   { font-size: 36px; }
@@ -4061,6 +4088,8 @@ body {
   /* ── Zone dots: smaller on mobile, desktop unchanged ── */
   .zone-dot__ring   { width: 16px; height: 16px; }
   .zone-dot__center { width: 9px;  height: 9px; }
+  .zone-dot.is-active::before,
+  .zone-dot.is-active::after { width: 16px; height: 16px; }
 
   /* ── Zone tooltip: translucent on mobile (no blur) ── */
   .zone-tooltip {
@@ -4413,6 +4442,7 @@ body {
 
 <section class="hero" aria-label="Calibr8 hero">
   <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
+  <p class="hero__sub">Your body deserves a mattress that understands it.</p>
   <div class="hero__video-box">
     <video class="hero__video" autoplay muted loop playsinline>
       <source src="01-hero/heroGIF.mp4" type="video/mp4">
@@ -4422,7 +4452,6 @@ body {
       <a class="hero__watch" href="#">Watch Demo</a>
     </div>
   </div>
-  <p class="hero__sub">Your body deserves a mattress that understands it.</p>
   <!-- hero__bottom: mobile CTA row (desktop hidden via min-width:481px rule) -->
   <div class="hero__bottom">
     <div class="hero__cta-group">
@@ -4635,7 +4664,7 @@ body {
 </div>
 
 <div class="zone-map">
-  <img loading="lazy" class="zone-map__img" src="07-8zones/8zones new.png" alt="Calibr8 8-zone mattress">
+  <img loading="lazy" class="zone-map__img" src="07-8zones/8zones check.png" alt="Calibr8 8-zone mattress">
   <div class="zone-tooltip" id="zone-tooltip">
     <div class="zone-tooltip__num"></div>
     <div class="zone-tooltip__name"></div>
@@ -4645,28 +4674,28 @@ body {
       <span class="zone-tooltip__code"></span>
     </div>
   </div>
-  <button class="zone-dot" style="left:calc(40% + 151.5px);top:calc(34.4% - 81px);--beat-delay:0s" aria-label="Head">
+  <button class="zone-dot" style="left:calc(40% + 157.5px);top:calc(34.4% - 81px);--beat-delay:0s" aria-label="Head">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(41% + 153px);top:calc(34.4% - 36px);--beat-delay:0.28s" aria-label="Shoulder">
+  <button class="zone-dot" style="left:calc(41% + 162px);top:calc(34.4% - 36px);--beat-delay:0.28s" aria-label="Shoulder">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(42% + 159.5px);top:calc(34.4% + 9px);--beat-delay:0.56s" aria-label="Upper Back">
+  <button class="zone-dot" style="left:calc(42% + 165.5px);top:calc(34.4% + 1px);--beat-delay:0.56s" aria-label="Upper Back">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(43% + 166px);top:calc(34.4% + 54px);--beat-delay:0.84s" aria-label="Lumbar">
+  <button class="zone-dot" style="left:calc(43% + 168px);top:calc(34.4% + 39px);--beat-delay:0.84s" aria-label="Lumbar">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(44% + 171.5px);top:calc(34.4% + 99px);--beat-delay:1.12s" aria-label="Pelvic">
+  <button class="zone-dot" style="left:calc(44% + 168.5px);top:calc(34.4% + 76px);--beat-delay:1.12s" aria-label="Pelvic">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(45% + 178px);top:calc(34.4% + 144px);--beat-delay:1.4s" aria-label="Thigh">
+  <button class="zone-dot" style="left:calc(45% + 174px);top:calc(34.4% + 119px);--beat-delay:1.4s" aria-label="Thigh">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(46% + 184.5px);top:calc(34.4% + 189px);--beat-delay:1.68s" aria-label="Leg">
+  <button class="zone-dot" style="left:calc(46% + 183.5px);top:calc(34.4% + 169px);--beat-delay:1.68s" aria-label="Leg">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(47.1% + 191px);top:calc(34.4% + 232px);--beat-delay:1.96s" aria-label="Foot">
+  <button class="zone-dot" style="left:calc(47.1% + 189px);top:calc(34.4% + 222px);--beat-delay:1.96s" aria-label="Foot">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
 </div>
@@ -4678,11 +4707,13 @@ body {
     <article id="alignment" class="tile stat-card stat-card--hbar stat-card--liquid-glass stat-card--bottom"
              data-scheme="spinal" data-kind="hbar" data-delay="0" data-delta="24"
              data-baseline="52" data-optimized="76"
+             data-back-headline="Support Your Spine Better"
+             data-back-body="Generic mattresses leave unsupported gaps beneath your back. Calibr8 adapts to your body's shape to provide more complete support where you need it most."
              tabindex="0" aria-labelledby="s1-title" aria-describedby="s1-sr">
       <p id="s1-sr" class="sr-only">
         Lumbar support: Calibr8 holds the spine 24 percent better than a standard mattress.
       </p>
-      <h3 id="s1-title" class="stat-card__title">Lumbar Support</h3>
+      <h3 id="s1-title" class="stat-card__title">Spinal Support</h3>
 
       <div class="hbar" aria-hidden="true">
         <svg class="hbar__svg" viewBox="0 0 300 190" preserveAspectRatio="xMidYMid meet">
@@ -4701,17 +4732,17 @@ body {
           <!-- x1=20 so left cap reaches x=10; 52% of 276px=143px → x2=20+133=153, right cap to x=163 — visually ~52% -->
           <line class="hbar__bar hbar__bar--std" x1="20" y1="58" x2="144" y2="58" stroke-width="20" stroke-linecap="round" style="stroke:#C54B8C"/>
           <!-- Standard endpoint -->
-          <text x="154" y="82" text-anchor="middle" class="hbar__axis-label hbar__endpoint" style="fill:rgba(197,75,140,0.85);font-size:9px;font-weight:700;opacity:0">52 pts</text>
+          <text x="154" y="82" text-anchor="middle" class="hbar__axis-label hbar__endpoint" style="fill:rgba(197,75,140,0.85);font-size:9px;font-weight:700;opacity:0">52</text>
           <!-- Calibr8 background rail -->
           <rect x="10" y="108" width="276" height="20" rx="10" fill="rgba(85,60,154,0.15)"/>
           <!-- Calibr8 bar: 76% of 276px=210px → x1=20, x2=210, right cap to x=220 -->
           <line class="hbar__bar hbar__bar--cal" x1="20" y1="118" x2="210" y2="118" stroke-width="20" stroke-linecap="round" style="stroke:#553C9A"/>
           <!-- Calibr8 endpoint -->
-          <text x="220" y="142" text-anchor="middle" class="hbar__axis-label hbar__endpoint" style="fill:rgba(85,60,154,0.9);font-size:9px;font-weight:700;opacity:0">76 pts</text>
+          <text x="220" y="142" text-anchor="middle" class="hbar__axis-label hbar__endpoint" style="fill:rgba(85,60,154,0.9);font-size:9px;font-weight:700;opacity:0">76</text>
           <!-- X-axis -->
           <line x1="10" y1="162" x2="286" y2="162" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
           <text x="10"  y="177" text-anchor="start" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">0</text>
-          <text x="148" y="177" text-anchor="middle" class="hbar__axis-label" style="fill:#111111">Lumbar Contact Area (more is better)</text>
+          <text x="148" y="177" text-anchor="middle" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)"><tspan x="148" dy="0">Spinal Support Contact Area</tspan><tspan x="148" dy="11">(more contact = better support)</tspan></text>
           <text x="286" y="177" text-anchor="end"   class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">100</text>
         </svg>
       </div>
@@ -4721,7 +4752,7 @@ body {
         <span class="delta__value" data-target="24">0</span>
         <span class="delta__suffix">%</span>
       </div>
-      <div class="stat-card__outcome">Better Alignment</div>
+      <div class="stat-card__outcome">Improved Spinal Alignment</div>
       <footer class="stat-card__footer">
         <p class="stat-card__benefit">Better spinal alignment with proper lumbar support through the night.</p>
       </footer>
@@ -4729,11 +4760,13 @@ body {
 
     <article id="pressure" class="tile stat-card stat-card--arc"
              data-scheme="muscle" data-kind="arc" data-delay="200" data-delta="37"
+             data-back-headline="Reduce Pressure on Your Body"
+             data-back-body="Instead of concentrating your body weight in a few areas, Calibr8 spreads it more evenly across the mattress, helping you stay comfortable for longer."
              tabindex="0" aria-labelledby="s2-title" aria-describedby="s2-sr">
       <p id="s2-sr" class="sr-only">
-        Muscle pressure distribution: Calibr8 spreads weight 37 percent more evenly than a standard mattress.
+        Body pressure distribution: Calibr8 keeps pressure below 30 mm Hg vs 50–70 mm Hg on a standard mattress — 37% more even distribution.
       </p>
-      <h3 id="s2-title" class="stat-card__title">Muscle Pressure</h3>
+      <h3 id="s2-title" class="stat-card__title">Body Pressure Distribution</h3>
 
       <div class="arc-gauge" aria-hidden="true">
         <svg class="arc-gauge__svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
@@ -4767,27 +4800,39 @@ body {
 
           <!-- Standard endpoint: appears after Standard arc finishes -->
           <g class="arc__endpoint arc__endpoint--std">
+            <text x="199" y="27" text-anchor="middle"
+                  class="hbar__label hbar__label--std arc__name">Standard</text>
             <circle cx="199" cy="43" r="5" fill="#C54B8C"/>
-            <text x="199" y="22" text-anchor="middle"
-                  class="hbar__label hbar__label--std">Standard</text>
+            <text x="199" y="65" text-anchor="middle" font-size="8"
+                  class="arc__mmhg"
+                  fill="rgba(197,75,140,0.8)"
+                  font-weight="700"
+                  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">50-75 mm Hg</text>
           </g>
 
           <!-- Calibr8 endpoint: appears after Calibr8 arc finishes -->
           <g class="arc__endpoint arc__endpoint--cal">
+            <text x="103" y="27" text-anchor="middle"
+                  class="hbar__label hbar__label--cal arc__name">Calibr8</text>
             <circle cx="103" cy="42" r="5" fill="#553C9A"/>
-            <text x="103" y="22" text-anchor="middle"
-                  class="hbar__label hbar__label--cal">Calibr8</text>
+            <text x="103" y="65" text-anchor="middle" font-size="8"
+                  class="arc__mmhg"
+                  fill="rgba(85,60,154,0.8)"
+                  font-weight="700"
+                  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">&lt;30 mm Hg</text>
           </g>
 
-          <!-- Axis labels -->
-          <text x="15" y="184" text-anchor="start"
+          <!-- Axis labels — 0/Pressure Level/100 on same baseline; (less is better) one line below -->
+          <text x="15" y="176" text-anchor="start"
                 fill="rgba(0,0,0,0.5)" font-size="9"
                 font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">0 mmHg</text>
-          <text x="285" y="184" text-anchor="end"
+          <text x="150" y="176" text-anchor="middle"
+                class="hbar__axis-label" style="fill:rgba(0,0,0,0.5)">Pressure Level</text>
+          <text x="285" y="176" text-anchor="end"
                 fill="rgba(0,0,0,0.5)" font-size="9"
                 font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">100 mmHg</text>
-          <text x="150" y="184" text-anchor="middle"
-                class="hbar__axis-label" style="fill:#111111">(less is better)</text>
+          <text x="150" y="188" text-anchor="middle"
+                class="hbar__axis-label" style="fill:rgba(0,0,0,0.45);font-size:8px">(less is better)</text>
         </svg>
       </div>
 
@@ -4796,14 +4841,16 @@ body {
         <span class="delta__value" data-target="37">0</span>
         <span class="delta__suffix">%</span>
       </div>
-      <div class="stat-card__outcome">Even Pressure</div>
+      <div class="stat-card__outcome">Even Pressure Distribution</div>
       <footer class="stat-card__footer">
-        <p class="stat-card__benefit">Improved muscle pressure distribution for deeper, more restorative sleep.</p>
+        <p class="stat-card__benefit">More even body pressure distribution for deeper, more restorative sleep.</p>
       </footer>
     </article>
 
     <article class="tile stat-card stat-card--bottom"
              data-scheme="deepsleep" data-kind="pie" data-delay="400" data-delta="21"
+             data-back-headline="Improve Physical Recovery with Deep Sleep"
+             data-back-body="Deep sleep is when your body repairs and recharges. More time in this stage means better physical recovery and a more refreshed morning."
              tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
       <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78%, an 18 to 25 percent increase from reduced pressure discomfort.</p>
       <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
@@ -4811,39 +4858,43 @@ body {
       <div class="sleep-pie" aria-hidden="true">
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Standard: REM 18%, Deep 22% (highlighted), Light 46%, Awake 14% -->
+            <!-- Standard: Deep 57% (highlighted), REM 10%, Light 25%, Awake 8% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__deep"      data-start="0"     data-end="64.8"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 98.4 34.6 Z"/>
-            <path class="spc__seg spc__deep--std" data-start="64.8"  data-end="144"   d="M 55 55 L 98.4 34.6 A 48 48 0 0 1 83.2 93.8 Z"/>
-            <path class="spc__seg spc__light"     data-start="144"   data-end="309.6" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 18.0 24.4 Z"/>
-            <path class="spc__seg spc__awake"     data-start="309.6" data-end="360"   d="M 55 55 L 18.0 24.4 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__deep--std" data-start="0"     data-end="205.2" d="M 55 55 L 55.0 7.0 A 48 48 0 1 1 34.6 98.4 Z"/>
+            <path class="spc__seg spc__deep"      data-start="205.2" data-end="241.2" d="M 55 55 L 34.6 98.4 A 48 48 0 0 1 13.0 78.3 Z"/>
+            <path class="spc__seg spc__light"     data-start="241.2" data-end="331.2" d="M 55 55 L 13.0 78.3 A 48 48 0 0 1 31.9 12.9 Z"/>
+            <path class="spc__seg spc__awake"     data-start="331.2" data-end="360"   d="M 55 55 L 31.9 12.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="98.4" y2="34.6"/>
-            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
-            <line class="spc__div" x1="55" y1="55" x2="18.0" y2="24.4"/>
-            <text class="spc__lbl" x="69.5" y="32.2">REM</text>
-            <text class="spc__lbl spc__lbl--deep-std" x="81.2" y="61.7">Deep</text>
-            <text class="spc__lbl" x="35.3" y="73.5">Light</text>
-            <text class="spc__lbl" x="43.5" y="30.6">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="34.6" y2="98.4"/>
+            <line class="spc__div" x1="55" y1="55" x2="13.0" y2="78.3"/>
+            <line class="spc__div" x1="55" y1="55" x2="31.9" y2="12.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--deep-std" text-anchor="middle" x="87.2" y="62.1">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="32.4" y="79.1">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="23.3" y="45.8">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="41" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Calibr8: REM 25%, Deep 22% (highlighted), Light 43%, Awake 10% -->
+            <!-- Calibr8: Deep 78% (highlighted), REM 7%, Light 12%, Awake 3% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__deep"      data-start="0"     data-end="90"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
-            <path class="spc__seg spc__deep--cal" data-start="90"    data-end="169.2" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 64.0 102.1 Z"/>
-            <path class="spc__seg spc__light"     data-start="169.2" data-end="324"   d="M 55 55 L 64.0 102.1 A 48 48 0 0 1 26.8 16.2 Z"/>
-            <path class="spc__seg spc__awake"     data-start="324"   data-end="360"   d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__deep--cal" data-start="0"     data-end="280.8" d="M 55 55 L 55.0 7.0 A 48 48 0 1 1 7.9 46.0 Z"/>
+            <path class="spc__seg spc__deep"      data-start="280.8" data-end="306"   d="M 55 55 L 7.9 46.0 A 48 48 0 0 1 16.2 26.8 Z"/>
+            <path class="spc__seg spc__light"     data-start="306"   data-end="349.2" d="M 55 55 L 16.2 26.8 A 48 48 0 0 1 46.0 7.9 Z"/>
+            <path class="spc__seg spc__awake"     data-start="349.2" data-end="360"   d="M 55 55 L 46.0 7.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="64.0" y2="102.1"/>
-            <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
-            <text class="spc__lbl" x="74.1" y="35.9">REM</text>
-            <text class="spc__lbl spc__lbl--deep-cal" x="75.8" y="72.2">Deep</text>
-            <text class="spc__lbl" x="30.2" y="65.7">Light</text>
-            <text class="spc__lbl" x="46.7" y="29.3">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="7.9" y2="46.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="16.2" y2="26.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="46.0" y2="7.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--deep-cal" text-anchor="middle" x="76.0" y="80.4">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="20.2" y="39.9">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="37.3" y="27.1">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="50" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
         </div>
@@ -4856,18 +4907,20 @@ body {
       </div>
       <div class="stat-card__outcome">More Deep Sleep</div>
       <footer class="stat-card__footer">
-        <p class="stat-card__benefit">18 to 25% increase in slow-wave sleep from reduced overnight pressure discomfort.</p>
+        <p class="stat-card__benefit">21% increase in deep sleep cycles — from 57% to 78% — from reduced overnight pressure discomfort.</p>
       </footer>
     </article>
 
     <article id="circulation" class="tile stat-card stat-card--hbar stat-card--liquid-glass stat-card--bottom"
              data-scheme="circulation" data-kind="hbar" data-delay="0"
              data-baseline="65" data-optimized="28" data-delta="36"
+             data-back-headline="Reduce Strain on Your Body's Pressure Points"
+             data-back-body="Calibr8 balances your body's pressure across 8 independent zones, reducing pressure build-up and helping you get more supported sleep through the night."
              tabindex="0" aria-labelledby="s4-cat" aria-describedby="s4-sr">
       <p id="s4-sr" class="sr-only">
         High-pressure zones: Standard mattress reaches 50–75 mmHg. Calibr8 keeps it under 30 mmHg — a 36 percent reduction in pressure buildup.
       </p>
-      <h3 id="s4-cat" class="stat-card__title">High Pressure Zones</h3>
+      <h3 id="s4-cat" class="stat-card__title">Areas of High Pressure</h3>
 
       <div class="hbar" aria-hidden="true">
         <svg class="hbar__svg" viewBox="0 0 300 190" preserveAspectRatio="xMidYMid meet">
@@ -4943,8 +4996,9 @@ body {
           <text x="90" y="142" text-anchor="middle" class="hbar__axis-label hpz-label--cal" style="fill:rgba(85,60,154,0.9);font-size:9px;font-weight:700;opacity:0">&lt;30 mmHg</text>
           <!-- X-axis -->
           <line x1="10" y1="162" x2="286" y2="162" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-          <text x="10"  y="177" text-anchor="start" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">0 mmHg</text>
-          <text x="286" y="177" text-anchor="end"   class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">100 mmHg</text>
+          <text x="10"  y="177" text-anchor="start"  class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">0 mmHg</text>
+          <text x="148" y="177" text-anchor="middle" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">Pressure Level</text>
+          <text x="286" y="177" text-anchor="end"    class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">100 mmHg</text>
         </svg>
       </div>
 
@@ -4962,13 +5016,15 @@ body {
     <article class="tile stat-card stat-card--bottom"
              data-scheme="fragmentation" data-kind="lines" data-delay="200"
              data-baseline="100" data-optimized="75" data-delta="25"
+             data-back-headline="Wake Up Lesser with Uninterrupted Sleep"
+             data-back-body="Your body doesn't have to keep searching for comfort. Calibr8 gives every pressure point the support it needs, so you toss and turn less, staying asleep for longer."
              tabindex="0" aria-labelledby="s5-title" aria-describedby="s5-sr">
       <p id="s5-sr" class="sr-only">Sleep fragmentation reduced 15 to 30 percent with Calibr8, enabling longer uninterrupted sleep cycles.</p>
       <h3 id="s5-title" class="stat-card__title">Sleep Interruption</h3>
       <div class="sleep-lines" aria-hidden="true">
         <div class="sleep-lines__chart-area">
           <div class="sleep-lines__chart">
-            <span class="sleep-lines__ylabel">Intensity of Motion</span>
+            <span class="sleep-lines__ylabel">Tossing &amp; Turning</span>
             <div class="sleep-lines__svg-wrap">
             <span class="sleep-lines__label sleep-lines__label--std">Standard</span>
             <span class="sleep-lines__label sleep-lines__label--cal">Calibr8</span>
@@ -4992,8 +5048,8 @@ body {
               </defs>
               <!-- Y-axis: tip at top, ends at calibr8 line level -->
               <polygon points="0,0 -2,6 2,6" fill="rgba(0,0,0,0.4)"/>
-              <line class="sl-mobile" x1="0" y1="6" x2="0" y2="72" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
-              <line class="sl-desktop" x1="0" y1="6" x2="0" y2="63" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+              <line class="sl-mobile" x1="0" y1="6" x2="0" y2="100" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+              <line class="sl-desktop" x1="0" y1="6" x2="0" y2="100" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
               <!-- grid lines at 0,10,20...100% -->
               <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
               <line x1="0" y1="10"  x2="300" y2="10"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
@@ -5046,6 +5102,8 @@ body {
 
     <article class="tile stat-card stat-card--bottom"
              data-scheme="rem" data-kind="pie" data-delay="400" data-delta="16"
+             data-back-headline="Improve Cognitive Function with Longer REM"
+             data-back-body="Wake up with a sharper mind. By helping you spend more time in REM sleep, Calibr8 supports better mental recovery, memory, and focus."
              tabindex="0" aria-labelledby="s6-title" aria-describedby="s6-sr">
       <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79%, 12 to 20 percent improvement supporting cognitive recovery.</p>
       <h3 id="s6-title" class="stat-card__title">REM Sleep</h3>
@@ -5053,39 +5111,43 @@ body {
       <div class="sleep-pie" aria-hidden="true">
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Standard: REM 18%, Deep 22%, Light 46%, Awake 14% -->
+            <!-- Standard: REM 10% (highlighted), Deep 57%, Light 25%, Awake 8% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__rem--std" data-start="0"     data-end="64.8"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 98.4 34.6 Z"/>
-            <path class="spc__seg spc__deep"     data-start="64.8"  data-end="144"   d="M 55 55 L 98.4 34.6 A 48 48 0 0 1 83.2 93.8 Z"/>
-            <path class="spc__seg spc__light"    data-start="144"   data-end="309.6" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 18.0 24.4 Z"/>
-            <path class="spc__seg spc__awake"    data-start="309.6" data-end="360"   d="M 55 55 L 18.0 24.4 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__rem--std" data-start="0"     data-end="36"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 83.2 16.2 Z"/>
+            <path class="spc__seg spc__deep"     data-start="36"    data-end="241.2" d="M 55 55 L 83.2 16.2 A 48 48 0 1 1 13.0 78.3 Z"/>
+            <path class="spc__seg spc__light"    data-start="241.2" data-end="331.2" d="M 55 55 L 13.0 78.3 A 48 48 0 0 1 31.9 12.9 Z"/>
+            <path class="spc__seg spc__awake"    data-start="331.2" data-end="360"   d="M 55 55 L 31.9 12.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="98.4" y2="34.6"/>
-            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
-            <line class="spc__div" x1="55" y1="55" x2="18.0" y2="24.4"/>
-            <text class="spc__lbl spc__lbl--rem-std" x="69.5" y="32.2">REM</text>
-            <text class="spc__lbl" x="81.2" y="61.7">Deep</text>
-            <text class="spc__lbl" x="35.3" y="73.5">Light</text>
-            <text class="spc__lbl" x="43.5" y="30.6">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="16.2"/>
+            <line class="spc__div" x1="55" y1="55" x2="13.0" y2="78.3"/>
+            <line class="spc__div" x1="55" y1="55" x2="31.9" y2="12.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--rem-std" text-anchor="middle" x="65.2" y="23.6">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="76.8" y="79.8">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="23.3" y="45.8">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="41" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Calibr8: REM 25% (highlighted), Deep 22%, Light 43%, Awake 10% -->
+            <!-- Calibr8: REM 12% (highlighted), Deep 78%, Light 7%, Awake 3% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__rem--cal" data-start="0"     data-end="90"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
-            <path class="spc__seg spc__deep"     data-start="90"    data-end="169.2" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 64.0 102.1 Z"/>
-            <path class="spc__seg spc__light"    data-start="169.2" data-end="324"   d="M 55 55 L 64.0 102.1 A 48 48 0 0 1 26.8 16.2 Z"/>
-            <path class="spc__seg spc__awake"    data-start="324"   data-end="360"   d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__rem--cal" data-start="0"     data-end="43.2"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 87.9 20.0 Z"/>
+            <path class="spc__seg spc__deep"     data-start="43.2"  data-end="324"   d="M 55 55 L 87.9 20.0 A 48 48 0 1 1 26.8 16.2 Z"/>
+            <path class="spc__seg spc__light"    data-start="324"   data-end="349.2" d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 46.0 7.9 Z"/>
+            <path class="spc__seg spc__awake"    data-start="349.2" data-end="360"   d="M 55 55 L 46.0 7.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="64.0" y2="102.1"/>
+            <line class="spc__div" x1="55" y1="55" x2="87.9" y2="20.0"/>
             <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
-            <text class="spc__lbl spc__lbl--rem-cal" x="74.1" y="35.9">REM</text>
-            <text class="spc__lbl" x="75.8" y="72.2">Deep</text>
-            <text class="spc__lbl" x="30.2" y="65.7">Light</text>
-            <text class="spc__lbl" x="46.7" y="29.3">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="46.0" y2="7.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--rem-cal" text-anchor="middle" x="67.1" y="24.3">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="52.9" y="87.9">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="24" y="9">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="50" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
         </div>
@@ -5203,17 +5265,17 @@ body {
       </div>
       <!-- Desktop: 3 zones -->
       <div class="heatmap-legend__zones heatmap-legend__zones--desk">
-        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:33.1">Recommended Body<br>Pressure Range</span>
+        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:33.1">Ideal Body Pressure<br>(Very Low)</span>
         <i class="heatmap-legend__zone-sep"></i>
-        <span class="heatmap-legend__zone heatmap-legend__zone--low" style="flex:25.2">Low Body<br>Pressure Range</span>
+        <span class="heatmap-legend__zone heatmap-legend__zone--low" style="flex:25.2">Mild Pressure<br>on Body</span>
         <i class="heatmap-legend__zone-sep"></i>
-        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body<br>Pressure Range</span>
+        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body Pain<br>&amp; Discomfort</span>
       </div>
       <!-- Mobile: 2 zones -->
       <div class="heatmap-legend__zones heatmap-legend__zones--mob">
-        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:58.3">Recommended Body<br>Pressure Range</span>
+        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:58.3">Ideal Body Pressure<br>(Very Low)</span>
         <i class="heatmap-legend__zone-sep"></i>
-        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body<br>Pressure Range</span>
+        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body Pain<br>&amp; Discomfort</span>
       </div>
     </div>
   </div>
@@ -5238,8 +5300,8 @@ body {
         <button class="book-btn" data-tab="home">Home Consultation</button>
       </div>
       <div class="book-cta-row">
-        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Fill the Form for a Callback</a></span>
-        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed at Nearest Store</a></span>
+        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Request A Callback</a></span>
+        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Book Free Consultation</a></span>
       </div>
     </div>
   </div>
@@ -5375,35 +5437,42 @@ body {
       allActive.forEach(function(p) { p.style.transition = 'none'; p.style.opacity = '0'; });
       const stdLabel = card.querySelector('.hpz-label--std');
       const calLabel = card.querySelector('.hpz-label--cal');
+      const dv = card.querySelector('.delta__value');
       if (stdLabel) { stdLabel.style.transition = 'none'; stdLabel.style.opacity = '0'; }
       if (calLabel) { calLabel.style.transition = 'none'; calLabel.style.opacity = '0'; }
       requestAnimationFrame(function() { requestAnimationFrame(function() {
+        // Phase 1: standard pills left to right
         stdPills.forEach(function(p, i) {
           setTimeout(function() {
-            p.style.transition = 'opacity 0.25s ease';
+            p.style.transition = 'opacity 0.2s ease';
             p.style.opacity = '1';
           }, i * 80);
         });
-        var calStart = stdPills.length * 80 + 150;
-        calPills.forEach(function(p, i) {
-          setTimeout(function() {
-            p.style.transition = 'opacity 0.25s ease';
-            p.style.opacity = '1';
-          }, calStart + i * 80);
-        });
-        var stdLabelDelay = (stdPills.length - 1) * 80 + 300;
-        var calLabelDelay = calStart + (calPills.length - 1) * 80 + 300;
+        // Phase 2: std label after last pill finishes
+        var stdDone = (stdPills.length - 1) * 80 + 250;
         if (stdLabel) setTimeout(function() {
           stdLabel.style.transition = 'opacity 0.3s ease';
           stdLabel.style.opacity = '1';
-        }, stdLabelDelay);
+        }, stdDone);
+        // Phase 3: calibr8 pills after std label fully visible
+        var calStart = stdDone + 500;
+        calPills.forEach(function(p, i) {
+          setTimeout(function() {
+            p.style.transition = 'opacity 0.2s ease';
+            p.style.opacity = '1';
+          }, calStart + i * 80);
+        });
+        // Phase 4: cal label after last cal pill finishes
+        var calDone = calStart + (calPills.length - 1) * 80 + 250;
         if (calLabel) setTimeout(function() {
           calLabel.style.transition = 'opacity 0.3s ease';
           calLabel.style.opacity = '1';
-        }, calLabelDelay);
+        }, calDone);
+        // Phase 5: counter after cal label visible
+        if (dv) setTimeout(function() {
+          countToLinear(dv, Number(dv.dataset.target), 700);
+        }, calDone + 500);
       }); });
-      const dv = card.querySelector('.delta__value');
-      countToLinear(dv, Number(dv.dataset.target), 700);
       return;
     }
     var bars      = Array.from(card.querySelectorAll('.hbar__bar'));
@@ -5581,24 +5650,28 @@ body {
   }
 
   function animateArc(card) {
-    const segA   = card.querySelector('.arc__seg--a');
-    const segB   = card.querySelector('.arc__seg--b');
-    const tipA   = card.querySelector('.arc__tip--a');
-    const tipB   = card.querySelector('.arc__tip--b');
-    const stdPt  = card.querySelector('.arc__endpoint--std');
-    const calPt  = card.querySelector('.arc__endpoint--cal');
-    const dv     = card.querySelector('.delta__value');
-    const stdDur = 1000;
-    const calDur = 700;
-    const gap    = 200;
+    const segA     = card.querySelector('.arc__seg--a');
+    const segB     = card.querySelector('.arc__seg--b');
+    const tipA     = card.querySelector('.arc__tip--a');
+    const tipB     = card.querySelector('.arc__tip--b');
+    const stdPt    = card.querySelector('.arc__endpoint--std');
+    const calPt    = card.querySelector('.arc__endpoint--cal');
+    const stdMmhg  = stdPt ? stdPt.querySelector('.arc__mmhg') : null;
+    const calMmhg  = calPt ? calPt.querySelector('.arc__mmhg') : null;
+    const dv       = card.querySelector('.delta__value');
+    const stdDur   = 1000;
+    const calDur   = 700;
+    const nameHold = 400;
+    const mmhgHold = 350;
 
     // Reset
-    if (stdPt) { stdPt.style.transition = 'none'; stdPt.style.opacity = '0'; }
-    if (calPt) { calPt.style.transition = 'none'; calPt.style.opacity = '0'; }
-    if (tipA)  { tipA.style.opacity = '0'; }
-    if (tipB)  { tipB.style.opacity = '0'; }
+    if (stdPt)   { stdPt.style.transition = 'none';   stdPt.style.opacity = '0'; }
+    if (calPt)   { calPt.style.transition = 'none';   calPt.style.opacity = '0'; }
+    if (stdMmhg) { stdMmhg.style.transition = 'none'; stdMmhg.style.opacity = '0'; }
+    if (calMmhg) { calMmhg.style.transition = 'none'; calMmhg.style.opacity = '0'; }
+    if (tipA)    { tipA.style.opacity = '0'; }
+    if (tipB)    { tipB.style.opacity = '0'; }
 
-    // ease-out matching cubic-bezier(0.16, 1, 0.3, 1)
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
     let lenA = 0, lenB = 0;
@@ -5606,21 +5679,24 @@ body {
     if (segB) { lenB = segB.getTotalLength(); segB.style.transition = 'none'; segB.style.strokeDasharray = lenB; segB.style.strokeDashoffset = lenB; }
 
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      // Phase 1: Standard arc + tip
-      if (segA) {
-        if (tipA) tipA.style.opacity = '1';
-        const t0 = performance.now();
-        (function frameA(now) {
+      if (!segA) return;
+      if (tipA) tipA.style.opacity = '1';
+      const t0 = performance.now();
+      (function frameA(now) {
+        if (!card.dataset.revealed) return;
+        const t = Math.min((now - t0) / stdDur, 1);
+        const e = easeOut(t);
+        segA.style.strokeDashoffset = lenA * (1 - e);
+        if (tipA) { const pos = lenA * e; const p1 = segA.getPointAtLength(Math.max(0, pos - 2)); const p2 = segA.getPointAtLength(Math.min(lenA, pos + 2)); tipA.setAttribute('d', `M ${p1.x},${p1.y} L ${p2.x},${p2.y}`); }
+        if (t < 1) { requestAnimationFrame(frameA); return; }
+        // Std arc done → show name+dot
+        if (tipA) { tipA.style.transition = 'opacity 250ms ease'; tipA.style.opacity = '0'; }
+        if (stdPt) { stdPt.style.transition = 'opacity 250ms ease'; stdPt.style.opacity = '1'; }
+        // After nameHold → show std mmhg
+        setTimeout(function() {
           if (!card.dataset.revealed) return;
-          const t = Math.min((now - t0) / stdDur, 1);
-          const e = easeOut(t);
-          segA.style.strokeDashoffset = lenA * (1 - e);
-          if (tipA) { const pos = lenA * e; const p1 = segA.getPointAtLength(Math.max(0, pos - 2)); const p2 = segA.getPointAtLength(Math.min(lenA, pos + 2)); tipA.setAttribute('d', `M ${p1.x},${p1.y} L ${p2.x},${p2.y}`); }
-          if (t < 1) { requestAnimationFrame(frameA); return; }
-          // Done: cross-fade tip out and endpoint dot in simultaneously
-          if (tipA) { tipA.style.transition = 'opacity 250ms ease'; tipA.style.opacity = '0'; }
-          if (stdPt) { stdPt.style.transition = 'opacity 250ms ease'; stdPt.style.opacity = '1'; }
-          // Phase 2: pause then Calibr8 arc + tip
+          if (stdMmhg) { stdMmhg.style.transition = 'opacity 300ms ease'; stdMmhg.style.opacity = '1'; }
+          // After mmhgHold → start Calibr8 arc
           setTimeout(function() {
             if (!card.dataset.revealed || !segB) return;
             if (tipB) tipB.style.opacity = '1';
@@ -5632,23 +5708,71 @@ body {
               segB.style.strokeDashoffset = lenB * (1 - eb);
               if (tipB) { const posB = lenB * eb; const p1 = segB.getPointAtLength(Math.max(0, posB - 2)); const p2 = segB.getPointAtLength(Math.min(lenB, posB + 2)); tipB.setAttribute('d', `M ${p1.x},${p1.y} L ${p2.x},${p2.y}`); }
               if (tb < 1) { requestAnimationFrame(frameB); return; }
+              // Cal arc done → show cal name+dot
               if (tipB) { tipB.style.transition = 'opacity 250ms ease'; tipB.style.opacity = '0'; }
               if (calPt) { calPt.style.transition = 'opacity 250ms ease'; calPt.style.opacity = '1'; }
+              // After nameHold → show cal mmhg
+              setTimeout(function() {
+                if (!card.dataset.revealed) return;
+                if (calMmhg) { calMmhg.style.transition = 'opacity 300ms ease'; calMmhg.style.opacity = '1'; }
+                // After mmhgHold → counter
+                setTimeout(function() {
+                  if (!card.dataset.revealed) return;
+                  if (dv) countToLinear(dv, Number(dv.dataset.target), 700);
+                }, mmhgHold);
+              }, nameHold);
             })(performance.now());
-          }, gap);
-        })(performance.now());
-      }
-
-      countToLinear(dv, Number(dv.dataset.target), stdDur + gap + calDur / 2);
+          }, mmhgHold);
+        }, nameHold);
+      })(performance.now());
     }));
   }
 
   function snapArc(card) {
     card.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = 0; });
     card.querySelectorAll('.arc__endpoint').forEach(g => { g.style.transition = 'none'; g.style.opacity = '1'; });
+    card.querySelectorAll('.arc__mmhg').forEach(el => { el.style.transition = 'none'; el.style.opacity = '1'; });
     card.querySelectorAll('.arc__tip').forEach(c => { c.style.opacity = '0'; });
     const dv = card.querySelector('.delta__value');
     if (dv) dv.textContent = dv.dataset.target;
+  }
+
+  // Instantly show a card in its completed/filled state (for c-left and c-right positions)
+  function snapCardFill(card) {
+    if (card.dataset.revealed === '1') return;
+    card.dataset.revealed = '1';
+    card.classList.add('is-revealed');
+    const k = card.dataset.kind || '';
+    if (k === 'pie') {
+      var CX = 55, CY = 55, R = 48;
+      function ptSnap(deg) {
+        var a = deg * Math.PI / 180;
+        return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
+      }
+      card.querySelectorAll('.spc__seg').forEach(function(el) {
+        var s = +el.dataset.start, e = +el.dataset.end;
+        if (e - s < 0.1) { el.setAttribute('d', 'M' + CX + ' ' + CY + 'Z'); return; }
+        var p1 = ptSnap(s), p2 = ptSnap(e);
+        el.setAttribute('d', 'M' + CX + ' ' + CY + 'L' + p1[0] + ' ' + p1[1]
+          + 'A' + R + ' ' + R + ' 0 ' + (e - s >= 180 ? 1 : 0) + ' 1 ' + p2[0] + ' ' + p2[1] + 'Z');
+      });
+      card.querySelectorAll('.spc__div, .spc__lbl').forEach(function(el) { el.style.opacity = ''; });
+    } else if (k === 'arc') {
+      snapArc(card);
+    } else if (k === 'hbar') {
+      snapHBar(card);
+    } else if (k === 'rings') {
+      snapRings(card);
+    } else if (k === 'graph') {
+      snapGraph(card);
+    } else if (k === 'lines') {
+      snapLines(card);
+    } else if (k === 'vbars') {
+      snapVbars(card);
+    }
+    card.querySelectorAll('.delta__value').forEach(function(el) {
+      if (el.dataset.target) el.textContent = el.dataset.target;
+    });
   }
 
   function animateLines(card) {
@@ -6157,7 +6281,7 @@ body {
   // ── Carousel (initialise all instances) ──
   function initCarousel(section, suffix, extraClass) {
     const track = section.querySelector('.carousel__track');
-    const STATES = ['c-center','c-left','c-right','c-exit','c-enter','c-hidden'];
+    const STATES = ['c-center','c-left','c-right','c-exit','c-enter','c-hidden','c-hidden-left'];
     const N = 6;
     const cCards = [];
     document.querySelectorAll('#stats-grid .stat-card').forEach((src, i) => {
@@ -6189,13 +6313,12 @@ body {
       // Build back face
       const sign      = (src.querySelector('.delta__sign') || {}).textContent || '+';
       const deltaNum  = src.dataset.delta || '';
-      const titleText = (src.querySelector('.stat-card__title') || {}).textContent || '';
-      const outcome   = (src.querySelector('.stat-card__outcome') || {}).textContent || '';
+      const headline  = src.dataset.backHeadline || '';
+      const bodyText  = src.dataset.backBody || '';
       const back = document.createElement('div');
       back.className = 'card-face card-face--back';
-      back.innerHTML = '<div class="card-back__delta">' + sign + deltaNum + '%</div>'
-        + '<div class="card-back__metric">' + titleText + '</div>'
-        + '<div class="card-back__label">' + outcome + '</div>';
+      back.innerHTML = '<div class="card-back__headline">' + headline + '</div>'
+        + '<div class="card-back__body">' + bodyText + '</div>';
 
       const inner = document.createElement('div');
       inner.className = 'card-inner';
@@ -6221,14 +6344,18 @@ body {
     }
     let active = 0, advancing = false, flipTimer = null, pausedByHover = false, clickPaused = false;
     function setAll(a) { cCards.forEach((c,i) => applyState(c, stateFor(i,a))); }
-    function clearViz(card) {
+    function clearViz(card, instant) {
       card.dataset.revealed = '';
       card.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
-      card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) countDownToZero(el, 480); });
+      if (instant) {
+        card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = '0'; });
+      } else {
+        card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) countDownToZero(el, 480); });
+      }
       card.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
       card.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
       card.querySelectorAll('[style]').forEach(el => {
-        // Skip arc segs and hbar bars — handled separately with reverse animation
+        // Skip arc segs and hbar bars — handled separately
         if (card.dataset.kind === 'arc' && (el.classList.contains('arc__seg--a') || el.classList.contains('arc__seg--b'))) return;
         if (card.dataset.kind === 'hbar' && el.classList.contains('hbar__bar')) return;
         ['stroke-dashoffset','stroke-dasharray','transition'].forEach(p => el.style.removeProperty(p));
@@ -6238,51 +6365,58 @@ body {
         el.style.strokeDashoffset = '9999';
       });
       if (card.dataset.kind === 'arc') {
-        // Reverse-animate colored arcs back to hidden
         ['.arc__seg--a', '.arc__seg--b'].forEach(function(sel) {
           const seg = card.querySelector(sel);
           if (!seg) return;
           const len = seg.getTotalLength();
-          seg.style.transition = 'stroke-dashoffset 480ms ease-in';
+          seg.style.transition = instant ? 'none' : 'stroke-dashoffset 480ms ease-in';
           seg.style.strokeDasharray = len;
           seg.style.strokeDashoffset = len;
         });
-        card.querySelectorAll('.arc__endpoint').forEach(g => { g.style.transition = 'opacity 300ms ease'; g.style.opacity = '0'; });
+        card.querySelectorAll('.arc__endpoint').forEach(g => {
+          g.style.transition = instant ? 'none' : 'opacity 300ms ease';
+          g.style.opacity = '0';
+        });
+        card.querySelectorAll('.arc__mmhg').forEach(el => { el.style.transition = 'none'; el.style.opacity = '0'; });
         card.querySelectorAll('.arc__tip').forEach(c => { c.style.transition = 'none'; c.style.opacity = '0'; });
       }
       if (card.dataset.kind === 'hbar') {
         const hbarBars = card.querySelectorAll('.hbar__bar');
         if (hbarBars.length) {
-          // Alignment card: reverse-animate bars back to hidden
           hbarBars.forEach(function(bar) {
             const len = bar.getTotalLength ? bar.getTotalLength() : 0;
             if (!len) return;
             if (!bar.style.strokeDasharray) bar.style.strokeDasharray = len;
-            bar.style.transition = 'stroke-dashoffset 480ms cubic-bezier(0.4,0,1,1)';
+            bar.style.transition = instant ? 'none' : 'stroke-dashoffset 480ms cubic-bezier(0.4,0,1,1)';
             bar.style.strokeDashoffset = len;
           });
           card.querySelectorAll('.hbar__endpoint').forEach(function(ep) {
-            ep.style.transition = 'opacity 250ms ease';
+            ep.style.transition = instant ? 'none' : 'opacity 250ms ease';
             ep.style.opacity = '0';
           });
         } else {
-          // Circulation card: staggered reverse (cal right→left, then std right→left)
           const calPills = Array.from(card.querySelectorAll('.hpz-pill--cal')).reverse();
           const stdPills = Array.from(card.querySelectorAll('.hpz-pill--std')).reverse();
-          [...calPills, ...stdPills].forEach(function(p, i) {
-            setTimeout(function() {
-              p.style.transition = 'opacity 200ms ease';
-              p.style.opacity = '0';
-            }, i * 45);
-          });
+          if (instant) {
+            [...calPills, ...stdPills].forEach(function(p) { p.style.transition = 'none'; p.style.opacity = '0'; });
+          } else {
+            [...calPills, ...stdPills].forEach(function(p, i) {
+              setTimeout(function() { p.style.transition = 'opacity 200ms ease'; p.style.opacity = '0'; }, i * 45);
+            });
+          }
           card.querySelectorAll('.hpz-label--std, .hpz-label--cal').forEach(function(l) {
-            l.style.transition = 'opacity 200ms ease';
+            l.style.transition = instant ? 'none' : 'opacity 200ms ease';
             l.style.opacity = '0';
           });
         }
       }
       if (card.dataset.kind === 'pie') {
-        animatePieOut(card);
+        if (instant) {
+          card.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', 'M55 55Z'));
+          card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+        } else {
+          animatePieOut(card);
+        }
       } else {
         card.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', 'M55 55Z'));
         card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
@@ -6318,18 +6452,19 @@ body {
     function scheduleFlip(card) {
       if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
       const inn = card.querySelector('.card-inner');
-      const initialDelay = card.id === 'circulation' ? 3400 : card.id === 'pressure' ? 3200 : card.id === 'alignment' ? 4400 : card.dataset.kind === 'lines' ? 2600 : card.dataset.kind === 'pie' ? 3900 : 1500;
+      const initialDelay = card.id === 'circulation' ? 5560 : card.id === 'pressure' ? 5900 : card.id === 'alignment' ? 5350 : card.dataset.kind === 'lines' ? 3600 : card.dataset.kind === 'pie' ? 5200 : 3600;
       flipTimer = setTimeout(function() {
         if (pausedByHover || clickPaused || !inn) return;
         inn.classList.remove('is-hovering');
         cardFlipOut(inn);
+        const backDwell = 7000;
         flipTimer = setTimeout(function() {
           if (pausedByHover || clickPaused || !inn) return;
           cardFlipIn(inn);
           flipTimer = setTimeout(function() {
             if (!pausedByHover && !clickPaused) advance();
           }, 700);
-        }, 2500);
+        }, backDwell);
       }, initialDelay);
     }
 
@@ -6338,12 +6473,18 @@ body {
       advancing = true;
       const next = (active + 1) % N;
       const hiddenIdx = (active + N - 2) % N;
-      clearViz(cCards[active]);
       applyState(cCards[hiddenIdx], 'c-hidden', true);
+      clearViz(cCards[hiddenIdx]);
       active = next; setAll(active);
-      revealCard(cCards[active]);
+      // Snap-fill side cards so they always appear complete
+      snapCardFill(cCards[(active + 1) % N]);
+      snapCardFill(cCards[(active + N - 1) % N]);
+      // Always instant-reset then re-animate center
+      var _ac = cCards[active];
+      clearViz(_ac, true);
+      requestAnimationFrame(function() { requestAnimationFrame(function() { revealCard(_ac); }); });
       setTimeout(function() { advancing = false; }, 580);
-      scheduleFlip(cCards[active]);
+      scheduleFlip(_ac);
     }
 
     // User-triggered navigation — forward or backward, optionally arrive flipped
@@ -6353,31 +6494,38 @@ body {
       clickPaused = false;
       if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
 
-      clearViz(cCards[active]);
-
       const isForward = ((targetIdx - active + N) % N) === 1;
       if (isForward) {
         // Snap the about-to-leave card (was c-left) to hidden so it doesn't sweep across
-        applyState(cCards[(active + N - 2) % N], 'c-hidden', true);
+        const leftIdx = (active + N - 2) % N;
+        applyState(cCards[leftIdx], 'c-hidden', true);
+        clearViz(cCards[leftIdx]);
       } else {
-        // Backward: new c-left was at far-right hidden — snap it to left so it doesn't sweep
-        applyState(cCards[(targetIdx + N - 1) % N], 'c-left', true);
+        // Backward: new c-left starts from far-left so it slides in from the left edge
+        applyState(cCards[(targetIdx + N - 1) % N], 'c-hidden-left', true);
         // Snap old c-right to hidden
-        applyState(cCards[(active + 1) % N], 'c-hidden', true);
+        const rightIdx = (active + 1) % N;
+        applyState(cCards[rightIdx], 'c-hidden', true);
+        clearViz(cCards[rightIdx]);
       }
 
       active = targetIdx;
       setAll(active);
+      // Snap-fill side cards so they always appear complete
+      snapCardFill(cCards[(active + 1) % N]);
+      snapCardFill(cCards[(active + N - 1) % N]);
 
       const newInn = cCards[active].querySelector('.card-inner');
       if (flipOnArrive && newInn) {
-        // Start flip immediately — slides in while flipping
         cardFlipOut(newInn);
       }
 
-      revealCard(cCards[active]);
+      // Always instant-reset then re-animate center
+      var _nc = cCards[active];
+      clearViz(_nc, true);
+      requestAnimationFrame(function() { requestAnimationFrame(function() { revealCard(_nc); }); });
       setTimeout(function() { advancing = false; }, 580);
-      scheduleFlip(cCards[active]);
+      scheduleFlip(_nc);
     }
 
     // Hover: float bounce + pause; click: navigate or flip
@@ -6447,8 +6595,8 @@ body {
       started = true; cio.disconnect();
       cCards.forEach((c,i) => applyState(c, stateFor(i,active), true));
       revealCard(cCards[active]);
-      cCards[(active+N-1)%N].classList.add('is-revealed');
-      cCards[(active+1)%N].classList.add('is-revealed');
+      snapCardFill(cCards[(active+N-1)%N]);
+      snapCardFill(cCards[(active+1)%N]);
       scheduleFlip(cCards[active]);
     }, { threshold: 0.3 });
     cio.observe(section);
@@ -6481,6 +6629,8 @@ body {
       clone.querySelectorAll('.graph__dot,.graph__label,.arc__dot,.arc__label').forEach(el => el.classList.add('is-on'));
       clone.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = '0'; });
       clone.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = '0'; });
+      clone.querySelectorAll('.arc__endpoint').forEach(g => { g.style.opacity = '1'; });
+      clone.querySelectorAll('.arc__mmhg').forEach(el => { el.style.opacity = '1'; });
       clone.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = el.dataset.target; });
 
       wheelTrack.appendChild(clone);
@@ -6593,8 +6743,8 @@ body {
   function reposition() {
     if (window.innerWidth >= 768) {
       // Restore original inline styles
-      const origLeft = ['calc(40% + 151.5px)','calc(41% + 153px)','calc(42% + 159.5px)','calc(43% + 166px)','calc(44% + 171.5px)','calc(45% + 178px)','calc(46% + 184.5px)','calc(47.1% + 191px)'];
-      const origTop  = ['calc(34.4% - 81px)','calc(34.4% - 36px)','calc(34.4% + 9px)','calc(34.4% + 54px)','calc(34.4% + 99px)','calc(34.4% + 144px)','calc(34.4% + 189px)','calc(34.4% + 232px)'];
+      const origLeft = ['calc(40% + 157.5px)','calc(41% + 162px)','calc(42% + 165.5px)','calc(43% + 168px)','calc(44% + 168.5px)','calc(45% + 174px)','calc(46% + 183.5px)','calc(47.1% + 189px)'];
+      const origTop  = ['calc(34.4% - 81px)','calc(34.4% - 36px)','calc(34.4% + 1px)','calc(34.4% + 39px)','calc(34.4% + 76px)','calc(34.4% + 119px)','calc(34.4% + 169px)','calc(34.4% + 222px)'];
       zDots.forEach((d, i) => { d.style.left = origLeft[i]; d.style.top = origTop[i]; });
       return;
     }
@@ -6603,6 +6753,17 @@ body {
     const H_img_ref = zImg.naturalHeight * W_REF / zImg.naturalWidth;
     // Desktop zone-map height (image cropped -100px top, -10px bottom)
     const H_c_ref   = H_img_ref - 110;
+    // Per-dot mobile tweaks: dx = extra px right, dy = extra px up
+    const MOBILE_TWEAK = [
+      { dx:  0, dy: 0 }, // 1 Head       — locked
+      { dx:  2, dy: 0 }, // 2 Shoulder
+      { dx:  1, dy: 4 }, // 3 Upper Back
+      { dx:  1, dy: 6 }, // 4 Lumbar
+      { dx:  0, dy: 7 }, // 5 Pelvic
+      { dx:  1, dy: 6 }, // 6 Thigh
+      { dx:  3, dy: 3 }, // 7 Leg
+      { dx:  4, dy: 2 }, // 8 Foot
+    ];
     DOT_DATA.forEach(({ x, n, m }, i) => {
       // Desktop absolute position
       const left_px = x / 100 * W_REF + n;
@@ -6610,8 +6771,8 @@ body {
       // Convert to position within full image
       const img_x_pct = left_px / W_REF * 100;
       const img_y_pct = (top_px + 100) / H_img_ref * 100; // +100 for the cropped top
-      const mobileShift = i * 5; // dot 1: 0px, dot 2: +5px … dot 8: +35px (rightward)
-      const mobileClose = i * 5; // dot 1: 0px, dot 2: 5px up … dot 8: 35px up (closer together)
+      const mobileShift = i * 5 + MOBILE_TWEAK[i].dx; // rightward
+      const mobileClose = i * 5 + MOBILE_TWEAK[i].dy; // upward
       zDots[i].style.left = 'calc(' + img_x_pct.toFixed(2) + '% + ' + mobileShift + 'px)';
       zDots[i].style.top  = 'calc(' + img_y_pct.toFixed(2) + '% - ' + mobileClose + 'px)';
     });
@@ -7207,35 +7368,12 @@ body {
     numEl.style.opacity = '0';
   }
 
-  // ── Loop ──
-  const D = prefRed ? 0 : 1;
-
-  function runLoop() {
-    // Cards already visible — go straight into sequence
-    hideNum();
-    ringTgt = 0.19; orbitTgt = 1.4;
-
-    // number shows → 2.5s dwell → card absorbs → 500ms → next number
-    setTimeout(() => { showNum(1); ringTgt = 0.212; },                                   600 * D);
-    setTimeout(() => { absorb(0);  ringTgt = 0.232; orbitTgt = 1.8; },                 3100 * D);
-
-    setTimeout(() => { showNum(2); ringTgt = 0.245; },                                  3600 * D);
-    setTimeout(() => { absorb(1);  ringTgt = 0.256; orbitTgt = 2.1; },                 6100 * D);
-
-    setTimeout(() => { showNum(3); ringTgt = 0.265; },                                  6600 * D);
-    setTimeout(() => { absorb(2);  ringTgt = 0.272; orbitTgt = 2.5; },                 9100 * D);
-
-    setTimeout(() => { showNum(4); ringTgt = 0.276; },                                  9600 * D);
-    setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                12100 * D);
-
-    // Number fades → all 4 cards come out together
-    setTimeout(() => { hideNum(); },                                                   12800 * D);
-    setTimeout(() => {
-      restore(0); restore(1); restore(2); restore(3);
-      ringTgt = 0.19; orbitTgt = 1.4;
-    }, 13800 * D);
-
-    setTimeout(runLoop, prefRed ? 500 : 15600);
+  // ── Gentle ring pulse (no absorb, no numbers) ──
+  function pulseRing() {
+    if (prefRed) return;
+    ringTgt = 0.245; orbitTgt = 1.9;
+    setTimeout(() => { ringTgt = 0.19; orbitTgt = 1.4; }, 4000);
+    setTimeout(pulseRing, 9000);
   }
 
   // ── Render loop ──
@@ -7280,9 +7418,9 @@ body {
     if (e.isIntersecting && !started) {
       started = true;
       requestAnimationFrame(render);
-      // One-time intro: show all 4 cards staggered, then start loop
+      // Show all 4 cards staggered, then start gentle ring pulse
       cards.forEach((c, i) => setTimeout(() => c.classList.add('cls-vis'), 300 + i * 160));
-      setTimeout(runLoop, 300 + 4 * 160 + 400);
+      setTimeout(pulseRing, 300 + 4 * 160 + 400);
       obs.disconnect();
     }
   }, { threshold: 0.25 });

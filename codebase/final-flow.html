@@ -178,61 +178,85 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
-  padding: 80px 40px 60px;
+  gap: clamp(20px, 3vw, 36px);
+  padding: clamp(60px, 8vw, 96px) 40px clamp(40px, 6vw, 64px);
+  background: #ffffff;
 }
-
-.hero__frame {
+/* Purple radial glow centered on the video */
+.hero::before {
+  content: '';
   position: absolute;
   inset: 0;
+  background: radial-gradient(ellipse 68% 65% at 50% 52%,
+    rgba(130, 75, 220, 0.22) 0%,
+    rgba(108, 55, 195, 0.12) 38%,
+    rgba(85,  40, 168, 0.05) 60%,
+    transparent 70%);
+  pointer-events: none;
   z-index: 0;
 }
-.hero__video {
+.hero__title, .hero__sub, .hero__video-box, .hero__bottom { position: relative; z-index: 1; }
+
+.hero__frame { display: none; }
+.hero__text-grad { display: none; }
+.hero__fade { display: none !important; }
+
+.hero__video-box {
+  width: min(90vw, 1260px);
+  aspect-ratio: 16 / 9;
+  max-height: 64dvh;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 1px 6px rgba(0,0,0,0.06);
+  flex-shrink: 0;
+  position: relative;
+}
+/* Subtle bottom scrim so glass buttons read on video */
+.hero__video-box::after {
+  content: '';
   position: absolute;
-  inset: 0;
+  bottom: 0; left: 0; right: 0;
+  height: 32%;
+  background: linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.hero__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
-  border: none;
-  outline: none;
   display: block;
 }
-
-.hero::after { display: none; }
-
-.hero__text, .hero__cta, .hero__bottom { position: relative; z-index: 2; }
-.hero__text-grad {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.5) 55%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
-}
-.hero__bottom { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-
-@keyframes heroFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* Buttons live inside the video box on desktop */
+@media (min-width: 481px) {
+  .hero__bottom { display: none; }
+  .problem-stat { font-size: clamp(28px, 3.8vw, 60px) !important; }
+  .hero__video-box .hero__cta-group {
+    position: absolute;
+    bottom: clamp(20px, 3vh, 36px);
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+    z-index: 2;
+    white-space: nowrap;
+  }
 }
 
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(38px, 6vw, 72px);
-  font-weight: 600;
+  font-size: clamp(52px, 8vw, 120px);
+  font-weight: 700;
   letter-spacing: -0.03em;
   color: #111;
-  margin: 0 0 12px;
+  margin: 0;
   line-height: 1;
 }
-.hero__title em { font-style: normal; font-weight: 600; }
+.hero__title em { font-style: normal; font-weight: 700; }
 
 .hero__sub {
-  font-size: clamp(11px, 1.77vw, 21px);
+  font-size: clamp(13px, 1.4vw, 20px);
   color: #111;
   line-height: 1.55;
   white-space: nowrap;
@@ -314,7 +338,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 64px;
+  margin-bottom: 0;
 }
 .hero__watch {
   display: inline-block;
@@ -371,10 +395,24 @@ body {
     0 20px 48px rgba(0,0,0,0.14);
 }
 
+@media (min-width: 781px) {
+  /* Desktop: tighter title→subtitle gap (single line), bigger title */
+  .hero { gap: 0; }
+  .hero__title {
+    font-size: clamp(72px, 9.5vw, 148px);
+    margin-bottom: 14px;
+  }
+  .hero__sub { margin-bottom: 40px; }
+}
+
 @media (max-width: 780px) {
   .hero { padding: 60px 24px 48px; }
-  .hero__title { font-size: clamp(42px, 12vw, 68px); }
+  .hero__title { font-size: clamp(48px, 14vw, 80px); }
+  .hero__sub { white-space: normal; text-align: center; }
   .hero__cta { padding: 15px 44px; }
+  /* Mobile: slightly smaller button text */
+  .hero__cta,
+  .hero__watch { font-size: 11px; }
 }
 
 .shell {
@@ -878,6 +916,28 @@ body {
 [data-kind="graph"] .delta__value      { font-size: 92px; }
 [data-kind="graph"] .delta__suffix     { font-size: 41px; }
 
+/* ── Lumbar horizontal bar card ── */
+[data-kind="hbar"] .hbar { width: 88%; margin: 0 auto; }
+[data-kind="hbar"] .stat-card__title { font-size: clamp(25px, 2.76vw, 41px); }
+[data-kind="hbar"] .delta__sign      { font-size: 62px; }
+[data-kind="hbar"] .delta__value     { font-size: 92px; }
+[data-kind="hbar"] .delta__suffix    { font-size: 41px; }
+#circulation { display: flex; flex-direction: column; }
+#circulation .hbar { flex: 1; width: 100%; margin: 0; }
+#circulation .hbar__label--std { fill: #C54B8C; font-weight: 600; }
+#alignment   .hbar__label--std { fill: #C54B8C; font-weight: 600; }
+#pressure    .hbar__label--std { fill: #C54B8C; font-weight: 600; }
+.hpz-pill { transform-box: fill-box; transform-origin: center; }
+.hbar__svg { width: 100%; height: auto; display: block; }
+.hbar__label { font-size: 11px; fill: rgba(0,0,0,0.45); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+.hbar__label--cal { fill: #553C9A; font-weight: 600; }
+.hbar__bar--std { stroke: rgba(85,60,154,0.18); }
+.hbar__axis-label { font-size: 8.5px; fill: rgba(0,0,0,0.32); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: 0.02em; }
+.stat-card--purple .hbar__label { fill: rgba(255,255,255,0.6); }
+.stat-card--purple .hbar__label--cal { fill: rgba(255,255,255,0.95); }
+.stat-card--purple .hbar__bar--std { stroke: rgba(255,255,255,0.2); }
+.stat-card--purple .hbar__axis-label { fill: rgba(255,255,255,0.35); }
+
 /* ── Muscle pressure card ── */
 [data-kind="arc"] .delta { justify-content: center; }
 [data-kind="rings"] .delta { justify-content: center; margin-top: auto; }
@@ -1002,25 +1062,29 @@ body {
   flex-direction: column;
   gap: 0;
 }
-.sleep-lines__legend {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.sleep-lines__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 16px;
+.sleep-lines__label {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  color: #ffffff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0;
+  z-index: 2;
+  pointer-events: none;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
-.sleep-lines__badge--std { color: #C54B8C; }
-.sleep-lines__badge--cal { color: #553C9A; }
+.sleep-lines__label--std { top: 45%; }
+.sleep-lines__label--cal { top: 78%; }
+/* sl-desktop hidden on mobile, sl-mobile hidden on desktop */
+@media (max-width: 767px) { .sl-desktop { display: none !important; } }
+@media (min-width: 768px) {
+  .sl-mobile { display: none !important; }
+  .sleep-lines__label--std { top: 53%; }
+  .sleep-lines__label--cal { top: 81%; }
+}
 
 /* Card 3 – Deep Sleep ring names */
 [data-kind="rings"] .ring-item:first-child .ring__name { color: #C54B8C; }
@@ -1033,22 +1097,91 @@ body {
 /* Card 6 – REM Sleep side labels */
 .rem-bars .rem-label:first-child { color: #C54B8C; }
 .rem-bars .rem-label:last-child  { color: #553C9A; }
-.sleep-lines__badge::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 3px;
+.sleep-lines__chart-area {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 0;
 }
-.sleep-lines__badge--std::before { background: #C54B8C; }
-.sleep-lines__badge--cal::before { background: #553C9A; }
+.sleep-lines__ylabel {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: rgba(0,0,0,0.55);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
+}
+.sleep-lines__chart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  overflow: visible;
+}
+.sleep-lines__yaxis {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 52px;
+  width: 1.5px;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+.sleep-lines__yaxis::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: -4px;
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  border-bottom: 7px solid rgba(0,0,0,0.4);
+}
+.sleep-lines__svg-wrap {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
 .sleep-lines__svg {
   flex: 1;
   width: 100%;
   min-height: 0;
   display: block;
   overflow: visible;
-  margin-bottom: 12px;
+  margin-bottom: 0;
+}
+.sleep-lines__xaxis {
+  width: 100%;
+  padding: 0 0 4px;
+}
+.sleep-lines__xaxis-label {
+  display: block;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: rgba(0,0,0,0.65);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-top: 14px;
+}
+.sleep-lines__xaxis-label::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: rgba(0,0,0,0.4);
+  margin-bottom: 8px;
+}
+.sleep-lines__xaxis-label::after {
+  display: none;
 }
 .sleep-line {
   fill: none;
@@ -1087,7 +1220,7 @@ body {
   gap: 5px;
   flex: 1;
 }
-[data-kind="pie"] .sleep-pie__svg { width: 100%; height: auto; overflow: visible; }
+[data-kind="pie"] .sleep-pie__svg { overflow: visible; width: 100%; height: auto; }
 [data-kind="pie"] .sleep-pie__name {
   font-size: 20px;
   font-weight: 600;
@@ -1109,14 +1242,16 @@ body {
 .spc__light     { fill: rgba(197,75,140,0.22); }
 .spc__awake     { fill: rgba(180,170,200,0.28); }
 .spc__div       { stroke: rgba(255,255,255,0.55); stroke-width: 1; }
-.spc__lbl       { fill: rgba(255,255,255,0.82); font-size: 7px; font-weight: 700;
+.spc__lbl       { fill: rgba(60,50,90,0.7); font-size: 7px; font-weight: 700;
                   text-anchor: middle; dominant-baseline: central; letter-spacing: 0.03em; }
 .spc__lbl--rem-std  { fill: rgba(255,255,255,0.9); }
-.spc__lbl--rem-cal  { fill: #fff; font-size: 8px; }
+.spc__lbl--rem-cal  { fill: #fff; }
 .spc__deep--std     { fill: rgba(85,60,154,0.42); }
 .spc__deep--cal     { fill: #553C9A; filter: drop-shadow(0 0 5px rgba(85,60,154,0.55)); }
 .spc__lbl--deep-std { fill: rgba(255,255,255,0.9); }
 .spc__lbl--deep-cal { fill: #fff; font-size: 8px; }
+.spc__hole   { fill: #fff; }
+.spc__center { font-size: 6.5px; font-weight: 700; fill: rgba(30,25,60,0.82); letter-spacing: 0.2px; }
 [data-scheme="deepsleep"] .spc__deep      { fill: rgba(180,175,195,0.28); }
 [data-scheme="deepsleep"] .spc__deep--std { fill: rgba(197,75,140,0.6); filter: drop-shadow(0 0 4px rgba(197,75,140,0.45)); }
 [data-scheme="deepsleep"] .spc__light     { fill: rgba(150,150,165,0.22); }
@@ -1194,10 +1329,14 @@ body {
 }
 .arc__seg {
   fill: none;
-  stroke-linecap: round;
+  stroke-linecap: butt;
   stroke-linejoin: round;
   stroke-width: 10;
 }
+.arc__tip { opacity: 0; }
+.arc__endpoint { opacity: 0; transition: opacity 250ms ease; }
+.arc__mmhg { opacity: 0; transition: opacity 300ms ease; }
+@media (min-width: 481px) { .arc__mmhg { transform: translateY(10px); } }
 .arc__seg--faint { stroke-opacity: 0.28; }
 .arc__seg--glow {
   filter:
@@ -1462,8 +1601,21 @@ body {
   transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
 }
 .problem-stat.is-visible .pst-w { opacity: 1; transform: none; }
-.pst-line--sub { font-size: 0.68em; color: #14161e; }
+.pst-line--sub { font-size: 1em; color: #14161e; }
+.pst-sub-word {
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
 .pst-pct { color: #553C9A; }
+.pst-alt-wrap { position: relative; overflow: hidden; height: 2.6em; width: 100%; }
+.pst-alt {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  text-align: center;
+}
+.pst-alt--a { transform: translateX(0); white-space: normal; }
+.pst-alt--b { transform: translateX(-100%); white-space: nowrap; }
 
 /* ── Narrative: solution (video card) ── */
 .narrative-solution-section {
@@ -1490,16 +1642,19 @@ body {
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
-  transform: scale(1.14);
+  object-fit: contain;
   z-index: 0;
 }
 .narrative-solution-card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, transparent 70%);
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, transparent 70%), rgba(0,0,0,0.09);
   z-index: 1;
+}
+.sol-intro-label {
+  display: block;
+  margin-bottom: 0.15em;
 }
 .narrative-solution {
   position: relative;
@@ -1513,9 +1668,27 @@ body {
   text-align: left;
   max-width: 72%;
   padding: clamp(24px, 3vw, 48px) clamp(28px, 4vw, 56px);
-  text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   opacity: 1;
   transform: none;
+}
+
+.body-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  height: 1.2em;
+  line-height: 1.2;
+  position: relative;
+  top: -2px;
+  /* width set + transitioned by JS */
+}
+.body-word {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1.2;
+  font-size: inherit;
+  font-weight: inherit;
+  text-shadow: none;
 }
 
 .life-stat-section {
@@ -1615,12 +1788,85 @@ body {
   width: var(--card);
   height: var(--card);
   margin-left: calc(var(--card) / -2);
-  overflow: hidden;
+  overflow: visible;
   transition:
     transform 560ms cubic-bezier(0.4, 0, 0.2, 1),
     opacity 480ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
   transform-origin: center center;
+  perspective: 1400px;
+}
+
+/* ── Card flip mechanism ── */
+.card-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  transform-style: preserve-3d;
+  transition: rotate 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover float uses translate property — independent of rotate, no conflict */
+@keyframes cardFloat {
+  0%, 100% { translate: 0 0px; }
+  40%      { translate: 0 -10px; }
+  70%      { translate: 0 -5px; }
+}
+.card-inner.is-hovering {
+  animation: cardFloat 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  cursor: pointer;
+}
+.carousel-card.c-left,
+.carousel-card.c-right { cursor: pointer; }
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.card-face--back {
+  transform: rotateY(-180deg);
+  background: radial-gradient(ellipse 75% 65% at 50% 50%,
+    rgba(120, 60, 210, 0.18) 0%,
+    rgba(100, 45, 185, 0.08) 45%,
+    transparent 70%
+  ), #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  padding: 11% 12%;
+  text-align: left;
+}
+.card-back__delta {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: calc(var(--card) * 0.18);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #2a0e6e;
+  line-height: 1;
+  margin-bottom: calc(var(--card) * 0.05);
+}
+.card-back__headline {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: calc(var(--card) * 0.082);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(20, 6, 60, 0.92);
+  line-height: 1.2;
+  margin-bottom: calc(var(--card) * 0.05);
+}
+.card-back__body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: calc(var(--card) * 0.048);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: rgba(30, 10, 80, 0.62);
+  line-height: 1.5;
 }
 
 /* State classes — two-class specificity overrides .stat-card */
@@ -1649,9 +1895,26 @@ body {
   z-index: 0; opacity: 0; pointer-events: none;
   transition: none !important;
 }
+.carousel-card.c-hidden-left {
+  transform: translateX(-320%) scale(0.50);
+  z-index: 0; opacity: 0; pointer-events: none;
+  transition: none !important;
+}
+/* Arc card carousel: hide colored arcs by default; only gray track shows */
+.carousel-card[data-kind="arc"] .arc__seg--a,
+.carousel-card[data-kind="arc"] .arc__seg--b {
+  stroke-dasharray: 9999;
+  stroke-dashoffset: 9999;
+}
 
 @media (max-width: 780px) {
   .carousel-section { display: flex; }
+  /* Mobile only: bring peek cards closer to match bodies/calibr8 slider gap (~10px).
+     Do NOT change without explicit user request. Desktop stays at ±108%. */
+  .carousel-card.c-left  { transform: translateX(-96%) scale(0.84); }
+  .carousel-card.c-right { transform: translateX(96%) scale(0.84); }
+  .carousel-card.c-exit  { transform: translateX(-196%) scale(0.68); }
+  .carousel-card.c-enter { transform: translateX(196%) scale(0.68); }
 }
 
 /* ── Coverflow ── */
@@ -1958,7 +2221,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
-  width: 42px; height: 42px;
+  width: 62px; height: 62px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1970,10 +2233,11 @@ body {
   -webkit-backdrop-filter: blur(20px) brightness(1.15) saturate(1.6);
   border: 1px solid rgba(255,255,255,0.55);
   box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.08), 0 6px 20px rgba(0,0,0,0.2);
-  font-size: 13px;
+  font-size: 22px;
   font-weight: 700;
   color: rgba(255,255,255,0.9);
   font-family: var(--font-sans);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.28), 0 2px 8px rgba(0,0,0,0.15);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .calibr8-slider-section .card.active .card__icon {
@@ -2182,8 +2446,7 @@ body {
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.9);
   transform: translate(-50%,-50%);
-  animation: zone-beat 2.2s ease-out infinite;
-  animation-delay: var(--beat-delay, 0s);
+  animation: none;
 }
 .zone-dot__center {
   position: absolute;
@@ -2202,8 +2465,26 @@ body {
 }
 .zone-dot.is-active .zone-dot__ring {
   border-color: #9B7DD4;
-  opacity: 0.65;
+  opacity: 1;
+  animation: zone-beat 2.2s ease-out infinite;
+  animation-delay: 0s;
 }
+.zone-dot.is-active::before,
+.zone-dot.is-active::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 2px solid #9B7DD4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%,-50%);
+  animation: zone-beat 2.2s ease-out infinite;
+}
+.zone-dot.is-active::before { animation-delay: 0.73s; }
+.zone-dot.is-active::after  { animation-delay: 1.47s; }
 
 /* ── Zones section ── */
 .zones-section {
@@ -2376,9 +2657,106 @@ body {
 .reviews-section {
   background: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 0 0 80px;
 }
+.heatmap-legend-wrap {
+  width: 100%;
+  max-width: 960px;
+  padding: 0 60px;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+.heatmap-legend {
+  width: 100%;
+  margin: 0;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.65);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 20px rgba(0,0,0,0.07);
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+.heatmap-legend__zone-sep {
+  width: 0;
+  align-self: stretch;
+  position: relative;
+  overflow: visible;
+  flex-shrink: 0;
+}
+.heatmap-legend__zone-sep::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 12px;
+  background: rgba(60,60,80,0.4);
+  border-radius: 1px;
+}
+.heatmap-legend__bar-wrap {
+  position: relative;
+  width: 100%;
+}
+.heatmap-legend__bar-tick {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.85);
+  border-radius: 1px;
+}
+.heatmap-legend__bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+    #0a1a6e,
+    #1050d0,
+    #0090ff,
+    #00c4e8,
+    #00d4a0,
+    #00e060,
+    #90e000,
+    #f5e000,
+    #ffaa00,
+    #ff6200,
+    #ff1500
+  );
+}
+.heatmap-legend__zones {
+  display: flex;
+  margin-top: 6px;
+}
+.heatmap-legend__zones--mob { display: none; }
+.heatmap-legend__zone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+.heatmap-legend__zone::before,
+.heatmap-legend__zone::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  min-width: 4px;
+}
+.heatmap-legend__zone--rec  { color: #1050d0; }
+.heatmap-legend__zone--low  { color: #00a060; }
+.heatmap-legend__zone--high { color: #e03000; }
 
 /* ── Calibr8 Score Live Section ── */
 .cls-section {
@@ -2397,21 +2775,7 @@ body {
   z-index: 1;
 }
 .cls-score-num {
-  position: absolute;
-  top: calc(50% + 50px); left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-  z-index: 2;
-  font-size: clamp(88px, 11vw, 152px);
-  font-weight: 800;
-  color: #14101e;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: -0.05em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  min-width: 1ch;
-  opacity: 0;
+  display: none;
 }
 #cls-tagline {
   position: absolute;
@@ -2446,7 +2810,9 @@ body {
 /* Credential cards */
 .cls-card {
   position: absolute;
-  width: clamp(280px, 33vw, 520px);
+  width: clamp(300px, 38vw, 580px);
+  height: 200px;
+  overflow: hidden;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(6px) saturate(1.2);
   -webkit-backdrop-filter: blur(6px) saturate(1.2);
@@ -2512,11 +2878,11 @@ body {
   line-height: 1.6;
   margin-top: 8px;
 }
-/* Credential card positions — responsive, gap-anchored */
-.cls-cred--tl { top: max(calc(50% - 270px), 120px); right: calc(50% + 20px); left: auto; transform: translate(28px,-28px); }
-.cls-cred--tr { top: max(calc(50% - 270px), 120px); left: calc(50% + 20px);             transform: translate(-28px,-28px); }
-.cls-cred--bl { top: calc(50% + 170px);              right: calc(50% + 20px); left: auto; transform: translate(28px,28px); }
-.cls-cred--br { top: calc(50% + 170px);              left: calc(50% + 20px);             transform: translate(-28px,28px); }
+/* Credential card positions — closer to center */
+.cls-cred--tl { top: max(calc(50% - 240px), 120px); right: calc(50% + 8px); left: auto; transform: translate(20px,-20px); }
+.cls-cred--tr { top: max(calc(50% - 240px), 120px); left: calc(50% + 8px);             transform: translate(-20px,-20px); }
+.cls-cred--bl { top: calc(50% + 148px);              right: calc(50% + 8px); left: auto; transform: translate(20px,20px); }
+.cls-cred--br { top: calc(50% + 148px);              left: calc(50% + 8px);             transform: translate(-20px,20px); }
 /* Visible at rest */
 .cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
@@ -2550,23 +2916,28 @@ body {
 }
 @media (max-width: 767px) {
   /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
-  .cls-section { height: auto; min-height: 100svh; padding: 0 0 40px; }
+  .cls-section { height: auto; min-height: 110svh; padding: 0 0 48px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
   .cls-card {
-    width: 74vw;
+    width: calc(88vw + 5px);
+    min-height: 90px;
+    height: auto !important;
+    overflow: visible !important;
     left: 50% !important; right: auto !important;
     transform: translateX(-50%) !important;
     padding: 10px 14px;
     border-radius: 14px;
   }
   .cls-card__title { font-size: 13px !important; margin-bottom: 6px; }
-  .cls-card__body { font-size: 11px; line-height: 1.4; }
+  .cls-card__body { font-size: 11px; line-height: 1.45; }
 
-  /* Resting positions — top 2 below title (~17vh), bottom 2 below ring */
-  /* ring center 50vh, ring top ~35vh, ring bottom ~65vh                */
-  .cls-cred--tl { top: 32vh; }
-  .cls-cred--tr { top: 17vh; }
-  .cls-cred--bl { top: 68vh; }
-  .cls-cred--br { top: 84vh; }
+  /* Score number centred at true 50% on mobile (no +50px offset) */
+  #cls-score-num { top: 50% !important; }
+
+  /* Cards stacked — 12vh clears section header, 18vh gap between each pair */
+  .cls-cred--tr { top: 12vh; }
+  .cls-cred--tl { top: 30vh; }
+  .cls-cred--bl { top: 60vh; }
+  .cls-cred--br { top: 78vh; }
 
   /* Visible */
   .cls-cred--tl.cls-vis,
@@ -2574,11 +2945,11 @@ body {
   .cls-cred--bl.cls-vis,
   .cls-cred--br.cls-vis { opacity: 1; transform: translateX(-50%) !important; }
 
-  /* Absorbed: slide to ring center (50vh) */
-  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 32vh - 30px)) scale(0.05) !important; }
-  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 17vh - 30px)) scale(0.05) !important; }
-  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 68vh - 30px)) scale(0.05) !important; }
-  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) translateY(calc(50vh - 84vh - 30px)) scale(0.05) !important; }
+  /* Absorbed states unused (absorb removed) — kept for safety */
+  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
 
   .cls-tag-eyebrow { font-size: clamp(9px, 2.3vw, 11px); margin-bottom: 6px; }
   .cls-tag-headline { font-weight: 400; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -2844,6 +3215,23 @@ body {
   z-index: 2;
 }
 .final-cta__btn:hover { transform: translateY(-1px); }
+.book-cta-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  pointer-events: auto;
+}
+.book-cta-row .cta-glow-wrap {
+  flex: 1;
+}
+.book-cta-row .final-cta__btn {
+  width: 100%;
+  padding: 17px 36px;
+  font-size: clamp(9px, 1.1vw, 14px);
+  text-align: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
 
 .book-section {
   background: #fff;
@@ -2856,6 +3244,7 @@ body {
 }
 .bkh-br { display: none; }
 .trust-br { display: none; }
+.sp-head-br { display: none; }
 .fcta-br-mob { display: none; }
 .fcta-br-dsk { display: inline; }
 .zone-sub-br { display: none; }
@@ -2893,9 +3282,9 @@ body {
   z-index: 2;
 }
 .book-card__overlay .book-toggle,
-.book-card__overlay .final-cta__btn {
+.book-card__overlay .final-cta__btn,
+.book-card__overlay .book-cta-row {
   pointer-events: auto;
-  /* glow overrides below */
 }
 .book-img {
   width: 100%;
@@ -3201,124 +3590,89 @@ body {
 @media (max-width: 480px) {
 
   /* ── Hero ── */
-  /* dark background = gradient seamlessly extends from screen top through empty space into frame */
   .hero {
     min-height: 100dvh;
-    padding: 0;
+    padding: 52px 16px 36px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     text-align: center;
     position: relative;
-    background: #000000;
-    transition: background-color 700ms cubic-bezier(0.4,0,0.2,1);
+    background: #ffffff;
+    overflow: visible;
   }
-  .hero.is-dark { background: #ffffff; }
+  .hero::before { display: none; }
+  .hero__text-grad { display: none; }
+  .hero__fade--bottom { display: none; }
+  .hero__fade--top { display: none !important; }
+  .hero__frame::after { display: none; }
 
-  /* 4:5 frame centered in viewport */
-  .hero__frame {
-    position: relative;
+  /* title: naturally first in DOM, no order tricks needed */
+  .hero__title,
+  .hero.is-dark .hero__title {
+    font-size: clamp(24px, 8vw, 40px);
+    font-style: normal;
+    white-space: nowrap;
+    margin: 0 0 -10px;
+    letter-spacing: 0.04em;
+    color: #111111 !important;
+    transition: none !important;
+    text-align: center;
+    width: 100%;
+    flex-shrink: 0;
+  }
+  .hero__title em { font-style: normal; }
+
+  /* subtitle moves above video box */
+  .hero__sub,
+  .hero.is-dark .hero__sub {
+    order: 2;
+    white-space: normal;
+    font-size: 18px;
+    color: #111111 !important;
+    text-align: center;
+    max-width: 82vw;
+    transition: none !important;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  /* video box: order 3 (after subtitle) */
+  .hero__video-box {
+    order: 3;
     width: 100%;
     aspect-ratio: 4/5;
-    overflow: hidden;
+    max-height: none;
+    border-radius: 24px;
     flex-shrink: 0;
-    border: none;
-    outline: none;
+    overflow: hidden;
+    margin-top: 1.5px;
+    margin-bottom: 1.5px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
   }
+  /* no scrim needed — no buttons inside video on mobile */
+  .hero__video-box::after { display: none; }
+  /* hide overlay CTA buttons inside the video */
+  .hero__video-box .hero__cta-group { display: none; }
 
-  /* black gradient: screen top → just into the video top */
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    /* covers empty space above frame + ~70px into video top */
-    height: calc(50dvh - 62.5vw + 140px);
-    background: linear-gradient(to bottom,
-      rgba(0,0,0,1) 0%,
-      rgba(0,0,0,0.85) 50%,
-      transparent 100%);
-    z-index: 3;
-    pointer-events: none;
-    transition: background 700ms cubic-bezier(0.4,0,0.2,1);
-  }
-  .hero.is-dark::before {
-    background: linear-gradient(to bottom,
-      rgba(255,255,255,1) 0%,
-      rgba(255,255,255,0.85) 50%,
-      transparent 100%);
-  }
-
-  /* white gradient same span, driven by existing JS (grad.style.opacity) */
-  .hero__text-grad {
-    height: calc(50dvh - 62.5vw + 140px);
-    z-index: 2;
-  }
-
-  .hero__fade { display: block; }
-  .hero__fade--top { display: none !important; }
-
-  /* bottom gradient: covers from video bottom to screen bottom */
-  .hero__fade--bottom {
-    height: 30%;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
-    transition: background 700ms cubic-bezier(0.4,0,0.2,1);
-  }
-  .hero.is-dark .hero__fade--bottom {
-    background: linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-  }
-
-  /* white tinge at frame bottom when is-dark */
-  .hero__frame::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 13%;
-    background: linear-gradient(to top, rgba(255,255,255,0.75) 0%, transparent 100%);
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 700ms cubic-bezier(0.4,0,0.2,1);
-    pointer-events: none;
-  }
-  .hero.is-dark .hero__frame::after { opacity: 0; }
-
-  /* text at screen top, inside the gradient zone */
-  .hero__text {
-    position: absolute;
-    top: 44px; left: 0; right: 0;
-    z-index: 4;
-    text-align: center;
-    padding: 0 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .hero__title {
-    font-size: clamp(52px, 16vw, 72px);
-    font-style: normal;
-    white-space: normal;
-    margin: 0 0 8px;
-    letter-spacing: 0.04em;
-    color: #ffffff;
-    transition: color 700ms ease;
-  }
-  .hero.is-dark .hero__title { color: #111111; }
-  .hero__title em { font-style: normal; }
+  /* show bottom buttons row below video, order 4 */
   .hero__bottom {
-    position: absolute;
-    bottom: 28px;
-    left: 0; right: 0;
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    order: 4;
+    display: flex !important;
+    justify-content: center;
+    padding: 0;
   }
-  .hero__cta, .hero__watch { margin-bottom: 0; padding: 12px 32px; }
-  .hero__sub { white-space: normal; font-size: 16px; color: #ffffff; text-align: center; max-width: 82vw; transition: color 700ms ease; }
-  .hero.is-dark .hero__sub { color: #444444; }
-  .hero__block { display: contents; }
+  /* equal-size buttons with larger text */
+  .hero__bottom .hero__cta,
+  .hero__bottom .hero__watch {
+    font-size: 15px !important;
+    font-weight: 500;
+    min-width: 136px;
+    text-align: center;
+    padding: 14px 20px;
+  }
 
   /* ── Carousel (impact stats) ── */
   .carousel-section {
@@ -3339,6 +3693,29 @@ body {
   .ch-calibr8 { font-family: var(--font-sans); font-weight: 700; }
   .lst-pct { font-weight: 700; }
   .carousel { --card: min(52dvh, 72vw, 300px); }
+
+  /* Sleep interruption: taller graph, labels repositioned */
+  .sleep-lines { height: 220px; }
+  .sleep-lines__label--std { top: 50%; }
+  .sleep-lines__label--cal { top: 85%; }
+
+  /* Arc card: move endpoint labels below the dots, inside the arc — mobile only */
+  .arc__endpoint--std .arc__name,
+  .arc__endpoint--cal .arc__name { transform: translateY(65px); }
+  /* mm Hg: shift below the name labels (which are shifted 65px) */
+  .arc__mmhg { transform: translateY(45px); }
+
+  /* Delta + outcome smaller on mobile */
+  .delta__sign   { font-size: 36px; }
+  .delta__value  { font-size: 54px; }
+  .delta__suffix { font-size: 24px; }
+  .stat-card__outcome { font-size: 13px; letter-spacing: 0.10em; }
+  [data-kind="graph"] .delta__sign,
+  [data-kind="hbar"]  .delta__sign  { font-size: 40px; }
+  [data-kind="graph"] .delta__value,
+  [data-kind="hbar"]  .delta__value { font-size: 58px; }
+  [data-kind="graph"] .delta__suffix,
+  [data-kind="hbar"]  .delta__suffix { font-size: 26px; }
 
   /* ── Calibr8 Slider (how-it-works) ── */
   .calibr8-slider-section { min-height: unset; padding: 40px 0 32px; gap: 16px; overflow-x: clip; }
@@ -3362,7 +3739,7 @@ body {
   .slider-heading--desktop { display: none; }
   .slider-heading--mobile  { display: block; }
   .hps-p1 { display: block; margin-bottom: 1em; }
-  .hps-purple { font-family: var(--font-sans); font-weight: 700; }
+  .hps-purple { font-family: var(--font-sans); font-weight: 700; color: #553C9A; }
   .calibr8-slider-section .hero-sub-desc { font-size: 13px; text-align: center; }
   .calibr8-slider-section .slider {
     padding: 0;
@@ -3389,6 +3766,10 @@ body {
   .calibr8-slider-section .card.active.slide-from-left {
     animation: calibrSlideFromLeft 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
   }
+  /* !! LOCKED — do not change these values without explicit user request !!
+     Active card: 100vw - 52px (big center card)
+     Peek cards:  100vw - 80px (smaller, intentionally narrower than active)
+     margin-top:  17.5px on both peek cards (vertical centering offset) */
   .calibr8-slider-section .card.active {
     flex: 0 0 calc(100vw - 52px);
     width: calc(100vw - 52px);
@@ -3397,7 +3778,6 @@ body {
     order: 0;
     border-radius: 16px;
   }
-  /* Prev/next peek cards — exactly same dimensions as active */
   #calibr8-slider .card.is-prev,
   #calibr8-slider .card.is-next {
     display: block !important;
@@ -3424,7 +3804,7 @@ body {
   .calibr8-slider-section .card__content { padding: 16px 18px 20px; }
   .calibr8-slider-section .card__eyebrow { font-size: 18px; }
   .calibr8-slider-section .card__desc { font-size: 16px; max-width: 100%; }
-  .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
+  .calibr8-slider-section .card__icon { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; width: 42px; height: 42px; font-size: 13px; text-shadow: none; }
   /* Arrow nav — mobile only */
   .card__content-header {
     display: flex;
@@ -3574,7 +3954,7 @@ body {
   }
   /* ── Process slider: peek carousel (mirrors calibr8 slider) ── */
   #process-section { overflow-x: clip; }
-  /* Active card dimensions — matches calibr8 active */
+  /* Active card dimensions — inherits from .calibr8-slider-section .card.active base */
   #process-slider .card.active {
     margin-bottom: 80px;
     overflow: visible;
@@ -3641,7 +4021,9 @@ body {
     overflow: visible;
     min-height: unset;
   }
-  /* Peek cards */
+  /* !! LOCKED — do not change without explicit user request !!
+     Bodies/persona slider peek cards: 100vw - 80px, margin-top 17.5px.
+     Active card inherits 100vw - 52px from .calibr8-slider-section .card.active. */
   #process-slider .card.is-prev,
   #process-slider .card.is-next {
     display: block !important;
@@ -3667,6 +4049,8 @@ body {
   .trust-section { padding: 40px 16px; background: #ffffff; }
   .trust-section::before { display: none; }
   .trust-br { display: inline; }
+  .sp-head-br { display: inline; }
+  .sp-section .trust-section__title { white-space: normal; max-width: 92%; }
   .fcta-br-mob { display: inline; }
   .fcta-br-dsk { display: none; }
   .zone-sub-br { display: inline; }
@@ -3704,6 +4088,8 @@ body {
   /* ── Zone dots: smaller on mobile, desktop unchanged ── */
   .zone-dot__ring   { width: 16px; height: 16px; }
   .zone-dot__center { width: 9px;  height: 9px; }
+  .zone-dot.is-active::before,
+  .zone-dot.is-active::after { width: 16px; height: 16px; }
 
   /* ── Zone tooltip: translucent on mobile (no blur) ── */
   .zone-tooltip {
@@ -3726,6 +4112,13 @@ body {
     margin-top: 0; margin-bottom: 0;
   }
   .reviews-box { width: calc(100% - 32px); margin: 0 16px; border-radius: 16px; }
+  .heatmap-legend-wrap { padding: 0 16px; margin-top: 14px; }
+  .heatmap-legend { width: 100%; padding: 10px 14px; margin-top: 0; }
+  .heatmap-legend__bar { height: 6px; }
+  .heatmap-legend__zone { font-size: 8px; }
+  .heatmap-legend__zones--desk { display: none; }
+  .heatmap-legend__zones--mob { display: flex; }
+  .heatmap-legend__bar-tick--first { display: none; }
   .zone-map__caption { font-size: 13px; white-space: normal; padding: 0 12px; }
   .zone-tooltip {
     width: 180px;
@@ -3875,6 +4268,9 @@ body {
     padding: 40px 0;
   }
   .bodies-section .narrative-solution { font-size: 20px !important; max-width: 92% !important; }
+  .bodies-section .body-word-wrap,
+  .bodies-section .body-word { font-size: 20px !important; line-height: 1.2; }
+  .bodies-section .body-word-wrap { top: -0.5px; }
   /* pain + problem-stat share one continuous gradient — each gradient aimed at their shared boundary */
   .pain-text-section {
     position: relative;
@@ -3932,26 +4328,29 @@ body {
     align-items: flex-end;
     justify-content: center;
   }
+  .narrative-solution-video {
+    object-fit: cover;
+  }
   .narrative-solution {
     font-size: clamp(16px, 4.5vw, 22px);
     max-width: 92%;
-    padding: 20px 20px 28px;
+    padding: 20px 20px 52px;
     text-align: center;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.45), 0 3px 18px rgba(0,0,0,0.25);
   }
-  .narrative-solution span[style] {
+  .narrative-solution span[style]:not(.body-word-wrap):not(.body-word) {
     font-size: clamp(32px, 9vw, 48px) !important;
+  }
+  .narrative-solution .sol-intro-label {
+    font-size: inherit !important;
   }
 
   .final-cta-section { min-height: unset; gap: 28px; padding: 64px 24px; }
   .final-cta-section[aria-label="Recovery statement"] { padding: clamp(40px, 8vw, 64px) 24px; }
   .final-cta__heading { font-size: clamp(28px, 7vw, 40px); }
   .final-cta__btn { padding: 14px 36px; font-size: 13px; }
-
-  /* ── Arc card: std below its plot point, cal stays top-right ── */
-  /* Arc labels — same size as other cards */
-  .arc__label--std { left: 50%; top: 54%; transform: translateX(-50%); text-align: center; }
-  .arc__label--cal { right: 2%; top: 10%; }
+  .book-cta-row { flex-direction: column; gap: 10px; width: 100%; }
+  .book-cta-row .cta-glow-wrap { width: 100%; }
+  .book-cta-row .final-cta__btn { padding: 14px 28px; font-size: 12px; }
 
   /* ── Zone intro ── */
   .zone-intro__title { font-size: clamp(18px, 5vw, 22px); }
@@ -4031,21 +4430,29 @@ body {
 </head>
 <body>
 
+<!-- Global SVG defs — gradients referenced via url(#id) anywhere in doc -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <linearGradient id="hbar-cal-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C54B8C"/>
+      <stop offset="100%" stop-color="#553C9A"/>
+    </linearGradient>
+  </defs>
+</svg>
+
 <section class="hero" aria-label="Calibr8 hero">
-  <div class="hero__frame">
+  <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
+  <p class="hero__sub">Your body deserves a mattress that understands it.</p>
+  <div class="hero__video-box">
     <video class="hero__video" autoplay muted loop playsinline>
       <source src="01-hero/heroGIF.mp4" type="video/mp4">
     </video>
-    <div class="hero__fade hero__fade--top"></div>
-    <div class="hero__fade hero__fade--bottom"></div>
-  </div>
-  <div class="hero__text-grad"></div>
-  <div class="hero__text">
-    <div class="hero__block">
-      <h1 class="hero__title"><em>SLEEP</em> PERFECTED</h1>
-      <p class="hero__sub">Your body deserves a mattress that understands it.</p>
+    <div class="hero__cta-group">
+      <a class="hero__cta" href="#">Book Now</a>
+      <a class="hero__watch" href="#">Watch Demo</a>
     </div>
   </div>
+  <!-- hero__bottom: mobile CTA row (desktop hidden via min-width:481px rule) -->
   <div class="hero__bottom">
     <div class="hero__cta-group">
       <a class="hero__cta" href="#">Book Now</a>
@@ -4057,8 +4464,8 @@ body {
 <!-- Bodies video: "Your body is unique. Your mattress should be too." -->
 <section class="bodies-section" aria-label="Unique bodies">
   <div class="narrative-solution-card" id="bodies-card" style="justify-content:center;align-items:center">
-    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline loop autoplay></video>
-    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px);text-shadow:0 1px 8px rgba(0,0,0,0.55),0 4px 24px rgba(0,0,0,0.35),0 8px 48px rgba(0,0,0,0.2)">Your body is unique.<br>Your mattress should be too.</p>
+    <video preload="none" class="narrative-solution-video" id="bodies-vid" data-src="02-bodies/bodies.mp4" muted playsinline autoplay></video>
+    <p class="narrative-solution" style="font-size:clamp(24px,3vw,52px);max-width:80%;text-align:center;padding:clamp(24px,3vw,48px)">Your body is <span class="body-word-wrap"><span class="body-word">Toned</span></span>.<br>Your mattress should be too.</p>
   </div>
 </section>
 
@@ -4075,12 +4482,16 @@ body {
     <div class="pst-line">
       <span class="pst-w">sleeping on a mattress</span>
     </div>
-    <div class="pst-line">
-      <span class="pst-w">not made for you.</span>
+    <div class="pst-line pst-alt-wrap">
+      <span class="pst-w pst-alt pst-alt--a">made by an industry that caters to averages.</span>
+      <span class="pst-alt pst-alt--b">not made for you.</span>
     </div>
     <div class="pst-line" style="height: 1.4em;"></div>
     <div class="pst-line pst-line--sub">
-      <span class="pst-w">Your <em style="color:#553C9A">lifestyle</em> gets the blame<br>but your <em style="color:#553C9A">body</em> pays the price.</span>
+      <span class="pst-sub-word">Your </span><span class="pst-sub-word"><em style="color:#553C9A">lifestyle</em> </span><span class="pst-sub-word">gets </span><span class="pst-sub-word">the </span><span class="pst-sub-word">blame</span>
+    </div>
+    <div class="pst-line pst-line--sub">
+      <span class="pst-sub-word">but </span><span class="pst-sub-word">your </span><span class="pst-sub-word"><em style="color:#553C9A">body</em> </span><span class="pst-sub-word">pays </span><span class="pst-sub-word">the </span><span class="pst-sub-word">price.</span>
     </div>
   </div>
 </section>
@@ -4089,7 +4500,7 @@ body {
 <section class="narrative-solution-section" aria-label="Solution intro">
   <div class="narrative-solution-card">
     <video preload="none" class="narrative-solution-video" id="solution-vid" data-src="03-calibr8gif/floating.MOV" muted playsinline loop autoplay></video>
-    <p class="narrative-solution"><span style="display:block;font-weight:700;color:#553C9A;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 16px rgba(255,255,255,0.7),0 0 36px rgba(255,255,255,0.35)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
+    <p class="narrative-solution"><span class="sol-intro-label">Introducing</span><span style="display:block;font-weight:700;color:#ffffff;font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,80px);line-height:1;margin-bottom:0.2em;text-shadow:0 0 24px rgba(85,60,154,0.7),0 0 48px rgba(85,60,154,0.4)">Calibr8</span>India's first sleep technology that<br>builds a mattress around your body</p>
   </div>
 </section>
 
@@ -4101,25 +4512,26 @@ body {
   <canvas id="cls-canvas"></canvas>
   <div class="cls-score-num" id="cls-score-num"></div>
   <div class="cls-card cls-cred--tl" id="cls-c0">
-    <div class="cls-card__title">Engineered</div>
-    <div class="cls-card__body">Built with orthopedists &amp; biomedical engineers, using spinal biomechanics for precise body support.</div>
+    <div class="cls-card__title">Precision Engineering</div>
+    <div class="cls-card__body">Built with orthopedists and biomedical engineers, Calibr8 applies proven zonal support principles by measuring and calibrating each spinal zone independently instead of treating your body as one flat surface.</div>
   </div>
   <div class="cls-card cls-cred--tr" id="cls-c1">
-    <div class="cls-card__title">Data-Driven</div>
-    <div class="cls-card__body">Machine learning trained on real pressure-mapping data, with the system learning from each calibration.</div>
+    <div class="cls-card__title">Data-Driven Intelligence</div>
+    <div class="cls-card__body">There's no one firmness that's right for everyone. Calibr8 uses machine learning trained on real pressure-mapping data to identify the support your body needs, while getting smarter with every calibration.</div>
   </div>
   <div class="cls-card cls-cred--bl" id="cls-c2">
-    <div class="cls-card__title">Global Tech</div>
-    <div class="cls-card__body">Advanced Spanish pressure-mapping technology engineered for Indian body types &amp; sleep conditions.</div>
+    <div class="cls-card__title">Global Technology</div>
+    <div class="cls-card__body">Built on clinical-grade Spanish pressure-mapping technology, Calibr8 uses its proprietary calibration engine to translate every pressure point into support designed specifically for Indian sleepers.</div>
   </div>
   <div class="cls-card cls-cred--br" id="cls-c3">
-    <div class="cls-card__title">Research</div>
-    <div class="cls-card__body">8+ years of research across 8,000+ Indian body types. India's most comprehensive sleep dataset.</div>
+    <div class="cls-card__title">Sleep Research</div>
+    <div class="cls-card__body">Calibr8 is built on 10+ years of studying how Indian bodies sleep, creating one of India's largest real-world pressure-mapping datasets, captured live from thousands of Indian body types and growing with every calibration.</div>
   </div>
 </section>
 
 
 <section class="sp-section" aria-label="Social proof">
+  <h2 class="trust-section__title reveal" style="max-width:none;white-space:nowrap">Trusted by Those who Chase <span style="color:#553C9A">Excellence,</span><br class="sp-head-br"> Even in <span style="color:#553C9A">Sleep</span></h2>
   <div class="sp-grid">
 
     <!-- Col 1: video + tweet -->
@@ -4252,7 +4664,7 @@ body {
 </div>
 
 <div class="zone-map">
-  <img loading="lazy" class="zone-map__img" src="07-8zones/8zones new.png" alt="Calibr8 8-zone mattress">
+  <img loading="lazy" class="zone-map__img" src="07-8zones/8zones check.png" alt="Calibr8 8-zone mattress">
   <div class="zone-tooltip" id="zone-tooltip">
     <div class="zone-tooltip__num"></div>
     <div class="zone-tooltip__name"></div>
@@ -4262,28 +4674,28 @@ body {
       <span class="zone-tooltip__code"></span>
     </div>
   </div>
-  <button class="zone-dot" style="left:calc(40% + 151.5px);top:calc(34.4% - 81px);--beat-delay:0s" aria-label="Head">
+  <button class="zone-dot" style="left:calc(40% + 157.5px);top:calc(34.4% - 81px);--beat-delay:0s" aria-label="Head">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(41% + 153px);top:calc(34.4% - 36px);--beat-delay:0.28s" aria-label="Shoulder">
+  <button class="zone-dot" style="left:calc(41% + 162px);top:calc(34.4% - 36px);--beat-delay:0.28s" aria-label="Shoulder">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(42% + 159.5px);top:calc(34.4% + 9px);--beat-delay:0.56s" aria-label="Upper Back">
+  <button class="zone-dot" style="left:calc(42% + 165.5px);top:calc(34.4% + 1px);--beat-delay:0.56s" aria-label="Upper Back">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(43% + 166px);top:calc(34.4% + 54px);--beat-delay:0.84s" aria-label="Lumbar">
+  <button class="zone-dot" style="left:calc(43% + 168px);top:calc(34.4% + 39px);--beat-delay:0.84s" aria-label="Lumbar">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(44% + 171.5px);top:calc(34.4% + 99px);--beat-delay:1.12s" aria-label="Pelvic">
+  <button class="zone-dot" style="left:calc(44% + 168.5px);top:calc(34.4% + 76px);--beat-delay:1.12s" aria-label="Pelvic">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(45% + 178px);top:calc(34.4% + 144px);--beat-delay:1.4s" aria-label="Thigh">
+  <button class="zone-dot" style="left:calc(45% + 174px);top:calc(34.4% + 119px);--beat-delay:1.4s" aria-label="Thigh">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(46% + 184.5px);top:calc(34.4% + 189px);--beat-delay:1.68s" aria-label="Leg">
+  <button class="zone-dot" style="left:calc(46% + 183.5px);top:calc(34.4% + 169px);--beat-delay:1.68s" aria-label="Leg">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
-  <button class="zone-dot" style="left:calc(47.1% + 191px);top:calc(34.4% + 232px);--beat-delay:1.96s" aria-label="Foot">
+  <button class="zone-dot" style="left:calc(47.1% + 189px);top:calc(34.4% + 222px);--beat-delay:1.96s" aria-label="Foot">
     <div class="zone-dot__ring"></div><div class="zone-dot__center"></div>
   </button>
 </div>
@@ -4292,48 +4704,47 @@ body {
 <main class="shell">
   <section id="stats-grid" class="grid" aria-label="Calibr8 performance statistics">
 
-    <article id="alignment" class="tile stat-card stat-card--graph stat-card--liquid-glass"
-             data-scheme="spinal" data-kind="graph" data-delay="0" data-delta="24"
+    <article id="alignment" class="tile stat-card stat-card--hbar stat-card--liquid-glass stat-card--bottom"
+             data-scheme="spinal" data-kind="hbar" data-delay="0" data-delta="24"
+             data-baseline="52" data-optimized="76"
+             data-back-headline="Support Your Spine Better"
+             data-back-body="Generic mattresses leave unsupported gaps beneath your back. Calibr8 adapts to your body's shape to provide more complete support where you need it most."
              tabindex="0" aria-labelledby="s1-title" aria-describedby="s1-sr">
       <p id="s1-sr" class="sr-only">
         Lumbar support: Calibr8 holds the spine 24 percent better than a standard mattress.
       </p>
-      <h3 id="s1-title" class="stat-card__title">Lumbar Support</h3>
+      <h3 id="s1-title" class="stat-card__title">Spinal Support</h3>
 
-      <div class="graph" aria-hidden="true">
-        <svg class="graph__svg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet">
+      <div class="hbar" aria-hidden="true">
+        <svg class="hbar__svg" viewBox="0 0 300 190" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <linearGradient id="spinal-stroke" x1="0" y1="1" x2="1" y2="0">
+            <linearGradient id="hbar-cal-grad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#C54B8C"/>
               <stop offset="100%" stop-color="#553C9A"/>
             </linearGradient>
           </defs>
-          <!-- grid lines 0–100% mapped to y=0–150 -->
-          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
-          <line x1="0" y1="15"  x2="300" y2="15"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="45"  x2="300" y2="45"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="75"  x2="300" y2="75"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="105" x2="300" y2="105" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="120" x2="300" y2="120" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="135" x2="300" y2="135" stroke="rgba(85,60,154,0.07)" stroke-width="0.5"/>
-          <line x1="0" y1="150" x2="300" y2="150" stroke="rgba(85,60,154,0.10)" stroke-width="0.6"/>
-          <path class="graph__line graph__line--faint graph__line--seg1"
-                d="M 0 92 C 25 87 50 96 82 75"
-                stroke="url(#spinal-stroke)"/>
-          <path class="graph__line graph__line--glow graph__line--seg2"
-                d="M 82 75 C 108 58 138 92 162 72 C 188 54 212 52 240 28"
-                stroke="url(#spinal-stroke)"/>
-          <path class="graph__line graph__line--faint graph__line--seg3"
-                d="M 240 28 C 260 32 280 22 300 18"
-                stroke="url(#spinal-stroke)"/>
-          <circle class="graph__dot graph__dot--std" cx="82" cy="75" r="6"/>
-          <circle class="graph__dot graph__dot--cal" cx="240" cy="28" r="6.5"/>
+          <!-- Row labels -->
+          <text x="10" y="41" text-anchor="start" class="hbar__label hbar__label--std">Standard</text>
+          <text x="10" y="101" text-anchor="start" class="hbar__label hbar__label--cal">Calibr8</text>
+          <!-- Standard background rail -->
+          <rect x="10" y="48" width="276" height="20" rx="10" fill="rgba(197,75,140,0.18)"/>
+          <!-- Standard bar: 52% of 256px body + 20px caps = x1=20→x2=153 (cap to x=143+20=163 nope) -->
+          <!-- x1=20 so left cap reaches x=10; 52% of 276px=143px → x2=20+133=153, right cap to x=163 — visually ~52% -->
+          <line class="hbar__bar hbar__bar--std" x1="20" y1="58" x2="144" y2="58" stroke-width="20" stroke-linecap="round" style="stroke:#C54B8C"/>
+          <!-- Standard endpoint -->
+          <text x="154" y="82" text-anchor="middle" class="hbar__axis-label hbar__endpoint" style="fill:rgba(197,75,140,0.85);font-size:9px;font-weight:700;opacity:0">52</text>
+          <!-- Calibr8 background rail -->
+          <rect x="10" y="108" width="276" height="20" rx="10" fill="rgba(85,60,154,0.15)"/>
+          <!-- Calibr8 bar: 76% of 276px=210px → x1=20, x2=210, right cap to x=220 -->
+          <line class="hbar__bar hbar__bar--cal" x1="20" y1="118" x2="210" y2="118" stroke-width="20" stroke-linecap="round" style="stroke:#553C9A"/>
+          <!-- Calibr8 endpoint -->
+          <text x="220" y="142" text-anchor="middle" class="hbar__axis-label hbar__endpoint" style="fill:rgba(85,60,154,0.9);font-size:9px;font-weight:700;opacity:0">76</text>
+          <!-- X-axis -->
+          <line x1="10" y1="162" x2="286" y2="162" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+          <text x="10"  y="177" text-anchor="start" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">0</text>
+          <text x="148" y="177" text-anchor="middle" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)"><tspan x="148" dy="0">Spinal Support Contact Area</tspan><tspan x="148" dy="11">(more contact = better support)</tspan></text>
+          <text x="286" y="177" text-anchor="end"   class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">100</text>
         </svg>
-        <span class="graph__label graph__label--std">Standard<br>Mattress</span>
-        <span class="graph__label graph__label--cal">Calibrated<br>Mattress</span>
       </div>
 
       <div class="delta" aria-hidden="true">
@@ -4341,7 +4752,7 @@ body {
         <span class="delta__value" data-target="24">0</span>
         <span class="delta__suffix">%</span>
       </div>
-      <div class="stat-card__outcome">Better Alignment</div>
+      <div class="stat-card__outcome">Improved Spinal Alignment</div>
       <footer class="stat-card__footer">
         <p class="stat-card__benefit">Better spinal alignment with proper lumbar support through the night.</p>
       </footer>
@@ -4349,35 +4760,80 @@ body {
 
     <article id="pressure" class="tile stat-card stat-card--arc"
              data-scheme="muscle" data-kind="arc" data-delay="200" data-delta="37"
+             data-back-headline="Reduce Pressure on Your Body"
+             data-back-body="Instead of concentrating your body weight in a few areas, Calibr8 spreads it more evenly across the mattress, helping you stay comfortable for longer."
              tabindex="0" aria-labelledby="s2-title" aria-describedby="s2-sr">
       <p id="s2-sr" class="sr-only">
-        Muscle pressure distribution: Calibr8 spreads weight 37 percent more evenly than a standard mattress.
+        Body pressure distribution: Calibr8 keeps pressure below 30 mm Hg vs 50–70 mm Hg on a standard mattress — 37% more even distribution.
       </p>
-      <h3 id="s2-title" class="stat-card__title">Muscle Pressure</h3>
+      <h3 id="s2-title" class="stat-card__title">Body Pressure Distribution</h3>
 
       <div class="arc-gauge" aria-hidden="true">
-        <svg class="arc-gauge__svg" viewBox="0 0 300 210" preserveAspectRatio="xMidYMid meet">
+        <svg class="arc-gauge__svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="muscle-arc-stroke" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#D96BA5"/>
               <stop offset="100%" stop-color="#553C9A"/>
             </linearGradient>
           </defs>
-          <path class="arc__seg arc__seg--faint arc__seg--a"
-                d="M 20 205 A 130 130 0 0 1 166.3 76"
-                stroke="url(#muscle-arc-stroke)"/>
+
+          <!-- Baseline: detached 14px below arc endpoints, aligned to outer stroke edges -->
+          <line x1="15" y1="166" x2="285" y2="166" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+
+          <!-- Gray track: always visible, flat both ends -->
+          <path d="M 20,152 A 130,118 0 0,1 280,152"
+                fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="10" stroke-linecap="butt"/>
+
+          <!-- Standard arc 0-69 mmHg: pink, draws in first -->
+          <path class="arc__seg arc__seg--a"
+                d="M 20,152 A 130,118 0 0,1 199,43"
+                fill="none" stroke="#C54B8C"/>
+
+          <!-- Calibr8 arc 0-32 mmHg: purple glow, draws in after Standard -->
           <path class="arc__seg arc__seg--glow arc__seg--b"
-                d="M 166.3 76 A 130 130 0 0 1 274.8 168.7"
-                stroke="url(#muscle-arc-stroke)"/>
-          <path class="arc__seg arc__seg--faint arc__seg--c"
-                d="M 274.8 168.7 A 130 130 0 0 1 280 205"
-                stroke="url(#muscle-arc-stroke)"/>
-          <circle class="arc__dot arc__dot--std" cx="166.3" cy="76" r="7"/>
-          <circle class="arc__dot arc__dot--cal" cx="274.8" cy="168.7" r="7.5"/>
-          <line class="arc__stem arc__stem--cal" x1="274.8" y1="65" x2="274.8" y2="161"/>
+                d="M 20,152 A 130,118 0 0,1 103,42"
+                fill="none" stroke="#553C9A"/>
+
+          <!-- Tip paths: short round-capped segment tracks the drawing front -->
+          <path class="arc__tip arc__tip--a" fill="none" stroke="#C54B8C" stroke-width="10" stroke-linecap="round" d="M 20,152 L 20.1,152"/>
+          <path class="arc__tip arc__tip--b" fill="none" stroke="#553C9A" stroke-width="10" stroke-linecap="round" d="M 20,152 L 20.1,152"/>
+
+          <!-- Standard endpoint: appears after Standard arc finishes -->
+          <g class="arc__endpoint arc__endpoint--std">
+            <text x="199" y="27" text-anchor="middle"
+                  class="hbar__label hbar__label--std arc__name">Standard</text>
+            <circle cx="199" cy="43" r="5" fill="#C54B8C"/>
+            <text x="199" y="65" text-anchor="middle" font-size="8"
+                  class="arc__mmhg"
+                  fill="rgba(197,75,140,0.8)"
+                  font-weight="700"
+                  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">50-75 mm Hg</text>
+          </g>
+
+          <!-- Calibr8 endpoint: appears after Calibr8 arc finishes -->
+          <g class="arc__endpoint arc__endpoint--cal">
+            <text x="103" y="27" text-anchor="middle"
+                  class="hbar__label hbar__label--cal arc__name">Calibr8</text>
+            <circle cx="103" cy="42" r="5" fill="#553C9A"/>
+            <text x="103" y="65" text-anchor="middle" font-size="8"
+                  class="arc__mmhg"
+                  fill="rgba(85,60,154,0.8)"
+                  font-weight="700"
+                  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">&lt;30 mm Hg</text>
+          </g>
+
+          <!-- Axis labels — 0/Pressure Level/100 on same baseline; (less is better) one line below -->
+          <text x="15" y="176" text-anchor="start"
+                fill="rgba(0,0,0,0.5)" font-size="9"
+                font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">0 mmHg</text>
+          <text x="150" y="176" text-anchor="middle"
+                class="hbar__axis-label" style="fill:rgba(0,0,0,0.5)">Pressure Level</text>
+          <text x="285" y="176" text-anchor="end"
+                fill="rgba(0,0,0,0.5)" font-size="9"
+                font-family="'Helvetica Neue',Helvetica,Arial,sans-serif">100 mmHg</text>
+          <text x="150" y="188" text-anchor="middle"
+                class="hbar__axis-label" style="fill:rgba(0,0,0,0.45);font-size:8px">(less is better)</text>
         </svg>
-        <span class="arc__label arc__label--std">Standard<br>Mattress</span>
-        <span class="arc__label arc__label--cal">Calibrated<br>Mattress</span>
       </div>
 
       <div class="delta" aria-hidden="true">
@@ -4385,14 +4841,16 @@ body {
         <span class="delta__value" data-target="37">0</span>
         <span class="delta__suffix">%</span>
       </div>
-      <div class="stat-card__outcome">Even Pressure</div>
+      <div class="stat-card__outcome">Even Pressure Distribution</div>
       <footer class="stat-card__footer">
-        <p class="stat-card__benefit">Improved muscle pressure distribution for deeper, more restorative sleep.</p>
+        <p class="stat-card__benefit">More even body pressure distribution for deeper, more restorative sleep.</p>
       </footer>
     </article>
 
     <article class="tile stat-card stat-card--bottom"
              data-scheme="deepsleep" data-kind="pie" data-delay="400" data-delta="21"
+             data-back-headline="Improve Physical Recovery with Deep Sleep"
+             data-back-body="Deep sleep is when your body repairs and recharges. More time in this stage means better physical recovery and a more refreshed morning."
              tabindex="0" aria-labelledby="s3-title" aria-describedby="s3-sr">
       <p id="s3-sr" class="sr-only">Deep sleep: Standard mattress 57%, Calibr8 78%, an 18 to 25 percent increase from reduced pressure discomfort.</p>
       <h3 id="s3-title" class="stat-card__title">Deep Sleep</h3>
@@ -4400,39 +4858,43 @@ body {
       <div class="sleep-pie" aria-hidden="true">
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Standard: REM 18%, Deep 22% (highlighted), Light 46%, Awake 14% -->
+            <!-- Standard: Deep 57% (highlighted), REM 10%, Light 25%, Awake 8% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__deep"      data-start="0"     data-end="64.8"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 98.4 34.6 Z"/>
-            <path class="spc__seg spc__deep--std" data-start="64.8"  data-end="144"   d="M 55 55 L 98.4 34.6 A 48 48 0 0 1 83.2 93.8 Z"/>
-            <path class="spc__seg spc__light"     data-start="144"   data-end="309.6" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 18.0 24.4 Z"/>
-            <path class="spc__seg spc__awake"     data-start="309.6" data-end="360"   d="M 55 55 L 18.0 24.4 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__deep--std" data-start="0"     data-end="205.2" d="M 55 55 L 55.0 7.0 A 48 48 0 1 1 34.6 98.4 Z"/>
+            <path class="spc__seg spc__deep"      data-start="205.2" data-end="241.2" d="M 55 55 L 34.6 98.4 A 48 48 0 0 1 13.0 78.3 Z"/>
+            <path class="spc__seg spc__light"     data-start="241.2" data-end="331.2" d="M 55 55 L 13.0 78.3 A 48 48 0 0 1 31.9 12.9 Z"/>
+            <path class="spc__seg spc__awake"     data-start="331.2" data-end="360"   d="M 55 55 L 31.9 12.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="98.4" y2="34.6"/>
-            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
-            <line class="spc__div" x1="55" y1="55" x2="18.0" y2="24.4"/>
-            <text class="spc__lbl" x="69.5" y="32.2">REM</text>
-            <text class="spc__lbl spc__lbl--deep-std" x="81.2" y="61.7">Deep</text>
-            <text class="spc__lbl" x="35.3" y="73.5">Light</text>
-            <text class="spc__lbl" x="43.5" y="30.6">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="34.6" y2="98.4"/>
+            <line class="spc__div" x1="55" y1="55" x2="13.0" y2="78.3"/>
+            <line class="spc__div" x1="55" y1="55" x2="31.9" y2="12.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--deep-std" text-anchor="middle" x="87.2" y="62.1">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="32.4" y="79.1">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="23.3" y="45.8">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="41" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Calibr8: REM 25%, Deep 22% (highlighted), Light 43%, Awake 10% -->
+            <!-- Calibr8: Deep 78% (highlighted), REM 7%, Light 12%, Awake 3% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__deep"      data-start="0"     data-end="90"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
-            <path class="spc__seg spc__deep--cal" data-start="90"    data-end="169.2" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 64.0 102.1 Z"/>
-            <path class="spc__seg spc__light"     data-start="169.2" data-end="324"   d="M 55 55 L 64.0 102.1 A 48 48 0 0 1 26.8 16.2 Z"/>
-            <path class="spc__seg spc__awake"     data-start="324"   data-end="360"   d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__deep--cal" data-start="0"     data-end="280.8" d="M 55 55 L 55.0 7.0 A 48 48 0 1 1 7.9 46.0 Z"/>
+            <path class="spc__seg spc__deep"      data-start="280.8" data-end="306"   d="M 55 55 L 7.9 46.0 A 48 48 0 0 1 16.2 26.8 Z"/>
+            <path class="spc__seg spc__light"     data-start="306"   data-end="349.2" d="M 55 55 L 16.2 26.8 A 48 48 0 0 1 46.0 7.9 Z"/>
+            <path class="spc__seg spc__awake"     data-start="349.2" data-end="360"   d="M 55 55 L 46.0 7.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="64.0" y2="102.1"/>
-            <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
-            <text class="spc__lbl" x="74.1" y="35.9">REM</text>
-            <text class="spc__lbl spc__lbl--deep-cal" x="75.8" y="72.2">Deep</text>
-            <text class="spc__lbl" x="30.2" y="65.7">Light</text>
-            <text class="spc__lbl" x="46.7" y="29.3">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="7.9" y2="46.0"/>
+            <line class="spc__div" x1="55" y1="55" x2="16.2" y2="26.8"/>
+            <line class="spc__div" x1="55" y1="55" x2="46.0" y2="7.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--deep-cal" text-anchor="middle" x="76.0" y="80.4">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="20.2" y="39.9">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="37.3" y="27.1">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="50" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
         </div>
@@ -4445,92 +4907,188 @@ body {
       </div>
       <div class="stat-card__outcome">More Deep Sleep</div>
       <footer class="stat-card__footer">
-        <p class="stat-card__benefit">18 to 25% increase in slow-wave sleep from reduced overnight pressure discomfort.</p>
+        <p class="stat-card__benefit">21% increase in deep sleep cycles — from 57% to 78% — from reduced overnight pressure discomfort.</p>
       </footer>
     </article>
 
-    <article id="circulation" class="tile stat-card stat-card--bottom"
-             data-scheme="circulation" data-kind="reduce" data-delay="0"
-             data-baseline="82" data-optimized="46" data-delta="36"
+    <article id="circulation" class="tile stat-card stat-card--hbar stat-card--liquid-glass stat-card--bottom"
+             data-scheme="circulation" data-kind="hbar" data-delay="0"
+             data-baseline="65" data-optimized="28" data-delta="36"
+             data-back-headline="Reduce Strain on Your Body's Pressure Points"
+             data-back-body="Calibr8 balances your body's pressure across 8 independent zones, reducing pressure build-up and helping you get more supported sleep through the night."
              tabindex="0" aria-labelledby="s4-cat" aria-describedby="s4-sr">
       <p id="s4-sr" class="sr-only">
-        High-pressure zones reduced from 82 percent on a standard mattress to 46 percent with Calibr8, a 36 percent reduction, meaning fewer wakeups.
+        High-pressure zones: Standard mattress reaches 50–75 mmHg. Calibr8 keeps it under 30 mmHg — a 36 percent reduction in pressure buildup.
       </p>
-      <h3 id="s4-cat" class="stat-card__title">High Pressure Zones</h3>
-      <div class="comparison" aria-hidden="true">
-        <div class="row row--baseline">
-          <div class="row__meta">
-            <span class="row__label">Standard Mattress</span>
-            <span class="row__percent" data-target="82">0%</span>
-          </div>
-          <div class="bar" data-fill="16" data-total="20"></div>
-        </div>
-        <div class="row row--optimized">
-          <div class="row__meta">
-            <span class="row__label">Calibrated Mattress</span>
-            <span class="row__percent" data-target="46">0%</span>
-          </div>
-          <div class="bar" data-fill="9" data-total="20"></div>
-        </div>
+      <h3 id="s4-cat" class="stat-card__title">Areas of High Pressure</h3>
+
+      <div class="hbar" aria-hidden="true">
+        <svg class="hbar__svg" viewBox="0 0 300 190" preserveAspectRatio="xMidYMid meet">
+          <!-- Row labels: above each pill row, left-aligned -->
+          <text x="10" y="41" text-anchor="start" class="hbar__label hbar__label--std">Standard</text>
+          <text x="10" y="101" text-anchor="start" class="hbar__label hbar__label--cal">Calibr8</text>
+          <!-- Standard background: all 20 faded pink (always visible) -->
+          <rect class="hpz-pill" x="10"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="24"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="38"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="52"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="66"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="80"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="94"  y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="108" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="122" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="136" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="150" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="164" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="178" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="192" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="206" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="220" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="234" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="248" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="262" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <rect class="hpz-pill" x="276" y="48" width="10" height="20" rx="3" fill="rgba(197,75,140,0.18)"/>
+          <!-- Standard active: 13 colored pink pills (fade in on top) -->
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="10"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="24"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="38"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="52"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="66"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="80"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="94"  y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="108" y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="122" y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="136" y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="150" y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="164" y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--std" x="178" y="48" width="10" height="20" rx="3" fill="#C54B8C"/>
+          <!-- Standard endpoint label: below right edge of pill 13 -->
+          <text x="188" y="82" text-anchor="middle" class="hbar__axis-label hpz-label--std" style="fill:rgba(197,75,140,0.85);font-size:9px;font-weight:700;opacity:0">50–75 mmHg</text>
+          <!-- Calibr8 background: all 20 faded purple (always visible) -->
+          <rect class="hpz-pill" x="10"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="24"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="38"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="52"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="66"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="80"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="94"  y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="108" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="122" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="136" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="150" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="164" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="178" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="192" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="206" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="220" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="234" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="248" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="262" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <rect class="hpz-pill" x="276" y="108" width="10" height="20" rx="3" fill="rgba(85,60,154,0.15)"/>
+          <!-- Calibr8 active: 6 colored purple pills (fade in on top) -->
+          <rect class="hpz-pill hpz-pill--active hpz-pill--cal" x="10"  y="108" width="10" height="20" rx="3" fill="#553C9A"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--cal" x="24"  y="108" width="10" height="20" rx="3" fill="#553C9A"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--cal" x="38"  y="108" width="10" height="20" rx="3" fill="#553C9A"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--cal" x="52"  y="108" width="10" height="20" rx="3" fill="#553C9A"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--cal" x="66"  y="108" width="10" height="20" rx="3" fill="#553C9A"/>
+          <rect class="hpz-pill hpz-pill--active hpz-pill--cal" x="80"  y="108" width="10" height="20" rx="3" fill="#553C9A"/>
+          <!-- Calibr8 endpoint label: below right edge of pill 6 -->
+          <text x="90" y="142" text-anchor="middle" class="hbar__axis-label hpz-label--cal" style="fill:rgba(85,60,154,0.9);font-size:9px;font-weight:700;opacity:0">&lt;30 mmHg</text>
+          <!-- X-axis -->
+          <line x1="10" y1="162" x2="286" y2="162" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+          <text x="10"  y="177" text-anchor="start"  class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">0 mmHg</text>
+          <text x="148" y="177" text-anchor="middle" class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">Pressure Level</text>
+          <text x="286" y="177" text-anchor="end"    class="hbar__axis-label" style="fill:rgba(0,0,0,0.65)">100 mmHg</text>
+        </svg>
       </div>
+
       <div class="delta" aria-hidden="true">
         <span class="delta__sign">&minus;</span>
         <span class="delta__value" data-target="36">0</span>
         <span class="delta__suffix">%</span>
       </div>
-      <div class="stat-card__outcome">Fewer Wakeups</div>
+      <div class="stat-card__outcome">Pressure Buildup</div>
       <footer class="stat-card__footer">
-        <p class="stat-card__benefit">Reduced high-pressure zones mean better circulation and uninterrupted sleep.</p>
+        <p class="stat-card__benefit">Lower pressure means better circulation and fewer sleep interruptions.</p>
       </footer>
     </article>
 
     <article class="tile stat-card stat-card--bottom"
              data-scheme="fragmentation" data-kind="lines" data-delay="200"
              data-baseline="100" data-optimized="75" data-delta="25"
+             data-back-headline="Wake Up Lesser with Uninterrupted Sleep"
+             data-back-body="Your body doesn't have to keep searching for comfort. Calibr8 gives every pressure point the support it needs, so you toss and turn less, staying asleep for longer."
              tabindex="0" aria-labelledby="s5-title" aria-describedby="s5-sr">
       <p id="s5-sr" class="sr-only">Sleep fragmentation reduced 15 to 30 percent with Calibr8, enabling longer uninterrupted sleep cycles.</p>
       <h3 id="s5-title" class="stat-card__title">Sleep Interruption</h3>
       <div class="sleep-lines" aria-hidden="true">
-        <div class="sleep-lines__legend">
-          <span class="sleep-lines__badge sleep-lines__badge--std">Standard Mattress</span>
-          <span class="sleep-lines__badge sleep-lines__badge--cal">Calibrated Mattress</span>
+        <div class="sleep-lines__chart-area">
+          <div class="sleep-lines__chart">
+            <span class="sleep-lines__ylabel">Tossing &amp; Turning</span>
+            <div class="sleep-lines__svg-wrap">
+            <span class="sleep-lines__label sleep-lines__label--std">Standard</span>
+            <span class="sleep-lines__label sleep-lines__label--cal">Calibr8</span>
+            <svg class="sleep-lines__svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="sleep-std-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%"   stop-color="#C54B8C" stop-opacity="0.50"/>
+                  <stop offset="100%" stop-color="#C54B8C" stop-opacity="0.42"/>
+                </linearGradient>
+                <linearGradient id="sleep-cal-fill" x1="0" y1="72" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%"   stop-color="#553C9A" stop-opacity="0.72"/>
+                  <stop offset="100%" stop-color="#553C9A" stop-opacity="0.65"/>
+                </linearGradient>
+                <linearGradient id="sleep-cal-fill-desktop" x1="0" y1="60" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%"   stop-color="#553C9A" stop-opacity="0.72"/>
+                  <stop offset="100%" stop-color="#553C9A" stop-opacity="0.65"/>
+                </linearGradient>
+                <clipPath id="sleep-reveal-clip">
+                  <rect class="sleep-reveal-rect" x="0" y="-10" width="0" height="120"/>
+                </clipPath>
+              </defs>
+              <!-- Y-axis: tip at top, ends at calibr8 line level -->
+              <polygon points="0,0 -2,6 2,6" fill="rgba(0,0,0,0.4)"/>
+              <line class="sl-mobile" x1="0" y1="6" x2="0" y2="100" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+              <line class="sl-desktop" x1="0" y1="6" x2="0" y2="100" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+              <!-- grid lines at 0,10,20...100% -->
+              <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+              <line x1="0" y1="10"  x2="300" y2="10"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="20"  x2="300" y2="20"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="40"  x2="300" y2="40"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="50"  x2="300" y2="50"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="70"  x2="300" y2="70"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="80"  x2="300" y2="80"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
+              <line x1="0" y1="100" x2="300" y2="100" stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
+              <!-- Mobile paths (hidden on desktop) -->
+              <path class="sleep-fill sleep-fill--std sl-mobile" fill="url(#sleep-std-fill)" clip-path="url(#sleep-reveal-clip)"
+                    d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22 L 300,100 L 0,100 Z"/>
+              <path class="sleep-fill sleep-fill--cal sl-mobile" fill="url(#sleep-cal-fill)" clip-path="url(#sleep-reveal-clip)"
+                    d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71 L 300,100 L 0,100 Z"/>
+              <path class="sleep-line sleep-line--std sl-mobile"
+                    d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22"/>
+              <path class="sleep-line sleep-line--cal sl-mobile"
+                    d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71"/>
+              <!-- Desktop paths: std peaks ~y=22, cal centered ~y=63 (hidden on mobile) -->
+              <path class="sleep-fill sleep-fill--std sl-desktop" fill="url(#sleep-std-fill)" clip-path="url(#sleep-reveal-clip)"
+                    d="M 0,52 C 10,52 20,22 40,22 C 55,22 60,48 75,48 C 88,48 92,36 105,34 C 118,32 122,48 140,48 C 158,48 165,22 185,22 C 200,22 205,46 220,46 C 235,46 248,28 268,26 C 282,25 292,35 300,33 L 300,100 L 0,100 Z"/>
+              <path class="sleep-fill sleep-fill--cal sl-desktop" fill="url(#sleep-cal-fill-desktop)" clip-path="url(#sleep-reveal-clip)"
+                    d="M 0,64 C 25,62 50,66 75,63 C 100,60 125,66 150,64 C 175,61 200,66 225,64 C 250,62 275,65 300,63 L 300,100 L 0,100 Z"/>
+              <path class="sleep-line sleep-line--std sl-desktop"
+                    d="M 0,52 C 10,52 20,22 40,22 C 55,22 60,48 75,48 C 88,48 92,36 105,34 C 118,32 122,48 140,48 C 158,48 165,22 185,22 C 200,22 205,46 220,46 C 235,46 248,28 268,26 C 282,25 292,35 300,33"/>
+              <path class="sleep-line sleep-line--cal sl-desktop"
+                    d="M 0,64 C 25,62 50,66 75,63 C 100,60 125,66 150,64 C 175,61 200,66 225,64 C 250,62 275,65 300,63"/>
+            </svg>
+            </div>
+            <div class="sleep-lines__xaxis" aria-hidden="true">
+              <span class="sleep-lines__xaxis-label">Time</span>
+            </div>
+          </div>
         </div>
-        <svg class="sleep-lines__svg" viewBox="0 0 300 100" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="sleep-std-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
-              <stop offset="0%"   stop-color="#C54B8C" stop-opacity="0.50"/>
-              <stop offset="100%" stop-color="#C54B8C" stop-opacity="0.42"/>
-            </linearGradient>
-            <linearGradient id="sleep-cal-fill" x1="0" y1="72" x2="0" y2="100" gradientUnits="userSpaceOnUse">
-              <stop offset="0%"   stop-color="#553C9A" stop-opacity="0.72"/>
-              <stop offset="100%" stop-color="#553C9A" stop-opacity="0.65"/>
-            </linearGradient>
-            <clipPath id="sleep-reveal-clip">
-              <rect class="sleep-reveal-rect" x="0" y="-10" width="0" height="120"/>
-            </clipPath>
-          </defs>
-          <!-- grid lines at 0,10,20...100% -->
-          <line x1="0" y1="0"   x2="300" y2="0"   stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
-          <line x1="0" y1="10"  x2="300" y2="10"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="20"  x2="300" y2="20"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="30"  x2="300" y2="30"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="40"  x2="300" y2="40"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="50"  x2="300" y2="50"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="60"  x2="300" y2="60"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="70"  x2="300" y2="70"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="80"  x2="300" y2="80"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="90"  x2="300" y2="90"  stroke="rgba(80,60,120,0.08)" stroke-width="0.5"/>
-          <line x1="0" y1="100" x2="300" y2="100" stroke="rgba(80,60,120,0.10)" stroke-width="0.5"/>
-          <path class="sleep-fill sleep-fill--std" fill="url(#sleep-std-fill)" clip-path="url(#sleep-reveal-clip)"
-                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22 L 300,100 L 0,100 Z"/>
-          <path class="sleep-fill sleep-fill--cal" fill="url(#sleep-cal-fill)" clip-path="url(#sleep-reveal-clip)"
-                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71 L 300,100 L 0,100 Z"/>
-          <path class="sleep-line sleep-line--std"
-                d="M 0,55 C 10,55 20,8 40,8 C 55,8 60,45 75,45 C 88,45 92,25 105,23 C 118,21 122,42 140,42 C 158,42 165,6 185,6 C 200,6 205,38 220,38 C 235,38 248,14 268,12 C 282,11 292,22 300,22"/>
-          <path class="sleep-line sleep-line--cal"
-                d="M 0,72 C 25,70 50,74 75,71 C 100,68 125,74 150,72 C 175,69 200,74 225,72 C 250,70 275,73 300,71"/>
-        </svg>
       </div>
+
       <div class="delta" aria-hidden="true">
         <span class="delta__sign">&minus;</span>
         <span class="delta__value" data-target="25">0</span>
@@ -4544,6 +5102,8 @@ body {
 
     <article class="tile stat-card stat-card--bottom"
              data-scheme="rem" data-kind="pie" data-delay="400" data-delta="16"
+             data-back-headline="Improve Cognitive Function with Longer REM"
+             data-back-body="Wake up with a sharper mind. By helping you spend more time in REM sleep, Calibr8 supports better mental recovery, memory, and focus."
              tabindex="0" aria-labelledby="s6-title" aria-describedby="s6-sr">
       <p id="s6-sr" class="sr-only">REM sleep: Standard mattress 63%, Calibr8 79%, 12 to 20 percent improvement supporting cognitive recovery.</p>
       <h3 id="s6-title" class="stat-card__title">REM Sleep</h3>
@@ -4551,39 +5111,43 @@ body {
       <div class="sleep-pie" aria-hidden="true">
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Standard: REM 18%, Deep 22%, Light 46%, Awake 14% -->
+            <!-- Standard: REM 10% (highlighted), Deep 57%, Light 25%, Awake 8% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__rem--std" data-start="0"     data-end="64.8"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 98.4 34.6 Z"/>
-            <path class="spc__seg spc__deep"     data-start="64.8"  data-end="144"   d="M 55 55 L 98.4 34.6 A 48 48 0 0 1 83.2 93.8 Z"/>
-            <path class="spc__seg spc__light"    data-start="144"   data-end="309.6" d="M 55 55 L 83.2 93.8 A 48 48 0 0 1 18.0 24.4 Z"/>
-            <path class="spc__seg spc__awake"    data-start="309.6" data-end="360"   d="M 55 55 L 18.0 24.4 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__rem--std" data-start="0"     data-end="36"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 83.2 16.2 Z"/>
+            <path class="spc__seg spc__deep"     data-start="36"    data-end="241.2" d="M 55 55 L 83.2 16.2 A 48 48 0 1 1 13.0 78.3 Z"/>
+            <path class="spc__seg spc__light"    data-start="241.2" data-end="331.2" d="M 55 55 L 13.0 78.3 A 48 48 0 0 1 31.9 12.9 Z"/>
+            <path class="spc__seg spc__awake"    data-start="331.2" data-end="360"   d="M 55 55 L 31.9 12.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="98.4" y2="34.6"/>
-            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="93.8"/>
-            <line class="spc__div" x1="55" y1="55" x2="18.0" y2="24.4"/>
-            <text class="spc__lbl spc__lbl--rem-std" x="69.5" y="32.2">REM</text>
-            <text class="spc__lbl" x="81.2" y="61.7">Deep</text>
-            <text class="spc__lbl" x="35.3" y="73.5">Light</text>
-            <text class="spc__lbl" x="43.5" y="30.6">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="83.2" y2="16.2"/>
+            <line class="spc__div" x1="55" y1="55" x2="13.0" y2="78.3"/>
+            <line class="spc__div" x1="55" y1="55" x2="31.9" y2="12.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--rem-std" text-anchor="middle" x="65.2" y="23.6">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="76.8" y="79.8">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="23.3" y="45.8">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="41" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--std">Standard</p>
         </div>
         <div class="sleep-pie__item">
           <svg class="sleep-pie__svg" viewBox="0 0 110 110">
-            <!-- Calibr8: REM 25% (highlighted), Deep 22%, Light 43%, Awake 10% -->
+            <!-- Calibr8: REM 12% (highlighted), Deep 78%, Light 7%, Awake 3% -->
             <circle class="spc__bg" cx="55" cy="55" r="48"/>
-            <path class="spc__seg spc__rem--cal" data-start="0"     data-end="90"    d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 103.0 55.0 Z"/>
-            <path class="spc__seg spc__deep"     data-start="90"    data-end="169.2" d="M 55 55 L 103.0 55.0 A 48 48 0 0 1 64.0 102.1 Z"/>
-            <path class="spc__seg spc__light"    data-start="169.2" data-end="324"   d="M 55 55 L 64.0 102.1 A 48 48 0 0 1 26.8 16.2 Z"/>
-            <path class="spc__seg spc__awake"    data-start="324"   data-end="360"   d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 55.0 7.0 Z"/>
+            <path class="spc__seg spc__rem--cal" data-start="0"     data-end="43.2"  d="M 55 55 L 55.0 7.0 A 48 48 0 0 1 87.9 20.0 Z"/>
+            <path class="spc__seg spc__deep"     data-start="43.2"  data-end="324"   d="M 55 55 L 87.9 20.0 A 48 48 0 1 1 26.8 16.2 Z"/>
+            <path class="spc__seg spc__light"    data-start="324"   data-end="349.2" d="M 55 55 L 26.8 16.2 A 48 48 0 0 1 46.0 7.9 Z"/>
+            <path class="spc__seg spc__awake"    data-start="349.2" data-end="360"   d="M 55 55 L 46.0 7.9 A 48 48 0 0 1 55.0 7.0 Z"/>
             <line class="spc__div" x1="55" y1="55" x2="55.0" y2="7.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="103.0" y2="55.0"/>
-            <line class="spc__div" x1="55" y1="55" x2="64.0" y2="102.1"/>
+            <line class="spc__div" x1="55" y1="55" x2="87.9" y2="20.0"/>
             <line class="spc__div" x1="55" y1="55" x2="26.8" y2="16.2"/>
-            <text class="spc__lbl spc__lbl--rem-cal" x="74.1" y="35.9">REM</text>
-            <text class="spc__lbl" x="75.8" y="72.2">Deep</text>
-            <text class="spc__lbl" x="30.2" y="65.7">Light</text>
-            <text class="spc__lbl" x="46.7" y="29.3">Awake</text>
+            <line class="spc__div" x1="55" y1="55" x2="46.0" y2="7.9"/>
+            <circle class="spc__hole" cx="55" cy="55" r="18"/>
+            <text class="spc__lbl spc__lbl--rem-cal" text-anchor="middle" x="67.1" y="24.3">REM</text>
+            <text class="spc__lbl" text-anchor="middle" x="52.9" y="87.9">Deep</text>
+            <text class="spc__lbl" text-anchor="middle" x="24" y="9">Light</text>
+            <text class="spc__lbl" text-anchor="middle" x="50" y="2">Awake</text>
+            <text class="spc__lbl spc__center" text-anchor="middle" x="55"><tspan x="55" y="51" dominant-baseline="middle">Sleep</tspan><tspan x="55" y="59" dominant-baseline="middle">Cycle</tspan></text>
           </svg>
           <p class="sleep-pie__name sleep-pie__name--cal">Calibr8</p>
         </div>
@@ -4614,7 +5178,7 @@ body {
 
 <section class="calibr8-slider-section">
   <div class="hero-text">
-    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-line1">Different Bodies Need Different Support</span><span class="hps-line2"><span class="hps-purple">Calibr8</span> builds around what your body needs</span></p>
+    <p class="hero-sub hero-sub--desktop reveal"><span class="hps-line1">Different Bodies Need <span style="color:#553C9A">Different Support</span></span><span class="hps-line2"><span class="hps-purple">Calibr8</span> builds around what your body needs</span></p>
     <p class="hero-sub hero-sub--mobile reveal">Your body has a sleep signature.<br><span class="hps-purple">Calibr8</span> builds around it.</p>
   </div>
   <div class="slider" id="process-slider"></div>
@@ -4690,6 +5254,32 @@ body {
 
   </div>
   </div><!-- /.reviews-viewport -->
+
+  <!-- Heatmap legend strip -->
+  <div class="heatmap-legend-wrap">
+    <div class="heatmap-legend">
+      <div class="heatmap-legend__bar-wrap">
+        <div class="heatmap-legend__bar"></div>
+        <div class="heatmap-legend__bar-tick heatmap-legend__bar-tick--first" style="left:33.1%"></div>
+        <div class="heatmap-legend__bar-tick" style="left:58.3%"></div>
+      </div>
+      <!-- Desktop: 3 zones -->
+      <div class="heatmap-legend__zones heatmap-legend__zones--desk">
+        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:33.1">Ideal Body Pressure<br>(Very Low)</span>
+        <i class="heatmap-legend__zone-sep"></i>
+        <span class="heatmap-legend__zone heatmap-legend__zone--low" style="flex:25.2">Mild Pressure<br>on Body</span>
+        <i class="heatmap-legend__zone-sep"></i>
+        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body Pain<br>&amp; Discomfort</span>
+      </div>
+      <!-- Mobile: 2 zones -->
+      <div class="heatmap-legend__zones heatmap-legend__zones--mob">
+        <span class="heatmap-legend__zone heatmap-legend__zone--rec" style="flex:58.3">Ideal Body Pressure<br>(Very Low)</span>
+        <i class="heatmap-legend__zone-sep"></i>
+        <span class="heatmap-legend__zone heatmap-legend__zone--high" style="flex:41.7">High Body Pain<br>&amp; Discomfort</span>
+      </div>
+    </div>
+  </div>
+
 </section>
 </div><!-- /.reviews-bg-wrap -->
 </div><!-- /.reviews-box -->
@@ -4709,7 +5299,10 @@ body {
         <button class="book-btn active" data-tab="store">In-Store</button>
         <button class="book-btn" data-tab="home">Home Consultation</button>
       </div>
-      <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Get <span style="font-family:var(--font-sans);font-weight:700">Calibr8</span>ed Now</a></span>
+      <div class="book-cta-row">
+        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Request A Callback</a></span>
+        <span class="cta-glow-wrap"><a class="final-cta__btn" href="#">Book Free Consultation</a></span>
+      </div>
     </div>
   </div>
 </section>
@@ -4787,6 +5380,20 @@ body {
     requestAnimationFrame(tick);
   }
 
+  function countDownToZero(el, duration) {
+    const from = parseInt(el.textContent, 10) || 0;
+    if (from === 0) return;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 2); // ease-out: fast start, decelerate to 0
+      el.textContent = Math.round(from * (1 - eased));
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = '0';
+    }
+    requestAnimationFrame(tick);
+  }
+
   function animateGraph(card) {
     const seg1 = card.querySelector('.graph__line--seg1');
     const seg2 = card.querySelector('.graph__line--seg2');
@@ -4818,6 +5425,112 @@ body {
     card.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = 0; });
     card.querySelectorAll('.graph__dot').forEach(d => d.classList.add('is-on'));
     card.querySelectorAll('.graph__label').forEach(l => l.classList.add('is-on'));
+    const dv = card.querySelector('.delta__value');
+    dv.textContent = dv.dataset.target;
+  }
+
+  function animateHBar(card) {
+    const stdPills = card.querySelectorAll('.hpz-pill--std');
+    const calPills = card.querySelectorAll('.hpz-pill--cal');
+    if (stdPills.length || calPills.length) {
+      const allActive = card.querySelectorAll('.hpz-pill--active');
+      allActive.forEach(function(p) { p.style.transition = 'none'; p.style.opacity = '0'; });
+      const stdLabel = card.querySelector('.hpz-label--std');
+      const calLabel = card.querySelector('.hpz-label--cal');
+      const dv = card.querySelector('.delta__value');
+      if (stdLabel) { stdLabel.style.transition = 'none'; stdLabel.style.opacity = '0'; }
+      if (calLabel) { calLabel.style.transition = 'none'; calLabel.style.opacity = '0'; }
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        // Phase 1: standard pills left to right
+        stdPills.forEach(function(p, i) {
+          setTimeout(function() {
+            p.style.transition = 'opacity 0.2s ease';
+            p.style.opacity = '1';
+          }, i * 80);
+        });
+        // Phase 2: std label after last pill finishes
+        var stdDone = (stdPills.length - 1) * 80 + 250;
+        if (stdLabel) setTimeout(function() {
+          stdLabel.style.transition = 'opacity 0.3s ease';
+          stdLabel.style.opacity = '1';
+        }, stdDone);
+        // Phase 3: calibr8 pills after std label fully visible
+        var calStart = stdDone + 500;
+        calPills.forEach(function(p, i) {
+          setTimeout(function() {
+            p.style.transition = 'opacity 0.2s ease';
+            p.style.opacity = '1';
+          }, calStart + i * 80);
+        });
+        // Phase 4: cal label after last cal pill finishes
+        var calDone = calStart + (calPills.length - 1) * 80 + 250;
+        if (calLabel) setTimeout(function() {
+          calLabel.style.transition = 'opacity 0.3s ease';
+          calLabel.style.opacity = '1';
+        }, calDone);
+        // Phase 5: counter after cal label visible
+        if (dv) setTimeout(function() {
+          countToLinear(dv, Number(dv.dataset.target), 700);
+        }, calDone + 500);
+      }); });
+      return;
+    }
+    var bars      = Array.from(card.querySelectorAll('.hbar__bar'));
+    var endpoints = Array.from(card.querySelectorAll('.hbar__endpoint'));
+    var dv        = card.querySelector('.delta__value');
+
+    endpoints.forEach(function(ep) { ep.style.transition = 'none'; ep.style.opacity = '0'; });
+    // Hide ALL bars immediately — prevents cal bar from showing before its animation
+    bars.forEach(function(bar) {
+      var len = bar.getTotalLength();
+      bar.style.transition = 'none';
+      bar.style.strokeDasharray = len;
+      bar.style.strokeDashoffset = len;
+    });
+
+    // Each bar gets its own hide + double-rAF + transition (same pattern as arc/graph)
+    function animBar(bar, dur, onDone) {
+      var len = bar.getTotalLength();
+      bar.style.transition = 'none';
+      bar.style.strokeDasharray = len;
+      bar.style.strokeDashoffset = len;
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        bar.style.transition = 'stroke-dashoffset ' + dur + 'ms cubic-bezier(0.16,1,0.3,1)';
+        bar.style.strokeDashoffset = '0';
+        if (onDone) setTimeout(onDone, dur);
+      }); });
+    }
+
+    // bars[0] → endpoint[0] → 250ms → bars[1] → endpoint[1] → 300ms → delta count
+    if (bars[0]) {
+      animBar(bars[0], 900, function() {
+        if (endpoints[0]) { endpoints[0].style.transition = 'opacity 0.3s ease'; endpoints[0].style.opacity = '1'; }
+        setTimeout(function() {
+          if (!bars[1]) return;
+          animBar(bars[1], 1200, function() {
+            if (endpoints[1]) { endpoints[1].style.transition = 'opacity 0.3s ease'; endpoints[1].style.opacity = '1'; }
+            setTimeout(function() {
+              countToLinear(dv, Number(dv.dataset.target), 700);
+            }, 300);
+          });
+        }, 250);
+      });
+    }
+  }
+
+  function snapHBar(card) {
+    const allActive = card.querySelectorAll('.hpz-pill--active');
+    if (allActive.length) {
+      allActive.forEach(function(p) { p.style.transition = 'none'; p.style.opacity = '1'; });
+      card.querySelectorAll('.hpz-label--std, .hpz-label--cal').forEach(function(l) {
+        l.style.transition = 'none'; l.style.opacity = '1';
+      });
+      const dv = card.querySelector('.delta__value');
+      dv.textContent = dv.dataset.target;
+      return;
+    }
+    card.querySelectorAll('.hbar__bar').forEach(bar => { bar.style.strokeDasharray = ''; bar.style.strokeDashoffset = 0; });
+    card.querySelectorAll('.hbar__endpoint').forEach(function(ep) { ep.style.transition = 'none'; ep.style.opacity = '1'; });
     const dv = card.querySelector('.delta__value');
     dv.textContent = dv.dataset.target;
   }
@@ -4937,51 +5650,138 @@ body {
   }
 
   function animateArc(card) {
-    const segA = card.querySelector('.arc__seg--a');
-    const segB = card.querySelector('.arc__seg--b');
-    const segC = card.querySelector('.arc__seg--c');
-    const dots   = card.querySelectorAll('.arc__dot');
-    const labels = card.querySelectorAll('.arc__label');
-    const dv     = card.querySelector('.delta__value');
+    const segA     = card.querySelector('.arc__seg--a');
+    const segB     = card.querySelector('.arc__seg--b');
+    const tipA     = card.querySelector('.arc__tip--a');
+    const tipB     = card.querySelector('.arc__tip--b');
+    const stdPt    = card.querySelector('.arc__endpoint--std');
+    const calPt    = card.querySelector('.arc__endpoint--cal');
+    const stdMmhg  = stdPt ? stdPt.querySelector('.arc__mmhg') : null;
+    const calMmhg  = calPt ? calPt.querySelector('.arc__mmhg') : null;
+    const dv       = card.querySelector('.delta__value');
+    const stdDur   = 1000;
+    const calDur   = 700;
+    const nameHold = 400;
+    const mmhgHold = 350;
 
-    // Flanking segments and dots/labels appear instantly
-    segA.style.strokeDashoffset = 0;
-    segC.style.strokeDashoffset = 0;
-    dots.forEach(d => d.classList.add('is-on'));
-    labels.forEach(l => l.classList.add('is-on'));
-    const stem = card.querySelector('.arc__stem--cal');
-    if (stem) stem.classList.add('is-on');
+    // Reset
+    if (stdPt)   { stdPt.style.transition = 'none';   stdPt.style.opacity = '0'; }
+    if (calPt)   { calPt.style.transition = 'none';   calPt.style.opacity = '0'; }
+    if (stdMmhg) { stdMmhg.style.transition = 'none'; stdMmhg.style.opacity = '0'; }
+    if (calMmhg) { calMmhg.style.transition = 'none'; calMmhg.style.opacity = '0'; }
+    if (tipA)    { tipA.style.opacity = '0'; }
+    if (tipB)    { tipB.style.opacity = '0'; }
 
-    // Only the glow segment between the two plotted points draws in
-    const len = segB.getTotalLength();
-    segB.style.transition       = 'none';
-    segB.style.strokeDasharray  = len;
-    segB.style.strokeDashoffset = len;
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    let lenA = 0, lenB = 0;
+    if (segA) { lenA = segA.getTotalLength(); segA.style.transition = 'none'; segA.style.strokeDasharray = lenA; segA.style.strokeDashoffset = lenA; }
+    if (segB) { lenB = segB.getTotalLength(); segB.style.transition = 'none'; segB.style.strokeDasharray = lenB; segB.style.strokeDashoffset = lenB; }
+
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      segB.style.transition     = `stroke-dashoffset 1400ms cubic-bezier(0.16, 1, 0.3, 1)`;
-      segB.style.strokeDashoffset = 0;
+      if (!segA) return;
+      if (tipA) tipA.style.opacity = '1';
+      const t0 = performance.now();
+      (function frameA(now) {
+        if (!card.dataset.revealed) return;
+        const t = Math.min((now - t0) / stdDur, 1);
+        const e = easeOut(t);
+        segA.style.strokeDashoffset = lenA * (1 - e);
+        if (tipA) { const pos = lenA * e; const p1 = segA.getPointAtLength(Math.max(0, pos - 2)); const p2 = segA.getPointAtLength(Math.min(lenA, pos + 2)); tipA.setAttribute('d', `M ${p1.x},${p1.y} L ${p2.x},${p2.y}`); }
+        if (t < 1) { requestAnimationFrame(frameA); return; }
+        // Std arc done → show name+dot
+        if (tipA) { tipA.style.transition = 'opacity 250ms ease'; tipA.style.opacity = '0'; }
+        if (stdPt) { stdPt.style.transition = 'opacity 250ms ease'; stdPt.style.opacity = '1'; }
+        // After nameHold → show std mmhg
+        setTimeout(function() {
+          if (!card.dataset.revealed) return;
+          if (stdMmhg) { stdMmhg.style.transition = 'opacity 300ms ease'; stdMmhg.style.opacity = '1'; }
+          // After mmhgHold → start Calibr8 arc
+          setTimeout(function() {
+            if (!card.dataset.revealed || !segB) return;
+            if (tipB) tipB.style.opacity = '1';
+            const t1 = performance.now();
+            (function frameB(now) {
+              if (!card.dataset.revealed) return;
+              const tb = Math.min((now - t1) / calDur, 1);
+              const eb = easeOut(tb);
+              segB.style.strokeDashoffset = lenB * (1 - eb);
+              if (tipB) { const posB = lenB * eb; const p1 = segB.getPointAtLength(Math.max(0, posB - 2)); const p2 = segB.getPointAtLength(Math.min(lenB, posB + 2)); tipB.setAttribute('d', `M ${p1.x},${p1.y} L ${p2.x},${p2.y}`); }
+              if (tb < 1) { requestAnimationFrame(frameB); return; }
+              // Cal arc done → show cal name+dot
+              if (tipB) { tipB.style.transition = 'opacity 250ms ease'; tipB.style.opacity = '0'; }
+              if (calPt) { calPt.style.transition = 'opacity 250ms ease'; calPt.style.opacity = '1'; }
+              // After nameHold → show cal mmhg
+              setTimeout(function() {
+                if (!card.dataset.revealed) return;
+                if (calMmhg) { calMmhg.style.transition = 'opacity 300ms ease'; calMmhg.style.opacity = '1'; }
+                // After mmhgHold → counter
+                setTimeout(function() {
+                  if (!card.dataset.revealed) return;
+                  if (dv) countToLinear(dv, Number(dv.dataset.target), 700);
+                }, mmhgHold);
+              }, nameHold);
+            })(performance.now());
+          }, mmhgHold);
+        }, nameHold);
+      })(performance.now());
     }));
-
-    countToLinear(dv, Number(dv.dataset.target), 1000);
   }
 
   function snapArc(card) {
     card.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = 0; });
-    card.querySelectorAll('.arc__dot').forEach(d => d.classList.add('is-on'));
-    card.querySelectorAll('.arc__label').forEach(l => l.classList.add('is-on'));
-    card.querySelectorAll('.arc__stem').forEach(s => s.classList.add('is-on'));
+    card.querySelectorAll('.arc__endpoint').forEach(g => { g.style.transition = 'none'; g.style.opacity = '1'; });
+    card.querySelectorAll('.arc__mmhg').forEach(el => { el.style.transition = 'none'; el.style.opacity = '1'; });
+    card.querySelectorAll('.arc__tip').forEach(c => { c.style.opacity = '0'; });
     const dv = card.querySelector('.delta__value');
-    dv.textContent = dv.dataset.target;
+    if (dv) dv.textContent = dv.dataset.target;
+  }
+
+  // Instantly show a card in its completed/filled state (for c-left and c-right positions)
+  function snapCardFill(card) {
+    if (card.dataset.revealed === '1') return;
+    card.dataset.revealed = '1';
+    card.classList.add('is-revealed');
+    const k = card.dataset.kind || '';
+    if (k === 'pie') {
+      var CX = 55, CY = 55, R = 48;
+      function ptSnap(deg) {
+        var a = deg * Math.PI / 180;
+        return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
+      }
+      card.querySelectorAll('.spc__seg').forEach(function(el) {
+        var s = +el.dataset.start, e = +el.dataset.end;
+        if (e - s < 0.1) { el.setAttribute('d', 'M' + CX + ' ' + CY + 'Z'); return; }
+        var p1 = ptSnap(s), p2 = ptSnap(e);
+        el.setAttribute('d', 'M' + CX + ' ' + CY + 'L' + p1[0] + ' ' + p1[1]
+          + 'A' + R + ' ' + R + ' 0 ' + (e - s >= 180 ? 1 : 0) + ' 1 ' + p2[0] + ' ' + p2[1] + 'Z');
+      });
+      card.querySelectorAll('.spc__div, .spc__lbl').forEach(function(el) { el.style.opacity = ''; });
+    } else if (k === 'arc') {
+      snapArc(card);
+    } else if (k === 'hbar') {
+      snapHBar(card);
+    } else if (k === 'rings') {
+      snapRings(card);
+    } else if (k === 'graph') {
+      snapGraph(card);
+    } else if (k === 'lines') {
+      snapLines(card);
+    } else if (k === 'vbars') {
+      snapVbars(card);
+    }
+    card.querySelectorAll('.delta__value').forEach(function(el) {
+      if (el.dataset.target) el.textContent = el.dataset.target;
+    });
   }
 
   function animateLines(card) {
-    const stdLine = card.querySelector('.sleep-line--std');
-    const calLine = card.querySelector('.sleep-line--cal');
+    const allLines = card.querySelectorAll('.sleep-line--std, .sleep-line--cal');
     const clipRect = card.querySelector('.sleep-reveal-rect');
     const dv = card.querySelector('.delta__value');
     const dur = 1400;
 
-    [stdLine, calLine].forEach(p => {
+    allLines.forEach(p => {
       const l = p.getTotalLength();
       p.style.strokeDasharray  = l;
       p.style.strokeDashoffset = l;
@@ -4989,7 +5789,7 @@ body {
     clipRect.setAttribute('width', '0');
 
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      [stdLine, calLine].forEach(p => {
+      allLines.forEach(p => {
         p.style.transition = `stroke-dashoffset ${dur}ms linear`;
         p.style.strokeDashoffset = 0;
       });
@@ -5006,95 +5806,11 @@ body {
   }
 
   function snapLines(card) {
-    const stdLine = card.querySelector('.sleep-line--std');
-    const calLine = card.querySelector('.sleep-line--cal');
+    card.querySelectorAll('.sleep-line--std, .sleep-line--cal').forEach(p => { p.style.strokeDashoffset = 0; });
     const clipRect = card.querySelector('.sleep-reveal-rect');
-    [stdLine, calLine].forEach(p => { p.style.strokeDashoffset = 0; });
     clipRect.setAttribute('width', 300);
     const dv = card.querySelector('.delta__value');
     dv.textContent = dv.dataset.target;
-  }
-
-  function snapPie(card) {
-    card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '');
-  }
-
-  function animatePieOut(card) {
-    const CX = 55, CY = 55, R = 48;
-    function pt(deg) {
-      const a = deg * Math.PI / 180;
-      return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
-    }
-    function segPath(s, e) {
-      if (e - s < 0.1) return `M${CX} ${CY}Z`;
-      const [sx, sy] = pt(s), [ex, ey] = pt(e);
-      return `M${CX} ${CY}L${sx} ${sy}A${R} ${R} 0 ${e-s>=180?1:0} 1 ${ex} ${ey}Z`;
-    }
-    function easeIn(t) { return t * t * t; }
-    function collapseItem(item) {
-      const segs = [...item.querySelectorAll('.spc__seg')].map(el => ({
-        el, s: +el.dataset.start, e: +el.dataset.end
-      }));
-      item.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
-      const t0 = performance.now(), dur = 600;
-      (function frame(now) {
-        const t = Math.min((now - t0) / dur, 1);
-        const sw = (1 - easeIn(t)) * 360;
-        segs.forEach(({el, s, e}) =>
-          el.setAttribute('d', sw > s ? segPath(s, Math.min(sw, e)) : `M${CX} ${CY}Z`)
-        );
-        if (t < 1) requestAnimationFrame(frame);
-        else segs.forEach(({el}) => el.setAttribute('d', `M${CX} ${CY}Z`));
-      })(t0);
-    }
-    card.querySelectorAll('.sleep-pie__item').forEach(collapseItem);
-    const dv = card.querySelector('.delta__value');
-    if (dv && dv.textContent !== '0') countTo(dv, 0, 500);
-  }
-
-  function animatePie(card) {
-    const CX = 55, CY = 55, R = 48;
-    function pt(deg) {
-      const a = deg * Math.PI / 180;
-      return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
-    }
-    function segPath(s, e) {
-      if (e - s < 0.1) return `M${CX} ${CY}Z`;
-      const [sx, sy] = pt(s), [ex, ey] = pt(e);
-      return `M${CX} ${CY}L${sx} ${sy}A${R} ${R} 0 ${e-s>=180?1:0} 1 ${ex} ${ey}Z`;
-    }
-    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-    function sweepItem(item, dur, delay, cb) {
-      const segs = [...item.querySelectorAll('.spc__seg')].map(el => ({
-        el, s: +el.dataset.start, e: +el.dataset.end
-      }));
-      const extras = item.querySelectorAll('.spc__div, .spc__lbl');
-      segs.forEach(({el}) => el.setAttribute('d', `M${CX} ${CY}Z`));
-      extras.forEach(el => el.style.opacity = 0);
-      setTimeout(() => {
-        const t0 = performance.now();
-        (function frame(now) {
-          const t  = Math.min((now - t0) / dur, 1);
-          const sw = easeOut(t) * 360;
-          segs.forEach(({el, s, e}) =>
-            el.setAttribute('d', sw > s ? segPath(s, Math.min(sw, e)) : `M${CX} ${CY}Z`)
-          );
-          if (t > 0.6) extras.forEach(el => el.style.opacity = (t - 0.6) / 0.4);
-          if (t < 1) requestAnimationFrame(frame);
-          else { extras.forEach(el => el.style.opacity = ''); if (cb) cb(); }
-        })(t0);
-      }, delay);
-    }
-    const [std, cal] = card.querySelectorAll('.sleep-pie__item');
-    if (!std || !cal) return;
-    [std, cal].forEach(item => {
-      item.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', `M${CX} ${CY}Z`));
-      item.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
-    });
-    const dv = card.querySelector('.delta__value');
-    sweepItem(std, 1100, 0, () => sweepItem(cal, 1100, 200, () => {
-      if (dv) countTo(dv, Number(dv.dataset.target), 800);
-    }));
   }
 
   function animateBarsReduce(card) {
@@ -5167,6 +5883,7 @@ body {
       else if (kind === 'rings') snapRings(card);
       else if (kind === 'arc') snapArc(card);
       else if (kind === 'graph') snapGraph(card);
+      else if (kind === 'hbar') snapHBar(card);
       else if (kind === 'gauge') snapGauge(card);
       else if (kind === 'reduce') snapBarsReduce(card);
       else if (kind === 'lines') snapLines(card);
@@ -5178,11 +5895,98 @@ body {
     else if (kind === 'rings') animateRings(card);
     else if (kind === 'arc') animateArc(card);
     else if (kind === 'graph') animateGraph(card);
+    else if (kind === 'hbar') animateHBar(card);
     else if (kind === 'gauge') animateGauge(card);
     else if (kind === 'reduce') animateBarsReduce(card);
     else if (kind === 'lines') animateLines(card);
     else if (kind === 'pie') animatePie(card);
     else animateBars(card);
+  }
+
+  // ── Pie sweep animation ─────────────────────────────────────────
+  function snapPie(card) {
+    // Reduced-motion: just show segments instantly (d attrs already set in HTML)
+    card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '');
+  }
+
+  function animatePieOut(card) {
+    const CX = 55, CY = 55, R = 48;
+    function pt(deg) {
+      const a = deg * Math.PI / 180;
+      return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
+    }
+    function segPath(s, e) {
+      if (e - s < 0.1) return `M${CX} ${CY}Z`;
+      const [sx, sy] = pt(s), [ex, ey] = pt(e);
+      return `M${CX} ${CY}L${sx} ${sy}A${R} ${R} 0 ${e-s>=180?1:0} 1 ${ex} ${ey}Z`;
+    }
+    function easeIn(t) { return t * t * t; }
+    function collapseItem(item) {
+      const segs = [...item.querySelectorAll('.spc__seg')].map(el => ({
+        el, s: +el.dataset.start, e: +el.dataset.end
+      }));
+      item.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+      const t0 = performance.now(), dur = 600;
+      (function frame(now) {
+        const t = Math.min((now - t0) / dur, 1);
+        const sw = (1 - easeIn(t)) * 360;
+        segs.forEach(({el, s, e}) =>
+          el.setAttribute('d', sw > s ? segPath(s, Math.min(sw, e)) : `M${CX} ${CY}Z`)
+        );
+        if (t < 1) requestAnimationFrame(frame);
+        else segs.forEach(({el}) => el.setAttribute('d', `M${CX} ${CY}Z`));
+      })(t0);
+    }
+    card.querySelectorAll('.sleep-pie__item').forEach(collapseItem);
+    const dv = card.querySelector('.delta__value');
+    if (dv && dv.textContent !== '0') countTo(dv, 0, 500);
+  }
+
+  function animatePie(card) {
+    const CX = 55, CY = 55, R = 48;
+    function pt(deg) {
+      const a = deg * Math.PI / 180;
+      return [+(CX + R * Math.sin(a)).toFixed(1), +(CY - R * Math.cos(a)).toFixed(1)];
+    }
+    function segPath(s, e) {
+      if (e - s < 0.1) return `M${CX} ${CY}Z`;
+      const [sx, sy] = pt(s), [ex, ey] = pt(e);
+      return `M${CX} ${CY}L${sx} ${sy}A${R} ${R} 0 ${e-s>=180?1:0} 1 ${ex} ${ey}Z`;
+    }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function sweepItem(item, dur, delay, cb) {
+      const segs = [...item.querySelectorAll('.spc__seg')].map(el => ({
+        el, s: +el.dataset.start, e: +el.dataset.end
+      }));
+      const extras = item.querySelectorAll('.spc__div, .spc__lbl');
+      segs.forEach(({el}) => el.setAttribute('d', `M${CX} ${CY}Z`));
+      extras.forEach(el => el.style.opacity = 0);
+      setTimeout(() => {
+        const t0 = performance.now();
+        (function frame(now) {
+          const t  = Math.min((now - t0) / dur, 1);
+          const sw = easeOut(t) * 360;
+          segs.forEach(({el, s, e}) =>
+            el.setAttribute('d', sw > s ? segPath(s, Math.min(sw, e)) : `M${CX} ${CY}Z`)
+          );
+          if (t > 0.6) extras.forEach(el => el.style.opacity = (t - 0.6) / 0.4);
+          if (t < 1) requestAnimationFrame(frame);
+          else { extras.forEach(el => el.style.opacity = ''); if (cb) cb(); }
+        })(t0);
+      }, delay);
+    }
+
+    const [std, cal] = card.querySelectorAll('.sleep-pie__item');
+    if (!std || !cal) return;
+    [std, cal].forEach(item => {
+      item.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', `M${CX} ${CY}Z`));
+      item.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+    });
+    const dv = card.querySelector('.delta__value');
+    sweepItem(std, 1100, 0, () => sweepItem(cal, 1100, 200, () => {
+      if (dv) countTo(dv, Number(dv.dataset.target), 800);
+    }));
   }
 
   const cards = document.querySelectorAll('.stat-card');
@@ -5260,6 +6064,109 @@ body {
         pObs.disconnect();
       }, { threshold: 0.3 });
       pObs.observe(pSection);
+    }
+  }
+
+  // ── Problem stat: full loop ──
+  {
+    const altA     = document.querySelector('.pst-alt--a');
+    const altB     = document.querySelector('.pst-alt--b');
+    const subWords = Array.from(document.querySelectorAll('.pst-sub-word'));
+    if (altA && altB) {
+      const DUR  = 380;
+      const WORD_STAGGER = 80;
+      const SUB_WORDS    = subWords.length; // 11
+      const SUB_DURATION = SUB_WORDS * WORD_STAGGER + 420; // fade completes ~1300ms after start
+      let showA = true;
+
+      function resetPositions() {
+        altA.style.transition = 'none'; altB.style.transition = 'none';
+        altA.style.transform  = 'translateX(0)';
+        altB.style.transform  = 'translateX(-100%)';
+        showA = true;
+      }
+
+      function slide(exitEl, enterEl) {
+        exitEl.style.transition = `transform ${DUR}ms cubic-bezier(0.4,0,1,1)`;
+        exitEl.style.transform  = 'translateX(100%)';
+        setTimeout(function() {
+          exitEl.style.transition  = 'none';
+          exitEl.style.transform   = 'translateX(-100%)';
+          enterEl.style.transition = 'none';
+          enterEl.style.transform  = 'translateX(-100%)';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              enterEl.style.transition = `transform ${DUR}ms cubic-bezier(0,0,0.2,1)`;
+              enterEl.style.transform  = 'translateX(0)';
+            });
+          });
+        }, DUR);
+      }
+
+      function hideSub(instant) {
+        subWords.forEach(function(w) {
+          if (instant) { w.style.transition = 'none'; }
+          else         { w.style.transition = 'opacity 420ms ease'; }
+          w.style.opacity = '0';
+        });
+      }
+
+      function showSubWords() {
+        subWords.forEach(function(w, i) {
+          setTimeout(function() {
+            w.style.transition = 'opacity 420ms ease';
+            w.style.opacity    = '1';
+          }, i * WORD_STAGGER);
+        });
+      }
+
+      function runLoop() {
+        // — reset to A, sub hidden —
+        resetPositions();
+        hideSub(true);
+
+        // re-enable transitions after sync reset
+        requestAnimationFrame(function() { requestAnimationFrame(function() {
+          // t=0: 1A visible, sub hidden
+
+          // t=3000: slide 1A → 1B
+          setTimeout(function() {
+            showA = !showA;
+            slide(altA, altB);
+          }, 3000);
+
+          // t=3000+DUR+1000: word-by-word fade-in
+          var subStart = 3000 + DUR + 1000;
+          subWords.forEach(function(w, i) {
+            setTimeout(function() {
+              w.style.transition = 'opacity 420ms ease';
+              w.style.opacity    = '1';
+            }, subStart + i * WORD_STAGGER);
+          });
+
+          // t=subStart+SUB_DURATION+2500: fade sub out
+          var fadeOutAt = subStart + SUB_DURATION + 2500;
+          setTimeout(function() { hideSub(false); }, fadeOutAt);
+
+          // t=fadeOutAt+500: slide 1B → 1A
+          var swapBackAt = fadeOutAt + 500;
+          setTimeout(function() {
+            showA = !showA;
+            slide(altB, altA);
+          }, swapBackAt);
+
+          // t=swapBackAt+DUR+400: restart loop
+          setTimeout(runLoop, swapBackAt + DUR + 400);
+        }); });
+      }
+
+      const pStat = document.querySelector('.problem-stat');
+      if (pStat) {
+        const mo = new MutationObserver(function() {
+          if (pStat.classList.contains('is-visible')) { mo.disconnect(); runLoop(); }
+        });
+        mo.observe(pStat, { attributes: true, attributeFilter: ['class'] });
+      }
     }
   }
 
@@ -5374,7 +6281,7 @@ body {
   // ── Carousel (initialise all instances) ──
   function initCarousel(section, suffix, extraClass) {
     const track = section.querySelector('.carousel__track');
-    const STATES = ['c-center','c-left','c-right','c-exit','c-enter','c-hidden'];
+    const STATES = ['c-center','c-left','c-right','c-exit','c-enter','c-hidden','c-hidden-left'];
     const N = 6;
     const cCards = [];
     document.querySelectorAll('#stats-grid .stat-card').forEach((src, i) => {
@@ -5397,10 +6304,31 @@ body {
         'display:flex', 'flex-direction:column'
       ].join(';') + ';';
       while (clone.firstChild) scaler.appendChild(clone.firstChild);
-      clone.appendChild(scaler);
+
+      // Wrap scaler in front face
+      const front = document.createElement('div');
+      front.className = 'card-face card-face--front';
+      front.appendChild(scaler);
+
+      // Build back face
+      const sign      = (src.querySelector('.delta__sign') || {}).textContent || '+';
+      const deltaNum  = src.dataset.delta || '';
+      const headline  = src.dataset.backHeadline || '';
+      const bodyText  = src.dataset.backBody || '';
+      const back = document.createElement('div');
+      back.className = 'card-face card-face--back';
+      back.innerHTML = '<div class="card-back__headline">' + headline + '</div>'
+        + '<div class="card-back__body">' + bodyText + '</div>';
+
+      const inner = document.createElement('div');
+      inner.className = 'card-inner';
+      inner.appendChild(front);
+      inner.appendChild(back);
+      clone.appendChild(inner);
       track.appendChild(clone);
       cCards.push(clone);
     });
+
     function stateFor(idx, active) {
       const d = ((idx - active) % N + N) % N;
       if (d === 0) return 'c-center';
@@ -5414,49 +6342,262 @@ body {
       card.classList.add(state);
       if (instant) { card.getBoundingClientRect(); card.style.transition = ''; }
     }
-    let active = 0, advancing = false;
+    let active = 0, advancing = false, flipTimer = null, pausedByHover = false, clickPaused = false;
     function setAll(a) { cCards.forEach((c,i) => applyState(c, stateFor(i,a))); }
-    function clearViz(card) {
+    function clearViz(card, instant) {
       card.dataset.revealed = '';
       card.querySelectorAll('.is-on').forEach(el => el.classList.remove('is-on'));
-      card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = '0'; });
+      if (instant) {
+        card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = '0'; });
+      } else {
+        card.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) countDownToZero(el, 480); });
+      }
       card.querySelectorAll('.row__percent').forEach(el => el.textContent = '0%');
       card.querySelectorAll('.sleep-reveal-rect').forEach(r => r.setAttribute('width', '0'));
       card.querySelectorAll('[style]').forEach(el => {
-        ['stroke-dashoffset','stroke-dasharray','transition','height'].forEach(p => el.style.removeProperty(p));
+        // Skip arc segs and hbar bars — handled separately
+        if (card.dataset.kind === 'arc' && (el.classList.contains('arc__seg--a') || el.classList.contains('arc__seg--b'))) return;
+        if (card.dataset.kind === 'hbar' && el.classList.contains('hbar__bar')) return;
+        ['stroke-dashoffset','stroke-dasharray','transition'].forEach(p => el.style.removeProperty(p));
       });
-      card.querySelectorAll('.arc__seg--glow, .graph__line--glow').forEach(el => {
+      card.querySelectorAll('.graph__line--glow').forEach(el => {
         el.style.strokeDasharray = '9999';
         el.style.strokeDashoffset = '9999';
       });
+      if (card.dataset.kind === 'arc') {
+        ['.arc__seg--a', '.arc__seg--b'].forEach(function(sel) {
+          const seg = card.querySelector(sel);
+          if (!seg) return;
+          const len = seg.getTotalLength();
+          seg.style.transition = instant ? 'none' : 'stroke-dashoffset 480ms ease-in';
+          seg.style.strokeDasharray = len;
+          seg.style.strokeDashoffset = len;
+        });
+        card.querySelectorAll('.arc__endpoint').forEach(g => {
+          g.style.transition = instant ? 'none' : 'opacity 300ms ease';
+          g.style.opacity = '0';
+        });
+        card.querySelectorAll('.arc__mmhg').forEach(el => { el.style.transition = 'none'; el.style.opacity = '0'; });
+        card.querySelectorAll('.arc__tip').forEach(c => { c.style.transition = 'none'; c.style.opacity = '0'; });
+      }
+      if (card.dataset.kind === 'hbar') {
+        const hbarBars = card.querySelectorAll('.hbar__bar');
+        if (hbarBars.length) {
+          hbarBars.forEach(function(bar) {
+            const len = bar.getTotalLength ? bar.getTotalLength() : 0;
+            if (!len) return;
+            if (!bar.style.strokeDasharray) bar.style.strokeDasharray = len;
+            bar.style.transition = instant ? 'none' : 'stroke-dashoffset 480ms cubic-bezier(0.4,0,1,1)';
+            bar.style.strokeDashoffset = len;
+          });
+          card.querySelectorAll('.hbar__endpoint').forEach(function(ep) {
+            ep.style.transition = instant ? 'none' : 'opacity 250ms ease';
+            ep.style.opacity = '0';
+          });
+        } else {
+          const calPills = Array.from(card.querySelectorAll('.hpz-pill--cal')).reverse();
+          const stdPills = Array.from(card.querySelectorAll('.hpz-pill--std')).reverse();
+          if (instant) {
+            [...calPills, ...stdPills].forEach(function(p) { p.style.transition = 'none'; p.style.opacity = '0'; });
+          } else {
+            [...calPills, ...stdPills].forEach(function(p, i) {
+              setTimeout(function() { p.style.transition = 'opacity 200ms ease'; p.style.opacity = '0'; }, i * 45);
+            });
+          }
+          card.querySelectorAll('.hpz-label--std, .hpz-label--cal').forEach(function(l) {
+            l.style.transition = instant ? 'none' : 'opacity 200ms ease';
+            l.style.opacity = '0';
+          });
+        }
+      }
       if (card.dataset.kind === 'pie') {
-        animatePieOut(card);
+        if (instant) {
+          card.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', 'M55 55Z'));
+          card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
+        } else {
+          animatePieOut(card);
+        }
       } else {
         card.querySelectorAll('.spc__seg').forEach(el => el.setAttribute('d', 'M55 55Z'));
         card.querySelectorAll('.spc__div, .spc__lbl').forEach(el => el.style.opacity = '0');
       }
+      const inn = card.querySelector('.card-inner');
+      if (inn) cardReset(inn);
     }
+
+    // Helpers — cumulative rotateY so both flip and flip-back go left→right
+    function cardFlipOut(inn) {
+      const a = (parseFloat(inn.dataset.fa) || 0) - 180;
+      inn.dataset.fa = a;
+      inn.style.rotate = 'y ' + a + 'deg';
+    }
+    function cardFlipIn(inn) {
+      const a = (parseFloat(inn.dataset.fa) || 0) - 180;
+      inn.dataset.fa = a;
+      inn.style.rotate = 'y ' + a + 'deg';
+    }
+    function cardIsBack(inn) {
+      const a = ((parseFloat(inn.dataset.fa) || 0) % 360 + 360) % 360;
+      return a === 180;
+    }
+    function cardReset(inn) {
+      inn.classList.remove('is-hovering');
+      inn.style.transition = 'none';
+      inn.dataset.fa = '0';
+      inn.style.rotate = 'y 0deg';
+      inn.getBoundingClientRect();
+      inn.style.transition = '';
+    }
+
+    function scheduleFlip(card) {
+      if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+      const inn = card.querySelector('.card-inner');
+      const initialDelay = card.id === 'circulation' ? 5560 : card.id === 'pressure' ? 5900 : card.id === 'alignment' ? 5350 : card.dataset.kind === 'lines' ? 3600 : card.dataset.kind === 'pie' ? 5200 : 3600;
+      flipTimer = setTimeout(function() {
+        if (pausedByHover || clickPaused || !inn) return;
+        inn.classList.remove('is-hovering');
+        cardFlipOut(inn);
+        const backDwell = 7000;
+        flipTimer = setTimeout(function() {
+          if (pausedByHover || clickPaused || !inn) return;
+          cardFlipIn(inn);
+          flipTimer = setTimeout(function() {
+            if (!pausedByHover && !clickPaused) advance();
+          }, 700);
+        }, backDwell);
+      }, initialDelay);
+    }
+
     function advance() {
+      if (advancing || pausedByHover || clickPaused) return;
+      advancing = true;
+      const next = (active + 1) % N;
+      const hiddenIdx = (active + N - 2) % N;
+      applyState(cCards[hiddenIdx], 'c-hidden', true);
+      clearViz(cCards[hiddenIdx]);
+      active = next; setAll(active);
+      // Snap-fill side cards so they always appear complete
+      snapCardFill(cCards[(active + 1) % N]);
+      snapCardFill(cCards[(active + N - 1) % N]);
+      // Always instant-reset then re-animate center
+      var _ac = cCards[active];
+      clearViz(_ac, true);
+      requestAnimationFrame(function() { requestAnimationFrame(function() { revealCard(_ac); }); });
+      setTimeout(function() { advancing = false; }, 580);
+      scheduleFlip(_ac);
+    }
+
+    // User-triggered navigation — forward or backward, optionally arrive flipped
+    function navigateTo(targetIdx, flipOnArrive) {
       if (advancing) return;
       advancing = true;
-      const next = (active+1)%N;
-      const hiddenIdx = (active+N-2)%N;
-      clearViz(cCards[active]);
-      applyState(cCards[hiddenIdx], 'c-hidden', true);
-      active = next; setAll(active);
-      revealCard(cCards[active]);
-      setTimeout(() => { advancing = false; }, 580);
-      setTimeout(advance, 3000);
+      clickPaused = false;
+      if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+
+      const isForward = ((targetIdx - active + N) % N) === 1;
+      if (isForward) {
+        // Snap the about-to-leave card (was c-left) to hidden so it doesn't sweep across
+        const leftIdx = (active + N - 2) % N;
+        applyState(cCards[leftIdx], 'c-hidden', true);
+        clearViz(cCards[leftIdx]);
+      } else {
+        // Backward: new c-left starts from far-left so it slides in from the left edge
+        applyState(cCards[(targetIdx + N - 1) % N], 'c-hidden-left', true);
+        // Snap old c-right to hidden
+        const rightIdx = (active + 1) % N;
+        applyState(cCards[rightIdx], 'c-hidden', true);
+        clearViz(cCards[rightIdx]);
+      }
+
+      active = targetIdx;
+      setAll(active);
+      // Snap-fill side cards so they always appear complete
+      snapCardFill(cCards[(active + 1) % N]);
+      snapCardFill(cCards[(active + N - 1) % N]);
+
+      const newInn = cCards[active].querySelector('.card-inner');
+      if (flipOnArrive && newInn) {
+        cardFlipOut(newInn);
+      }
+
+      // Always instant-reset then re-animate center
+      var _nc = cCards[active];
+      clearViz(_nc, true);
+      requestAnimationFrame(function() { requestAnimationFrame(function() { revealCard(_nc); }); });
+      setTimeout(function() { advancing = false; }, 580);
+      scheduleFlip(_nc);
     }
+
+    // Hover: float bounce + pause; click: navigate or flip
+    cCards.forEach(function(card) {
+      card.addEventListener('mouseenter', function() {
+        if (!card.classList.contains('c-center')) return;
+        pausedByHover = true;
+        if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+        const inn = card.querySelector('.card-inner');
+        if (inn && !cardIsBack(inn)) inn.classList.add('is-hovering');
+      });
+      card.addEventListener('mouseleave', function() {
+        if (!card.classList.contains('c-center')) return;
+        const inn = card.querySelector('.card-inner');
+        if (inn) inn.classList.remove('is-hovering');
+        pausedByHover = false;
+        // Only resume auto-cycle if user hasn't clicked (clickPaused stays until outside click)
+        if (!advancing && !clickPaused) {
+          const isBack = inn && cardIsBack(inn);
+          flipTimer = setTimeout(function() {
+            if (isBack && inn) cardFlipIn(inn);
+            flipTimer = setTimeout(advance, isBack ? 700 : 0);
+          }, isBack ? 800 : 1200);
+        }
+      });
+      card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isCenter = card.classList.contains('c-center');
+        const isRight  = card.classList.contains('c-right');
+        const isLeft   = card.classList.contains('c-left');
+
+        if (isCenter) {
+          if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+          clickPaused = true;
+          const inn = card.querySelector('.card-inner');
+          if (inn) {
+            inn.classList.remove('is-hovering');
+            if (cardIsBack(inn)) cardFlipIn(inn); else cardFlipOut(inn);
+          }
+        } else if (isRight) {
+          navigateTo((active + 1) % N, false);
+        } else if (isLeft) {
+          navigateTo((active + N - 1) % N, false);
+        }
+      });
+    });
+
+    // Click outside carousel → resume auto-cycle
+    document.addEventListener('click', function() {
+      if (!clickPaused) return;
+      clickPaused = false;
+      const centerCard = cCards.find(function(c) { return c.classList.contains('c-center'); });
+      if (centerCard) {
+        const inn = centerCard.querySelector('.card-inner');
+        if (inn && cardIsBack(inn)) {
+          cardFlipIn(inn);
+          flipTimer = setTimeout(advance, 1400);
+        } else {
+          scheduleFlip(centerCard);
+        }
+      }
+    });
+
     let started = false;
     const cio = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting || started) return;
       started = true; cio.disconnect();
       cCards.forEach((c,i) => applyState(c, stateFor(i,active), true));
       revealCard(cCards[active]);
-      cCards[(active+N-1)%N].classList.add('is-revealed');
-      cCards[(active+1)%N].classList.add('is-revealed');
-      setTimeout(advance, 3000);
+      snapCardFill(cCards[(active+N-1)%N]);
+      snapCardFill(cCards[(active+1)%N]);
+      scheduleFlip(cCards[active]);
     }, { threshold: 0.3 });
     cio.observe(section);
   }
@@ -5488,6 +6629,8 @@ body {
       clone.querySelectorAll('.graph__dot,.graph__label,.arc__dot,.arc__label').forEach(el => el.classList.add('is-on'));
       clone.querySelectorAll('.graph__line').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = '0'; });
       clone.querySelectorAll('.arc__seg').forEach(p => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = '0'; });
+      clone.querySelectorAll('.arc__endpoint').forEach(g => { g.style.opacity = '1'; });
+      clone.querySelectorAll('.arc__mmhg').forEach(el => { el.style.opacity = '1'; });
       clone.querySelectorAll('.delta__value').forEach(el => { if (el.dataset.target) el.textContent = el.dataset.target; });
 
       wheelTrack.appendChild(clone);
@@ -5600,8 +6743,8 @@ body {
   function reposition() {
     if (window.innerWidth >= 768) {
       // Restore original inline styles
-      const origLeft = ['calc(40% + 151.5px)','calc(41% + 153px)','calc(42% + 159.5px)','calc(43% + 166px)','calc(44% + 171.5px)','calc(45% + 178px)','calc(46% + 184.5px)','calc(47.1% + 191px)'];
-      const origTop  = ['calc(34.4% - 81px)','calc(34.4% - 36px)','calc(34.4% + 9px)','calc(34.4% + 54px)','calc(34.4% + 99px)','calc(34.4% + 144px)','calc(34.4% + 189px)','calc(34.4% + 232px)'];
+      const origLeft = ['calc(40% + 157.5px)','calc(41% + 162px)','calc(42% + 165.5px)','calc(43% + 168px)','calc(44% + 168.5px)','calc(45% + 174px)','calc(46% + 183.5px)','calc(47.1% + 189px)'];
+      const origTop  = ['calc(34.4% - 81px)','calc(34.4% - 36px)','calc(34.4% + 1px)','calc(34.4% + 39px)','calc(34.4% + 76px)','calc(34.4% + 119px)','calc(34.4% + 169px)','calc(34.4% + 222px)'];
       zDots.forEach((d, i) => { d.style.left = origLeft[i]; d.style.top = origTop[i]; });
       return;
     }
@@ -5610,6 +6753,17 @@ body {
     const H_img_ref = zImg.naturalHeight * W_REF / zImg.naturalWidth;
     // Desktop zone-map height (image cropped -100px top, -10px bottom)
     const H_c_ref   = H_img_ref - 110;
+    // Per-dot mobile tweaks: dx = extra px right, dy = extra px up
+    const MOBILE_TWEAK = [
+      { dx:  0, dy: 0 }, // 1 Head       — locked
+      { dx:  2, dy: 0 }, // 2 Shoulder
+      { dx:  1, dy: 4 }, // 3 Upper Back
+      { dx:  1, dy: 6 }, // 4 Lumbar
+      { dx:  0, dy: 7 }, // 5 Pelvic
+      { dx:  1, dy: 6 }, // 6 Thigh
+      { dx:  3, dy: 3 }, // 7 Leg
+      { dx:  4, dy: 2 }, // 8 Foot
+    ];
     DOT_DATA.forEach(({ x, n, m }, i) => {
       // Desktop absolute position
       const left_px = x / 100 * W_REF + n;
@@ -5617,8 +6771,8 @@ body {
       // Convert to position within full image
       const img_x_pct = left_px / W_REF * 100;
       const img_y_pct = (top_px + 100) / H_img_ref * 100; // +100 for the cropped top
-      const mobileShift = i * 5; // dot 1: 0px, dot 2: +5px … dot 8: +35px (rightward)
-      const mobileClose = i * 5; // dot 1: 0px, dot 2: 5px up … dot 8: 35px up (closer together)
+      const mobileShift = i * 5 + MOBILE_TWEAK[i].dx; // rightward
+      const mobileClose = i * 5 + MOBILE_TWEAK[i].dy; // upward
       zDots[i].style.left = 'calc(' + img_x_pct.toFixed(2) + '% + ' + mobileShift + 'px)';
       zDots[i].style.top  = 'calc(' + img_y_pct.toFixed(2) + '% - ' + mobileClose + 'px)';
     });
@@ -6108,77 +7262,7 @@ body {
 </script>
 
 <script>
-(function () {
-  const hero  = document.querySelector('.hero');
-  if (!hero) return;
-  const video = hero.querySelector('video');
-  const title = hero.querySelector('.hero__title');
-  const sub   = hero.querySelector('.hero__sub');
-  const grad  = hero.querySelector('.hero__text-grad');
-  if (!video || !title || !sub) return;
-
-  const EASE            = 'cubic-bezier(0.4, 0, 0.2, 1)';
-  const COLOR_IN_DELAY  = 3000; // ms after loop start to morph to dark
-  const COLOR_OUT_EARLY = 1.0;  // seconds before loop end to morph back to white
-
-  const DARK_TITLE = '#111';
-  const DARK_SUB   = '#111';
-  const WHITE       = '#ffffff';
-
-  // Start white, always visible
-  title.style.color      = WHITE;
-  title.style.transition = `color 700ms ${EASE}`;
-  sub.style.color        = WHITE;
-  sub.style.transition   = `color 700ms ${EASE} 150ms`;
-
-  let isDark = false;
-  let morphedNearEnd = false;
-  let prevTime = 0;
-  let morphTimer = null;
-
-  function toDark() {
-    title.style.color = DARK_TITLE;
-    sub.style.color   = DARK_SUB;
-    if (grad) grad.style.opacity = '1';
-    hero.classList.add('is-dark');
-    isDark = true; morphedNearEnd = false;
-  }
-
-  function toWhite() {
-    title.style.color = WHITE;
-    sub.style.color   = WHITE;
-    if (grad) grad.style.opacity = '0';
-    hero.classList.remove('is-dark');
-    isDark = false;
-  }
-
-  function scheduleDark() {
-    clearTimeout(morphTimer);
-    morphTimer = setTimeout(toDark, COLOR_IN_DELAY);
-  }
-
-  scheduleDark(); // initial load
-
-  video.addEventListener('timeupdate', function () {
-    const cur = video.currentTime;
-    const dur = video.duration;
-
-    // Loop detected — reset to white, schedule dark again
-    if (cur < prevTime - 0.5) {
-      toWhite();
-      morphedNearEnd = false;
-      scheduleDark();
-    }
-
-    // Morph back to white near end of loop
-    if (dur && isDark && !morphedNearEnd && cur > dur - COLOR_OUT_EARLY) {
-      toWhite();
-      morphedNearEnd = true;
-    }
-
-    prevTime = cur;
-  });
-})();
+/* hero text-morph removed — text is always black */
 
 // ── Calibr8 Score Live Section ──
 (function () {
@@ -6284,41 +7368,18 @@ body {
     numEl.style.opacity = '0';
   }
 
-  // ── Loop ──
-  const D = prefRed ? 0 : 1;
-
-  function runLoop() {
-    // Cards already visible — go straight into sequence
-    hideNum();
-    ringTgt = 0.19; orbitTgt = 1.4;
-
-    // number shows → 2.5s dwell → card absorbs → 500ms → next number
-    setTimeout(() => { showNum(1); ringTgt = 0.212; },                                   600 * D);
-    setTimeout(() => { absorb(0);  ringTgt = 0.232; orbitTgt = 1.8; },                 3100 * D);
-
-    setTimeout(() => { showNum(2); ringTgt = 0.245; },                                  3600 * D);
-    setTimeout(() => { absorb(1);  ringTgt = 0.256; orbitTgt = 2.1; },                 6100 * D);
-
-    setTimeout(() => { showNum(3); ringTgt = 0.265; },                                  6600 * D);
-    setTimeout(() => { absorb(2);  ringTgt = 0.272; orbitTgt = 2.5; },                 9100 * D);
-
-    setTimeout(() => { showNum(4); ringTgt = 0.276; },                                  9600 * D);
-    setTimeout(() => { absorb(3);  ringTgt = 0.280; orbitTgt = 2.8; },                12100 * D);
-
-    // Number fades → all 4 cards come out together
-    setTimeout(() => { hideNum(); },                                                   12800 * D);
-    setTimeout(() => {
-      restore(0); restore(1); restore(2); restore(3);
-      ringTgt = 0.19; orbitTgt = 1.4;
-    }, 13800 * D);
-
-    setTimeout(runLoop, prefRed ? 500 : 15600);
+  // ── Gentle ring pulse (no absorb, no numbers) ──
+  function pulseRing() {
+    if (prefRed) return;
+    ringTgt = 0.245; orbitTgt = 1.9;
+    setTimeout(() => { ringTgt = 0.19; orbitTgt = 1.4; }, 4000);
+    setTimeout(pulseRing, 9000);
   }
 
   // ── Render loop ──
   function render() {
     const W = canvas.width, H = canvas.height;
-    const cx = W / 2, cy = H / 2 + 50;
+    const cx = W / 2, cy = H / 2 + (window.innerWidth <= 767 ? 0 : 50);
     const minD = Math.min(W, H);
 
     ringFrac  += (ringTgt  - ringFrac)  * 0.022;
@@ -6357,22 +7418,23 @@ body {
     if (e.isIntersecting && !started) {
       started = true;
       requestAnimationFrame(render);
-      // One-time intro: show all 4 cards staggered, then start loop
+      // Show all 4 cards staggered, then start gentle ring pulse
       cards.forEach((c, i) => setTimeout(() => c.classList.add('cls-vis'), 300 + i * 160));
-      setTimeout(runLoop, 300 + 4 * 160 + 400);
+      setTimeout(pulseRing, 300 + 4 * 160 + 400);
       obs.disconnect();
     }
   }, { threshold: 0.25 });
   obs.observe(section);
 })();
 
-// Match hero title width to subtitle width
+// Match hero title width to subtitle width (desktop only)
 (function () {
   const title = document.querySelector('.hero__title');
   const sub   = document.querySelector('.hero__sub');
   if (!title || !sub) return;
 
   function matchWidth() {
+    if (window.innerWidth <= 480) { title.style.fontSize = ''; return; }
     title.style.fontSize = '';
     const targetW = sub.getBoundingClientRect().width;
     let lo = 8, hi = 300;
@@ -6449,6 +7511,101 @@ window.addEventListener('resize', equalizeRevCalGaps);
       document.querySelectorAll('.book-img').forEach(v => loadVid(v));
     }, { once: true });
   });
+})();
+
+/* ── Body-word ticker (video-synced) ── */
+(function() {
+  const words = ['Toned', 'Athletic', 'Plus-Sized', 'Slender', 'unique'];
+  const el   = document.querySelector('.body-word');
+  const wrap = document.querySelector('.body-word-wrap');
+  const vid  = document.getElementById('bodies-vid');
+  if (!el || !wrap) return;
+
+  // Measure natural width of each word
+  const widths = [];
+  wrap.style.transition = 'none';
+  wrap.style.width = '';
+  words.forEach(function(w) {
+    el.textContent = w;
+    widths.push(wrap.getBoundingClientRect().width);
+  });
+
+  var cycleTimer  = null;
+  var isFirstRun  = true;
+
+  function snapToFirst() {
+    if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
+    el.style.transition = 'none';
+    el.style.transform  = 'translateY(0)';
+    el.style.opacity    = '1';
+    el.textContent = words[0];
+    wrap.style.transition = 'none';
+    wrap.style.width = widths[0] + 'px';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        wrap.style.transition = 'width 0.32s cubic-bezier(0.4, 0, 0.2, 1)';
+      });
+    });
+  }
+
+  function animateTo(nextIdx) {
+    wrap.style.width = widths[nextIdx] + 'px';
+    el.style.transition = 'transform 0.28s cubic-bezier(0.4,0,1,1), opacity 0.22s ease';
+    el.style.transform  = 'translateY(-115%)';
+    el.style.opacity    = '0';
+    setTimeout(function() {
+      el.style.transition = 'none';
+      el.style.transform  = 'translateY(115%)';
+      el.style.opacity    = '0';
+      el.textContent = words[nextIdx];
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          el.style.transition = 'transform 0.28s cubic-bezier(0,0,0.2,1), opacity 0.22s ease';
+          el.style.transform  = 'translateY(0)';
+          el.style.opacity    = '1';
+        });
+      });
+    }, 280);
+  }
+
+  function startCycle() {
+    if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
+    if (isFirstRun) {
+      isFirstRun = false;
+      snapToFirst(); // first play: snap Toned in cleanly
+    } else {
+      animateTo(0); // loop restart: unique slides up, Toned comes from bottom
+    }
+    var idx = 0;
+    // Toned shows for 0.9s before Athletic arrives
+    setTimeout(function() {
+      cycleTimer = setInterval(function() {
+        idx++;
+        animateTo(idx);
+        if (idx >= words.length - 1) {
+          clearInterval(cycleTimer);
+          cycleTimer = null;
+          // unique stays 3s, then restart video + text together
+          setTimeout(function() {
+            if (vid) {
+              vid.currentTime = 0;
+              vid.play(); // triggers 'play' → startCycle
+            } else {
+              startCycle();
+            }
+          }, 3000);
+        }
+      }, 900);
+    }, 900);
+  }
+
+  if (vid) {
+    vid.addEventListener('play', function() {
+      if (vid.currentTime < 0.5) startCycle();
+    });
+  } else {
+    startCycle();
+  }
 })();
 
 </script>
