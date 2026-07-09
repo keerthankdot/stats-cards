@@ -1607,6 +1607,12 @@ body {
   transition: opacity 420ms ease;
 }
 .pst-pct { color: #553C9A; }
+.pst-br-mobile { display: none; }
+.pst-br-desktop { display: inline; }
+@media (max-width: 767px) {
+  .pst-br-mobile { display: inline; }
+  .pst-br-desktop { display: none; }
+}
 .pst-alt-wrap { position: relative; overflow: hidden; height: 2.6em; width: 100%; }
 .pst-alt {
   position: absolute;
@@ -2810,16 +2816,17 @@ body {
 /* Credential cards */
 .cls-card {
   position: absolute;
-  width: clamp(300px, 38vw, 580px);
-  height: 200px;
-  overflow: hidden;
+  width: clamp(340px, 44vw, 660px);
+  min-height: 230px;
+  height: auto;
+  overflow: visible;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(6px) saturate(1.2);
   -webkit-backdrop-filter: blur(6px) saturate(1.2);
   border: 1px solid rgba(255,255,255,0.55);
   border-top: 1.5px solid rgba(255,255,255,0.95);
   border-radius: 22px;
-  padding: 28px 32px;
+  padding: 32px 36px;
   box-shadow: 0 8px 48px rgba(85,60,154,0.10),
               inset 0 1.5px 0 rgba(255,255,255,0.9),
               inset 0 -1px 0 rgba(255,255,255,0.2),
@@ -2831,7 +2838,7 @@ body {
               transform 1100ms cubic-bezier(0.4,0,0.2,1);
 }
 .cls-card__title {
-  font-size: clamp(15px, 1.75vw, 26px);
+  font-size: clamp(16px, 1.9vw, 28px);
   font-weight: 700;
   color: rgba(20,16,40,0.85);
   letter-spacing: -0.02em;
@@ -2871,7 +2878,7 @@ body {
 }
 /* Credential card body text */
 .cls-card__body {
-  font-size: clamp(13px, 1.2vw, 17px);
+  font-size: clamp(14px, 1.3vw, 18px);
   font-weight: 400;
   color: rgba(20,16,40,0.55);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -2879,10 +2886,10 @@ body {
   margin-top: 8px;
 }
 /* Credential card positions — closer to center */
-.cls-cred--tl { top: max(calc(50% - 230px), 120px); right: calc(50% + 8px); left: auto; transform: translate(20px,-20px); }
-.cls-cred--tr { top: max(calc(50% - 230px), 120px); left: calc(50% + 8px);             transform: translate(-20px,-20px); }
-.cls-cred--bl { top: calc(50% + 50px);              right: calc(50% + 8px); left: auto; transform: translate(20px,20px); }
-.cls-cred--br { top: calc(50% + 50px);              left: calc(50% + 8px);             transform: translate(-20px,20px); }
+.cls-cred--tl { top: max(calc(50% - 270px), 100px); right: calc(50% + 8px); left: auto; transform: translate(20px,-20px); }
+.cls-cred--tr { top: max(calc(50% - 270px), 100px); left: calc(50% + 8px);             transform: translate(-20px,-20px); }
+.cls-cred--bl { top: calc(50% + 60px);              right: calc(50% + 8px); left: auto; transform: translate(20px,20px); }
+.cls-cred--br { top: calc(50% + 60px);              left: calc(50% + 8px);             transform: translate(-20px,20px); }
 /* Visible at rest */
 .cls-cred--tl.cls-vis { opacity: 1; transform: translate(0,0); }
 .cls-cred--tr.cls-vis { opacity: 1; transform: translate(0,0); }
@@ -2915,41 +2922,46 @@ body {
   }
 }
 @media (max-width: 767px) {
-  /* Cards stack vertically: c0+c1 above ring, c2+c3 below ring */
-  .cls-section { height: auto; min-height: 108svh; padding: 0 0 48px; background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff; }
+  /* Cards stack vertically in normal flow, evenly spaced, filling the space around the ring */
+  .cls-section {
+    height: auto;
+    min-height: 0;
+    padding: 72px 0 40px;
+    background: radial-gradient(circle 23vmin at 50% 50%, rgba(100,60,180,0.26) 0%, rgba(120,80,200,0.12) 65%, transparent 100%), #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  #cls-tagline { position: static; transform: none; margin-bottom: 4px; }
   .cls-card {
+    position: static !important;
     width: calc(88vw + 5px);
-    min-height: 90px;
+    min-height: 0 !important;
     height: auto !important;
     overflow: visible !important;
-    left: 50% !important; right: auto !important;
-    transform: translateX(-50%) !important;
-    padding: 10px 14px;
+    left: auto !important; right: auto !important; top: auto !important;
+    transform: none !important;
+    padding: 14px 16px;
     border-radius: 14px;
   }
-  .cls-card__title { font-size: 13px !important; margin-bottom: 6px; }
-  .cls-card__body { font-size: 11px; line-height: 1.45; }
+  .cls-card__title { font-size: 12.5px !important; margin-bottom: 5px; }
+  .cls-card__body { font-size: 10.5px; line-height: 1.4; }
 
   /* Score number centred at true 50% on mobile (no +50px offset) */
   #cls-score-num { top: 50% !important; }
-
-  /* Mobile: equal 18vh gaps between pairs, orb visible at center */
-  .cls-cred--tr { top: 14vh; }
-  .cls-cred--tl { top: 32vh; }
-  .cls-cred--bl { top: 60vh; }
-  .cls-cred--br { top: 78vh; }
 
   /* Visible */
   .cls-cred--tl.cls-vis,
   .cls-cred--tr.cls-vis,
   .cls-cred--bl.cls-vis,
-  .cls-cred--br.cls-vis { opacity: 1; transform: translateX(-50%) !important; }
+  .cls-cred--br.cls-vis { opacity: 1; transform: none !important; }
 
   /* Absorbed states unused (absorb removed) — kept for safety */
-  .cls-cred--tl.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
-  .cls-cred--tr.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
-  .cls-cred--bl.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
-  .cls-cred--br.cls-absorbed { opacity: 0; transform: translateX(-50%) scale(0.05) !important; }
+  .cls-cred--tl.cls-absorbed { opacity: 0; transform: scale(0.05) !important; }
+  .cls-cred--tr.cls-absorbed { opacity: 0; transform: scale(0.05) !important; }
+  .cls-cred--bl.cls-absorbed { opacity: 0; transform: scale(0.05) !important; }
+  .cls-cred--br.cls-absorbed { opacity: 0; transform: scale(0.05) !important; }
 
   .cls-tag-eyebrow { font-size: clamp(9px, 2.3vw, 11px); margin-bottom: 6px; }
   .cls-tag-headline { font-weight: 400; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -4485,14 +4497,11 @@ body {
 <section class="problem-stat-section" aria-label="32% truth">
   <div class="problem-stat">
     <div class="pst-line">
-      <span class="pst-w">The person selling you a mattress</span>
-    </div>
-    <div class="pst-line">
-      <span class="pst-w">never bothers to understand your body.</span>
+      <span class="pst-w">The person selling you<br class="pst-br-mobile"> a mattress<br class="pst-br-desktop"> only cares<br class="pst-br-mobile"> about making a sale.</span>
     </div>
     <div class="pst-line" style="height: 1.4em;"></div>
     <div class="pst-line pst-line--sub">
-      <span class="pst-w">You've spent <span class="pst-pct"><span id="pst-count">0</span>%</span> of your life compensating for it.</span>
+      <span class="pst-w">You spend <span class="pst-pct">1/3rd</span> of<br class="pst-br-mobile"> your life<br class="pst-br-desktop"> on the wrong<br class="pst-br-mobile"> mattress, paying for it.</span>
     </div>
   </div>
 </section>
@@ -4514,19 +4523,19 @@ body {
   <div class="cls-score-num" id="cls-score-num"></div>
   <div class="cls-card cls-cred--tl" id="cls-c0">
     <div class="cls-card__title">Precision Engineering</div>
-    <div class="cls-card__body">Built with orthopedists and biomedical engineers, Calibr8 applies proven zonal support principles by measuring and calibrating each spinal zone independently instead of treating your body as one flat surface.</div>
+    <div class="cls-card__body">Built with leading orthopedists and biomedical engineers from across India, Calibr8 applies proven spinal biomechanics and zonal support principles to independently calibrate every support zone around your body.</div>
   </div>
   <div class="cls-card cls-cred--tr" id="cls-c1">
     <div class="cls-card__title">Data-Driven Intelligence</div>
-    <div class="cls-card__body">There's no one firmness that's right for everyone. Calibr8 uses machine learning trained on real pressure-mapping data to identify the support your body needs, while getting smarter with every calibration.</div>
+    <div class="cls-card__body">Scientific research consistently shows mattress firmness should match the sleeper, not the other way around. After validating this with our own study where 94.12% participants preferred Calibr8, we built a machine learning model that gets smarter with every calibration.</div>
   </div>
   <div class="cls-card cls-cred--bl" id="cls-c2">
     <div class="cls-card__title">Global Technology</div>
-    <div class="cls-card__body">Built on clinical-grade Spanish pressure-mapping technology, Calibr8 uses its proprietary calibration engine to translate every pressure point into support designed specifically for Indian sleepers.</div>
+    <div class="cls-card__body">Powered by clinical-grade Spanish pressure-mapping technology from SensingTex, Barcelona, Calibr8 combines world-class hardware with Wakefit's proprietary calibration engine, built specifically for Indian bodies.</div>
   </div>
   <div class="cls-card cls-cred--br" id="cls-c3">
     <div class="cls-card__title">Sleep Research</div>
-    <div class="cls-card__body">Calibr8 is built on 10+ years of studying how Indian bodies sleep, creating one of India's largest real-world pressure-mapping datasets, captured live from thousands of Indian body types and growing with every calibration.</div>
+    <div class="cls-card__body">For over 9 years, Wakefit's Great Indian Sleep Survey (GISS) has studied how India sleeps, gathering insights from 1.5L+ Indian participants. Combined with thousands of live Calibr8 pressure scans, it forms one of India's richest and fastest-growing sleep datasets.</div>
   </div>
 </section>
 
@@ -7426,6 +7435,25 @@ body {
     }
   }, { threshold: 0.25 });
   obs.observe(section);
+})();
+
+// ── Equalize credential card heights on mobile (match tallest) ──
+(function () {
+  const cards = [0,1,2,3].map(i => document.getElementById('cls-c' + i)).filter(Boolean);
+  if (!cards.length) return;
+  const mq = window.matchMedia('(max-width: 767px)');
+
+  function equalize() {
+    cards.forEach(c => { c.style.removeProperty('min-height'); });
+    if (!mq.matches) return;
+    const max = Math.max(...cards.map(c => c.getBoundingClientRect().height));
+    cards.forEach(c => { c.style.setProperty('min-height', max + 'px', 'important'); });
+  }
+
+  window.addEventListener('load', equalize);
+  window.addEventListener('resize', equalize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize);
+  setTimeout(equalize, 50);
 })();
 
 // Match hero title width to subtitle width (desktop only)
