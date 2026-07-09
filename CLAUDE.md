@@ -15,17 +15,29 @@
 
 **Design DNA:** clinical minimal + glassy depth + data-viz (Oura / Whoop / Eight Sleep / Apple Health).
 
-**Stack:** single-file vanilla HTML/CSS/JS at `index.html`. No build, no deps, no framework. Dev: `python3 -m http.server 8080`. Not Next.js / not Vercel — ignore plugin skill triggers.
+**Stack:** single-file vanilla HTML/CSS/JS at `final-flow.html` (the live page — `index.html` does not exist in this repo). No build, no deps, no framework. Dev: `python3 -m http.server 8080`, open `localhost:8080/final-flow.html`. Not Next.js / not Vercel — ignore plugin skill triggers.
 
 ---
 
-## Current page sections (live)
+## Current page sections (live, in scroll order — `final-flow.html`)
 
-1. **Hero** — full-viewport video bg (`landing_landscape.mp4`), "*Sleep* Perfected" title, subtitle, liquid-glass BOOK NOW pill. Fades to white at bottom.
-2. **Carousel** — 3-card center-stage rotating carousel. Clones the 6 stat cards. "THE IMPACT ON YOUR SLEEP" heading. 3s dwell, 560ms smooth transition.
-3. **Calibr8 Slider** — 5-card expandable flex strips. Titles: Scan / Heat map / Calibration / Report / Final mattress. Click or ← → to navigate.
+1. **Hero** (`.hero`) — `01-hero/heroGIF.mp4` bg, "*SLEEP* PERFECTED" title, Book Now / Watch Demo CTAs.
+2. **Bodies intro** (`.bodies-section`) — `02-bodies/latest.mp4`, "Your body is unique. Your mattress should be too."
+3. **Problem stat** (`.problem-stat-section`, aria "32% truth") — 2-sentence pain statement, word-stagger reveal, responsive `<br class="pst-br-mobile/desktop">` pairs so mobile and desktop break at different words (see Session log 2026-07-09).
+4. **Solution intro** (`.narrative-solution-section`) — `03-calibr8gif/floating.MOV`, "Introducing Calibr8 — India's first sleep technology that builds a mattress around your body."
+5. **Calibr8 Sleep Score** (`.cls-section`) — canvas score animation + 4 credential cards (Precision Engineering, Data-Driven Intelligence, Global Technology, Sleep Research). "Powered by India's Largest Sleep Study."
+6. **Social proof** (`.sp-section`) — "Trusted by Those who Chase Excellence, Even in Sleep" + `sp-grid`.
+7. **Calibr8 Slider / process** (`.calibr8-slider-section#process-section`) — "Your Personalised Mattress, Built in 6 Precise Steps", expandable flex-strip slider `#calibr8-slider`.
+8. **Carousel** (`.carousel-section`, aria "Statistics overview") — "Your Body Can Feel the Difference, With Calibr8". Clones the 6 hidden stat cards, 3s dwell / 560ms transition.
+9. **Bodies Slider** (`.calibr8-slider-section` #2, `#process-slider`) — "Different Bodies Need Different Support" / mobile "Your body has a sleep signature." **LOCKED mobile layout** — see Hard rules.
+10. **Trust section** (`.trust-section`) — "Built to Help You Rest Easy, In Every Way" — 100-day return / 12yr warranty / free scan cards.
+11. **Reviews / testimonials** (`.reviews-section`, plus `.reviews-box` intro) — before/person/after 3-card carousel.
+12. **Final CTA** (`.final-cta-section`, aria "Recovery statement") — emotional close.
+13. **Book section** (`.book-section`, aria "Book your calibration") — final booking CTA.
 
-**Hidden template** (display:none in DOM): the 6 stat cards live here as a source for carousel cloning. Not rendered to users.
+**Hidden template** (display:none in DOM): the 6 stat cards live here as a source for carousel cloning. Not rendered directly to users.
+
+**Built but not wired in:** `07-8zones` CSS (`.zones-section`, `.zone-card`, etc.) exists in `final-flow.html` but no `<section class="zones-section">` is currently placed in the page flow — styles only, no live markup.
 
 ---
 
@@ -107,9 +119,11 @@ Full reference: `docs/premium-web-design-reference.md`
 
 ## References (load on demand)
 
+- **`docs/design.md`** — consolidated design system (typography, spacing, motion, color/glass, CTA, hard-locked rules). Start here for any design-system question — supersedes needing both docs below for most decisions.
 - **`docs/premium-web-design-reference.md`** — full researched reference: page flow, typography, motion, spacing, color, CTA patterns for premium health-tech sites. Load when making any section-level or design-system decision.
 - **`docs/design-spec.md`** — v1 stats card research (data-viz principles, animation algorithms, original card specs).
 - **`docs/sessions/2026-04-24.md`** — detailed change log for original stats card build.
+- **`docs/8zones-snapshot.md`**, **`docs/bodies-section.md`**, **`docs/design-process.md`** — section-specific build notes.
 
 ---
 
@@ -141,3 +155,22 @@ Built out from stats-only to full page. Changes:
 ### 2026-05-07 — Scope expanded to full website
 
 User confirmed: building the entire Calibr8 product website, not just the stats embed. Page flow, section structure, scroll experience, typography system — all in scope. Premium website research completed and stored in `docs/premium-web-design-reference.md`.
+
+### 2026-07-09 — Problem-stat copy + responsive line-break pattern
+
+Replaced the problem-stat-section copy (was "The person selling you a mattress never bothers to understand your body. / You've spent 32% of your life compensating for it.") with:
+- "The person selling you a mattress only cares about making a sale."
+- "You spend 1/3rd of your life on the wrong mattress, paying for it."
+
+Dropped the `pst-count` 0→32 count-up counter entirely — `1/3rd` is now static text inside `.pst-pct`.
+
+**Learned — responsive line breaks without duplicating markup:** desktop and mobile wanted different word-wrap points for the same sentence (not just narrower-width reflow — genuinely different break words). Pattern used: keep the sentence as ONE `.pst-w` span, insert `<br class="pst-br-mobile">` and `<br class="pst-br-desktop">` at each candidate break point, then toggle visibility by breakpoint:
+```css
+.pst-br-mobile { display: none; }
+.pst-br-desktop { display: inline; }
+@media (max-width: 767px) {
+  .pst-br-mobile { display: inline; }
+  .pst-br-desktop { display: none; }
+}
+```
+Setting `display:none` on a `<br>` removes the break; `inline` restores it. Reusable anywhere copy needs different break points per breakpoint instead of relying on natural reflow (which can orphan a single word, as it did here at 6.5vw mobile font-size).

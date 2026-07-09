@@ -1,5 +1,7 @@
 # Bodies Section — "Your body is Toned. Your mattress should be too."
 
+> **Superseded:** the word-ticker copy below (Toned → Athletic → Plus-Sized → Slender → unique) has been replaced with static text — "Your body is unique. Your mattress should be too." — over a new video (`02-bodies/latest.mp4`), per commit b4d7514 ("Bodies section: static text, new video, mobile drift correction"). No ticker JS runs anymore. Kept as historical reference for the CSS/animation techniques used; see `CLAUDE.md` §"Current page sections" for the live markup.
+
 > Full technical reference for the bodies-section: HTML structure, CSS (desktop + mobile), JS ticker animation, video lazy-load, and asset wiring.
 
 ---
