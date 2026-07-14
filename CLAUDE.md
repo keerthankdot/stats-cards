@@ -174,3 +174,21 @@ Dropped the `pst-count` 0→32 count-up counter entirely — `1/3rd` is now stat
 }
 ```
 Setting `display:none` on a `<br>` removes the break; `inline` restores it. Reusable anywhere copy needs different break points per breakpoint instead of relying on natural reflow (which can orphan a single word, as it did here at 6.5vw mobile font-size).
+
+### 2026-07-14 — Full copy-vs-code grammar audit
+
+User pasted the full canonical site copy and asked for a grammar check, then pushed further to diff it against the *live* `final-flow.html` (not just proofread the pasted text in isolation) — the miss that surfaced this: hero title was rendering `SLEEP PERFECTED` with no comma, live, despite the canonical copy having `Sleep, Perfected`. **Lesson: always diff copy against the rendered file, not just review copy text on its own — the file is the source of truth, and copy docs drift from it.**
+
+**Fixed live:**
+- Hero title: `SLEEP PERFECTED` → `SLEEP, PERFECTED` (missing comma)
+- Solution-intro sentence: missing terminal period after "...builds a mattress around your body" — added.
+
+**Found, not yet resolved (flagged to user, awaiting decision):**
+- `.final-cta-section` is missing its full 5-line emotional-close copy ("It was never about finding the right mattress... Make pain-free sleep your new normal.") — only the last line ("Every night on the wrong mattress...") is actually in the DOM.
+- Carousel +37% "Even Pressure Distribution" card's `data-back-headline` (final-flow.html ~line 4773) reads "Reduce Pressure on Your Body" instead of canonical "Toss & Turn Lesser Through the Night" — this attribute is live-rendered onto the flip-card back face via JS (~line 6326), not dead markup.
+- Bodies-slider persona cards have **two parallel arrays**, `PROCESS_CARDS_DESKTOP` and `PROCESS_CARDS_MOBILE` (~line 6978+). Mobile matches canonical copy near-verbatim; desktop has been independently rewritten for all 5 cards and drifted from canonical. Desktop-only titles also have a punctuation defect — sibling phrases run together with no period/comma (e.g. "Two people Completely different needs").
+- Calibr8 Slider headline diverges per breakpoint: desktop drops "Calibr8" entirely, mobile says "Personal" instead of "Personalised."
+- Process step "Report" card desc says "created **from** your calibration profile & recommendations" vs canonical "created **with** ...& **mattress** recommendations."
+- Grammar: "Lesser" used where "Less" is correct (adverb, not comparative adjective) in 2 spots — "Wake Up Lesser..." (live, `data-back-headline` ~line 5029) and "Toss & Turn Lesser..." (canonical doc only, not yet in DOM per the missing-headline issue above).
+- Sole exclamation mark in the whole site: "Thousands of Better Mornings Have Already Started Here!" — stands out against the otherwise clinical-minimal tone.
+- Minor: "&" vs "and" used inconsistently across cards; missing Oxford comma in "memory foam, latex or grid."
