@@ -186,9 +186,19 @@ User pasted the full canonical site copy and asked for a grammar check, then pus
 **Found, not yet resolved (flagged to user, awaiting decision):**
 - `.final-cta-section` is missing its full 5-line emotional-close copy ("It was never about finding the right mattress... Make pain-free sleep your new normal.") — only the last line ("Every night on the wrong mattress...") is actually in the DOM.
 - Carousel +37% "Even Pressure Distribution" card's `data-back-headline` (final-flow.html ~line 4773) reads "Reduce Pressure on Your Body" instead of canonical "Toss & Turn Lesser Through the Night" — this attribute is live-rendered onto the flip-card back face via JS (~line 6326), not dead markup.
-- Bodies-slider persona cards have **two parallel arrays**, `PROCESS_CARDS_DESKTOP` and `PROCESS_CARDS_MOBILE` (~line 6978+). Mobile matches canonical copy near-verbatim; desktop has been independently rewritten for all 5 cards and drifted from canonical. Desktop-only titles also have a punctuation defect — sibling phrases run together with no period/comma (e.g. "Two people Completely different needs").
+- Bodies-slider persona cards have **two parallel arrays**, `PROCESS_CARDS_DESKTOP` and `PROCESS_CARDS_MOBILE` (~line 6978+). Mobile matches canonical copy near-verbatim; desktop `desc` fields have been independently rewritten for all 5 cards and drifted from canonical (desktop `title` fields' punctuation fixed 2026-07-15, see below — the `desc` wording drift is still open).
 - Calibr8 Slider headline diverges per breakpoint: desktop drops "Calibr8" entirely, mobile says "Personal" instead of "Personalised."
 - Process step "Report" card desc says "created **from** your calibration profile & recommendations" vs canonical "created **with** ...& **mattress** recommendations."
 - Grammar: "Lesser" used where "Less" is correct (adverb, not comparative adjective) in 2 spots — "Wake Up Lesser..." (live, `data-back-headline` ~line 5029) and "Toss & Turn Lesser..." (canonical doc only, not yet in DOM per the missing-headline issue above).
 - Sole exclamation mark in the whole site: "Thousands of Better Mornings Have Already Started Here!" — stands out against the otherwise clinical-minimal tone.
 - Minor: "&" vs "and" used inconsistently across cards; missing Oxford comma in "memory foam, latex or grid."
+
+### 2026-07-15 — Fixed desktop persona-card title punctuation; deploy-verification note
+
+Fixed the punctuation defect flagged above: all 4 affected `PROCESS_CARDS_DESKTOP` titles (~line 6978) had phrases run together with no separator. Added periods:
+- "Your desk job puts pressure on your spine every day" → "...every day."
+- "Two people Completely different needs" → "Two people. Completely different needs."
+- "You train hard Hustle hard Push your body every day" → "You train hard. Hustle hard. Push your body every day."
+- "Too many choices Too much guesswork" → "Too many choices. Too much guesswork."
+
+**Learned — verifying a Vercel deploy actually landed:** user saw old (unpunctuated) text in a browser screenshot right after a push and flagged it as not-fixed. The deploy had in fact succeeded — `curl -sI` on the live URL showed `age: 46`s and `curl -s ... | grep` confirmed the new text was being served; the browser was just showing a stale cached page. When a user reports a just-pushed fix "not working," check the served response directly (curl the URL, check `age`/`last-modified` headers) before assuming the deploy failed — cheaper than re-diagnosing code that's already correct, and tell the user to hard-refresh (Cmd+Shift+R) rather than re-editing.
