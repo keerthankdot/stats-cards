@@ -202,3 +202,46 @@ Fixed the punctuation defect flagged above: all 4 affected `PROCESS_CARDS_DESKTO
 - "Too many choices Too much guesswork" → "Too many choices. Too much guesswork."
 
 **Learned — verifying a Vercel deploy actually landed:** user saw old (unpunctuated) text in a browser screenshot right after a push and flagged it as not-fixed. The deploy had in fact succeeded — `curl -sI` on the live URL showed `age: 46`s and `curl -s ... | grep` confirmed the new text was being served; the browser was just showing a stale cached page. When a user reports a just-pushed fix "not working," check the served response directly (curl the URL, check `age`/`last-modified` headers) before assuming the deploy failed — cheaper than re-diagnosing code that's already correct, and tell the user to hard-refresh (Cmd+Shift+R) rather than re-editing.
+
+### 2026-09-07 — Solution-intro section: HD export attempt (sharp corners, text baked in) — quality rejected, unresolved
+
+User wants a standalone HD video of the `.narrative-solution-section` card exactly as it renders live (mattress-layers video + "Introducing Calibr8 / India's first sleep technology..." text), but with **sharp square corners** (no `border-radius: 28px`) and the text **burned into the video pixels** instead of the current separate HTML/CSS overlay (`.narrative-solution` `<p>` positioned over `#solution-vid`).
+
+**Approach taken:** no source design file was available (only a pasted screenshot, not saved to disk) and the user clarified the underlying video (`03-calibr8gif/floating.MOV`) already exists in-repo — so this is a **compositing/export task, not AI video generation**. Pipeline built:
+1. Local `python3 -m http.server 8080`, headless Chromium via Playwright (installed ad-hoc into scratchpad, not a repo dependency).
+2. Inject CSS to force `border-radius: 0` and skip the `.in-view` scroll-reveal transition on `.narrative-solution-card`.
+3. `scrollIntoViewIfNeeded()` the card so real `IntersectionObserver` lazy-load (`data-src` → `src`) and autoplay fire normally; read `boundingBox()` for exact crop rect.
+4. Record via Playwright `recordVideo` (context-level, outputs `.webm`/VP8), trim the ~1.7s settle-in, `ffmpeg crop` to the card's bounding box, `scale=1920:1080:flags=lanczos`, encode `libx264 -crf 16 -preset slow`.
+5. Delivered to `~/Desktop/calibr8-intro-HD.mp4` (6.15MB, 1920×1080, 8.7s / ~2 loops).
+
+**Result: user flagged quality as not good.** Not yet root-caused — prime suspects, in order of likely impact:
+- **VP8 webm intermediate** (Playwright's only recordVideo codec) is lossy before the h264 re-encode ever runs — double compression generation loss, worse than transcoding the source `floating.MOV` directly.
+- Playwright `recordVideo` renders at whatever internal capture rate/quality it uses regardless of `deviceScaleFactor` — likely well under the source video's actual 1920×1080/9855kb/s bitrate, so the crop+upscale is upscaling an already-soft capture, not the crisp source.
+- Chromium's video compositing during screen-record may itself downsample/frame-drop vs. the native `<video>` playback.
+
+**Better path not yet tried:** skip the browser-recording round-trip entirely — composite `03-calibr8gif/floating.MOV` (native 1920×1080 source, already 16:9, already the right pixels) directly with `ffmpeg drawtext`/`overlay` for the text + gradient, using the exact copy/positions from CSS (`.sol-intro-label`, `.narrative-solution` `<p>` at final-flow.html:4512-4513, gradient at final-flow.html:1654-1659). Sharper because it never leaves the source video's native quality, no VP8 hop, no browser-capture softness. Font matching (Helvetica Neue label / body vs Space Grotesk "Calibr8") and the purple glow (`text-shadow: 0 0 24px/48px rgba(85,60,154,...)`) would need manual ffmpeg recreation instead of getting it free from real CSS rendering — main tradeoff vs. the browser-capture approach.
+
+**Not committed to repo** — output was a one-off deliverable to Desktop, not a site asset swap. `.narrative-solution-card`'s `border-radius: 28px` (final-flow.html:1636) is unchanged in the live page.
+
+### 2026-09-07 — `04-stat-cards/videos/`: rebuilt all 6 stat-card marketing videos (untracked asset folder)
+
+Separate task, same day, different session — confirms and fixes the exact `recordVideo`/VP8/DSF quality problem flagged unresolved above.
+
+**Context:** `04-stat-cards/` (front/back PNG reference designs + `videos/*.mp4`) is an untracked asset folder, not wired into `final-flow.html` — a teammate/earlier session had already screen-recorded videos of the 6 hidden-template stat cards (`#alignment`, `#pressure`, `data-scheme="deepsleep"/"circulation"/"fragmentation"/"rem"`) for external/marketing use, but the recordings had two bugs: excess dead space (bad crop) and — after an initial wrong-headed attempt to *redesign* the cards from scratch instead of just fixing the capture (corrected mid-session by the user: "why you fixing the cards, we just had to record them as they are") — a mis-timed cutoff that caught the mid-flip blur.
+
+**Root cause of pixelation (confirmed the parallel entry's suspicion above):** Playwright `context.recordVideo` captures at the CSS-pixel viewport size regardless of `deviceScaleFactor` — setting `deviceScaleFactor:2` with an explicit larger `recordVideo.size` does **not** get more real pixels, it just pads the same low-res capture into a bigger gray canvas. Confirmed by inspecting a raw frame at full size.
+
+**Fix — abandoned `recordVideo` entirely, used `page.screenshot({clip, type:'jpeg'})` in a tight Node loop instead:**
+- `page.screenshot` (not `locator.screenshot`, which re-resolves the bounding box every call and is ~3x slower) *does* respect `deviceScaleFactor` for real pixel density.
+- Loop as fast as possible (no artificial `waitForTimeout` between frames) — logs each frame's real wall-clock timestamp, then assembles via ffmpeg's `concat` demuxer with per-frame `duration` set to the actual gap to the next frame, so playback speed stays correct despite uneven Node-side capture jitter (~15–28fps achieved vs. ~6fps with `locator.screenshot`, which was the literal cause of the "buffering" complaint — CSS transitions only had ~6 real positions to interpolate between).
+- Final encode: `scale=928:928:flags=lanczos,fps=30 -c:v libx264 -crf 16`.
+
+**Second pass — user wanted `alignment.mp4` with no carousel slide-in and no flip/back-face, just "static at zero → animate → stop":** driving this through the live carousel (click-to-advance, wait for flip timers) turned out to be the wrong tool entirely. Went straight at the **hidden template** (`#stats-grid`, `display:none` ancestor) instead:
+- Un-hiding it and adding `is-revealed` naively **re-triggers the page's own sitewide `IntersectionObserver`** (final-flow.html ~line 6004, watches every `.stat-card` from page load) — it fires the *real* `revealCard()` a split second before the manual one, so the chart appeared already mid/fully-animated at frame 0. Fix: set `card.dataset.revealed='1'` *before* un-hiding — `revealCard()`'s own top-of-function guard (`if (dataset.revealed==='1') return`) then no-ops it.
+- The card's `backdrop-filter` (frosted glass) sampled whatever was rendered behind it — with the wrapper un-hidden it was catching the hero video/text at scroll-position 0. Fix: inject an opaque `position:fixed;inset:0;background:#fff` div behind the card before making it visible.
+- With those two fixed, drove the exact animation by copying each `animate<Kind>()` function's body verbatim into the Playwright script (`animateArc`, `animatePie`, `animateLines`, and the two `animateHBar` branches — plain bars for alignment, `.hpz-pill` segments for circulation) and invoking it directly via `page.evaluate` on the isolated card — no clicking, no carousel, no `scheduleFlip`/flip timers involved at all, so there's structurally no way for a slide or flip to appear.
+- Per-kind animation durations read directly from source instead of guessed empirically: hbar-bars 3350ms, arc 3900ms, hbar-pills 3560ms, pie 3200ms, lines 1600ms — each video is `500ms static hold → that duration → 200ms tail`, nothing more.
+
+**Result:** all 6 videos in `04-stat-cards/videos/` rebuilt this way (`.mov` duplicates deleted per user request — mp4 only now), copies also delivered to `~/Downloads/`. `alignment.mp4` example: 108KB, ~4.05s. None of this touches `final-flow.html` — pure external asset export from the existing hidden-template markup.
+
+**Learned — Finder "Today" grouping can hide a file that's genuinely on disk:** after `cp -f` overwrote a same-named file in `~/Downloads`, Finder's date-grouped view didn't show it under "Today" even though `ls -la`/`stat` confirmed a fresh mtime — `kMDItemDateAdded` (the Spotlight metadata Finder's grouped view actually sorts by) doesn't update on in-place content overwrite, only on the file being newly added to that path. Fix: `rm` then `cp` again (a fresh add) rather than overwriting, whenever a just-delivered file needs to show up in a date-grouped Finder view immediately.
